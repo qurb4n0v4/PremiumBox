@@ -1,3 +1,8 @@
+@extends('front.layouts.app')
+
+@section('title', 'About Us | BOX & TALE')
+
+@section('content')
 <div class="about-main">
     <div class="about-box">
         <div class="about-left">
@@ -71,11 +76,6 @@
 
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
     .about-main,
     .webegin {
@@ -314,4 +314,6 @@
     }
 
 </style>
+
+@endsection
 
