@@ -5,10 +5,10 @@
         </div>
         <div class="list-side-navbar">
             <div>
-                <ul class="navbar-elements-top">
-                    <li><a href="">Login</a></li>
-                    <li><a href="">Register</a></li>
-                    <li><a href="">Cart</a></li>
+                <ul class="navbar-elements-top" style="margin-bottom: 5px">
+                    <li><a href="#" class="login-navbar">Login</a></li>
+                    <li><a href="#" class="login-navbar">Register</a></li>
+                    <li><a href="#">Cart</a></li>
                 </ul>
             </div>
             <div>
@@ -40,13 +40,16 @@
         margin: auto;
         justify-content: space-between;
     }
+    .navbar-elements-top .login-navbar:hover {
+        text-decoration: underline;
+    }
     .logo-side-navbar img {
         width: 70px;
         height: 70px;
         margin-top: 30px;
     }
     .list-side-navbar{
-        margin-top: 20px;
+        margin-top: 40px;
     }
     .navbar-elements-top{
         justify-content: end;
@@ -106,8 +109,8 @@
     .dropdown-content a {
         margin: 5px 15px;
         color: rgb(137, 137, 137) !important;
-        padding: 8px 16px;
-        font-size: 14.4px !important;
+        padding: 4px 16px;
+        font-size: 14px !important;
         text-decoration: none;
         display: block;
         font-weight: 400;
