@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>about-us</title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
 <div class="about-main">
     <div class="about-box">
         <div class="about-left">
             <h1>Box & Tale</h1>
             <h3>Ilkin Humbatov tərəfindən</h3>
-            <img src="./images/979.webp" alt="" />
+            <img src="assets/front/img/979.webp" alt="" />
         </div>
         <div class="about-right">
             <p>
@@ -73,12 +64,12 @@
             <p class="formoreinfo">Əlavə məlumat üçün Bizimlə əlaqə saxlayın</p>
         </div>
         <div class="beginright">
-            <img src="./images/980.webp" alt="" />
+            <img src="assets/front/img/980.webp" alt="" />
         </div>
     </div>
 </div>
 
-</body>
+
 <style>
     * {
         margin: 0;
@@ -134,7 +125,7 @@
     }
     .about-right p{
         color: #a3907a;
-        font-size: 0.9 rem;
+        font-size: 0.9rem;
     }
     .beginleft .beginnormalp{
         color: rgb(137,137,137);
@@ -323,4 +314,4 @@
     }
 
 </style>
-</html>
+
