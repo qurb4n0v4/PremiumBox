@@ -1,7 +1,7 @@
-<div style="height: 130px; background-color: rgb(255, 255, 255);">
+<div class="navbar" style="height: 130px; background-color: transparent; position: absolute; top: 0; left: 0; width: 100%; z-index: 1000;">
     <div class="container-navbar">
         <div class="logo-side-navbar">
-            <img src="assets/front/img/giftbox.jpg" alt="Logo Image">
+            <img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image">
         </div>
         <div class="list-side-navbar">
             <div>
@@ -36,7 +36,7 @@
     .container-navbar {
         display: flex;
         flex-direction: row;
-        width: 70%;
+        width: 80%;
         margin: auto;
         justify-content: space-between;
     }
@@ -56,13 +56,14 @@
         font-size: 14px;
     }
     .navbar-elements-top li a {
-        color: rgb(163, 144, 122);
+        /*color: rgb(163, 144, 122);*/
+        color: #ffffff;
     }
     .navbar-elements-bottom li a{
         font-weight: bold;
         font-size: 18px;
-        color: rgb(163, 144, 122);
-
+        /*color: rgb(163, 144, 122);*/
+        color: #ffffff;
     }
     .navbar-elements-top,
     .navbar-elements-bottom {
@@ -84,7 +85,7 @@
     }
 
     .dropdown-btn {
-        color: #a3907a;
+        color: #ffffff;
         font-weight: bold;
         font-size: 18px;
     }
@@ -102,13 +103,12 @@
         z-index: 1;
         margin-left: -10px;
         margin-top: 5px;
-        border-bottom-left-radius: 12.8px;
-        border-bottom-right-radius: 12.8px
+       border-radius: 13px;
     }
 
     .dropdown-content a {
         margin: 5px 15px;
-        color: rgb(137, 137, 137) !important;
+        color: rgb(163, 144, 122) !important;
         padding: 4px 16px;
         font-size: 14px !important;
         text-decoration: none;
