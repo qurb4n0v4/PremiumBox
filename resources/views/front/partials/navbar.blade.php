@@ -56,13 +56,11 @@
         font-size: 14px;
     }
     .navbar-elements-top li a {
-        /*color: rgb(163, 144, 122);*/
         color: #ffffff;
     }
     .navbar-elements-bottom li a{
         font-weight: bold;
         font-size: 18px;
-        /*color: rgb(163, 144, 122);*/
         color: #ffffff;
     }
     .navbar-elements-top,

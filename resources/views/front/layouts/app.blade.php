@@ -12,7 +12,7 @@
 
     {{-- SEO meta tags --}}
     <meta name="keywords"
-          content="@yield('meta_keywords','hədiyyə qutusu, unikal hədiyyələr, yaradıcı hədiyyə ideyaları, lüks qutular, h')">
+          content="@yield('meta_keywords','hədiyyə qutusu, unikal hədiyyələr, yaradıcı hədiyyə ideyaları, lüks qutular,')">
     <meta name="description"
           content="@yield('meta_description', 'Premium hədiyyə qutuları və unikal hədiyyə ideyaları - hər xüsusi an üçün mükəmməl seçim.')">
 
