@@ -1,6 +1,4 @@
-@extends('front.layouts.app')
 
-@section('content')
     <div id="carouselGiftSlides" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             {{--            Slide 1--}}
@@ -108,7 +106,7 @@
                     <h4>Heyrətamiz Hekayələr</h4>
                     <p>Çünki Biz inanırıq ki, hədiyyələr
                         bənzərsiz hekayələrinə görə <br> hər bir insan üçün fərqli mənalar daşıyır. </p>
-                    <button class="new-year-gifts" style="background-color: transparent">GiftBox Haqqqında</button>
+                    <a href="" class="new-year-gifts text-decoration-none" style="background-color: transparent">GiftBox Haqqqında</a>
                 </div>
             </div>
         </div>
@@ -125,4 +123,4 @@
             <button type="button" data-bs-target="#carouselGiftSlides" data-bs-slide-to="8" aria-label="Slide 9"></button>
         </div>
     </div>
-@endsection
+
