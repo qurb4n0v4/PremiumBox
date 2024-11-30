@@ -6,6 +6,8 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\Admin\AdminController;
+
 
 
 
@@ -26,6 +28,19 @@ Route::get('/faq', function () {
 Route::get('/privacy-policy', function () {
     return view('front.about_us.privacy_policy');
 })->name('privacy_policy');
+
+
+
+
+
+
+
+
+// Admin Routes
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
 
 
 
