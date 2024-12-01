@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutUsController;
@@ -7,14 +8,14 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\Auth\RegisterController;
 
 
 
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/about-us', function () {
     return view('front.about_us.about_us');
 })->name('about_us');
@@ -29,22 +30,26 @@ Route::get('/privacy-policy', function () {
 })->name('privacy_policy');
 
 
-
-
-
-
-
-
 // Admin Routes
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
-Route::post('/register', [RegisterController::class, 'store'])->name('register');
 
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::middleware('guest:admin')->group(function () {
+    // Qeydiyyat səhifəsi
+    Route::get('admin/register', [RegisterController::class, 'showRegistrationForm'])->name('admin.register');
+    Route::post('admin/register', [RegisterController::class, 'register']);
+
+    // Giriş səhifəsi
+    Route::get('admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('admin/login', [LoginController::class, 'login']);
 });
 
+Route::middleware('auth:admin')->group(function () {
+    // Admin dashboard səhifəsi
+    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
-
+Route::get('/recover-password', function () {
+    return view('admin.html.dashboard.auth.recoverpw');
+})->name('recover-password');
 
 
 

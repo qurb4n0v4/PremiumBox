@@ -7,8 +7,15 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        // Adminlər üçün autentifikasiya middleware-i
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
-        return view('admin.html.index');
+        // Admin dashboard səhifəsi
+        return view('admin.html.dashboard.index');
     }
 }

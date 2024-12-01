@@ -45,7 +45,7 @@
                             <div class="card-body">
                                 <h2 class="mb-2 text-center">Sign Up</h2>
                                 <p class="text-center">Create your admin account.</p>
-                                <form method="POST" action="{{ route('register') }}">
+                                <form method="POST" action="{{ route('admin.register') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -80,9 +80,9 @@
                                     </div>
                                 </form>
 
-{{--                                <p class="mt-3 text-center">--}}
-{{--                                    Already have an Account <a href="{{ route('login') }}" class="text-underline">Sign In</a>--}}
-{{--                                </p>--}}
+                                <p class="mt-3 text-center">
+                                    Already have an Account <a href="{{ route('admin.login') }}" class="text-underline">Sign In</a>
+                                </p>
                             </div>
                         </div>
                     </div>
