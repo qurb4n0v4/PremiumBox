@@ -11,10 +11,9 @@ class LoginController extends Controller
     // Show the login form
     public function showLoginForm()
     {
-        return view('admin.html.dashboard.auth.sign-in'); // login formunun view-i
+        return view('admin.html.dashboard.auth.sign-in');
     }
 
-    // Handle the login logic
     public function login(Request $request)
     {
         // İstifadəçinin daxil etdiyi məlumatları alın

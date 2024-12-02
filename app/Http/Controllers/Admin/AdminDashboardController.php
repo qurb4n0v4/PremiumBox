@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-class DashboardController extends Controller
+class AdminDashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard'); // Render your admin dashboard view
+        return view('admin.html.dashboard.admin');
     }
 }
