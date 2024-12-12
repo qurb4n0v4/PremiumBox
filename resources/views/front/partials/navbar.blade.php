@@ -1,4 +1,4 @@
-<div class="navbar" style="height: 130px; background-color: transparent; position: absolute; top: 0; left: 0; width: 100%; z-index: 1000;">
+<div class="navbar transparent" style="height: 130px; background-color: transparent; position: absolute; top: 0; left: 0; width: 100%; z-index: 1000;">
     <div class="container-navbar">
         <div class="logo-side-navbar">
             <img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image">
@@ -32,97 +32,6 @@
     </div>
 </div>
 
-<style>
-    .container-navbar {
-        display: flex;
-        flex-direction: row;
-        width: 80%;
-        margin: auto;
-        justify-content: space-between;
-    }
-    .navbar-elements-top .login-navbar:hover {
-        text-decoration: underline;
-    }
-    .logo-side-navbar img {
-        width: 70px;
-        height: 70px;
-        margin-top: 30px;
-    }
-    .list-side-navbar{
-        margin-top: 40px;
-    }
-    .navbar-elements-top{
-        justify-content: end;
-        font-size: 14px;
-    }
-    .navbar-elements-top li a {
-        color: #ffffff;
-    }
-    .navbar-elements-bottom li a{
-        font-weight: bold;
-        font-size: 18px;
-        color: #ffffff;
-    }
-    .navbar-elements-top,
-    .navbar-elements-bottom {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-    }
-    .navbar-elements-top li,
-    .navbar-elements-bottom li {
-        list-style: none;
-    }
-    .navbar-elements-top li a,
-    .navbar-elements-bottom li a {
-        text-decoration: none;
-    }
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-btn {
-        color: #ffffff;
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .dropdown-btn:hover {
-        cursor: pointer;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: rgb(255, 255, 255);
-        min-width: 160px;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px;
-        z-index: 1;
-        margin-left: -10px;
-        margin-top: 5px;
-       border-radius: 13px;
-    }
-
-    .dropdown-content a {
-        margin: 5px 15px;
-        color: rgb(163, 144, 122) !important;
-        padding: 4px 16px;
-        font-size: 14px !important;
-        text-decoration: none;
-        display: block;
-        font-weight: 400;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #efefef;
-    }
-
-    .dropdown.open .dropdown-content {
-        display: block;
-    }
-</style>
-
 <script>
     const dropdown = document.querySelector('.dropdown');
     const dropdownBtn = document.querySelector('.dropdown-btn');
@@ -137,4 +46,31 @@
             dropdown.classList.remove('open');
         }
     });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+
+        // Check if the current URL path matches the home page
+        const isTransparentPage = window.location.pathname === '/'; // Update this to match your actual home page URL
+
+        if (isTransparentPage) {
+            navbar.classList.add('transparent');
+        } else {
+            navbar.classList.remove('transparent');
+        }
+
+        // Optional: Make it transparent only at the top of the page
+        if (isTransparentPage) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.remove('transparent');
+                } else {
+                    navbar.classList.add('transparent');
+                }
+            });
+        }
+    });
+
+
 </script>

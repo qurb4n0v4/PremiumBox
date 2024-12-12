@@ -4,148 +4,164 @@
 
 @section('content')
 
-<div class="faq-main">
-    <div class="faq-box">
-        <div class="faq-right">
-        <div class="faq-section">
-        <h1>Tez-tez verilən suallar</h1>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Box & Tale hədiyyə qutularının ölçüləri nə qədərdir?</div>
-            <div class="faq-answer">C: Standart qutu (21x25x10sm) və Böyük qutu (25x30x12sm).</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: "Qutu Yarat" və "Hazır Qutu" arasında fərq nədir?</div>
-            <div class="faq-answer">C: "Qutu Yarat" müştərinin qutunu, hədiyyələri və kartı öz zövqünə görə yaratmasına imkan verir. "Hazır Qutu" isə nə hədiyyə alacağınıza qərar verə bilmədikdə və ya ideyaya ehtiyacınız olduqda istifadə edilə bilər.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Hədiyyənin qiyməti nə qədərdir?</div>
-            <div class="faq-answer">C: Qiymət qutuya əlavə etdiyiniz əşyalara və ya seçdiyiniz hazır paketin növünə görə dəyişir, buna görə büdcənizə uyğunlaşdıra bilərsiniz.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Bir qutuya neçə əşya yerləşə bilər?</div>
-            <div class="faq-answer">C: Qutunun məzmununu müştəri müəyyən edir, buna görə də əşyaların sayı dəyişir. Qutunun dolduğu barədə bildiriş alacaqsınız.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Sadəcə qutunu sifariş edə bilərəmmi və onun daxilində nələr var?</div>
-            <div class="faq-answer">C: Əlbəttə, yalnız qutunu sifariş edə bilərsiniz. Onun daxilində hədiyyə kartı, lent, kağız parçaları və salfet kağızı var.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Qutudan başqa yalnız hədiyyə əşyalarını sifariş edə bilərəmmi?</div>
-            <div class="faq-answer">C: Hər bir sifarişə qutu daxil edilməlidir.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Qutunun hazırlanması nə qədər vaxt alır?</div>
-            <div class="faq-answer">C: Sifarişdən çatdırılmaya qədər bütün proses 2-7 gün çəkir. Personalizasiya səviyyəsinə görə bu müddət uzana bilər.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Qutunun çatdırılma vaxtını necə hesablaya bilərəm?</div>
-            <div class="faq-answer">C: Müştərilər çatdırılma vaxtını sifariş formasında təyin edə bilərlər. Box & Tale sifarişi göstərilən tarixdə göndərəcək (xahiş edirik, gözlənilməz gecikmələr üçün əlavə vaxt nəzərə alın).</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Box & Tale hansı çatdırılma xidmətlərini təklif edir?</div>
-            <div class="faq-answer">C: Box & Tale JNE (bütün İndoneziya ərazisini əhatə edir) və GoSend (Jabodetabek ərazisi üçün) kimi kuryer xidmətlərindən istifadə edir.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Hədiyyəni digər şəhərlərə çatdırmaq mümkündürmü?</div>
-            <div class="faq-answer">C: Box & Tale İndoneziya daxilində bütün ərazilərə çatdırılma edir.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Beynəlxalq çatdırılma mövcuddurmu?</div>
-            <div class="faq-answer">C: Hal-hazırda Box & Tale yalnız İndoneziya daxilində çatdırılma edir. Lakin, xaricdə yaşayan müştərilər üçün dəstək göstərə bilərik.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Hədiyyəni birbaşa alıcıya göndərmək mümkündürmü?</div>
-            <div class="faq-answer">C: Əlbəttə! Çatdırılma ünvanına alıcının məlumatlarını daxil edin və biz onu birbaşa onlara göndərərik!</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Xüsusi tələblərim olarsa nə etməliyəm?</div>
-            <div class="faq-answer">C: Çatdırılma tarixi və ya qutu məzmunu ilə bağlı xüsusi tələblərinizi sifariş zamanı qeyd sahəsinə yaza bilərsiniz və ya bizimlə WhatsApp və Line vasitəsilə əlaqə saxlayın.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Hansı ödəniş üsulları mövcuddur?</div>
-            <div class="faq-answer">C: Kredit kartı, bank köçürməsi, Gopay, Ovo, Shopeepay və s. ödəniş üsullarını qəbul edirik. Xarici ödənişlər üçün PayPal da mövcuddur.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Qutu çatdırılma zamanı zədələnsə nə etməliyəm?</div>
-            <div class="faq-answer">C: Göndərilmədən əvvəl qutunun şəklini sizə təqdim edirik. Zərər olarsa, məhsulları şəkilə əsasən yenidən düzəldə bilərsiniz.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Sifarişlə bağlı problem olarsa nə etməliyəm?</div>
-            <div class="faq-answer">C: Problem yaranarsa, dərhal bizimlə əlaqə saxlayın.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Korporativ hədiyyələr üçün xidmət təklif olunurmu?</div>
-            <div class="faq-answer">C: Bəli, Box & Tale böyük partiyalar üçün korporativ hədiyyələr və xüsusi layihələr təklif edir.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Korporativ hədiyyələr üçün haradan sifariş edə bilərəm?</div>
-            <div class="faq-answer">C: WhatsApp (0818 1818 4158) vasitəsilə bizimlə əlaqə saxlayın, komandamız sizə kömək edəcək.</div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question">S: Digər suallarım olarsa nə etməliyəm?</div>
-            <div class="faq-answer">C: WhatsApp (081311033691) və Line (@boxandtale) vasitəsilə bizimlə əlaqə saxlayın.</div>
-        </div>
+    <div class="faq-container">
+        <h1>Frequently Asked Questions</h1>
+        <ul class="faq-list">
+            @foreach ($faqs as $faq)
+                <li class="faq-item">
+                    <div class="question">
+                        <strong>{{ $faq->question }}</strong>
+                        <div class="icon">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="answer">
+                        <p>{{ $faq->answer }}</p>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
     </div>
-        </div>
 
-    </div>
-</div>
+    <script>
+        document.querySelectorAll('.question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.closest('.faq-item');
+                const wasActive = faqItem.classList.contains('active');
 
-<style>
-        .faq-main{
-        width: 100%;
-        height: auto;
-        background-color: rgb(248,248,248);
-        display: flex;
-        justify-content: center;
-    }
-    .faq-box {
-        margin-top: 24px;
-        margin-bottom: 24px;
-        width: 1100px;
-        border-radius: 10px;
-        height: auto;
-        background-color: white;
-        display: flex;
-        justify-content: space-between;
-        padding: 40px 25px;
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
 
-    }
-    .faq-section {
+                if (!wasActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+
+
+    <style>
+        .faq-container {
             max-width: 800px;
-            margin: auto;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+
+        .faq-container h1 {
+            text-align: center;
+            color: #2d3748;
+            font-size: 2.25rem;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         .faq-item {
-            margin-bottom: 20px;
-        }
-        .faq-question {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .faq-answer {
-            margin-left: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: white;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
+        .faq-item.active {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-</style>
+        .question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .question:hover {
+            background-color: #f7fafc;
+            border-left-color: #667eea;
+        }
+
+        .question strong {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+        }
+
+        .icon i {
+            color: #667eea;
+            font-size: 0.875rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .icon {
+            background: #667eea;
+        }
+
+        .faq-item.active .icon i {
+            transform: rotate(180deg);
+            color: white;
+        }
+
+        .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            background-color: #f8fafc;
+        }
+
+        .faq-item.active .answer {
+            max-height: 1000px;
+        }
+
+        .answer p {
+            margin: 0;
+            padding: 1.25rem 1.5rem;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        @media (max-width: 768px) {
+            .faq-container {
+                padding: 1.5rem;
+            }
+
+            .faq-container h1 {
+                font-size: 1.75rem;
+            }
+
+            .question strong {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 
 @endsection
+
+
+

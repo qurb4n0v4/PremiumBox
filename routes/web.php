@@ -7,6 +7,7 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Models\FAQ;
 
 
 
@@ -20,8 +21,9 @@ Route::get('/about-us', function () {
 Route::get('/contact-us', function () {
     return view('front.about_us.contact_us');
 })->name('contact_us');
-Route::get('/faq', function () {
-    return view('front.about_us.faq');
+Route::get('/faqs', function () {
+    $faqs = FAQ::all();
+    return view('front.about_us.faq',  compact('faqs'));
 })->name('faq');
 Route::get('/privacy-policy', function () {
     return view('front.about_us.privacy_policy');
