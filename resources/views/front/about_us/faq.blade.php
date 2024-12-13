@@ -4,24 +4,28 @@
 
 @section('content')
 
-    <div class="faq-container">
-        <h1>Frequently Asked Questions</h1>
-        <ul class="faq-list">
-            @foreach ($faqs as $faq)
-                <li class="faq-item">
-                    <div class="question">
-                        <strong>{{ $faq->question }}</strong>
-                        <div class="icon">
-                            <i class="fas fa-chevron-down"></i>
+    <div style="width: 100%; min-height: 100vh; background-color: red;">
+        <div class="faq-container">
+            <h1>Frequently Asked Questions</h1>
+            <ul class="faq-list">
+                @foreach ($faqs as $faq)
+                    <li class="faq-item">
+                        <div class="question">
+                            <strong>{{ $faq->question }}</strong>
+                            <div class="icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="answer">
-                        <p>{{ $faq->answer }}</p>
-                    </div>
-                </li>
-            @endforeach
-        </ul>
+                        <div class="answer">
+                            <p>{{ $faq->answer }}</p>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
+
+
 
     <script>
         document.querySelectorAll('.question').forEach(question => {
@@ -45,7 +49,7 @@
     <style>
         .faq-container {
             max-width: 800px;
-            margin: 3rem auto;
+            margin: 15px auto;
             padding: 2rem;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;

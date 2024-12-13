@@ -80,7 +80,7 @@
     </script>
 
 </head>
-<body>
+<body class="{{ Request::is('/') ? 'home' : '' }}">
 @include('front.partials.navbar')
 
 <div class="scroll-container">

@@ -1,4 +1,4 @@
-<div class="navbar transparent" style="height: 130px; background-color: transparent; position: absolute; top: 0; left: 0; width: 100%; z-index: 1000;">
+<div class="navbar">
     <div class="container-navbar">
         <div class="logo-side-navbar">
             <img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image">
@@ -46,31 +46,5 @@
             dropdown.classList.remove('open');
         }
     });
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const navbar = document.querySelector('.navbar');
-
-        // Check if the current URL path matches the home page
-        const isTransparentPage = window.location.pathname === '/'; // Update this to match your actual home page URL
-
-        if (isTransparentPage) {
-            navbar.classList.add('transparent');
-        } else {
-            navbar.classList.remove('transparent');
-        }
-
-        // Optional: Make it transparent only at the top of the page
-        if (isTransparentPage) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.remove('transparent');
-                } else {
-                    navbar.classList.add('transparent');
-                }
-            });
-        }
-    });
-
 
 </script>
