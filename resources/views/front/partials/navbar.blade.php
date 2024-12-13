@@ -46,5 +46,4 @@
             dropdown.classList.remove('open');
         }
     });
-
 </script>

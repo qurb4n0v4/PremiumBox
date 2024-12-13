@@ -25,9 +25,8 @@ Route::get('/faqs', function () {
     $faqs = FAQ::all();
     return view('front.about_us.faq',  compact('faqs'));
 })->name('faq');
-Route::get('/privacy-policy', function () {
-    return view('front.about_us.privacy_policy');
-})->name('privacy_policy');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
+
 
 
 

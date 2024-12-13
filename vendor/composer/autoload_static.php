@@ -369,8 +369,8 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
+            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
         ),
         'Spatie\\Invade\\' => 
         array (
@@ -378,8 +378,8 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/ignition/src',
-            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
+            1 => __DIR__ . '/..' . '/spatie/ignition/src',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -712,6 +712,14 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Filament\\Pages\\Dashboard' => __DIR__ . '/../..' . '/app/Filament/Pages/Dashboard.php',
+        'App\\Filament\\Resources\\FAQResource' => __DIR__ . '/../..' . '/app/Filament/Resources/FAQResource.php',
+        'App\\Filament\\Resources\\FAQResource\\Pages\\CreateFAQ' => __DIR__ . '/../..' . '/app/Filament/Resources/FAQResource/Pages/CreateFAQ.php',
+        'App\\Filament\\Resources\\FAQResource\\Pages\\EditFAQ' => __DIR__ . '/../..' . '/app/Filament/Resources/FAQResource/Pages/EditFAQ.php',
+        'App\\Filament\\Resources\\FAQResource\\Pages\\ListFAQS' => __DIR__ . '/../..' . '/app/Filament/Resources/FAQResource/Pages/ListFAQS.php',
+        'App\\Filament\\Resources\\PrivacyPolicyResource' => __DIR__ . '/../..' . '/app/Filament/Resources/PrivacyPolicyResource.php',
+        'App\\Filament\\Resources\\PrivacyPolicyResource\\Pages\\CreatePrivacyPolicy' => __DIR__ . '/../..' . '/app/Filament/Resources/PrivacyPolicyResource/Pages/CreatePrivacyPolicy.php',
+        'App\\Filament\\Resources\\PrivacyPolicyResource\\Pages\\EditPrivacyPolicy' => __DIR__ . '/../..' . '/app/Filament/Resources/PrivacyPolicyResource/Pages/EditPrivacyPolicy.php',
+        'App\\Filament\\Resources\\PrivacyPolicyResource\\Pages\\ListPrivacyPolicies' => __DIR__ . '/../..' . '/app/Filament/Resources/PrivacyPolicyResource/Pages/ListPrivacyPolicies.php',
         'App\\Http\\Controllers\\AboutUsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AboutUsController.php',
         'App\\Http\\Controllers\\ContactUsController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContactUsController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
@@ -733,6 +741,8 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Http\\Requests\\ProfileUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProfileUpdateRequest.php',
+        'App\\Models\\FAQ' => __DIR__ . '/../..' . '/app/Models/FAQ.php',
+        'App\\Models\\PrivacyPolicy' => __DIR__ . '/../..' . '/app/Models/PrivacyPolicy.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
