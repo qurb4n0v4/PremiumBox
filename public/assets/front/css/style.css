@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
 
 * {
@@ -33,8 +34,130 @@ body {
     overflow-x: hidden !important;
 }
 
-/*Images Slider started*/
 
+=======
+/* Navbar starts */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130px;
+    transition: background-color 0.3s ease;
+    background-color: white;
+    z-index: 1000;
+}
+
+body.home .navbar {
+    position: absolute; /* Change from fixed to absolute */
+    background-color: transparent !important;
+    box-shadow: none;
+}
+/* Text color for non-home pages */
+.navbar .navbar-elements-top li a,
+.navbar .navbar-elements-bottom li a,
+.navbar .dropdown-btn {
+    color: black;
+    text-decoration: none;
+}
+
+/* Text color for home page */
+body.home .navbar .navbar-elements-top li a,
+body.home .navbar .navbar-elements-bottom li a,
+body.home .navbar .dropdown-btn {
+    color: white;
+}
+
+.container-navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    flex-direction: row;
+}
+
+.logo-side-navbar img {
+    width: 70px;
+    height: 70px;
+    margin-top: 30px;
+}
+
+.list-side-navbar {
+    margin-top: 40px;
+}
+
+.navbar-elements-top,
+.navbar-elements-bottom {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.navbar-elements-top {
+    justify-content: flex-end;
+}
+
+.navbar-elements-bottom li a {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.navbar-elements-top li:hover .login-navbar {
+    text-decoration: underline;
+}
+
+.navbar-elements-top li,
+.navbar-elements-bottom li {
+    list-style: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    margin: 5px -10px 0;
+    border-radius: 13px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 4px 16px;
+    margin: 5px 15px;
+    font-size: 14px !important;
+    color: rgb(163, 144, 122) !important;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.dropdown-content a:hover {
+    background-color: #efefef;
+}
+
+.dropdown.open .dropdown-content {
+    display: block;
+}
+/* Navbar ends */
+
+
+
+
+
+/*Images Slider starts*/
+>>>>>>> 6362a9327412893423922a349679064377a8f0c1
 #carouselGiftSlides .carousel-inner h5 {
     font-size: 25px;
 }
@@ -58,10 +181,13 @@ body {
     border: 1px solid var(--white);
     border-radius: 50px;
 }
+<<<<<<< HEAD
 
-/*Images Slider finished*/
+=======
+/*Images Slider ends*/
+>>>>>>> 6362a9327412893423922a349679064377a8f0c1
 
-/*boxes introducing started*/
+/*Boxes introducing starts*/
 
 .gift-box-section {
     padding: 40px;
@@ -149,7 +275,7 @@ body {
 
 /*our partners finished*/
 
-/*social media posts*/
+/*social media posts start*/
 .social-media-posts {
     background-color: var(--social-background);
 }
@@ -210,6 +336,7 @@ body {
         margin-bottom: 20px;
     }
 }
+<<<<<<< HEAD
 
 /*BOXES INTRODUCING FINISHED*/
 /*our partners started*/
@@ -234,3 +361,7 @@ body {
     }
 }
 /*our partners finished*/
+=======
+
+
+>>>>>>> 6362a9327412893423922a349679064377a8f0c1
