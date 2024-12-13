@@ -6,4 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// images slider finished
+// partners slider
+document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 5,
+        slidesPerGroup: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+});

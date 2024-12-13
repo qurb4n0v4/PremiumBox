@@ -1,3 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --default-font: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --heading-font: "Roboto", sans-serif;
+    --nav-font: "Poppins", sans-serif;
+
+    --white: #ffffff;
+    --pagination: #d6d6d6;
+    --pagination-dark: #869691;
+    --background: #e3ded9;
+    --social-links: #a3907a;
+    --our-partners: #898989;
+    --social-posts: #434343;
+    --red: #5a0009;
+    --follow-social: #949493;
+    --social-background: #e3ded9;
+
+
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Lora", serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
+    overflow-x: hidden !important;
+}
+
+
 /* Navbar starts */
 .navbar {
     position: fixed;
@@ -114,31 +150,31 @@ body.home .navbar .dropdown-btn {
 }
 /* Navbar ends */
 
-
-
-
-
 /*Images Slider starts*/
 #carouselGiftSlides .carousel-inner h5 {
     font-size: 25px;
 }
+
 #carouselGiftSlides .carousel-inner h4 {
     font-size: 48px;
     margin-bottom: 20px;
 }
+
 #carouselGiftSlides .carousel-inner p {
     font-size: 16px;
     margin-bottom: 20px;
 }
+
 #carouselGiftSlides .new-year-gifts {
     font-size: 22px;
     font-weight: bold;
-    background-color: #5a0009;
-    color: #ffffff;
+    background-color: var(--red);
+    color: var(--white);
     padding: 10px 40px;
-    border: 1px solid #ffffff;
+    border: 1px solid var(--white);
     border-radius: 50px;
 }
+
 /*Images Slider ends*/
 
 /*Boxes introducing starts*/
@@ -146,10 +182,12 @@ body.home .navbar .dropdown-btn {
 .gift-box-section {
     padding: 40px;
 }
+
 .gift-box-section .row {
     padding: 0 15px;
     margin: 0;
 }
+
 .gift-box-section .text-content {
     padding: 20px;
     text-align: left;
@@ -172,15 +210,144 @@ body.home .navbar .dropdown-btn {
     object-fit: contain;
 }
 
+/*boxes introducing finished*/
+
+/*our partners started*/
+.partners-title {
+    color: var(--our-partners);
+    font-size: 25px;
+}
+
+.swiper-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.swiper-slide {
+    width: calc(100% / 5);
+    box-sizing: border-box;
+}
+
+.partner-logo {
+    width: 100%;
+    height: auto;
+}
+
+.swiper-pagination {
+    position: relative !important;
+    bottom: -30px !important;
+    text-align: center;
+    z-index: 10;
+}
+
+.swiper-pagination-bullet {
+    background: var(--pagination);
+    opacity: 0.7;
+    width: 10px;
+    height: 10px;
+    margin: 0 6px;
+    border-radius: 50%;
+
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--pagination-dark) !important;
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/*our partners finished*/
+
+/*social media posts start*/
+.social-media-posts {
+    background-color: var(--social-background);
+}
+
+.social-media-posts .follow-social {
+    color: var(--follow-social);
+}
+
+.custom-gift {
+    color: var(--social-posts);
+}
+
+.instagram-media {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
+
+.media-container {
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+}
+
+.media-container iframe,
+.media-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*social media posts finished*/
+
+/*footer started*/
+.for-assistance {
+    color: var(--our-partners);
+    font-size: 14px;
+}
+.fa-whatsapp, .fa-envelope, .fa-facebook, .fa-instagram {
+    color: var(--social-links);
+}
+.footer-contact .text-secondary {
+    font-size: 15px;
+}
+/*footer finished*/
+
+/*RESPONSIVE*/
+/*BOXES INTRODUCING STARTED*/
 @media (max-width: 768px) {
     .gift-box-section .text-content {
         text-align: center;
         padding: 15px;
     }
+
     .gift-box-section img {
         margin-bottom: 20px;
     }
 }
-/*Boxes introducing ends*/
+/*BOXES INTRODUCING FINISHED*/
 
+/*our partners started*/
+@media (max-width: 768px) {
+    .swiper-button-prev {
+        left: -40px;
+    }
+
+    .swiper-button-next {
+        right: -40px;
+    }
+
+    .swiper-pagination {
+        bottom: -15px;
+        margin-bottom: 20px;
+    }
+
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        margin: 0 4px;
+    }
+}
+/*our partners finished*/
 
