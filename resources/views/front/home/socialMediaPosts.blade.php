@@ -44,7 +44,7 @@
     .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
+        gap: 10px;
         margin: 0 auto;
     }
 
@@ -52,16 +52,16 @@
     .gallery-item {
         position: relative;
         background: #fff;
-        border-radius: 10px;
+        /*border-radius: 10px;*/
         overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .gallery-item:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    }
+    /*.gallery-item:hover {*/
+    /*    transform: scale(1.05);*/
+    /*    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);*/
+    /*}*/
 
     /* Resim ve Video Stili */
     .gallery-media {
