@@ -3,8 +3,7 @@
 @section('title', 'FAQ | BOX & TALE')
 
 @section('content')
-
-    <div style="width: 100%; min-height: 100vh; background-color: red;">
+    <div class="faq-page">
         <div class="faq-container">
             <h1>Frequently Asked Questions</h1>
             <ul class="faq-list">
@@ -16,6 +15,7 @@
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                         </div>
+                        <div class="animated-line"></div>
                         <div class="answer">
                             <p>{{ $faq->answer }}</p>
                         </div>
@@ -25,40 +25,49 @@
         </div>
     </div>
 
-
-
     <script>
         document.querySelectorAll('.question').forEach(question => {
             question.addEventListener('click', () => {
                 const faqItem = question.closest('.faq-item');
+                const animatedLine = faqItem.querySelector('.animated-line');
                 const wasActive = faqItem.classList.contains('active');
 
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.classList.remove('active');
+                    item.querySelector('.animated-line').classList.remove('active');
                 });
 
                 if (!wasActive) {
                     faqItem.classList.add('active');
+                    animatedLine.classList.add('active');
                 }
             });
         });
-
     </script>
 
-
     <style>
-        .faq-container {
-            max-width: 800px;
-            margin: 15px auto;
+        .faq-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: auto;
+            background-color: rgb(248,248,248);
             padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .faq-container {
+            width: 100%;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
         }
 
         .faq-container h1 {
             text-align: center;
-            color: #2d3748;
+            color: rgb(163, 144, 122);
             font-size: 2.25rem;
             margin-bottom: 2.5rem;
             font-weight: 700;
@@ -79,6 +88,7 @@
             overflow: hidden;
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
 
         .faq-item.active {
@@ -93,17 +103,20 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             border-left: 4px solid transparent;
+            position: relative;
+            z-index: 2;
         }
 
+        .faq-item.active .question,
         .question:hover {
-            background-color: #f7fafc;
-            border-left-color: #667eea;
+            background-color: rgb(248,248,248);
+            border-left-color: rgb(211, 211, 211);
         }
 
         .question strong {
             font-size: 1rem;
-            font-weight: 600;
-            color: #2d3748;
+            font-weight: 700;
+            color: rgb(163, 144, 122);
         }
 
         .icon {
@@ -113,41 +126,71 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: #f7fafc;
+            background: rgb(211, 211, 211);
             transition: all 0.3s ease;
         }
 
         .icon i {
-            color: #667eea;
+            color: rgb(248,248,248);
             font-size: 0.875rem;
             transition: transform 0.3s ease;
         }
 
         .faq-item.active .icon {
-            background: #667eea;
+            background: rgb(248,248,248);
         }
 
         .faq-item.active .icon i {
             transform: rotate(180deg);
-            color: white;
+            color: rgb(211, 211, 211);
         }
 
         .answer {
             max-height: 0;
             overflow: hidden;
             transition: all 0.3s ease-in-out;
-            background-color: #f8fafc;
+            background-color: rgb(248,248,248);
+            position: relative;
         }
 
         .faq-item.active .answer {
             max-height: 1000px;
         }
 
+        .faq-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+            z-index: 1;
+        }
+
+        .faq-item.active::before,
+        .faq-item:hover::before {
+            background-color: rgb(211, 211, 211);
+        }
+
         .answer p {
             margin: 0;
             padding: 1.25rem 1.5rem;
             line-height: 1.6;
-            color: #4a5568;
+            color: rgb(163, 144, 122);
+        }
+
+        .animated-line {
+            height: 2px;
+            width: 0;
+            background-color: rgb(211, 211, 211);
+            margin: 0 1.5rem;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .animated-line.active {
+            width: calc(100% - 3rem);
         }
 
         @media (max-width: 768px) {
@@ -164,8 +207,4 @@
             }
         }
     </style>
-
 @endsection
-
-
-

@@ -19,7 +19,7 @@ body.home .navbar {
 .navbar .navbar-elements-top li a,
 .navbar .navbar-elements-bottom li a,
 .navbar .dropdown-btn {
-    color: black;
+    color: rgb(163, 144, 122);
     text-decoration: none;
 }
 
