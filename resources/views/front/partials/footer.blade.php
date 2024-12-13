@@ -5,8 +5,8 @@
             <div class="col-md-3">
                 <div class="d-flex flex-column">
                     <!-- Contact Section -->
-                    <div class="mb-4">
-                        <p class="text-secondary mb-2">For assistance, please contact us through</p>
+                    <div class="footer-contact mb-4">
+                        <p class="for-assistance text-secondary mb-2">For assistance, please contact us through</p>
                         <div class="d-flex flex-column gap-2">
                             <a href=""
                                class="text-decoration-none d-flex align-items-center">
@@ -38,7 +38,7 @@
 
             <!-- Navigation Links Column -->
             <div class="col-md-3">
-                <nav class="d-flex flex-column gap-2">
+                <nav class="d-flex flex-column">
                     <a href="/build-a-box" class="text-secondary text-decoration-none">Build A Box</a>
                     <a href="/premade" class="text-secondary text-decoration-none">Premade</a>
                     <a href="/corporate" class="text-secondary text-decoration-none">Corporate Gifts</a>
