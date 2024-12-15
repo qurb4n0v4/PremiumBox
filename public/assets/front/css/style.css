@@ -188,18 +188,34 @@ body.home .navbar .dropdown-btn {
 }
 
 .gift-box-section .text-content {
-    padding: 20px;
+    padding-left: 50px;
     text-align: left;
 }
 
 .gift-box-section h4 {
+    padding-left: 40px;
     font-size: 18px;
     letter-spacing: 2px;
     text-transform: uppercase;
+    width: 400px;
+}
+
+.gift-box-section p {
+    padding-left: 40px;
+    width: 500px;
+}
+
+.gift-box-section a{
+    margin-left: 40px;
+    border-radius: 50px;
+    width: ;
+
 }
 
 .gift-box-section h1 {
+    padding-left: 40px;
     font-size: 36px;
+    width: 500px;
 }
 
 .gift-box-section img {
