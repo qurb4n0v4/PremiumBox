@@ -36,7 +36,7 @@ class PrivacyPolicyResource extends Resource
 
                         Forms\Components\Textarea::make('content')
                             ->label('Section Content')
-                            ->rows(4)
+                            ->rows(20)
                             ->required(),
 
                         Forms\Components\Repeater::make('subsections')
@@ -48,7 +48,7 @@ class PrivacyPolicyResource extends Resource
 
                                 Forms\Components\Textarea::make('content')
                                     ->label('Subsection Content')
-                                    ->rows(3)
+                                    ->rows(20)
                                     ->nullable(),
                             ])
                             ->collapsible()

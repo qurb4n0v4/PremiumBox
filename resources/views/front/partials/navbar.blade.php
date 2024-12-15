@@ -1,7 +1,7 @@
 <div class="navbar">
     <div class="container-navbar">
         <div class="logo-side-navbar">
-            <img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image">
+            <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image"></a>
         </div>
         <div class="list-side-navbar">
             <div>
