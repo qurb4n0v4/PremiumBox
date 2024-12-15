@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Slide;
 use App\Models\Box;
+use App\Models\Partner;
 
 
 
@@ -14,7 +15,9 @@ class HomeController extends Controller
     {
         $slides = Slide::all();
         $boxes = Box::all();
+        $partners = Partner::all();
 
-        return view('front.home', compact('slides', 'boxes'));
+
+        return view('front.home', compact('slides', 'boxes', 'partners'));
     }
 }
