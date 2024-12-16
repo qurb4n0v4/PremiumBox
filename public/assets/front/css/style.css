@@ -802,6 +802,9 @@ body.home .navbar .dropdown-btn {
 
 
 /*corporate gifts*/
+.blogs-page {
+    max-width: 1200px !important;
+}
 .corporate-gifts .click-corporate {
     margin-top: 20px !important;
 }
@@ -850,6 +853,7 @@ body.home .navbar .dropdown-btn {
 .blog-card img {
     object-fit: cover;
     height: 250px;
+    width: 100%;
 }
 
 .blog-content {
@@ -883,3 +887,17 @@ body.home .navbar .dropdown-btn {
     background-color: #8e7d63;
     color: #fff;
 }
+@media (max-width: 1200px) {
+    .blogs-page .row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+

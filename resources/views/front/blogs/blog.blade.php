@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 @section('content')
-    <div class="container my-5 p-5" style="border-radius: 20px; background-color: #ffffff;">
+    <div class="container my-5 p-5 blogs-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important;">
         <div class="gift-blogs text-left">
             <h2 class="fw-bold" style="color: #a3907a">Blogs</h2>
         </div>
