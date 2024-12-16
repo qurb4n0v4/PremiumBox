@@ -25,10 +25,10 @@ Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('
 Route::get('/corporate-gifts', function () {
     return view('front.corporate_gifts');
 });
+
 Route::get('/blogs', function () {
     return view('front.blogs');
 });
-
 
 
 
