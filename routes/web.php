@@ -10,10 +10,6 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Models\FAQ;
 
 
-
-
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', function () {
     return view('front.about_us.about_us');
@@ -26,6 +22,12 @@ Route::get('/faqs', function () {
     return view('front.about_us.faq',  compact('faqs'));
 })->name('faq');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
+Route::get('/corporate-gifts', function () {
+    return view('front.corporate_gifts');
+});
+Route::get('/blogs', function () {
+    return view('front.blogs');
+});
 
 
 

@@ -31,6 +31,7 @@ body {
     font-optical-sizing: auto !important;
     font-style: normal !important;
     overflow-x: hidden !important;
+    background-color: #f8f8f8 !important;
 }
 
 
@@ -763,6 +764,38 @@ body.home .navbar .dropdown-btn {
 /*About-us ends*/
 
 
+/*corporate gifts*/
+.corporate-gifts .click-corporate {
+    margin-top: 20px !important;
+}
+.card-img-top img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.card-body h6 {
+    font-size: 1rem;
+    font-weight: bold;
+}
 
+.card-body .btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+}
+.card-body .btn:hover {
+    color: #ffffff !important;
+    background-color: #a3907a !important;
 
+}
+
+@media (max-width: 768px) {
+    .card-body h6 {
+        font-size: 0.9rem;
+    }
+
+    .card-body p {
+        font-size: 0.85rem;
+    }
+}
 
