@@ -9,6 +9,8 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Models\FAQ;
 use App\Http\Controllers\CorporateGiftController;
+use App\Http\Controllers\BlogController;
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -24,10 +26,7 @@ Route::get('/faqs', function () {
 })->name('faq');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
 Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name('corporate-gifts');
-
-Route::get('/blogs', function () {
-    return view('front.blogs');
-})->name('blogs');
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 
 
 

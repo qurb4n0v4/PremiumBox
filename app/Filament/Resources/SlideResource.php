@@ -17,6 +17,8 @@ class SlideResource extends Resource
     protected static ?string $model = Slide::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Content Management';
+
     protected static ?string $navigationLabel = 'Slides';
 
     protected static ?string $pluralModelLabel = 'Slides';

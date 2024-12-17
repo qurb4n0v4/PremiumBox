@@ -17,6 +17,8 @@ class BoxResource extends Resource
     protected static ?string $model = Box::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Content Management';
+
     protected static ?string $navigationLabel = 'Gift Boxes';
 
     public static function form(Form $form): Form
@@ -51,13 +53,12 @@ class BoxResource extends Resource
                     ->required()
                     ->url(),
 
-                // Color input to set the background color
                 Forms\Components\TextInput::make('color')
                     ->label('Background Color')
-                    ->default('#ffffff')  // Optional: Set a default color
-                    ->required() // Optional: Set the field as required
+                    ->default('#ffffff')
+                    ->required()
                     ->reactive()
-                    ->placeholder('#ffffff'), // Optional: Provide a placeholder
+                    ->placeholder('#ffffff'),
             ]);
     }
 
