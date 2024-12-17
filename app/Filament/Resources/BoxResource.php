@@ -15,7 +15,7 @@ use App\Filament\Resources\BoxResource\Pages;
 class BoxResource extends Resource
 {
     protected static ?string $model = Box::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-gift-top';
 
     protected static ?string $navigationGroup = 'Content Management';
 
