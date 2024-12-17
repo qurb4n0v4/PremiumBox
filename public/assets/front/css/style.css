@@ -647,6 +647,8 @@ body.home .navbar .dropdown-btn {
 }
 
 /* about box finish */
+
+
 /* how it works starts */
 .howworks {
     width: 100%;
@@ -821,8 +823,8 @@ body.home .navbar .dropdown-btn {
 }
 
 .card-body .btn {
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
+    padding: 0.3rem 2.8rem;
+    border-radius: 10px;
     font-size: 0.875rem;
 }
 

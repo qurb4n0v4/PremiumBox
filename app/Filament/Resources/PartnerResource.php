@@ -15,6 +15,8 @@ use App\Filament\Resources\PartnerResource\Pages;
 class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static ?string $navigationLabel = 'Partners';
 
     public static function form(Form $form): Form

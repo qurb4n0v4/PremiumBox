@@ -13,7 +13,7 @@ class PrivacyPolicyResource extends Resource
 {
     protected static ?string $model = PrivacyPolicy::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Models\FAQ;
+use App\Http\Controllers\CorporateGiftController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -22,13 +23,12 @@ Route::get('/faqs', function () {
     return view('front.about_us.faq',  compact('faqs'));
 })->name('faq');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
-Route::get('/corporate-gifts', function () {
-    return view('front.corporate_gifts');
-});
+Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name('corporate-gifts');
 
 Route::get('/blogs', function () {
     return view('front.blogs');
-});
+})->name('blogs');
+
 
 
 

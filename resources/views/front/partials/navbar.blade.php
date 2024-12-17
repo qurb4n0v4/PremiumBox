@@ -15,8 +15,8 @@
                 <ul class="navbar-elements-bottom">
                     <li><a href="">Build a Box</a></li>
                     <li><a href="">Premade</a></li>
-                    <li><a href="">Corporate Gifts</a></li>
-                    <li><a href="">Blog</a></li>
+                    <li><a href="{{ route('corporate-gifts') }}">Corporate Gifts</a></li>
+                    <li><a href="{{ route('blogs') }}">Blog</a></li>
                     <li class="dropdown">
                         <div class="dropdown-btn">About Us <i class="fa-solid fa-caret-down" style="margin-left: 5px; font-size: 12px;"></i></div>
                         <div class="dropdown-content">
