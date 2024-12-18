@@ -22,9 +22,10 @@ class BlogResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(50),
                 Forms\Components\Textarea::make('paragraph')
-                    ->required(),
+                    ->required()
+                    ->maxLength(100),
                 Forms\Components\FileUpload::make('image')
                     ->directory('blogs')
                     ->required(),

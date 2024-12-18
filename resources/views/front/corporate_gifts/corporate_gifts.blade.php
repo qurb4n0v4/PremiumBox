@@ -34,12 +34,10 @@
                     </div>
                 </div>
 
-                <!-- Modal Structure -->
                 <div class="modal fade" id="giftDetailsModal{{ $index }}" tabindex="-1" aria-labelledby="giftDetailsModalLabel{{ $index }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 53%">
                         <div class="modal-content rounded-4">
                             <div class="modal-body pt-5">
-                                <!-- Two-up Image Carousel -->
                                 <div id="giftCarousel{{ $index }}" class="carousel slide two-up-carousel" data-bs-ride="carousel">
                                     <div class="carousel-inner">
                                         @php

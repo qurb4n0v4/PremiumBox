@@ -27,6 +27,7 @@ Route::get('/faqs', function () {
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
 Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name('corporate-gifts');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
+Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 
 
 

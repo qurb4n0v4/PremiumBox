@@ -12,8 +12,7 @@
                         <div class="blog-content">
                             <h5 class="blog-title">{{ $blog->title }}</h5>
                             <p class="blog-text">{{ $blog->paragraph }}</p>
-                            <a href="#" class="read-more-for-blogs read-more-btn">Read More</a>
-                        </div>
+                            <a href="{{ route('blog.show', $blog->id) }}" class="read-more-for-blogs read-more-btn">Read More</a>                        </div>
                     </div>
                 </div>
             @endforeach

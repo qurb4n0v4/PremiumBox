@@ -849,6 +849,9 @@ body.home .navbar .dropdown-btn {
     border: 1px solid #f8f8f8;
     border-radius: 15px !important;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .blog-card img {
@@ -860,6 +863,10 @@ body.home .navbar .dropdown-btn {
 .blog-content {
     padding: 1.5rem;
     text-align: center;
+    flex-grow: 1; /* Allows the content to grow and push the button down */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .blog-title {
@@ -872,7 +879,7 @@ body.home .navbar .dropdown-btn {
 .blog-text {
     color: var(--our-partners);
     font-size: 0.8rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
 }
 
 .read-more-btn {
@@ -882,6 +889,7 @@ body.home .navbar .dropdown-btn {
     padding: 0.5rem 3.5rem;
     font-size: 0.9rem;
     text-decoration: none;
+    margin-top: auto;
 }
 
 .read-more-btn:hover {
