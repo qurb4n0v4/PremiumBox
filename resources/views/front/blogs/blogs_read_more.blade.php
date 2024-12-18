@@ -5,10 +5,6 @@
 @section('content')
     <div class="container blog-detail">
         <h1 class="blog-main-title">{{ $blog->title }}</h1>
-        <p class="blog-paragraph">{{ $blog->paragraph }}</p>
-
-{{--        <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}" class="blog-image">--}}
-
         <div class="blog-sections-container">
             @foreach($blog->blogDetails as $section)
                 <div class="blog-section">
@@ -21,11 +17,65 @@
                     @endif
 
                     <div class="blog-section-content">
-                        <h2 class="blog-section-title">{{ $section->title }}</h2>
+                        <h5 class="blog-section-title">{{ $section->title }}</h5>
                         <p class="blog-section-description">{{ $section->description }}</p>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+
+    <style>
+        .blog-detail {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .blog-main-title {
+            font-size: 2.5rem;
+            text-align: left;
+            margin-bottom: 40px;
+            color: #a3907a !important;
+        }
+
+        .blog-sections-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .blog-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+
+
+        .blog-section-image {
+            width: 60%;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-section-content {
+            flex: 1;
+        }
+
+        .blog-section-title {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .blog-section-description {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
 @endsection
