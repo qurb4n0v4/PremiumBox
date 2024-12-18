@@ -6,6 +6,7 @@ use App\Filament\Resources\CorporateGiftResource\Pages;
 use App\Models\CorporateGift;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -29,15 +30,26 @@ class CorporateGiftResource extends Resource
                     ->label('Image')
                     ->directory('corporate_gifts')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->columnSpan(2),
                 TextInput::make('title')
                     ->label('Title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(13),
                 TextInput::make('paragraph')
                     ->label('Paragraph')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(22),
+                Textarea::make('description')
+                    ->label('Description')
+                    ->rows(5)
+                    ->maxLength(1000),
+                FileUpload::make('images')
+                    ->label('Additional Images')
+                    ->directory('corporate_gifts')
+                    ->multiple()
+                    ->image()
+                    ->columnSpan(2),
             ]);
     }
 
@@ -45,13 +57,21 @@ class CorporateGiftResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')->label('Image'),
-                TextColumn::make('title')->label('Title')->searchable(),
-                TextColumn::make('paragraph')->label('Paragraph')->searchable(),
-                TextColumn::make('created_at')->label('Created At')->dateTime(),
+                ImageColumn::make('image')->label('Image')->size(100),
+                TextColumn::make('title')
+                    ->label('Title')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('paragraph')
+                    ->label('Paragraph')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime('M d, Y H:i'),
             ])
             ->filters([
-                //
+                // Add filters if required
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -64,7 +84,9 @@ class CorporateGiftResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            // Add relationships if needed
+        ];
     }
 
     public static function getPages(): array

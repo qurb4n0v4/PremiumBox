@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('corporate_gifts', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
-            $table->string('title');
-            $table->string('paragraph');
+            $table->string('image'); // Primary image of the gift
+            $table->string('title'); // Title of the gift
+            $table->string('paragraph'); // Short description or tagline
+            $table->text('description')->nullable(); // Detailed description of the gift
+            $table->json('images')->nullable(); // Additional images for the gift
             $table->timestamps();
         });
     }
