@@ -11,6 +11,7 @@ class CorporateGiftController extends Controller
     {
         $corporateGifts = CorporateGift::all();
 
+
         return view('front.corporate_gifts', compact('corporateGifts'));
     }
 }
