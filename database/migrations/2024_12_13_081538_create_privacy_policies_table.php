@@ -10,7 +10,7 @@ return new class extends Migration
         Schema::create('privacy_policies', function (Blueprint $table) {
             $table->id();
             $table->date('effective_date')->nullable();
-            $table->json('sections')->nullable(); // Use json type
+            $table->json('sections')->nullable();
             $table->text('introduction')->nullable();
             $table->timestamps();
         });

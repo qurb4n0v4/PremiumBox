@@ -6,24 +6,30 @@
     <div class="container blog-detail">
         <h1 class="blog-main-title">{{ $blog->title }}</h1>
         <div class="blog-sections-container">
-            @foreach($blog->blogDetails as $section)
-                <div class="blog-section">
-                    @if($section->image)
-                        <img
-                            src="{{ asset('storage/' . $section->image) }}"
-                            alt="{{ $section->title }}"
-                            class="blog-section-image"
-                        >
-                    @endif
+            @if(is_array($blogDetails) || is_object($blogDetails))
+                @foreach($blogDetails as $section)
+                    <div class="blog-section">
+                        @if(isset($section['image']) && $section['image'])
+                            <img
+                                src="{{ asset('storage/' . $section['image']) }}"
+                                alt="{{ $section['title'] }}"
+                                class="blog-section-image"
+                            >
+                        @endif
 
-                    <div class="blog-section-content">
-                        <h5 class="blog-section-title">{{ $section->title }}</h5>
-                        <p class="blog-section-description">{{ $section->description }}</p>
+                        <div class="blog-section-content">
+                            <h5 class="blog-section-title">{{ $section['title'] }}</h5>
+                            <p class="blog-section-description">{{ $section['description'] }}</p>
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                <p>No details available for this blog post.</p>
+            @endif
         </div>
     </div>
+
+
 
     <style>
         .blog-detail {

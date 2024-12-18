@@ -11,16 +11,12 @@ return new class extends Migration
         Schema::create('blog_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('blog_id');
-            $table->string('title');
-            $table->text('description');
-            $table->string('image')->nullable();
+            $table->json('blog_details')->nullable();
             $table->timestamps();
 
-            $table->foreignId('blog_id')->constrained()->onDelete('cascade');
-
+            $table->foreign('blog_id')->references('id')->on('blogs')->onDelete('cascade');
         });
     }
-
 
     public function down()
     {

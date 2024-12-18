@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -21,9 +22,6 @@ class BlogDetailResource extends Resource
     protected static ?string $navigationGroup = 'Content Management';
     protected static ?string $navigationLabel = 'Blog Details';
 
-
-
-
     public static function form(Form $form): Form
     {
         return $form
@@ -32,18 +30,30 @@ class BlogDetailResource extends Resource
                     ->label('Blog')
                     ->options(\App\Models\Blog::all()->pluck('title', 'id'))
                     ->required(),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextArea::make('description')
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->nullable(),
+
+                Repeater::make('blog_details') // This will store repeater data
+                ->label('Blog Details')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Title')
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextArea::make('description')
+                            ->label('Description')
+                            ->required(),
+
+                        Forms\Components\FileUpload::make('image')
+                            ->label('Image')
+                            ->image()
+                            ->nullable(),
+                    ])
+                    ->collapsible()
+                    ->addable(true)
+                    ->deletable(true),
             ]);
-
-
     }
+
     public static function table(Table $table): Table
     {
         return $table

@@ -14,9 +14,12 @@ class BlogController extends Controller
 
     public function show($id)
     {
-        // Eager load the blogDetails relationship for the selected blog
-        $blog = Blog::with('blogDetails')->findOrFail($id);
-        $blogDetails = $blog->blogDetails;  // Access the eager-loaded relationship
+        $blog = Blog::with('blogDetails')->findOrFail($id);  // Fetch blog with blog details
+        $blogDetails = $blog->blogDetails; // No need to decode anything, just use the relationship
+
         return view('front.blogs.blogs_read_more', compact('blog', 'blogDetails'));
     }
+
+
+
 }
