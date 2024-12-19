@@ -1,4 +1,4 @@
-<section class="partners-section my-2">
+<section class="partners-section my-4">
     <h2 class="partners-title text-center mb-4">Our Partners</h2>
     <div class="container">
         <div class="swiper-container">

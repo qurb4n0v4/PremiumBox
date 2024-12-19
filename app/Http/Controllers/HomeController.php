@@ -7,6 +7,7 @@ use App\Models\Slide;
 use App\Models\Box;
 use App\Models\Partner;
 use App\Models\MediaItem;
+use App\Models\GiftSet;
 
 
 
@@ -19,9 +20,8 @@ class HomeController extends Controller
         $boxes = Box::all();
         $partners = Partner::all();
         $mediaItems = MediaItem::all();
+        $giftSets = GiftSet::all();
 
-
-
-        return view('front.home', compact('slides', 'boxes', 'partners', 'mediaItems'));
+        return view('front.home', compact('slides', 'boxes', 'partners', 'mediaItems', 'giftSets'));
     }
 }
