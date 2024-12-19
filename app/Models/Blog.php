@@ -12,6 +12,7 @@ class Blog extends Model
 
     public function blogDetails()
     {
-        return $this->hasMany(BlogDetail::class);
+        return $this->hasMany(BlogDetail::class, 'blog_id');
     }
+
 }

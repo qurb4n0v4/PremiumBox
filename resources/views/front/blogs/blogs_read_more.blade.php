@@ -4,9 +4,9 @@
 
 @section('content')
     <div class="container blog-detail">
-        <h1 class="blog-main-title">{{ $blog->title }}</h1>
         <div class="blog-sections-container">
-            @if(is_array($blogDetails) || is_object($blogDetails))
+            <h1 class="blog-main-title">{{ $blog->title }}</h1>
+        @if(!empty($blogDetails) && is_array($blogDetails))
                 @foreach($blogDetails as $section)
                     <div class="blog-section">
                         @if(isset($section['image']) && $section['image'])
@@ -48,16 +48,17 @@
         .blog-sections-container {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 5px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
         }
 
         .blog-section {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 5px;
             align-items: flex-start;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
         }
 
 
@@ -82,6 +83,18 @@
             font-size: 1rem;
             color: #555;
             line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .blog-main-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-main-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 @endsection

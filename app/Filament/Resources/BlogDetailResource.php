@@ -36,7 +36,6 @@ class BlogDetailResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->label('Title')
-                            ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextArea::make('description')
@@ -58,9 +57,12 @@ class BlogDetailResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->limit(50),
-                Tables\Columns\TextColumn::make('description')->limit(2000),
-                Tables\Columns\ImageColumn::make('image')->size(50),
+                // Display related Blog title
+                Tables\Columns\TextColumn::make('blog.title')
+                    ->label('Blog')
+                    ->limit(50),
+
+                // Display the created_at and updated_at timestamps
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime(),
             ])
