@@ -41,7 +41,12 @@ class BlogResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('paragraph')
                     ->limit(50),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('image')
+                    ->label('Image')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime('F d, Y'),

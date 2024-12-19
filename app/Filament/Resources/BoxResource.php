@@ -66,9 +66,12 @@ class BoxResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
+                Tables\Columns\TextColumn::make('image')
                     ->label('Image')
-                    ->disk('public'),
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
 
                 TextColumn::make('title_small')
                     ->label('Small Title'),

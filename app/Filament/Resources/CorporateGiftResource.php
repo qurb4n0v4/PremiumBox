@@ -57,7 +57,12 @@ class CorporateGiftResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')->label('Image')->size(100),
+                Tables\Columns\TextColumn::make('image')
+                    ->label('Image')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 TextColumn::make('title')
                     ->label('Title')
                     ->sortable()
