@@ -46,12 +46,20 @@ class PopUpHomeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title1')
                     ->label('Title 1'),
-                Tables\Columns\ImageColumn::make('image1')
-                    ->label('Image 1'),
+                Tables\Columns\TextColumn::make('image1')
+                    ->label('Image 1')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('title2')
                     ->label('Title 2'),
-                Tables\Columns\ImageColumn::make('image2')
-                    ->label('Image 2'),
+                Tables\Columns\TextColumn::make('image2')
+                    ->label('Image 2')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
             ])
             ->filters([
                 //

@@ -44,7 +44,6 @@ class PartnerResource extends Resource
 
                 TextColumn::make('logo')
                     ->label('Logo Path')
-                    ->sortable()
                     ->limit(50),
             ]);
     }

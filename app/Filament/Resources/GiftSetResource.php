@@ -57,22 +57,27 @@ class GiftSetResource extends Resource
         return $table
             ->columns([
                 // Corrected: No need to call image() method here
-                ImageColumn::make('normal_image')
-                    ->label('Normal Image')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('normal_image')
+                    ->label('Image')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
 
                 TextColumn::make('title')
                     ->label('Title')
-                    ->sortable()
                     ->searchable(),
 
                 TextColumn::make('description')
                     ->label('Description')
                     ->limit(90),
 
-                ImageColumn::make('hover_image')
-                    ->label('Hover Image')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('hover_image')
+                    ->label('Hover image')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
             ])
             ->filters([
                 // Add filters if needed

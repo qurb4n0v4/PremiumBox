@@ -65,11 +65,9 @@ class CorporateGiftResource extends Resource
                     ->html(),
                 TextColumn::make('title')
                     ->label('Title')
-                    ->sortable()
                     ->searchable(),
                 TextColumn::make('paragraph')
                     ->label('Paragraph')
-                    ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Created At')

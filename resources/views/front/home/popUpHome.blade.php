@@ -34,17 +34,17 @@
 
 <style>
     .modal {
-        display: flex !important;  /* Override Bootstrap's display */
+        display: flex !important;
         align-items: center;
         justify-content: center;
-        padding: 0 !important;  /* Remove default padding */
+        padding: 0 !important;
     }
 
     .modal-dialog.modal-lg {
         max-width: 700px;
-        margin: 0 auto;  /* Changed from 1.75rem auto */
-        width: calc(100% - 1rem);  /* Ensure proper width with margins */
-        transform: none !important;  /* Remove Bootstrap's transform */
+        margin: 0 auto;
+        width: calc(100% - 1rem);
+        transform: none !important;
     }
 
     .modal-content {
@@ -53,7 +53,6 @@
         width: 100%;
     }
 
-    /* Rest of your existing styles remain the same */
     .modal-header {
         border-bottom: none;
         padding-bottom: 0;
@@ -114,10 +113,9 @@
         object-fit: cover;
     }
 
-    /* Mobile Styles */
     @media (max-width: 768px) {
         .modal-dialog.modal-lg {
-            margin: 0 0.5rem;  /* Changed to fixed margins */
+            margin: 0 0.5rem;
             max-width: calc(100% - 1rem);
         }
 
@@ -164,7 +162,6 @@
         }
     }
 
-    /* Small Mobile Styles */
     @media (max-width: 320px) {
         .images-wrapper {
             gap: 5px;

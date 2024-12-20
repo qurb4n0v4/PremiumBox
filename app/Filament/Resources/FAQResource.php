@@ -41,7 +41,6 @@ class FAQResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('question')
                     ->searchable()
-                    ->sortable()
                     ->label('Question'),
 
                 Tables\Columns\TextColumn::make('answer')

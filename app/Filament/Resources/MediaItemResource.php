@@ -45,7 +45,6 @@ class MediaItemResource extends Resource
             ->columns([
                 TextColumn::make('media_type')
                 ->label('Media Type')
-                    ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('media_path')
@@ -62,7 +61,6 @@ class MediaItemResource extends Resource
                         return '';
                     })
                     ->html()
-                    ->sortable(),
             ])
             ->filters([
             ])
