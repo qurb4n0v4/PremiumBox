@@ -1,4 +1,4 @@
-<div class="container-fluid py-3 gift-box-section">
+<div class="container-fluid py-1 gift-box-section">
     @foreach($boxes as $index => $box)
         <div class="row align-items-stretch mx-0">
             @if($index % 2 == 0)
