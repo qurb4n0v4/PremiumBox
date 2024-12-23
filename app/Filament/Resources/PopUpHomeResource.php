@@ -29,14 +29,17 @@ class PopUpHomeResource extends Resource
                 Forms\Components\FileUpload::make('image1')
                     ->label('Image 1')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->directory('pop-up'),
                 Forms\Components\TextInput::make('title2')
                     ->label('Title for Image 2')
                     ->required(),
                 Forms\Components\FileUpload::make('image2')
                     ->label('Image 2')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->directory('pop-up'),
+
             ]);
     }
 

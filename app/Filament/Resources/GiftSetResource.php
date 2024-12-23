@@ -39,7 +39,7 @@ class GiftSetResource extends Resource
                     ->image()
                     ->required()
                     ->disk('public')
-                    ->directory('gift_sets/images')
+                    ->directory('gift_sets')
                     ->helperText('Upload the normal image for the gift set.'),
 
                 Forms\Components\FileUpload::make('hover_image')
@@ -47,7 +47,7 @@ class GiftSetResource extends Resource
                     ->image()
                     ->required()
                     ->disk('public')
-                    ->directory('gift_sets/images')
+                    ->directory('gift_sets')
                     ->helperText('Upload the hover image for the gift set.'),
             ]);
     }

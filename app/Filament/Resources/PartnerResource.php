@@ -42,9 +42,12 @@ class PartnerResource extends Resource
                     ->label('Logo')
                     ->disk('public'),
 
-                TextColumn::make('logo')
-                    ->label('Logo Path')
-                    ->limit(50),
+                Tables\Columns\TextColumn::make('logo')
+                    ->label('Partner logo')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
             ]);
     }
 

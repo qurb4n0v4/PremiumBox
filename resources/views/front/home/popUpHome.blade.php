@@ -25,34 +25,42 @@
     </div>
 </div>
 
-<script>
-    window.onload = function() {
-        var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
-        popupModal.show();
-    };
-</script>
-
 <style>
     .modal {
-        display: flex !important;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         align-items: center;
         justify-content: center;
         padding: 0 !important;
     }
 
+    .modal.fade.show {
+        display: flex !important;
+    }
+
     .modal-dialog.modal-lg {
         max-width: 700px;
-        margin: 0 auto;
-        width: calc(100% - 1rem);
-        transform: none !important;
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) !important;
     }
 
     .modal-content {
         padding: 10px;
         border-radius: 10px;
         width: 100%;
+        position: relative;
+        margin: 0 auto;
     }
 
+    /* Rest of your existing styles remain the same */
     .modal-header {
         border-bottom: none;
         padding-bottom: 0;
@@ -115,8 +123,9 @@
 
     @media (max-width: 768px) {
         .modal-dialog.modal-lg {
-            margin: 0 0.5rem;
+            margin: 0.5rem auto;
             max-width: calc(100% - 1rem);
+            width: calc(100% - 1rem);
         }
 
         .images-wrapper {
@@ -178,3 +187,20 @@
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modalElement = document.getElementById('popupModal');
+
+        if (modalElement) {
+            const popupModal = new bootstrap.Modal(modalElement, {
+                backdrop: true,
+                keyboard: true
+            });
+
+            setTimeout(() => {
+                popupModal.show();
+            }, 300);
+        }
+    });
+</script>
