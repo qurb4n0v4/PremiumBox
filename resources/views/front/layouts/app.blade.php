@@ -30,6 +30,7 @@
     <link rel="icon" href="{{ asset('assets/front/img/giftbox.jpg') }}" type="image/x-icon">
 
     {{--    CSS     --}}
+    <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}">
 
     {{--    Bootstrap   --}}

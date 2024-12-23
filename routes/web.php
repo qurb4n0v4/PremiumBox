@@ -10,6 +10,8 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Models\FAQ;
 use App\Http\Controllers\CorporateGiftController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\GiftBoxController;
+
 
 
 
@@ -29,6 +31,7 @@ Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name(
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 
+Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
 
 
 

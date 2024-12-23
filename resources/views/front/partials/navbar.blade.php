@@ -13,7 +13,7 @@
             </div>
             <div>
                 <ul class="navbar-elements-bottom">
-                    <li><a href="">Build a Box</a></li>
+                    <li><a href="{{ route('choose_a_box') }}">Build a Box</a></li>
                     <li><a href="">Premade</a></li>
                     <li><a href="{{ route('corporate-gifts') }}">Corporate Gifts</a></li>
                     <li><a href="{{ route('blogs') }}">Blog</a></li>

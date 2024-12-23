@@ -1,0 +1,100 @@
+/* Step titles and circles */
+.choose-box-steps-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.choose-box-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    margin-top: -40px;
+}
+
+.choose-box-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #898989;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border: 2px solid #898989;
+    margin-top: -20px;
+    margin-right: 8px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.choose-box-circle.completed {
+    background-color: #a3907a;
+    color: white;
+    border-color: #a3907a;
+}
+
+.choose-box-text {
+    color: #898989;
+    margin: 0;
+    text-align: center;
+}
+
+.choose-box-text h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.choose-box-text p {
+    font-size: 10px;
+}
+
+.choose-box-line {
+    height: 4px;
+    background-color: #898989;
+    width: 70%;
+    margin: 40px auto;
+}
+
+.choose-box-category-box {
+    margin-top: 40px;
+}
+
+.choose-box-category-box h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.choose-box-box-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.choose-box-box-item h3 {
+    margin: 0;
+}
+
+.choose-box-box-item p {
+    margin: 0;
+}
+
+.choose-box-choose-button {
+    padding: 6px 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.choose-box-choose-button:hover {
+    background-color: #0056b3;
+}
