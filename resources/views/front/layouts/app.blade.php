@@ -92,6 +92,7 @@
         @yield('content')
     </main>
 </div>
+@include('front.partials.chat-button')
 
 @include('front.partials.footer')
 
