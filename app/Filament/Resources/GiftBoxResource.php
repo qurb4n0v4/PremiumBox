@@ -16,7 +16,7 @@ class GiftBoxResource extends Resource
 {
     protected static ?string $model = GiftBox::class;
     protected static ?string $navigationIcon = 'heroicon-o-gift';
-    protected static ?string $navigationGroup = 'Creating items';
+    protected static ?string $navigationGroup = 'Gift Boxes Management';
 
     public static function form(Form $form): Form
     {

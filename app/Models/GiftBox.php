@@ -23,4 +23,10 @@ class GiftBox extends Model
     {
         return $this->belongsTo(BoxCategory::class, 'box_category_id');
     }
+
+    public function details()
+    {
+        return $this->hasMany(GiftBoxDetail::class);
+    }
+
 }

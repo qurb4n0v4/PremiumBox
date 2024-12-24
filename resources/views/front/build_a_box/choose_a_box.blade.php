@@ -1,9 +1,6 @@
 @extends('front.layouts.app')
-
 @section('title', __('Build a Gift Box | BOX & TALE'))
-
 @section('content')
-
     <!-- Horizontal Line -->
     <div class="choose-box-line"></div>
 
@@ -41,7 +38,10 @@
                 </div>
 
                 <div class="row">
-                    @foreach($category->boxes as $box)
+                    @foreach($category->boxes as $boxIndex => $box)
+                        @php
+                            $boxDetail = $box->details->first();
+                        @endphp
                         <div class="col-md-6 col-lg-3">
                             <div class="card gift-box-card h-100">
                                 <img src="{{ asset('storage/' . $box->image) }}" alt="{{ $box->title }}" loading="lazy">
@@ -49,7 +49,94 @@
                                     <h5 class="gift-box-title">{{ $box->company_name }}</h5>
                                     <h5 class="gift-box-name">{{ $box->title }}</h5>
                                     <p class="gift-box-price">₼ {{ $box->price }}</p>
-                                    <button class="choose-box-choose-button">Choose Box</button>
+                                    <button
+                                        type="button"
+                                        class="choose-box-choose-button"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#boxDetailsModal{{ $boxIndex }}"
+                                    >
+                                        Choose Box
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Modal with Gift Box Details -->
+                        <div class="modal fade" id="boxDetailsModal{{ $boxIndex }}" tabindex="-1" aria-labelledby="boxDetailsModalLabel{{ $boxIndex }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                <div class="modal-content rounded-4">
+                                    <div class="modal-body p-4">
+                                        <div class="d-flex align-items-start gap-4">
+                                            <!-- Image Carousel Section -->
+                                            <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                <div id="boxCarousel{{ $boxIndex }}" class="carousel slide" data-bs-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        @if($boxDetail && $boxDetail->images)
+                                                            @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $key => $imageUrl)
+                                                                <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                                    <div style="height: 340px; width: 360px; overflow: hidden;">
+                                                                        <img src="{{ asset('storage/' . $imageUrl) }}"
+                                                                             class="d-block w-100 h-100 object-fit-cover"
+                                                                             alt="Box Image">
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Navigation Buttons -->
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#boxCarousel{{ $boxIndex }}" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#boxCarousel{{ $boxIndex }}" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Enhanced Content Section with Details -->
+                                            <div class="flex-grow-1">
+                                                <div class="text-start">
+                                                    <h6 class="mb-2" style="color: #898989; font-size: 16px;">{{ $box->company_name }}</h6>
+                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 24px;">
+                                                        {{ $boxDetail ? $boxDetail->box_name : $box->title }}
+                                                    </h5>
+                                                    @if($boxDetail && $boxDetail->available_same_day_delivery)
+                                                        <div class="mb-3 bg-opacity-10 rounded">
+                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500">
+                                                                Available for Same Day Delivery
+                                                            </p>
+                                                        </div>
+                                                    @endif
+                                                    <p class="mb-3" style="color: #212529; font-size: 18px !important; font-weight: 500">₼ {{ $box->price }}</p>
+
+
+                                                    <div class="mb-4" style="height: 200px; overflow-y: auto;">
+                                                        @if($boxDetail && $boxDetail->paragraph)
+                                                            <p style="color: #898989; line-height: 1.6;">{{ $boxDetail->paragraph }}</p>
+                                                        @endif
+
+                                                        @if($boxDetail && $boxDetail->additional)
+                                                            <div class="mt-3">
+                                                                <p style="color: #898989">{{ $boxDetail->additional }}</p>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                    <button
+                                                        type="button"
+                                                        class="choose-box-choose-button"
+                                                        onclick="selectBox('{{ $box->id }}', '{{ $boxDetail ? $boxDetail->box_name : $box->title }}', '{{ $box->price }}')"
+                                                        style="width: 100%; padding: 12px;"
+                                                    >
+                                                        Customize
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -65,77 +152,60 @@
         </div>
     </div>
 
-    <style>
-        /* Category name and box size styles */
-        .category-name-boxsize h4 {
-            color: #898989;
-            margin-bottom: 5px;
-        }
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const twoupCarousels = document.querySelectorAll('.two-up-carousel');
+                twoupCarousels.forEach(carousel => {
+                    new bootstrap.Carousel(carousel, {
+                        interval: 2000,
+                        ride: 'carousel'
+                    });
+                });
+            });
 
-        .category-name-boxsize p {
-            margin: 0;
-            font-size: 13px;
-            color: #898989;
-        }
+            function selectBox(boxId, boxTitle, boxPrice) {
+                console.log(`Selected Box: ID=${boxId}, Title=${boxTitle}, Price=${boxPrice}`);
 
-        /* Gift box card styles */
-        .gift-box-card {
-            border: none;
-            width: 100%;
-            height: 400px;
-            margin: 0 auto;
-        }
+                window.location.href = `/next-step?box_id=${boxId}`;
+            }
+        </script>
+    @endpush
 
-        .gift-box-card img {
-            width: 100%;
-            height: 210px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
+        <style>
+            .text-center, h3, h4, h5, h6, p, .gift-box-title, .gift-box-name, .gift-box-price {
+                text-align: center !important;
+            }
 
-        /* Content container styles */
-        .gift-box-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            text-align: center;
-        }
+            .choose-box-choose-button {
+                padding: 10px !important;
+                font-size: 14px !important;
+            }
 
-        /* Text styles */
-        .gift-box-title {
-            font-size: 14px;
-            margin-bottom: 2px;
-            color: #898989;
-        }
+            .modal-content {
+                border: none;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
 
-        .gift-box-name {
-            font-size: 16px;
-            margin-bottom: 2px;
-            color: #a39079;
-        }
+            .carousel-control-prev,
+            .carousel-control-next {
+                width: auto;
+                padding: 0 10px;
+            }
 
-        .gift-box-price {
-            font-size: 13px;
-            margin-bottom: 12px;
-            color: #212529;
-        }
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                width: 25px;
+                height: 25px;
+                background-size: 100%;
+                filter: invert(1) grayscale(100);
+            }
 
-        /* Button styles */
-        .choose-box-choose-button {
-            font-size: 13px;
-            padding: 8px 40px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            color: #a39079;
-            border: 1px solid #a39079;
-            transition: background-color 0.3s, color 0.3s;
-        }
+            .carousel-control-prev:hover,
+            .carousel-control-next:hover {
+                opacity: 0.8;
+            }
 
-        .choose-box-choose-button:hover {
-            background-color: #a39079;
-            color: #ffffff;
-        }
-    </style>
+        </style>
+
 @endsection

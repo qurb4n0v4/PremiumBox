@@ -15,7 +15,7 @@ class BoxCategoryResource extends Resource
     protected static ?string $model = BoxCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
-    protected static ?string $navigationGroup = 'Creating items';
+    protected static ?string $navigationGroup = 'Gift Boxes Management';
 
     // Define the form layout
     public static function form(Form $form): Form

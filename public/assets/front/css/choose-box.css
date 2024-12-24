@@ -1,12 +1,39 @@
-/* Step titles and circles */
+:root {
+    --primary-color: #a39079;
+    --text-gray: #898989;
+    --border-color: #ddd;
+    --white: #ffffff;
+    --font-size-small: 10px;
+    --font-size-regular: 13px;
+    --font-size-medium: 14px;
+    --font-size-large: 16px;
+    --font-size-xlarge: 20px;
+    --spacing-small: 8px;
+    --spacing-medium: 15px;
+    --spacing-large: 20px;
+    --spacing-xlarge: 40px;
+}
+
+.text-gray {
+    color: var(--text-gray);
+    margin: 0;
+}
+
+.margin-bottom-small {
+    margin-bottom: var(--spacing-small);
+}
+
+.margin-bottom-medium {
+    margin-bottom: var(--spacing-medium);
+}
+
 .choose-box-steps-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
-    padding: 20px;
     width: 80%;
     margin: 0 auto;
+    padding: var(--spacing-large);
 }
 
 .choose-box-step {
@@ -21,80 +48,125 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: #fff;
-    color: #898989;
+    background-color: var(--white);
+    color: var(--text-gray);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
-    border: 2px solid #898989;
+    font-size: var(--font-size-small);
+    border: 2px solid var(--text-gray);
     margin-top: -20px;
-    margin-right: 8px;
+    margin-right: var(--spacing-small);
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 .choose-box-circle.completed {
-    background-color: #a3907a;
-    color: white;
-    border-color: #a3907a;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
 }
 
 .choose-box-text {
-    color: #898989;
-    margin: 0;
+    composes: text-gray;
     text-align: center;
 }
 
 .choose-box-text h3 {
-    font-size: 14px;
+    font-size: var(--font-size-medium);
     margin-bottom: 5px;
 }
 
 .choose-box-text p {
-    font-size: 10px;
+    font-size: var(--font-size-small);
 }
 
 .choose-box-line {
     height: 4px;
-    background-color: #898989;
+    background-color: var(--text-gray);
     width: 70%;
-    margin: 40px auto;
+    margin: var(--spacing-xlarge) auto;
 }
 
 .choose-box-category-box {
-    margin-top: 40px;
+    margin-top: var(--spacing-xlarge);
 }
 
 .choose-box-category-box h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
+    font-size: var(--font-size-xlarge);
+    margin-bottom: var(--spacing-large);
 }
 
 .choose-box-box-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #ddd;
-    padding: 8px;
-    margin-bottom: 8px;
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-small);
+    margin-bottom: var(--spacing-small);
 }
 
-.choose-box-box-item h3 {
-    margin: 0;
+.category-name-boxsize h4 {
+    composes: text-gray;
+    margin-bottom: 5px;
+    color: var(--text-gray);
+    font-weight: 600;
 }
 
-.choose-box-box-item p {
-    margin: 0;
+.category-name-boxsize p {
+    composes: text-gray;
+    font-size: var(--font-size-regular);
+}
+
+.gift-box-card {
+    border: none !important;
+    width: 100%;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.gift-box-card img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.gift-box-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-medium);
+    text-align: center;
+}
+
+.gift-box-title {
+    font-size: var(--font-size-medium);
+    color: var(--text-gray);
+}
+
+.gift-box-name {
+    font-size: var(--font-size-large);
+    color: var(--primary-color);
+}
+
+.gift-box-price {
+    font-size: var(--font-size-regular);
+    color: #212529;
 }
 
 .choose-box-choose-button {
-    padding: 6px 14px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+    font-size: var(--font-size-regular);
+    padding: var(--spacing-small) 40px;
+    border-radius: 10px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
 }
 
 .choose-box-choose-button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-color);
+    color: var(--white);
 }
