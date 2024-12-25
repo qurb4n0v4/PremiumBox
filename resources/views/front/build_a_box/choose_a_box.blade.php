@@ -97,7 +97,7 @@
                                             </div>
 
                                             <!-- Enhanced Content Section with Details -->
-                                            <div class="flex-grow-1 mt-4">
+                                            <div class="flex-grow-1">
                                                 <div class="text-start">
                                                     <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
                                                     <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">
