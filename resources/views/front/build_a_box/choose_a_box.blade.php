@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
 @section('title', __('Build a Gift Box | BOX & TALE'))
+    <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 @section('content')
-    <!-- Horizontal Line -->
     <div class="choose-box-line"></div>
 
     <!-- Step titles -->
@@ -29,18 +29,18 @@
                 $nonEmptyCategories = $categories->filter(fn($category) => $category->boxes->isNotEmpty());
             @endphp
 
-            @foreach($nonEmptyCategories as $index => $category)
-                <div class="col-12 mb-3">
-                    <div class="category-name-boxsize">
-                        <h4 style="position: relative; margin-right: 15px;">{{ $category->name }}</h4>
-                        <p style="color: #898989; font-size: 13px; margin-top: 0;">{{ $category->box_size }}</p>
-                    </div>
+            @foreach($nonEmptyCategories as $categoryIndex => $category)
+                <div class="category-name-boxsize">
+                    <h4>{{ $category->name }}</h4>
+                    <p>{{ $category->box_size }}</p>
                 </div>
 
-                <div class="row">
+                <div class="row gy-4">
                     @foreach($category->boxes as $boxIndex => $box)
                         @php
                             $boxDetail = $box->details->first();
+                            $uniqueModalId = "boxDetailsModal_{$categoryIndex}_{$boxIndex}";
+                            $uniqueCarouselId = "boxCarousel_{$categoryIndex}_{$boxIndex}";
                         @endphp
                         <div class="col-md-6 col-lg-3">
                             <div class="card gift-box-card h-100">
@@ -53,7 +53,7 @@
                                         type="button"
                                         class="choose-box-choose-button"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#boxDetailsModal{{ $boxIndex }}"
+                                        data-bs-target="#{{ $uniqueModalId }}"
                                     >
                                         Choose Box
                                     </button>
@@ -62,14 +62,14 @@
                         </div>
 
                         <!-- Enhanced Modal with Gift Box Details -->
-                        <div class="modal fade" id="boxDetailsModal{{ $boxIndex }}" tabindex="-1" aria-labelledby="boxDetailsModalLabel{{ $boxIndex }}" aria-hidden="true">
+                        <div class="modal fade" id="{{ $uniqueModalId }}" tabindex="-1" aria-labelledby="{{ $uniqueModalId }}Label" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                 <div class="modal-content rounded-4">
                                     <div class="modal-body p-4">
                                         <div class="d-flex align-items-start gap-4">
                                             <!-- Image Carousel Section -->
                                             <div class="position-relative" style="width: 360px; flex-shrink: 0;">
-                                                <div id="boxCarousel{{ $boxIndex }}" class="carousel slide" data-bs-ride="carousel">
+                                                <div id="{{ $uniqueCarouselId }}" class="carousel slide" data-bs-ride="carousel">
                                                     <div class="carousel-inner">
                                                         @if($boxDetail && $boxDetail->images)
                                                             @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $key => $imageUrl)
@@ -85,11 +85,11 @@
                                                     </div>
 
                                                     <!-- Navigation Buttons -->
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#boxCarousel{{ $boxIndex }}" data-bs-slide="prev">
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Previous</span>
                                                     </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#boxCarousel{{ $boxIndex }}" data-bs-slide="next">
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="next">
                                                         <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Next</span>
                                                     </button>
@@ -97,39 +97,37 @@
                                             </div>
 
                                             <!-- Enhanced Content Section with Details -->
-                                            <div class="flex-grow-1">
+                                            <div class="flex-grow-1 mt-4">
                                                 <div class="text-start">
-                                                    <h6 class="mb-2" style="color: #898989; font-size: 16px;">{{ $box->company_name }}</h6>
-                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 24px;">
+                                                    <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
+                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">
                                                         {{ $boxDetail ? $boxDetail->box_name : $box->title }}
                                                     </h5>
                                                     @if($boxDetail && $boxDetail->available_same_day_delivery)
                                                         <div class="mb-3 bg-opacity-10 rounded">
-                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500">
+                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
                                                                 Available for Same Day Delivery
                                                             </p>
                                                         </div>
                                                     @endif
-                                                    <p class="mb-3" style="color: #212529; font-size: 18px !important; font-weight: 500">₼ {{ $box->price }}</p>
+                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
 
-
-                                                    <div class="mb-4" style="height: 200px; overflow-y: auto;">
+                                                    <div class="mb-4" style="height: 90px; overflow-y: auto;">
                                                         @if($boxDetail && $boxDetail->paragraph)
-                                                            <p style="color: #898989; line-height: 1.6;">{{ $boxDetail->paragraph }}</p>
+                                                            <p style="color: #898989; line-height: 1.6; font-size: 12px">{{ $boxDetail->paragraph }}</p>
                                                         @endif
 
                                                         @if($boxDetail && $boxDetail->additional)
                                                             <div class="mt-3">
-                                                                <p style="color: #898989">{{ $boxDetail->additional }}</p>
+                                                                <p style="color: #898989; font-size: 12px">{{ $boxDetail->additional }}</p>
                                                             </div>
                                                         @endif
                                                     </div>
 
                                                     <button
                                                         type="button"
-                                                        class="choose-box-choose-button"
+                                                        class="choose-box-customize-button"
                                                         onclick="selectBox('{{ $box->id }}', '{{ $boxDetail ? $boxDetail->box_name : $box->title }}', '{{ $box->price }}')"
-                                                        style="width: 100%; padding: 12px;"
                                                     >
                                                         Customize
                                                     </button>
@@ -143,7 +141,7 @@
                     @endforeach
                 </div>
 
-                @if($index < $nonEmptyCategories->count() - 1)
+                @if($categoryIndex < $nonEmptyCategories->count() - 1)
                     <div class="col-12">
                         <hr style="border-top: 1px solid #a3907a; margin: 20px 0;">
                     </div>
@@ -173,38 +171,7 @@
     @endpush
 
         <style>
-            .text-center, h3, h4, h5, h6, p, .gift-box-title, .gift-box-name, .gift-box-price {
-                text-align: center !important;
-            }
 
-            .choose-box-choose-button {
-                padding: 10px !important;
-                font-size: 14px !important;
-            }
-
-            .modal-content {
-                border: none;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-
-            .carousel-control-prev,
-            .carousel-control-next {
-                width: auto;
-                padding: 0 10px;
-            }
-
-            .carousel-control-prev-icon,
-            .carousel-control-next-icon {
-                width: 25px;
-                height: 25px;
-                background-size: 100%;
-                filter: invert(1) grayscale(100);
-            }
-
-            .carousel-control-prev:hover,
-            .carousel-control-next:hover {
-                opacity: 0.8;
-            }
 
         </style>
 
