@@ -1,5 +1,5 @@
 <section class="partners-section my-4">
-    <h2 class="partners-title text-center mb-4">Our Partners</h2>
+    <h2 class="partners-title text-center mb-4">Bizim Tərəfdaşlarımız</h2>
     <div class="container">
         <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -8,7 +8,7 @@
                     <div class="swiper-slide">
                         <img src="{{ asset('storage/' . $partner->logo) }}"
                              class="partner-logo img-fluid"
-                             alt="Partner Logo {{ $partner->name }}" loading="lazy">
+                             alt="Tərəfdaş Loqosu {{ $partner->name }}" loading="lazy">
                     </div>
                 @endforeach
             </div>

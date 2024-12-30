@@ -24,7 +24,7 @@
                     </div>
                 @endforeach
             @else
-                <p>No details available for this blog post.</p>
+                <p>Bu blog yazısı üçün heç bir açıqlama mövcud deyil.</p>
             @endif
         </div>
     </div>

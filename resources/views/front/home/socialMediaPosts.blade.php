@@ -1,7 +1,7 @@
 <section class="social-media-posts py-5 mt-5">
     <div class="container">
         <div class="text-center mb-4">
-            <h1 class="custom-gift fw-bold">Custom Gift Hampers by GiftBox</h1>
+            <h1 class="custom-gift fw-bold">GiftBox tərəfindən Xüsusi Hədiyyə Paketləri</h1>
         </div>
 
         <div class="gallery">
@@ -12,7 +12,7 @@
                     @elseif($mediaItem->media_type == 'video')
                         <video controls class="gallery-media">
                             <source src="{{ asset('storage/' . $mediaItem->media_path) }}" type="video/mp4">
-                            Your browser does not support this video.
+                            Brauzeriniz bu videonu dəstəkləmir.
                         </video>
                     @endif
                 </div>
@@ -20,5 +20,3 @@
         </div>
     </div>
 </section>
-
-

@@ -3,10 +3,10 @@
 @section('content')
     <div class="container my-5 p-5" style="background-color: #ffffff; border-radius: 20px;">
         <div class="text-center corporate-gifts">
-            <h2 class="fw-bold" style="color: #a3907a;">Corporate Gifts</h2>
+            <h2 class="fw-bold" style="color: #a3907a;">Korparativ Hədiyyələr</h2>
             <p class="corporate-text" style="color: #898989;">
-                Box & Tale is here to help you celebrate your special moments, whether it's small or BIG ONE! <br>
-                <a href="#" class="text-decoration-none click-corporate" style="color: #a3907a;">Click to Contact Our Corporate Team</a>
+                Box & Tale, xüsusi anlarınızı qeyd etməyə kömək etmək üçün buradadır, istər kiçik, istərsə də BÖYÜK OLSUN! <br>
+                <a href="#" class="text-decoration-none click-corporate" style="color: #a3907a;">Korparativ Komandamızla Əlaqə Qurmaq Üçün Buraya Tıklayın</a>
             </p>
         </div>
 
@@ -28,7 +28,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#giftDetailsModal{{ $index }}"
                             >
-                                See Details
+                                Təfərrüatları Gör
                             </button>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                                         <div class="mx-1" style="height: 340px; width: 340px; overflow: hidden;">
                                                             <img src="{{ asset('storage/' . $imageUrl) }}"
                                                                  class="d-block w-100 h-100 object-fit-cover"
-                                                                 alt="Gift Image">
+                                                                 alt="Hədiyyə Şəkli">
                                                         </div>
                                                     @endforeach
 
@@ -61,7 +61,7 @@
                                                         <div class="mx-1" style="height: 340px; width: 340px; overflow: hidden;">
                                                             <img src="{{ asset('storage/' . $gift->image) }}"
                                                                  class="d-block w-100 h-100 object-fit-cover"
-                                                                 alt="Default Image">
+                                                                 alt="Defolt Şəkil">
                                                         </div>
                                                     @endif
                                                 </div>
