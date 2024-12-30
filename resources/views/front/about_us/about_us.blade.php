@@ -108,7 +108,6 @@
     .shall-we-begin-section {
         width: 100%;
         padding: 3rem 0;
-        /*background-color: #f8f6f4;*/
         border-radius: 8px;
     }
 

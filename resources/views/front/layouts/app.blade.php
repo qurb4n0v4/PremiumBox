@@ -28,6 +28,8 @@
 
     {{--    Favicon    --}}
     <link rel="icon" href="{{ asset('assets/front/img/giftbox.jpg') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
     {{--    CSS     --}}
     <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}">
