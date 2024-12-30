@@ -1,10 +1,9 @@
 @extends('front.layouts.app')
 @section('title', __('Build a Gift Box | BOX & TALE'))
-    <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 @section('content')
     <div class="choose-box-line"></div>
 
-    <!-- Step titles -->
     <div class="choose-box-steps-container">
         @foreach (range(1, 4) as $stepNumber)
             <div class="choose-box-step">
@@ -17,7 +16,6 @@
         @endforeach
     </div>
 
-    <!-- Gift Boxes Section -->
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Choose a Box</h3>
@@ -61,7 +59,7 @@
                             </div>
                         </div>
 
-                        <!-- Enhanced Modal with Gift Box Details -->
+
                         <div class="modal fade" id="{{ $uniqueModalId }}" tabindex="-1" aria-labelledby="{{ $uniqueModalId }}Label" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                 <div class="modal-content rounded-4">
@@ -84,7 +82,6 @@
                                                         @endif
                                                     </div>
 
-                                                    <!-- Navigation Buttons -->
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Previous</span>
@@ -96,7 +93,8 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Enhanced Content Section with Details -->
+
+
                                             <div class="flex-grow-1">
                                                 <div class="text-start">
                                                     <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
@@ -127,9 +125,10 @@
                                                     <button
                                                         type="button"
                                                         class="choose-box-customize-button"
+                                                        data-box-name="{{ $boxDetail ? $boxDetail->box_name : $box->title }}"
+                                                        data-box-price="{{ $box->price }}"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#customizeModal"
-                                                        onclick="prepareCustomizationModal('{{ asset('storage/' . $box->image) }}', '{{ $box->id }}', '{{ $boxDetail ? $boxDetail->box_name : $box->title }}', '{{ $box->price }}')"
                                                     >
                                                         Customize
                                                     </button>
@@ -141,37 +140,45 @@
                             </div>
                         </div>
 
-                        <!-- New Customization Modal -->
-                        <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+                        <!-- Add this modal markup just after the box details modal -->
+                        <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                 <div class="modal-content rounded-4">
                                     <div class="modal-body p-4">
-                                        <div class="d-flex align-items-start gap-4">
-                                            <!-- Image Section -->
-                                            <div class="position-relative" style="width: 360px; flex-shrink: 0;">
-                                                <img id="customizeModalImage" src="" class="d-block w-100 h-100 object-fit-cover" alt="Customization Image">
+                                        <div class="d-flex flex-column">
+                                            <div class="text-center mb-4">
+                                                <h5 class="mb-3" style="color: #a3907a; font-size: 21px; font-weight: 600">Customize Your Box</h5>
+                                                <p style="color: #898989; font-size: 14px">Personalize your gift box with custom items and messages.</p>
                                             </div>
 
-                                            <!-- Content Section -->
-                                            <div class="flex-grow-1">
-                                                <div class="text-start">
-                                                    <h6 id="customizeModalCompany" class="mb-2" style="color: #898989; font-size: 14px;"></h6>
-                                                    <h5 id="customizeModalTitle" class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600"></h5>
-                                                    <p id="customizeModalPrice" class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500"></p>
+                                            <!-- Selected Box Summary -->
+                                            <div class="selected-box-summary mb-4 p-3" style="background-color: #f8f9fa; border-radius: 10px;">
+                                                <h6 style="color: #898989; font-size: 14px;">Selected Box</h6>
+                                                <p class="selected-box-name mb-1" style="color: #a3907a; font-size: 16px; font-weight: 600"></p>
+                                                <p class="selected-box-price mb-0" style="color: #212529; font-size: 16px;"></p>
+                                            </div>
 
-                                                    <!-- New Customization Inputs -->
-                                                    <div class="mb-4">
-                                                        <textarea class="form-control" rows="3" placeholder="Add a custom message"></textarea>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-outline-secondary me-2" data-font="Arial" onclick="applyFontFamily('Arial')">Arial</button>
-                                                        <button class="btn btn-outline-secondary me-2" data-font="Courier New" onclick="applyFontFamily('Courier New')">Courier New</button>
-                                                        <button class="btn btn-outline-secondary" data-font="Times New Roman" onclick="applyFontFamily('Times New Roman')">Times New Roman</button>
-                                                    </div>
-
-                                                    <!-- Submit Customization -->
-                                                    <button class="btn btn-primary mt-4">Save Customization</button>
+                                            <!-- Customize Options -->
+                                            <div class="customize-options">
+                                                <div class="mb-4">
+                                                    <label class="form-label" style="color: #898989; font-size: 14px;">Gift Message (Optional)</label>
+                                                    <textarea class="form-control" rows="3" placeholder="Enter your personal message..."></textarea>
                                                 </div>
+
+                                                <div class="mb-4">
+                                                    <label class="form-label" style="color: #898989; font-size: 14px;">Special Instructions (Optional)</label>
+                                                    <textarea class="form-control" rows="2" placeholder="Any special requests or instructions..."></textarea>
+                                                </div>
+                                            </div>
+
+                                            <!-- Action Buttons -->
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 10px 20px;">
+                                                    Back
+                                                </button>
+                                                <button type="button" class="choose-box-customize-button" style="padding: 10px 30px;">
+                                                    Continue to Items
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -193,70 +200,82 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Initialize carousels
                 const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
                 carousels.forEach(carousel => new bootstrap.Carousel(carousel));
 
-                // Initialize all box details modals
                 const boxDetailsModals = document.querySelectorAll('[id^="boxDetailsModal_"]');
                 boxDetailsModals.forEach(modal => {
-                    modal.addEventListener('hidden.bs.modal', cleanupModal);
+                    modal.addEventListener('hidden.bs.modal');
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const customizeButtons = document.querySelectorAll('.choose-box-customize-button');
+                const customizeModal = document.getElementById('customizeModal');
+
+                customizeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Close the current box details modal
+                        const boxDetailsModal = this.closest('.modal');
+                        if (boxDetailsModal) {
+                            const bsBoxDetailsModal = bootstrap.Modal.getInstance(boxDetailsModal);
+                            bsBoxDetailsModal.hide();
+                            // Remove any leftover backdrop from the box details modal
+                            document.querySelector('.modal-backdrop').remove();
+                        }
+
+                        // Get box details from data attributes
+                        const boxName = this.getAttribute('data-box-name');
+                        const boxPrice = this.getAttribute('data-box-price');
+
+                        // Update the customize modal with selected box details
+                        const selectedBoxName = customizeModal.querySelector('.selected-box-name');
+                        const selectedBoxPrice = customizeModal.querySelector('.selected-box-price');
+
+                        if (selectedBoxName && selectedBoxPrice) {
+                            selectedBoxName.textContent = boxName;
+                            selectedBoxPrice.textContent = `₼ ${boxPrice}`;
+                        }
+
+                        // Show the customize modal
+                        const bsCustomizeModal = new bootstrap.Modal(customizeModal);
+                        bsCustomizeModal.show();
+                    });
                 });
 
-                // Initialize customize modal
-                const customizeModal = document.getElementById('customizeModal');
-                if (customizeModal) {
-                    customizeModal.addEventListener('hidden.bs.modal', cleanupModal);
-                }
+                // Handle customize modal closing
+                customizeModal.addEventListener('hidden.bs.modal', function () {
+                    // Remove any remaining backdrop
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    backdrops.forEach(backdrop => backdrop.remove());
 
-                function cleanupModal() {
+                    // Re-enable scrolling on the body
                     document.body.classList.remove('modal-open');
                     document.body.style.overflow = '';
                     document.body.style.paddingRight = '';
-
-                    const backdrop = document.querySelector('.modal-backdrop');
-                    if (backdrop) backdrop.remove();
-
-                    // Force body to be interactive
-                    document.body.style.pointerEvents = '';
-                    document.body.style.opacity = '';
-                }
+                });
             });
-
-            function prepareCustomizationModal(imageUrl, boxId, boxTitle, boxPrice) {
-                // Close box details modal first
-                const currentModal = document.querySelector('.modal.show[id^="boxDetailsModal_"]');
-                if (currentModal) {
-                    const bsModal = bootstrap.Modal.getInstance(currentModal);
-                    if (bsModal) bsModal.hide();
-                }
-
-                // Set customization modal data
-                const modal = document.getElementById('customizeModal');
-                modal.querySelector('#customizeModalImage').src = imageUrl;
-                modal.querySelector('#customizeModalCompany').textContent = `Box ID: ${boxId}`;
-                modal.querySelector('#customizeModalTitle').textContent = boxTitle;
-                modal.querySelector('#customizeModalPrice').textContent = `₼ ${boxPrice}`;
-
-                // Reset any previous customizations
-                const textarea = modal.querySelector('textarea');
-                if (textarea) {
-                    textarea.value = '';
-                    textarea.style.fontFamily = '';
-                }
-            }
-
-            function applyFontFamily(fontFamily) {
-                const textarea = document.querySelector('#customizeModal textarea');
-                if (textarea) textarea.style.fontFamily = fontFamily;
-            }
         </script>
 
     @endpush
 
+
         <style>
+        .customize-options textarea {
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            resize: none;
+        }
 
+        .customize-options textarea:focus {
+            border-color: #a3907a;
+            box-shadow: 0 0 0 0.25rem rgba(163, 144, 122, 0.25);
+        }
 
-        </style>
+        .selected-box-summary {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+    </style>
 
 @endsection
