@@ -12,6 +12,7 @@
 
 
 @section('content')
+    @include('front.home.popUpHome')
     @include('front.home.imagesSlider')
     @include('front.home.giftsImages')
     @include('front.home.boxesIntroducing')
