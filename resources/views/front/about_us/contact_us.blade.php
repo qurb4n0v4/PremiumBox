@@ -33,7 +33,7 @@
                     </form>
                 </div>
                 <div class="col-md-6 contact-right">
-                    <img src="assets/front/img/header.webp" alt="Contact Image" class="img-fluid" />
+                    <img src="" alt="Contact Image" class="img-fluid" />
                 </div>
             </div>
         </div>
