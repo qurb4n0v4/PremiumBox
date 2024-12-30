@@ -7,7 +7,7 @@
         <!-- About Us Section -->
         <div class="section-about-us row align-items-center" style="background-color: #ffffff;">
             <div class="col-lg-6 text-center">
-                <img src="" alt="GiftBox" class="about-us-image img-fluid">
+                <img src="{{ 'assets/front/img/yellow.webp' }}" alt="GiftBox" class="about-us-image img-fluid">
             </div>
             <div class="col-lg-6">
                 <h1 class="about-us-title">GiftBox</h1>
@@ -89,7 +89,7 @@
                 </div>
                 <!-- Right Image -->
                 <div class="col-lg-6 text-center">
-                    <img src="gift-box.jpg" alt="Gift Boxes" class="img-fluid rounded shall-we-begin-image">
+                    <img src="{{ 'assets/front/img/violet.webp' }}" alt="Gift Boxes" class="img-fluid rounded shall-we-begin-image">
                 </div>
             </div>
         </div>
@@ -108,7 +108,6 @@
     .shall-we-begin-section {
         width: 100%;
         padding: 3rem 0;
-        /*background-color: #f8f6f4;*/
         border-radius: 8px;
     }
 

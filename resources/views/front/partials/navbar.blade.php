@@ -3,6 +3,11 @@
         <div class="logo-side-navbar">
             <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Image"></a>
         </div>
+        <div class="menu-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="list-side-navbar">
             <div>
                 <ul class="navbar-elements-top" style="margin-bottom: 5px">
@@ -33,17 +38,37 @@
 </div>
 
 <script>
-    const dropdown = document.querySelector('.dropdown');
-    const dropdownBtn = document.querySelector('.dropdown-btn');
 
-    dropdownBtn.addEventListener('click', function (event) {
-        event.stopPropagation();
-        dropdown.classList.toggle('open');
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
 
-    document.addEventListener('click', function (event) {
-        if (!dropdown.contains(event.target)) {
-            dropdown.classList.remove('open');
-        }
+        const menuButton = document.querySelector('.menu-button');
+        const navMenu = document.querySelector('.list-side-navbar');
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownBtn = document.querySelector('.dropdown-btn');
+
+        menuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        dropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
     });
 </script>

@@ -6,38 +6,47 @@
     <div class="contact-main">
         <div class="container contact-box">
             <div class="row">
-                <div class="col-md-6 contact-left">
-                    <h1>Contact Us</h1>
-                    <h5>Ilkin Humbatov tərəfindən</h5>
-                    <p>If you have more question, don't hesitate to reach out to Box & Tale's Team through the following contacts:</p>
-                    <p>994703803333</p>
-                    <p>ilkin_humbatov</p>
-                    <p>Or, kindly leave your message to Box & Tale's Email:</p>
+                <div class="col-lg-6 col-md-6 contact-left">
+                    <h1>Əlaqə</h1>
+                    <h5></h5>
+                    <p>Əgər daha çox sualınız varsa, GiftBox komandasına aşağıdakı əlaqə vasitələri ilə müraciət edə bilərsiniz:</p>
+                    <div class="contact-details">
+                        <p>
+                            <i class="bi bi-telephone-fill"> : </i>+1234567890
+                        </p>
+                        <p>
+                            <i class="bi bi-envelope-fill"> : </i><a href="mailto:info@giftbox.com" class="text-decoration-none" style="color: #a3907a;">info@giftbox.com</a>
+                        </p>
+                        <p>
+                            <i class="bi bi-instagram"> : </i><a href="" target="_blank" class="text-decoration-none" style="color: #a3907a;">@giftbox</a>
+                        </p>
+                    </div>
                     <form>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                            <label for="name" class="form-label">Adınız:</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Adınızı daxil edin" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            <label for="email" class="form-label">E-poçt:</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="E-poçtunuzu daxil edin" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="message" class="form-label">Your Message:</label>
-                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Write your message" required></textarea>
+                            <label for="message" class="form-label">Mesajınız:</label>
+                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Mesajınızı yazın" required></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn contact-submit">Göndər</button>
                     </form>
                 </div>
-                <div class="col-md-6 contact-right">
-                    <img src="" alt="Contact Image" class="img-fluid" />
+                <div class="col-lg-6 col-md-6 contact-right">
+                    <img src="{{ asset('assets/front/img/violet.webp') }}" alt="Əlaqə Şəkli" class="img-fluid" />
                 </div>
             </div>
         </div>
     </div>
+
 
     <style>
         /*Contact-us starts*/
@@ -59,10 +68,13 @@
         }
         .contact-right {
             margin-top: 10px;
+            display: flex;
+            justify-content: center;
         }
         .contact-right img {
             width: 100%;
             height: auto;
+            object-fit: cover;
         }
 
         .contact-left h1 {
@@ -73,6 +85,15 @@
         .contact-left p {
             color: #a3907a;
             font-size: 0.9rem;
+        }
+        .contact-submit {
+            background-color: #ffffff;
+            color: #a3907a;
+            border: 1px solid #a3907a;
+        }
+        .contact-submit:hover {
+            background-color: #a3907a;
+            color: #ffffff;
         }
 
         /* Mobile responsive adjustments */

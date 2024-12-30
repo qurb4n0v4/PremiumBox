@@ -127,10 +127,50 @@
                                                     <button
                                                         type="button"
                                                         class="choose-box-customize-button"
-                                                        onclick="selectBox('{{ $box->id }}', '{{ $boxDetail ? $boxDetail->box_name : $box->title }}', '{{ $box->price }}')"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#customizeModal"
+                                                        onclick="prepareCustomizationModal('{{ asset('storage/' . $box->image) }}', '{{ $box->id }}', '{{ $boxDetail ? $boxDetail->box_name : $box->title }}', '{{ $box->price }}')"
                                                     >
                                                         Customize
                                                     </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Customization Modal -->
+                        <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+                            <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                <div class="modal-content rounded-4">
+                                    <div class="modal-body p-4">
+                                        <div class="d-flex align-items-start gap-4">
+                                            <!-- Image Section -->
+                                            <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                <img id="customizeModalImage" src="" class="d-block w-100 h-100 object-fit-cover" alt="Customization Image">
+                                            </div>
+
+                                            <!-- Content Section -->
+                                            <div class="flex-grow-1">
+                                                <div class="text-start">
+                                                    <h6 id="customizeModalCompany" class="mb-2" style="color: #898989; font-size: 14px;"></h6>
+                                                    <h5 id="customizeModalTitle" class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600"></h5>
+                                                    <p id="customizeModalPrice" class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500"></p>
+
+                                                    <!-- New Customization Inputs -->
+                                                    <div class="mb-4">
+                                                        <textarea class="form-control" rows="3" placeholder="Add a custom message"></textarea>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-outline-secondary me-2" data-font="Arial" onclick="applyFontFamily('Arial')">Arial</button>
+                                                        <button class="btn btn-outline-secondary me-2" data-font="Courier New" onclick="applyFontFamily('Courier New')">Courier New</button>
+                                                        <button class="btn btn-outline-secondary" data-font="Times New Roman" onclick="applyFontFamily('Times New Roman')">Times New Roman</button>
+                                                    </div>
+
+                                                    <!-- Submit Customization -->
+                                                    <button class="btn btn-primary mt-4">Save Customization</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,21 +193,65 @@
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const twoupCarousels = document.querySelectorAll('.two-up-carousel');
-                twoupCarousels.forEach(carousel => {
-                    new bootstrap.Carousel(carousel, {
-                        interval: 2000,
-                        ride: 'carousel'
-                    });
+                // Initialize carousels
+                const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
+                carousels.forEach(carousel => new bootstrap.Carousel(carousel));
+
+                // Initialize all box details modals
+                const boxDetailsModals = document.querySelectorAll('[id^="boxDetailsModal_"]');
+                boxDetailsModals.forEach(modal => {
+                    modal.addEventListener('hidden.bs.modal', cleanupModal);
                 });
+
+                // Initialize customize modal
+                const customizeModal = document.getElementById('customizeModal');
+                if (customizeModal) {
+                    customizeModal.addEventListener('hidden.bs.modal', cleanupModal);
+                }
+
+                function cleanupModal() {
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
+
+                    const backdrop = document.querySelector('.modal-backdrop');
+                    if (backdrop) backdrop.remove();
+
+                    // Force body to be interactive
+                    document.body.style.pointerEvents = '';
+                    document.body.style.opacity = '';
+                }
             });
 
-            function selectBox(boxId, boxTitle, boxPrice) {
-                console.log(`Selected Box: ID=${boxId}, Title=${boxTitle}, Price=${boxPrice}`);
+            function prepareCustomizationModal(imageUrl, boxId, boxTitle, boxPrice) {
+                // Close box details modal first
+                const currentModal = document.querySelector('.modal.show[id^="boxDetailsModal_"]');
+                if (currentModal) {
+                    const bsModal = bootstrap.Modal.getInstance(currentModal);
+                    if (bsModal) bsModal.hide();
+                }
 
-                window.location.href = `/next-step?box_id=${boxId}`;
+                // Set customization modal data
+                const modal = document.getElementById('customizeModal');
+                modal.querySelector('#customizeModalImage').src = imageUrl;
+                modal.querySelector('#customizeModalCompany').textContent = `Box ID: ${boxId}`;
+                modal.querySelector('#customizeModalTitle').textContent = boxTitle;
+                modal.querySelector('#customizeModalPrice').textContent = `₼ ${boxPrice}`;
+
+                // Reset any previous customizations
+                const textarea = modal.querySelector('textarea');
+                if (textarea) {
+                    textarea.value = '';
+                    textarea.style.fontFamily = '';
+                }
+            }
+
+            function applyFontFamily(fontFamily) {
+                const textarea = document.querySelector('#customizeModal textarea');
+                if (textarea) textarea.style.fontFamily = fontFamily;
             }
         </script>
+
     @endpush
 
         <style>
