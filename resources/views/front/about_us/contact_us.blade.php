@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Contact Us | BOX & TALE')
+@section('title', 'Bizimlə Əlaqə | BOX & TALE')
 
 @section('content')
     <div class="contact-main">

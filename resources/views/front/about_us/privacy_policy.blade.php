@@ -1,34 +1,34 @@
 @extends('front.layouts.app')
 
-@section('title', 'Privacy Policy | BOX & TALE')
+@section('title', 'Gizlilik Siyasəti | BOX & TALE')
 
 @section('content')
 
     <div class="privacy-main">
         <div class="privacy-box">
             <div class="privacy-right">
-                <h1 style="color: #a3907a; font-size: 28px">Privacy Policy</h1>
+                <h1 style="color: #a3907a; font-size: 28px">Gizlilik Siyasəti</h1>
 
                 @if($privacyPolicies->isNotEmpty())
                     @foreach($privacyPolicies as $privacyPolicy)
                         <div class="privacy-policy">
-                            {{-- Effective Date --}}
+                            {{-- Effektiv Tarix --}}
                             @if(!empty($privacyPolicy->effective_date))
                                 <p>
-                                    <strong>Effective Date:</strong>
+                                    <strong>Effektiv Tarix:</strong>
                                     {{ \Carbon\Carbon::parse($privacyPolicy->effective_date)->format('d F Y') }}
                                 </p>
                             @endif
 
-                            {{-- Introduction --}}
+                            {{-- Giriş --}}
                             @if($privacyPolicy->introduction)
                                 <p>{{ $privacyPolicy->introduction }}</p>
                             @endif
 
-                            {{-- Sections --}}
+                            {{-- Bölmələr --}}
                             @if(!empty($privacyPolicy->sections))
                                 @foreach($privacyPolicy->sections as $section)
-                                    <h2 style="font-size: 17px !important; font-weight: 600">{{ $section['heading'] ?? 'Untitled Section' }}</h2>
+                                    <h2 style="font-size: 17px !important; font-weight: 600">{{ $section['heading'] ?? 'Adı olmayan Bölmə' }}</h2>
 
                                     @if(isset($section['content']))
                                         <p>{{ $section['content'] }}</p>
@@ -47,13 +47,13 @@
                                     @endif
                                 @endforeach
                             @else
-                                <p>No sections available.</p>
+                                <p>Heç bir bölmə mövcud deyil.</p>
                             @endif
 
                         </div>
                     @endforeach
                 @else
-                    <p>No privacy policies available.</p>
+                    <p>Heç bir gizlilik siyasəti mövcud deyil.</p>
                 @endif
             </div>
         </div>

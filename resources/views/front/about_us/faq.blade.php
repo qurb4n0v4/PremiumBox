@@ -1,11 +1,11 @@
 @extends('front.layouts.app')
 
-@section('title', 'FAQ | BOX & TALE')
+@section('title', 'Tez-tez Verilən Suallar | BOX & TALE')
 
 @section('content')
     <div class="faq-page">
         <div class="faq-container">
-            <h1>Frequently Asked Questions</h1>
+            <h1>Tez-tez Verilən Suallar</h1>
             <ul class="faq-list">
                 @foreach ($faqs as $faq)
                     <li class="faq-item">

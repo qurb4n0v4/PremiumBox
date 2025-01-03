@@ -1,6 +1,6 @@
 <div class="featured-gift-sets-section">
     <h2 class="featured-gift-sets-title">
-        Featured Premade Gift Sets
+        Hazır Hədiyyə Dəstləri
     </h2>
     <div class="gift-sets-slider-container">
         <div class="gift-sets-slider">
@@ -29,7 +29,7 @@
 
         <div class="gift-sets-slider-dots">
             @php
-                $slidesPerView = 4; // Default for desktop
+                $slidesPerView = 4; // Masaüstü üçün varsayılan
                 $totalDots = ceil(count($giftSets) / $slidesPerView);
             @endphp
 
@@ -60,10 +60,10 @@
             const totalDots = Math.ceil(items.length / slidesPerView);
             const dotsContainer = document.querySelector('.gift-sets-slider-dots');
 
-            // Clear existing dots
+            // Mövcud nöqtələri sil
             dotsContainer.innerHTML = '';
 
-            // Create new dots based on current slidesPerView
+            // Cari slidesPerView-ə əsasən yeni nöqtələr yaradın
             for (let i = 0; i < totalDots; i++) {
                 const dot = document.createElement('span');
                 dot.className = `gift-sets-dot ${i === Math.floor(currentSlide / slidesPerView) ? 'active' : ''}`;
@@ -89,7 +89,7 @@
             const slidePercentage = (100 / slidesPerView);
             slider.style.transform = `translateX(-${slidePercentage * currentSlide}%)`;
 
-            // Update dots
+            // Nöqtələri yeniləyin
             const dots = document.querySelectorAll('.gift-sets-dot');
             dots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === Math.floor(currentSlide / slidesPerView));
@@ -119,7 +119,7 @@
         slider.addEventListener('mouseenter', stopAutoplay);
         slider.addEventListener('mouseleave', startAutoplay);
 
-        // Initialize
+        // Başlatma
         updateDots();
         startAutoplay();
     });
