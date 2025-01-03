@@ -11,8 +11,8 @@
         <div class="list-side-navbar">
             <div>
                 <ul class="navbar-elements-top" style="margin-bottom: 5px">
-                    <li><a href="#" class="login-navbar">Daxil ol</a></li>
-                    <li><a href="#" class="login-navbar">Qeydiyyat</a></li>
+                    <li><a href="{{ route('login') }}" class="login-navbar">Daxil ol</a></li>
+                    <li><a href="{{ route('register') }}" class="login-navbar">Qeydiyyat</a></li>
                     <li><a href="#">Səbət</a></li>
                 </ul>
             </div>
