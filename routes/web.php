@@ -11,6 +11,7 @@ use App\Models\FAQ;
 use App\Http\Controllers\CorporateGiftController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GiftBoxController;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -39,7 +40,13 @@ Route::get('/chat', function () {
 })->name('chat');
 
 
-
-
-
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 
