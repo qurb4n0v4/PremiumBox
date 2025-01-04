@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'About Us | BOX & TALE')
+@section('title', 'Haqqımızda | BOX & TALE')
 
 @section('content')
     <div class="custom-about-container my-3">

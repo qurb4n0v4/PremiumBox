@@ -2,21 +2,21 @@
 {{--    <div class="modal-dialog modal-lg">--}}
 {{--        <div class="modal-content">--}}
 {{--            <div class="modal-header flex-column align-items-center">--}}
-{{--                <h5 class="modal-title text-center" id="popupModalLabel">The Easiest Way to Custom a Gift</h5>--}}
-{{--                <h3 class="modal-title text-center">Get Free Shipping for Your First Order!</h3>--}}
+{{--                <h5 class="modal-title text-center" id="popupModalLabel">Bir Hədiyyəni Özelleştirmənin Ən Asan Yolu</h5>--}}
+{{--                <h3 class="modal-title text-center">İlk Sifarişinizə Pulsuz Göndərmə Qazanın!</h3>--}}
 {{--            </div>--}}
 {{--            <div class="modal-body text-center">--}}
 {{--                <div class="images-wrapper">--}}
 {{--                    <div class="image-container">--}}
 {{--                        <h6>{{ $popUpHome->title1 }}</h6>--}}
 {{--                        <div class="image-box">--}}
-{{--                            <img src="{{ asset('storage/' . $popUpHome->image1) }}" alt="Image 1">--}}
+{{--                            <img src="{{ asset('storage/' . $popUpHome->image1) }}" alt="Şəkil 1">--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                    <div class="image-container">--}}
 {{--                        <h6>{{ $popUpHome->title2 }}</h6>--}}
 {{--                        <div class="image-box">--}}
-{{--                            <img src="{{ asset('storage/' . $popUpHome->image2) }}" alt="Image 2">--}}
+{{--                            <img src="{{ asset('storage/' . $popUpHome->image2) }}" alt="Şəkil 2">--}}
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
