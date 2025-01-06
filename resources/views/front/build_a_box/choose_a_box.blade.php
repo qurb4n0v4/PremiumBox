@@ -137,10 +137,70 @@
                         </div>
 
                         <div class="modal" id="{{ $uniqueModalId2 }}">
-                            <div class="modal-content">
-                                <h2>Tenzimle</h2>
-                                <p>Burada kutu için ayarları yapabilirsiniz.</p>
+                            <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                <div class="modal-content rounded-4">
+
+                                    <div class="modal-body p-4">
+                                        <div class="d-flex align-items-start gap-4">
+                                            <!-- Image Carousel Section -->
+                                            <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+
+                                                <div style="height: 340px; width: 360px; overflow: hidden;">
+                                                    @if($boxDetail && $boxDetail->images)
+                                                        @php
+                                                            $images = is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images;
+                                                            $firstImage = !empty($images) ? $images[0] : null;
+                                                        @endphp
+
+                                                        @if($firstImage)
+                                                            <img src="{{ asset('storage/' . $firstImage) }}"
+                                                                 class="d-block w-100 h-100 object-fit-cover"
+                                                                 alt="Box Image">
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="flex-grow-1">
+                                                <div class="text-start">
+                                                    <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
+                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">
+                                                        {{ $boxDetail ? $boxDetail->box_name : $box->title }}
+                                                    </h5>
+                                                    @if($boxDetail && $boxDetail->available_same_day_delivery)
+                                                        <div class="mb-3 bg-opacity-10 rounded">
+                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
+                                                                Eyni Gün Çatdırılma Mövcuddur
+                                                            </p>
+                                                        </div>
+                                                    @endif
+                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
+
+                                                    <div class="mb-4" style="height: 90px; overflow-y: auto;">
+                                                        @if($boxDetail && $boxDetail->paragraph)
+                                                            <p style="color: #898989; line-height: 1.6; font-size: 12px">{{ $boxDetail->paragraph }}</p>
+                                                        @endif
+
+                                                        @if($boxDetail && $boxDetail->additional)
+                                                            <div class="mt-3">
+                                                                <p style="color: #898989; font-size: 12px">{{ $boxDetail->additional }}</p>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+
+                                                    <button
+                                                        type="button"
+                                                        class="choose-box-customize-button"
+                                                    >
+                                                        Tamamla
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     @endforeach
                 </div>
