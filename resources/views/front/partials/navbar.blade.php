@@ -127,6 +127,4 @@
                 console.error('Logout error:', error);
             });
     });
-
-
 </script>

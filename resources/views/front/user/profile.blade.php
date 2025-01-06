@@ -49,7 +49,6 @@
     /* Profil Kartı */
     .profile-card {
         background-color: #fff;
-        /*border-radius: 15px;*/
         padding: 20px;
     }
 
@@ -89,7 +88,7 @@
     }
 
     .nav-tabs .nav-link {
-        color: #555;
+        color: #898989;
         font-size: 14px;
         font-weight: 500;
         text-transform: uppercase;
@@ -98,9 +97,8 @@
     }
 
     .nav-tabs .nav-link.active {
-        color: #333;
-        font-weight: bold;
-        border-bottom: 3px solid #a58b71;
+        color: #a3907a !important;
+        border-bottom: none;
     }
 
     .nav-tabs .nav-link:hover {
