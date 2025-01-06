@@ -11,6 +11,7 @@ use App\Models\FAQ;
 use App\Http\Controllers\CorporateGiftController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GiftBoxController;
+use App\Http\Controllers\PremadeBoxController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -32,8 +33,9 @@ Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name(
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 
-    Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
+Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
 
+Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
 
 Route::get('/chat', function () {
     return view('front.chat');

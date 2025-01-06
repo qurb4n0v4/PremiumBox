@@ -1,0 +1,29 @@
+:root {
+    --primary-color: #a39079;
+    --text-gray: #898989;
+    --border-color: #ddd;
+    --white: #ffffff;
+    --font-size-small: 10px;
+    --font-size-regular: 13px;
+    --font-size-medium: 14px;
+    --font-size-large: 16px;
+    --font-size-xlarge: 20px;
+    --spacing-small: 8px;
+    --spacing-medium: 15px;
+    --spacing-large: 20px;
+    --spacing-xlarge: 40px;
+}
+
+button {
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px !important;
+    background-color: var(--white);
+    color: var(--primary-color);
+    transition: .5s;
+}
+
+button:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
