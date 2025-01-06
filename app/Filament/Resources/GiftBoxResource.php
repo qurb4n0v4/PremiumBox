@@ -27,7 +27,7 @@ class GiftBoxResource extends Resource
                 ->maxLength(14),
             Forms\Components\TextInput::make('title')
                 ->required()
-                ->maxLength(20),
+                ->maxLength(15),
             Forms\Components\TextInput::make('price')
                 ->required()
                 ->numeric(),
