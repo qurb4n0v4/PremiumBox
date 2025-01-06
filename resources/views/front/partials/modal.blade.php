@@ -1,63 +1,52 @@
 <!-- Register Modal -->
 <div class="modal-overlay" id="register-modal">
-    <div class="modal-content">
+    <div class="modal-content register-modal">
         <div class="modal-header">
             <h2>Qeydiyyat</h2>
-            <span class="close-modal">&times;</span>
         </div>
         <div class="modal-body">
             <form id="register-form">
                 @csrf
                 <div class="form-group">
-                    <label for="name">Ad</label>
-                    <input type="text" id="name" name="name" placeholder="Adınızı daxil edin" required>
+                    <input type="text" id="name" name="name" placeholder="Ad" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="register-email" name="email" placeholder="Email ünvanınızı daxil edin" required>
+                    <input type="email" id="register-email" name="email" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Şifrə</label>
-                    <input type="password" id="register-password" name="password" placeholder="Şifrənizi daxil edin" required>
+                    <input type="password" id="register-password" name="password" placeholder="Şifrə" required>
                 </div>
                 <div class="form-group">
-                    <label for="confirm-password">Şifrəni təsdiqləyin</label>
-                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Şifrənizi yenidən daxil edin" required>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Şifrə təsdiqi" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Telefon nömrəsi</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Telefon nömrənizi daxil edin" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Telefon nömrəsi" required>
                 </div>
                 <button type="submit" class="submit-btn">Qeydiyyatdan keçin</button>
             </form>
             <p>Hesabınız var? <a href="#" id="switch-to-login">Daxil olun</a></p>
-            <p><a href="#" id="forgot-password-link">Şifrəni unutmusunuz?</a></p>
         </div>
     </div>
 </div>
 
 <!-- Login Modal -->
 <div class="modal-overlay" id="login-modal">
-    <div class="modal-content">
+    <div class="modal-content login-modal">
         <div class="modal-header">
             <h2>Daxil Ol</h2>
-            <span class="close-modal">&times;</span>
         </div>
         <div class="modal-body">
             <form id="login-form" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="login-email" name="email" placeholder="Email ünvanınızı daxil edin" required>
+                    <input type="email" id="login-email" name="email" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Şifrə</label>
-                    <input type="password" id="login-password" name="password" placeholder="Şifrənizi daxil edin" required>
+                    <input type="password" id="login-password" name="password" placeholder="Şifrə" required>
                 </div>
                 <button type="submit" class="submit-btn">Daxil Ol</button>
             </form>
             <p>Hesabınız yoxdur? <a href="#" id="switch-to-register">Qeydiyyat</a></p>
-            <p><a href="#" id="forgot-password-link">Şifrəni unutmusunuz?</a></p>
         </div>
     </div>
 </div>
@@ -76,7 +65,16 @@
         z-index: 1000;
     }
 
-    .modal-content {
+    .register-modal {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        width: 400px;
+        max-width: 90%;
+    }
+
+    .login-modal {
         background-color: #ffffff;
         padding: 40px;
         border-radius: 8px;
@@ -87,15 +85,15 @@
 
     .modal-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .modal-header h2 {
         margin: 0;
         font-size: 24px;
-        color: #333;
+        color: #a3907a;
     }
 
     .close-modal {
@@ -104,13 +102,9 @@
         color: #999;
     }
 
-    .modal-body {
-        display: flex;
-        flex-direction: column;
-    }
-
     .form-group {
         margin-bottom: 15px;
+        border: none;
     }
 
     .form-group label {
@@ -123,42 +117,28 @@
     .form-group input {
         width: 100%;
         padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: none;
+        border-bottom: 1px solid #ddd;
         font-size: 14px;
+        margin-bottom: 20px;
         color: #333;
     }
 
     .submit-btn {
         padding: 12px;
-        background-color: #007BFF;
+        background-color: #a3907a;
         color: #fff;
         border: none;
         border-radius: 4px;
         cursor: pointer;
         font-size: 16px;
+        margin-bottom: 20px !important;
     }
-
-    .submit-btn:hover {
-        background-color: #0056b3;
-    }
-
-    .modal-body p {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #777;
-        text-align: center;
-    }
-
-    .modal-body p a {
-        color: #007BFF;
+    #switch-to-login, #switch-to-register {
+        color: #a3907a;
         text-decoration: none;
-        font-weight: bold;
     }
 
-    .modal-body p a:hover {
-        text-decoration: underline;
-    }
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -170,45 +150,49 @@
         const switchToLogin = document.getElementById('switch-to-login');
         const switchToRegister = document.getElementById('switch-to-register');
 
+        const openModal = (modal) => (modal.style.display = 'flex');
+        const closeModal = (modal) => (modal.style.display = 'none');
+
         openRegisterBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            registerModal.style.display = 'flex';
+            openModal(registerModal);
         });
 
         openLoginBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            loginModal.style.display = 'flex';
+            openModal(loginModal);
         });
 
         closeButtons.forEach(function (btn) {
             btn.addEventListener('click', function () {
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'none';
+                closeModal(registerModal);
+                closeModal(loginModal);
             });
         });
 
         switchToLogin.addEventListener('click', function (e) {
             e.preventDefault();
-            registerModal.style.display = 'none';
-            loginModal.style.display = 'flex';
+            closeModal(registerModal);
+            openModal(loginModal);
         });
 
         switchToRegister.addEventListener('click', function (e) {
             e.preventDefault();
-            loginModal.style.display = 'none';
-            registerModal.style.display = 'flex';
+            closeModal(loginModal);
+            openModal(registerModal);
         });
 
         window.addEventListener('click', function (e) {
             if (e.target === registerModal || e.target === loginModal) {
-                registerModal.style.display = 'none';
-                loginModal.style.display = 'none';
+                closeModal(registerModal);
+                closeModal(loginModal);
             }
         });
 
         const registerForm = document.getElementById('register-form');
-        registerForm.addEventListener('submit', async function(e) {
+        registerForm.addEventListener('submit', async function (e) {
             e.preventDefault();
+
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
@@ -231,7 +215,9 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content'),
                     },
                     body: JSON.stringify(formData),
                 });
@@ -239,14 +225,12 @@
                 const result = await response.json();
                 if (response.ok) {
                     alert(result.message);
-                    registerModal.style.display = 'none';
-                } else {
-                    if (result.errors) {
-                        Object.keys(result.errors).forEach(function (key) {
-                            const error = result.errors[key];
-                            alert(`${key}: ${error.join(', ')}`);
-                        });
-                    }
+                    closeModal(registerModal);
+                } else if (result.errors) {
+                    Object.keys(result.errors).forEach(function (key) {
+                        const error = result.errors[key];
+                        alert(`${key}: ${error.join(', ')}`);
+                    });
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -255,7 +239,7 @@
         });
 
         const loginForm = document.getElementById('login-form');
-        loginForm.addEventListener('submit', async function(e) {
+        loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const formData = {
@@ -263,15 +247,15 @@
                 password: document.getElementById('login-password').value,
             };
 
-            console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-
             try {
                 const response = await fetch('{{ route('login') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content'),
                     },
                     body: JSON.stringify(formData),
                 });
@@ -283,14 +267,12 @@
                         window.location.href = redirectUrl;
                     }
                 } else {
-                    alert(result.message || 'Giriş işlemi başarısız');                }
+                    alert(result.message || 'Giriş işlemi başarısız');
+                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Giriş işlemi sırasında bir hata oluştu.');
             }
         });
-
-
-
     });
 </script>
