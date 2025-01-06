@@ -56,8 +56,24 @@ class PremadeBoxResource extends Resource
                 Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('price')->sortable(),
-                Tables\Columns\ImageColumn::make('normal_image')->label('Normal Image'),
-                Tables\Columns\ImageColumn::make('hover_image')->label('Hover Image'),
+                Tables\Columns\TextColumn::make('normal_image')
+                    ->label('Normal Image')
+                    ->formatStateUsing(function ($state) {
+                        if (!$state) {
+                            return '<img src="' . asset('storage/default-image.jpg') . '" alt="No Image Available" style="width: 100px; height: auto;" />';
+                        }
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
+                Tables\Columns\TextColumn::make('hover_image')
+                    ->label('Hover Image')
+                    ->formatStateUsing(function ($state) {
+                        if (!$state) {
+                            return '<img src="' . asset('storage/default-image.jpg') . '" alt="No Image Available" style="width: 100px; height: auto;" />';
+                        }
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime(),
             ])
             ->filters([]);

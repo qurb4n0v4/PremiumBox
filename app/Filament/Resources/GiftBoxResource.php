@@ -18,6 +18,7 @@ class GiftBoxResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-gift';
     protected static ?string $navigationGroup = 'Gift Boxes Management';
 
+
     public static function form(Form $form): Form
     {
         return $form->schema([
