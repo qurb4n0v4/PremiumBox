@@ -37,8 +37,9 @@
                     @foreach($category->boxes as $boxIndex => $box)
                         @php
                             $boxDetail = $box->details->first();
-                            $uniqueModalId = "boxDetailsModal_{$categoryIndex}_{$boxIndex}";
                             $uniqueCarouselId = "boxCarousel_{$categoryIndex}_{$boxIndex}";
+                            $uniqueModalId1 = "modal1_{$categoryIndex}_{$boxIndex}";
+                            $uniqueModalId2 = "modal2_{$categoryIndex}_{$boxIndex}";
                         @endphp
                         <div class="col-md-6 col-lg-3">
                             <div class="card gift-box-card h-100">
@@ -48,10 +49,8 @@
                                     <h5 class="gift-box-name">{{ $box->title }}</h5>
                                     <p class="gift-box-price">₼ {{ $box->price }}</p>
                                     <button
-                                        type="button"
                                         class="choose-box-choose-button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#{{ $uniqueModalId }}"
+                                        data-modal-target="{{ $uniqueModalId1 }}"
                                     >
                                         Qutunu Seç
                                     </button>
@@ -59,13 +58,15 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="{{ $uniqueModalId }}" tabindex="-1" aria-labelledby="{{ $uniqueModalId }}Label" aria-hidden="true">
+                        <div class="modal" id="{{ $uniqueModalId1 }}">
                             <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                 <div class="modal-content rounded-4">
+
                                     <div class="modal-body p-4">
                                         <div class="d-flex align-items-start gap-4">
                                             <!-- Image Carousel Section -->
                                             <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+
                                                 <div id="{{ $uniqueCarouselId }}" class="carousel slide" data-bs-ride="carousel">
                                                     <div class="carousel-inner">
                                                         @if($boxDetail && $boxDetail->images)
@@ -122,12 +123,10 @@
                                                     <button
                                                         type="button"
                                                         class="choose-box-customize-button"
-                                                        data-box-name="{{ $boxDetail ? $boxDetail->box_name : $box->title }}"
-                                                        data-box-price="{{ $box->price }}"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#customizeModal"
+                                                        data-modal-target="{{ $uniqueModalId2 }}"
+                                                        data-modal-close="{{ $uniqueModalId1 }}"
                                                     >
-                                                        Xüsusi Hazırlıq
+                                                        Tənzimləmək
                                                     </button>
                                                 </div>
                                             </div>
@@ -137,49 +136,10 @@
                             </div>
                         </div>
 
-                        <!-- Add this modal markup just after the box details modal -->
-                        <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
-                                <div class="modal-content rounded-4">
-                                    <div class="modal-body p-4">
-                                        <div class="d-flex flex-column">
-                                            <div class="text-center mb-4">
-                                                <h5 class="mb-3" style="color: #a3907a; font-size: 21px; font-weight: 600">Qutunuzu Xüsusiləşdirin</h5>
-                                                <p style="color: #898989; font-size: 14px">Hədiyyə qutunuzu xüsusi əşyalar və mesajlarla fərdiləşdirin.</p>
-                                            </div>
-
-                                            <!-- Selected Box Summary -->
-                                            <div class="selected-box-summary mb-4 p-3" style="background-color: #f8f9fa; border-radius: 10px;">
-                                                <h6 style="color: #898989; font-size: 14px;">Seçilmiş Qutu</h6>
-                                                <p class="selected-box-name mb-1" style="color: #a3907a; font-size: 16px; font-weight: 600"></p>
-                                                <p class="selected-box-price mb-0" style="color: #212529; font-size: 16px;"></p>
-                                            </div>
-
-                                            <!-- Customize Options -->
-                                            <div class="customize-options">
-                                                <div class="mb-4">
-                                                    <label class="form-label" style="color: #898989; font-size: 14px;">Hədiyyə Mesajı (İstəyə bağlı)</label>
-                                                    <textarea class="form-control" rows="3" placeholder="Şəxsi mesajınızı daxil edin..."></textarea>
-                                                </div>
-
-                                                <div class="mb-4">
-                                                    <label class="form-label" style="color: #898989; font-size: 14px;">Xüsusi Təlimatlar (İstəyə bağlı)</label>
-                                                    <textarea class="form-control" rows="2" placeholder="Hər hansı xüsusi istəklər..."></textarea>
-                                                </div>
-                                            </div>
-
-                                            <!-- Action Buttons -->
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 10px 20px;">
-                                                    Geriyə
-                                                </button>
-                                                <button type="button" class="choose-box-customize-button" style="padding: 10px 30px;">
-                                                    Əşyaları Seçməyə Keç
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="modal" id="{{ $uniqueModalId2 }}">
+                            <div class="modal-content">
+                                <h2>Tenzimle</h2>
+                                <p>Burada kutu için ayarları yapabilirsiniz.</p>
                             </div>
                         </div>
                     @endforeach
@@ -193,47 +153,39 @@
             @endforeach
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
-                carousels.forEach(carousel => new bootstrap.Carousel(carousel));
-
-                const boxDetailsModals = document.querySelectorAll('[id^="boxDetailsModal_"]');
-                boxDetailsModals.forEach(modal => {
-                    modal.addEventListener('hidden.bs.modal');
-                });
-            });
-
-            // Initialize Box Name and Price
-            const customizeModal = document.getElementById('customizeModal');
-            const boxNames = document.querySelectorAll('.choose-box-customize-button');
-            boxNames.forEach(button => {
-                button.addEventListener('click', () => {
-                    const boxName = button.getAttribute('data-box-name');
-                    const boxPrice = button.getAttribute('data-box-price');
-                    customizeModal.querySelector('.selected-box-name').textContent = boxName;
-                    customizeModal.querySelector('.selected-box-price').textContent = `₼ ${boxPrice}`;
-                });
-            });
-        </script>
-    @endpush
-    <style>
-        .customize-options textarea {
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            resize: none;
-        }
-
-        .customize-options textarea:focus {
-            border-color: #a3907a;
-            box-shadow: 0 0 0 0.25rem rgba(163, 144, 122, 0.25);
-        }
-
-        .selected-box-summary {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-        }
-    </style>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize carousels
+        const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
+        carousels.forEach(carousel => new bootstrap.Carousel(carousel));
+
+        // Modal handling
+        document.addEventListener('click', function(event) {
+            // Open modal
+            if (event.target.hasAttribute('data-modal-target')) {
+                const modalId = event.target.getAttribute('data-modal-target');
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'flex';
+                }
+            }
+
+            // Close modal
+            if (event.target.hasAttribute('data-modal-close')) {
+                const modalId = event.target.getAttribute('data-modal-close');
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Close modal when clicking outside
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+    });
+</script>
