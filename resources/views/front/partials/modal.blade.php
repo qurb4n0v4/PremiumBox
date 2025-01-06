@@ -5,7 +5,7 @@
             <h2>Qeydiyyat</h2>
         </div>
         <div class="modal-body">
-            <form id="register-form">
+            <form id="register-form" method="POST">
                 @csrf
                 <div class="form-group">
                     <input type="text" id="name" name="name" placeholder="Ad" required>
@@ -22,9 +22,17 @@
                 <div class="form-group">
                     <input type="tel" id="phone" name="phone" placeholder="Telefon nömrəsi" required>
                 </div>
+                <div class="form-group">
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Cins</option>
+                        <option value="male">Kişi</option>
+                        <option value="female">Qadın</option>
+                        <option value="other">Bildirmək İstəmirəm</option>
+                    </select>
+                </div>
                 <button type="submit" class="submit-btn">Qeydiyyatdan keçin</button>
             </form>
-            <p>Hesabınız var? <a href="#" id="switch-to-login">Daxil olun</a></p>
+            <p style="color: #898989;">Hesabınız var? <a href="#" id="switch-to-login">Daxil olun</a></p>
         </div>
     </div>
 </div>
@@ -46,7 +54,7 @@
                 </div>
                 <button type="submit" class="submit-btn">Daxil Ol</button>
             </form>
-            <p>Hesabınız yoxdur? <a href="#" id="switch-to-register">Qeydiyyat</a></p>
+            <p style="color: #898989;">Hesabınız yoxdur? <a href="#" id="switch-to-register">Qeydiyyat</a></p>
         </div>
     </div>
 </div>
@@ -123,7 +131,21 @@
         margin-bottom: 20px;
         color: #333;
     }
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        /*border-radius: 5px;*/
+        font-size: 14px;
+        color: #898989;
+        /*background-color: #f9f9f9;*/
+    }
 
+    .form-group select:focus {
+        outline: none;
+        /*border-color: #a58b71;*/
+    }
     .submit-btn {
         padding: 12px;
         background-color: #a3907a;
@@ -207,6 +229,7 @@
                 phone: document.getElementById('phone').value,
                 password: password,
                 password_confirmation: confirmPassword,
+                gender: document.getElementById('gender').value,
             };
 
             try {

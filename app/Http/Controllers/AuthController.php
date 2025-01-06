@@ -16,7 +16,10 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
-                'phone' => 'required|string'
+                'phone' => 'required|string',
+                'gender' => 'required|in:male,female,other',
+
+
             ]);
 
             $user = User::create([
@@ -24,6 +27,7 @@ class AuthController extends Controller
                 'email' => $validated['email'],
                 'password' => bcrypt($validated['password']),
                 'phone' => $validated['phone'],
+                'gender' => $validated['gender'],
             ]);
 
             return response()->json([
@@ -52,7 +56,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'Login successful',
-                'redirect_url' => route('profile')
+                'redirect_url' => route('profile-details')
             ]);
         }
 

@@ -1,39 +1,38 @@
 @extends('front.layouts.app')
 @section('content')
     <div class="container my-5">
-        <div class="card shadow-sm">
+        <div class="profile-card card border-0">
             <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="profile-avatar bg-light rounded-circle d-flex justify-content-center align-items-center"
-                         style="width: 80px; height: 80px; font-size: 32px; font-weight: bold; color: #aaa;">
+                <div class="profile-header d-flex align-items-center gap-2">
+                    <div class="profile-avatar bg-light rounded-circle d-flex justify-content-center align-items-center">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                     </div>
-                    <div class="ms-3">
-                        <h4 class="mb-0 text-uppercase">{{ Auth::user()->name }}</h4>
-                        <p class="text-muted">{{ Auth::user()->email }}</p>
+                    <div class="d-flex flex-column justify-content-center ms-3">
+                        <h4 class="profile-name mb-0 text-uppercase">{{ Auth::user()->name }}</h4>
+                        <p class="profile-email text-muted">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
 
-                <ul class="nav nav-tabs mt-4" style="border-bottom: 2px solid #f1f1f1;">
+                <ul class="nav nav-tabs mt-4">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/profile-details') ? 'active' : '' }}"
-                           href="{{ route('profile-details') }}">My Profile</a>
+                           href="{{ route('profile-details') }}">Profilim</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/orders') ? 'active' : '' }}"
-                           href="{{ route('orders') }}">My Orders</a>
+                           href="{{ route('orders') }}">Sifarişlərim</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"
-                           href="{{ route('address-list') }}">Address List</a>
+                           href="{{ route('address-list') }}">Ünvanlarım</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/coupons') ? 'active' : '' }}"
-                           href="{{ route('coupons') }}">My Coupons</a>
+                           href="{{ route('coupons') }}">Kuponlarım</a>
                     </li>
                 </ul>
 
-                <div class="mt-4">
+                <div class="profile-content mt-4 d-flex justify-content-center">
                     @yield('profile-content')
                 </div>
             </div>
@@ -41,14 +40,26 @@
     </div>
 @endsection
 <style>
-    /* Genel Yapı */
     .container {
-        max-width: 900px;
+        max-width: 1200px !important;
         margin: 0 auto;
         padding: 20px;
     }
 
-    /* Profil Avatarı */
+    /* Profil Kartı */
+    .profile-card {
+        background-color: #fff;
+        /*border-radius: 15px;*/
+        padding: 20px;
+    }
+
+    /* Profil Başlıq */
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
     .profile-avatar {
         width: 70px;
         height: 70px;
@@ -62,28 +73,19 @@
         align-items: center;
     }
 
-    /* Kullanıcı Bilgileri */
-    .profile-info h4 {
+    .profile-name {
         font-size: 18px;
-        font-weight: bold;
-        margin: 0;
-        color: #333;
+        color: #a3907a;
     }
 
-    .profile-info p {
-        margin: 0;
-        font-size: 14px;
-        color: #666;
+    .profile-email {
+        font-size: 13px;
+        color: #a3907a;
     }
 
-    /* Sekme Yapısı */
     .nav-tabs {
-        border-bottom: 2px solid #ddd;
+        border-bottom: 2px solid #f1f1f1;
         margin-top: 20px;
-    }
-
-    .nav-tabs .nav-item {
-        margin-bottom: -1px;
     }
 
     .nav-tabs .nav-link {
@@ -91,10 +93,8 @@
         font-size: 14px;
         font-weight: 500;
         text-transform: uppercase;
-        border: none;
         background-color: transparent;
         padding: 10px 15px;
-        transition: all 0.3s ease;
     }
 
     .nav-tabs .nav-link.active {
