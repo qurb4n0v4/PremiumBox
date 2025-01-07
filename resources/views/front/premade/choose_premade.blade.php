@@ -151,15 +151,15 @@
                                                     <h2 class="mb-2" style="color: #a3907a;">{{ $box->name }}</h2>
                                                     <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
                                                     @if($boxDetail && $boxDetail->paragraph)
-                                                        <p id="boxDetailText" style="color: #898989; line-height: 1.6; font-size: 12px;">
-                                                            {{ Str::limit($boxDetail->paragraph, 100) }}
-                                                            <span id="moreText" style="display:none;">
-                                                                {{ substr($boxDetail->paragraph, 100) }}
-                                                            </span>
-                                                        </p>
-                                                        <span id="showMoreBtn" style="color: #007bff; text-decoration: underline; cursor: pointer;">
-                                                            Show More
-                                                        </span>
+                                                        <div data-v-231e0cc6="" class="font-avenir-light">
+                                                            <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
+                                                                <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
+                                                                <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
+                                                            </p>
+                                                            <div class="text-center mb-2">
+                                                                <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
+                                                            </div>
+                                                        </div>
                                                     @else
                                                         <p>Details not available.</p>
                                                     @endif
@@ -178,17 +178,23 @@
                                                         <div id="collapse-inside" aria-labelledby="heading-inside" data-bs-parent="#accordionInside" class="collapse">
                                                             <div class="d-flex flex-column align-items-center pb-3">
                                                                 <div style="max-width: 80vw !important;">
-                                                                    <div class="d-flex align-items-center pb-3">
-                                                                        <img src="https://i.pinimg.com/736x/50/70/42/50704251b87db32e6998b19be844baf3.jpg" alt="item 1" style="width: 35px; height: 35px; object-fit: contain;">
-                                                                        <div class="d-flex flex-column justify-content-center pl-3">
-                                                                            <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                item 1 - description
-                                                                            </p>
-                                                                            <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                item 1 - description
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
+                                                                    @if($boxDetail && is_array($boxDetail->insiding))
+                                                                        @foreach($boxDetail->insiding as $item)
+                                                                            <div class="d-flex align-items-center pb-3">
+                                                                                <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['item'] ?? 'Box Item' }}" style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                <div class="d-flex flex-column justify-content-center pl-3">
+                                                                                    <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                        {{ $item['item'] ?? 'No item name available' }}
+                                                                                    </p>
+                                                                                    <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
+                                                                                        {{ $item['item'] ?? 'No item name available' }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <p>No items inside this box.</p>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -219,7 +225,29 @@
     </div>
 @endsection
 
+<style>
+    .toggle-button {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .toggle-button:hover {
+        text-decoration: underline;
+    }
+
+    .font-avenir-light {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+</style>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -246,29 +274,36 @@
         });
     });
 
-    document.getElementById("menuButton").addEventListener("click", function() {
-        var menu = document.getElementById("menu");
-        if (menu.style.display === "none" || menu.style.display === "") {
-            menu.style.display = "block"; // Aç
-        } else {
-            menu.style.display = "none"; // Kapat
-        }
-    });
+    // document.getElementById("toggleButton").addEventListener("click", function() {
+    //     var collapseContent = document.getElementById("collapse-inside");
+    //     var isCollapsed = collapseContent.classList.contains("collapse");
+    //
+    //     if (isCollapsed) {
+    //         collapseContent.classList.remove("collapse");
+    //     } else {
+    //         collapseContent.classList.add("collapse");
+    //     }
+    // });
 
     function redirectToCustomize(id) {
         window.location.href = `/choose_premade_box/${id}`;
     }
 
-    document.getElementById("showMoreBtn").addEventListener("click", function() {
-        var moreText = document.getElementById("moreText");
-        var btnText = document.getElementById("showMoreBtn");
+    function toggleParagraph(link) {
+        const container = link.closest('.font-avenir-light');
+        const shortParagraph = container.querySelector('.short-paragraph');
+        const fullParagraph = container.querySelector('.full-paragraph');
 
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            btnText.innerHTML = "Show Less"; // Buton metnini değiştir
-        } else {
-            moreText.style.display = "none";
-            btnText.innerHTML = "Show More"; // Buton metnini eski haline getir
+        if (shortParagraph && fullParagraph) {
+            if (fullParagraph.classList.contains('d-none')) {
+                shortParagraph.classList.add('d-none');
+                fullParagraph.classList.remove('d-none');
+                link.textContent = "Show Less";
+            } else {
+                shortParagraph.classList.remove('d-none');
+                fullParagraph.classList.add('d-none');
+                link.textContent = "Show More";
+            }
         }
-    });
+    }
 </script>
