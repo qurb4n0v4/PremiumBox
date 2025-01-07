@@ -169,7 +169,7 @@
                                                     @endif
                                                     <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
 
-                                                    <div class="mb-4" style="height: 90px; overflow-y: auto;">
+                                                    <div class="mb-4" style="height: 80px; overflow-y: auto;">
                                                         @if($boxDetail && $boxDetail->paragraph)
                                                             <p style="color: #898989; line-height: 1.6; font-size: 12px">{{ $boxDetail->paragraph }}</p>
                                                         @endif
@@ -182,8 +182,14 @@
                                                     </div>
 
                                                     <div>
-                                                        <p>Customize with Their Name or Writing</p>
-
+                                                        <p class="customizing-text-style-font" style="margin-top: -40px;">Customize with Their Name or Writing</p>
+                                                        <textarea class="text-input"></textarea>
+                                                        <p class="customizing-text-style-font" style="margin-top: 15px">Choose The Font</p>
+                                                        <div class="button-group">
+                                                            <button class="font-button">Font A</button>
+                                                            <button class="font-button">Font B</button>
+                                                            <button class="font-button">Font C</button>
+                                                        </div>
                                                     </div>
 
                                                     <button

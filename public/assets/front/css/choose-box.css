@@ -329,6 +329,12 @@ p,
     }
 }
 
+.customizing-text-style-font {
+    font-weight: 700;
+    font-size: 13px;
+    color: #898989;
+}
+
 @media (max-width: 576px) {
     .carousel-item div {
         height: 250px !important;
@@ -345,23 +351,4 @@ p,
     .choose-boxes-header {
         padding: 0 var(--spacing-small);
     }
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040;
-}
-
-.modal {
-    z-index: 1045;
-}
-
-.modal-dialog {
-    z-index: 1046;
 }
