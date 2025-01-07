@@ -24,37 +24,116 @@
             <p style="color: #a3907a; font-size: 14px; font-weight: 600">Sifarişə davam etmək üçün aşağıdakı qutulardan seçiminizi edin!</p>
         </div>
 
-        <hr>
+        <hr class="mt-5 mb-5">
 
-        <div class="container">
+        <div>
             <div class="row">
-                @foreach ($premadeBoxes as $box)
-                    <div class="col-12 col-md-4 mb-4">
-                        <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
-                            <div class="rounded">
-                                <div class="text-center position-relative">
-                                    <!-- Normal Image -->
-                                    <img src="{{ asset('storage/' . $box->normal_image) }}" alt="{{ $box->name }}" class="card-img-top rounded-top rounded-bottom" style="object-fit: contain !important;">
-                                </div>
-                            </div>
-                            <div class="card-block my-2" style="flex-grow: 1;">
-                                <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler">{{ $box->name }}</h5>
-                                <!-- Price -->
-                                <p class="card-text text-center font-avenir-black">Rp {{ number_format($box->price, 2) }}</p>
-                            </div>
-                            <div class="text-center small my-2">
-                                {{ $box->title }}
-                            </div>
-                            <div class="mt-1">
-                                <!-- Add to Cart Button -->
-                                <button class="w-100">Add to Cart</button>
-                            </div>
+                <!-- Left Sidebar for Filtering -->
+                <div class="col-12 col-md-3">
+                    <div class="filters">
+                        <h5>Filter Products</h5>
+
+                        <!-- Recipient Filter -->
+                        <div class="filter-section">
+                            <label for="recipient">Recipient</label>
+                            <select id="recipient" class="form-control">
+                                <option value="all">All</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="children">Children</option>
+                            </select>
+                        </div>
+
+                        <!-- Occasions Filter -->
+                        <div class="filter-section">
+                            <label for="occasions">Occasions</label>
+                            <select id="occasions" class="form-control">
+                                <option value="all">All</option>
+                                <option value="birthday">Birthday</option>
+                                <option value="wedding">Wedding</option>
+                                <option value="anniversary">Anniversary</option>
+                            </select>
+                        </div>
+
+                        <!-- Price Range Filter -->
+                        <div class="filter-section">
+                            <label for="price-range">Price Range</label>
+                            <input type="range" id="price-range" class="form-control" min="0" max="1000" step="10">
+                            <span id="price-range-label">₼ 0 - ₼ 1000</span>
+                        </div>
+
+                        <!-- Production Time Filter -->
+                        <div class="filter-section">
+                            <label for="production-time">Production Time</label>
+                            <select id="production-time" class="form-control">
+                                <option value="all">All</option>
+                                <option value="1">1 day</option>
+                                <option value="3">3 days</option>
+                                <option value="7">7 days</option>
+                            </select>
                         </div>
                     </div>
-                @endforeach
+                </div>
+
+                <!-- Right Sidebar for Products, Search, and Sort -->
+                <div class="col-12 col-md-9">
+                    <!-- Search and Sort -->
+                    <div class="d-flex justify-content-between mb-4">
+                        <!-- Search Box -->
+                        <div class="search-container">
+                            <input type="text" id="search-box" class="form-control" placeholder="Search for boxes...">
+                        </div>
+                        <!-- Sort Options -->
+                        <div class="sort-container">
+                            <select id="sort-boxes" class="form-control">
+                                <option value="default">Sort by: Default</option>
+                                <option value="price_asc">Price: Low to High</option>
+                                <option value="price_desc">Price: High to Low</option>
+                                <option value="name_asc">Name: A to Z</option>
+                                <option value="name_desc">Name: Z to A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Products -->
+                    <div class="row">
+                        @foreach ($premadeBoxes as $box)
+                            <div class="col-12 col-md-4 mb-4">
+                                <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
+                                    <div class="rounded">
+                                        <div class="text-center position-relative image-container">
+                                            <!-- Normal Image -->
+                                            <img
+                                                src="https://wallpapers.com/images/hd/beautiful-sunset-pictures-ubxtuvfhpoampb6d.jpg"
+                                                alt="{{ $box->name }}"
+                                                class="card-img-top rounded-top rounded-bottom normal-image">
+
+                                            <!-- Hover Image -->
+                                            <img
+                                                src="https://images.wallpaperscraft.com/image/single/firtrees_lake_mountains_22568_1280x720.jpg"
+                                                alt="{{ $box->name }}"
+                                                class="card-img-top rounded-top rounded-bottom hover-image">
+                                        </div>
+                                    </div>
+
+                                    <div class="card-block my-2" style="flex-grow: 1;">
+                                        <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler">{{ $box->name }}</h5>
+                                        <!-- Price -->
+                                        <p class="card-text text-center font-avenir-black">₼ {{ number_format($box->price, 2) }}</p>
+                                    </div>
+                                    <div class="text-center small my-2">
+                                        {{ $box->title }}
+                                    </div>
+                                    <div class="mt-1">
+                                        <!-- Add to Cart Button -->
+                                        <button class="w-100">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 @endsection
-

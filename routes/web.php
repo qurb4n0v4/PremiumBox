@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PremadeBoxController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -26,6 +27,8 @@ Route::get('/corporate-gifts', [CorporateGiftController::class, 'index'])->name(
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
+Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
+
 
 Route::get('/chat', function () {
     return view('front.chat');

@@ -27,3 +27,38 @@ button:hover {
     background-color: var(--primary-color);
     color: var(--white);
 }
+
+.image-container {
+    position: relative;
+    width: 100%; /* Konteyner genişliği */
+    height: 0;
+    padding-top: 75%; /* 4:3 oranı için, bunu değiştirebilirsiniz */
+    overflow: hidden; /* Görsel taşmalarını gizle */
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Görüntüyü konteynerin genişliği kadar yap */
+    height: 100%; /* Görüntüyü konteynerin yüksekliği kadar yap */
+    object-fit: cover; /* Görseli kırparak konteyneri kapla */
+    transition: opacity 0.3s ease; /* Yumuşak geçiş efekti */
+}
+
+.normal-image {
+    opacity: 1; /* Varsayılan resim görünür */
+}
+
+.hover-image {
+    opacity: 0; /* Hover resim başlangıçta görünmez */
+}
+
+.image-container:hover .normal-image {
+    opacity: 0; /* Hover sırasında normal resmi gizle */
+}
+
+.image-container:hover .hover-image {
+    opacity: 1; /* Hover sırasında hover resmini göster */
+}
+

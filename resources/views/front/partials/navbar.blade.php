@@ -39,7 +39,7 @@
             <div>
                 <ul class="navbar-elements-bottom">
                     <li><a href="{{ route('choose_a_box') }}">Bir Qutu Yaradın</a></li>
-                    <li><a href="">Hazır Qutular</a></li>
+                    <li><a href="{{ route('choose_premade_box') }}">Hazır Qutular</a></li>
                     <li><a href="{{ route('corporate-gifts') }}">Korporativ Hədiyyələr</a></li>
                     <li><a href="{{ route('blogs') }}">Bloq</a></li>
                     <li class="dropdown about-dropdown">
