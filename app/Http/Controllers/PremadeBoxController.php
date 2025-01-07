@@ -13,9 +13,9 @@ class PremadeBoxController extends Controller
         $currentStep = session('currentStep', 1);
 
         if ($id) {
-            $premadeBoxDetail = PremadeBox::where('id', $id)->first();
+            $premadeBoxDetail = PremadeBox::where('id', $id)->get();
         } else {
-            $premadeBoxDetail = null;
+            $premadeBoxDetail = PremadeBox::all();
         }
 
         return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'currentStep'));
