@@ -95,6 +95,11 @@
                     <!-- Məhsullar -->
                     <div class="row">
                         @foreach ($premadeBoxes as $box)
+                            @php
+                                $boxDetail = $box->details->first();
+                                $uniqueCarouselId = "boxCarousel_{$box->id}";
+                                $uniqueModalId = "modal_{$box->id}";
+                            @endphp
                             <div class="col-12 col-md-4 mb-4">
                                 <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
@@ -115,107 +120,87 @@
                                     </div>
                                     <div class="mt-1">
                                         <!-- Səbətə Əlavə -->
-                                        <button class="w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ $box->id }}">Səbətə Əlavə</button>
+                                        <button class="w-100" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Modal -->
-                            @foreach($premadeBoxes as $box)
-                                @php
-                                    $boxDetail = $premadeBoxDetail->where('premade_box_id', $box->id)->first();
-                                @endphp
-
-                                <div class="modal" id="modal-{{ $box->id }}">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 1000px;">
-                                        <div class="modal-content rounded-4">
-                                            <div class="modal-body p-4">
-                                                <div class="d-flex flex-column flex-md-row gap-4">
-                                                    <!-- Görsel Slider -->
-                                                    <div class="slider-container position-relative" style="width: 480px; flex-shrink: 0;">
-                                                        <div class="slider" id="slider-{{ $box->id }}">
-                                                            @if($boxDetail && $boxDetail->images)
-                                                                @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $image)
-                                                                    <img src="{{ asset('storage/' . $image) }}" class="slider-item" alt="Box Image">
-                                                                @endforeach
-                                                            @else
-                                                                <p>No images available</p>
-                                                            @endif
-                                                        </div>
-                                                        <button class="slider-prev">‹</button>
-                                                        <button class="slider-next">›</button>
-                                                    </div>
-
-                                                    <!-- Ürün Detayları -->
-                                                    <div style="flex-grow: 1;">
-                                                        <h2 class="mb-2" style="color: #a3907a;">{{ $box->name }}</h2>
-                                                        <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
-                                                        @if($boxDetail && $boxDetail->paragraph)
-                                                            <p style="color: #898989; line-height: 1.6; font-size: 12px">{{ $boxDetail->paragraph }}</p>
+                            <div class="modal" id="{{ $uniqueModalId }}">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 1000px;">
+                                    <div class="modal-content rounded-4">
+                                        <div class="modal-body p-4">
+                                            <div class="d-flex flex-column flex-md-row gap-4">
+                                                <!-- Slider -->
+                                                <div class="slider-container position-relative" style="width: 480px; flex-shrink: 0;">
+                                                    <div class="slider" id="{{ $uniqueCarouselId }}">
+                                                        @if($boxDetail && $boxDetail->images)
+                                                            @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $image)
+                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item" alt="Box Image">
+                                                            @endforeach
                                                         @else
-                                                            <p>Details not available.</p>
+                                                            <p>No images available</p>
                                                         @endif
+                                                    </div>
+                                                    <button class="slider-prev">‹</button>
+                                                    <button class="slider-next">›</button>
+                                                </div>
 
-                                                        <!-- What's Inside -->
-                                                        <div id="accordionInside" class="accordion">
-                                                            <div id="heading-inside">
-                                                                <h2 class="mb-0 text-center">
-                                                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#collapse-inside"
-                                                                            class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
-                                                                            aria-expanded="false">
-                                                                        <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
-                                                                    </button>
-                                                                </h2>
-                                                            </div>
-                                                            <div id="collapse-inside" aria-labelledby="heading-inside" data-bs-parent="#accordionInside" class="collapse">
-                                                                <div class="d-flex flex-column align-items-center pb-3">
-                                                                    <div style="max-width: 80vw !important;">
-                                                                        <!-- Ürün 1 -->
-                                                                        <div class="d-flex align-items-center pb-3">
-                                                                            <img src="https://i.pinimg.com/736x/50/70/42/50704251b87db32e6998b19be844baf3.jpg" alt="item 1" style="width: 35px; height: 35px; object-fit: contain;">
-                                                                            <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                    item 1 - description
-                                                                                </p>
-                                                                                <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                    item 1 - description
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
+                                                <!-- Details -->
+                                                <div style="flex-grow: 1;">
+                                                    <h2 class="mb-2" style="color: #a3907a;">{{ $box->name }}</h2>
+                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
+                                                    @if($boxDetail && $boxDetail->paragraph)
+                                                        <p id="boxDetailText" style="color: #898989; line-height: 1.6; font-size: 12px;">
+                                                            {{ Str::limit($boxDetail->paragraph, 100) }}
+                                                            <span id="moreText" style="display:none;">
+                                                                {{ substr($boxDetail->paragraph, 100) }}
+                                                            </span>
+                                                        </p>
+                                                        <span id="showMoreBtn" style="color: #007bff; text-decoration: underline; cursor: pointer;">
+                                                            Show More
+                                                        </span>
+                                                    @else
+                                                        <p>Details not available.</p>
+                                                    @endif
 
-                                                                        <!-- Ürün 2 -->
-                                                                        <div class="d-flex align-items-center pb-3">
-                                                                            <img src="https://a.d-cd.net/9f03bd6s-1920.jpg" alt="item 2" style="width: 35px; height: 35px; object-fit: contain;">
-                                                                            <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                    item 2 - description
-                                                                                </p>
-                                                                                <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                    item 2 - description
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <!-- Ürün 3 -->
-                                                                        <div class="d-flex align-items-center pb-3">
-                                                                            <img src="https://i.pinimg.com/736x/f6/1d/b1/f61db1def1ad3610dd463644bcc6fc36.jpg" alt="item 3" style="width: 35px; height: 35px; object-fit: contain;">
-                                                                            <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                    item 3 - description
-                                                                                </p>
-                                                                                <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                    item 3 - description
-                                                                                </p>
-                                                                            </div>
+                                                    <!-- What's Inside -->
+                                                    <div id="accordionInside" class="accordion">
+                                                        <div id="heading-inside">
+                                                            <h2 class="mb-0 text-center">
+                                                                <button type="button" data-bs-toggle="collapse" data-bs-target="#collapse-inside"
+                                                                        class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
+                                                                        aria-expanded="false">
+                                                                    <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapse-inside" aria-labelledby="heading-inside" data-bs-parent="#accordionInside" class="collapse">
+                                                            <div class="d-flex flex-column align-items-center pb-3">
+                                                                <div style="max-width: 80vw !important;">
+                                                                    <div class="d-flex align-items-center pb-3">
+                                                                        <img src="https://i.pinimg.com/736x/50/70/42/50704251b87db32e6998b19be844baf3.jpg" alt="item 1" style="width: 35px; height: 35px; object-fit: contain;">
+                                                                        <div class="d-flex flex-column justify-content-center pl-3">
+                                                                            <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                item 1 - description
+                                                                            </p>
+                                                                            <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
+                                                                                item 1 - description
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+
+                                                    <!-- Customize Button -->
+                                                    <div>
                                                         <button
                                                             type="button"
                                                             class="choose-box-customize-button"
                                                             style="position: absolute; right: 55px; bottom: 35px;"
+                                                            onclick="window.location.href='{{ route('customize_premade_box', $box->id) }}'"
                                                         >
                                                             Tənzimləmək
                                                         </button>
@@ -225,7 +210,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -234,7 +219,6 @@
     </div>
 @endsection
 
-<!-- Gerekli olan JavaScript ve Bootstrap JS yüklemeleri -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -270,47 +254,21 @@
             menu.style.display = "none"; // Kapat
         }
     });
+
+    function redirectToCustomize(id) {
+        window.location.href = `/choose_premade_box/${id}`;
+    }
+
+    document.getElementById("showMoreBtn").addEventListener("click", function() {
+        var moreText = document.getElementById("moreText");
+        var btnText = document.getElementById("showMoreBtn");
+
+        if (moreText.style.display === "none") {
+            moreText.style.display = "inline";
+            btnText.innerHTML = "Show Less"; // Buton metnini değiştir
+        } else {
+            moreText.style.display = "none";
+            btnText.innerHTML = "Show More"; // Buton metnini eski haline getir
+        }
+    });
 </script>
-
-<style>
-    h2 {
-        text-align: center !important;
-    }
-
-    .slider-container {
-        position: relative;
-        overflow: hidden;
-        height: 400px;
-    }
-
-    .slider {
-        display: flex;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .slider-item {
-        min-width: 100%;
-        height: 400px;
-        object-fit: contain;
-    }
-
-    .slider-prev, .slider-next {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 10;
-    }
-
-    .slider-prev {
-        left: 10px;
-    }
-
-    .slider-next {
-        right: 10px;
-    }
-</style>

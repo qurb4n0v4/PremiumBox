@@ -27,4 +27,5 @@ class PremadeBoxDetail extends Model
     public function premadeBox()
     {
         return $this->belongsTo(PremadeBox::class);
-    }}
+    }
+}

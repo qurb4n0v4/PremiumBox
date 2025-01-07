@@ -23,4 +23,9 @@ class PremadeBox extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function details()
+    {
+        return $this->hasMany(PremadeBoxDetail::class, 'premade_box_id');
+    }
 }
