@@ -87,7 +87,7 @@
 </head>
 <body class="{{ Request::is('/') ? 'home' : '' }}">
 @include('front.partials.navbar')
-
+@include('front.partials.modal')
 <div class="scroll-container">
     <main>
         @yield('content')
