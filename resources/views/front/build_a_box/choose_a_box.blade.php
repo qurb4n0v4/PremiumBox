@@ -143,7 +143,7 @@
                                     <div class="modal-body p-4 h-100">
                                         <div class="d-flex align-items-start gap-4 h-100">
                                             <div class="position-relative d-flex align-items-center justify-content-center" style="width: 360px; flex-shrink: 0;">
-                                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; width: 250px; overflow: hidden;">
+                                                <div class="d-flex align-items-center justify-content-center" style="height: 260px; width: 260px; overflow: hidden;">
                                                     @if($boxDetail && $boxDetail->customize_image)
                                                         <img src="{{ asset('storage/' . $boxDetail->customize_image) }}"
                                                              class="d-block w-100 h-100 object-fit-cover"
@@ -151,6 +151,22 @@
                                                     @else
                                                         <p class="text-center">No Customize Image Available</p>
                                                     @endif
+                                                        <div id="textOverlay_{{ $categoryIndex }}_{{ $boxIndex }}"
+                                                             class="position-absolute"
+                                                             style="
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                        color: white;
+                        font-size: 24px;
+                        font-weight: bold;
+                        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+                        pointer-events: none;
+                        width: 80%;
+                        word-wrap: break-word;
+                        z-index: 1000;">
+                                                        </div>
                                                 </div>
                                             </div>
 
@@ -183,12 +199,12 @@
 
                                                     <div>
                                                         <p class="customizing-text-style-font" style="margin-top: -40px;">Customize with Their Name or Writing</p>
-                                                        <textarea class="text-input"></textarea>
-                                                        <p class="customizing-text-style-font" style="margin-top: 15px">Choose The Font</p>
-                                                        <div class="button-group">
-                                                            <button class="font-button">Font A</button>
-                                                            <button class="font-button">Font B</button>
-                                                            <button class="font-button">Font C</button>
+                                                        <textarea id="customText_{{ $categoryIndex }}_{{ $boxIndex }}" class="customizing-text-input-fonts"></textarea>
+                                                        <p class="customizing-text-style-font" style="margin-top: 10px">Choose The Font</p>
+                                                        <div class="button-group-customizing-fonts" data-box-index="{{ $categoryIndex }}_{{ $boxIndex }}">
+                                                            <button class="font-button-customizing-edit" data-font="Arial">Font A</button>
+                                                            <button class="font-button-customizing-edit" data-font="Times New Roman">Font B</button>
+                                                            <button class="font-button-customizing-edit" data-font="Courier New">Font C</button>
                                                         </div>
                                                     </div>
 
@@ -222,9 +238,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Carousel initialization
         const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
         carousels.forEach(carousel => new bootstrap.Carousel(carousel));
 
+        // Modal handling
         document.addEventListener('click', function(event) {
             if (event.target.hasAttribute('data-modal-target')) {
                 const modalId = event.target.getAttribute('data-modal-target');
@@ -244,6 +262,36 @@
 
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
+            }
+        });
+
+        // Text overlay handling for all instances
+        document.querySelectorAll('.customizing-text-input-fonts').forEach(textarea => {
+            const boxIndices = textarea.id.split('_').slice(1).join('_');
+            const textOverlay = document.getElementById(`textOverlay_${boxIndices}`);
+
+            if (textarea && textOverlay) {
+                // Update text overlay when typing
+                textarea.addEventListener('input', function() {
+                    textOverlay.textContent = this.value;
+                });
+
+                // Font selection for this specific box
+                const buttonGroup = textarea.closest('.modal').querySelector('.button-group-customizing-fonts');
+                if (buttonGroup) {
+                    const fontButtons = buttonGroup.querySelectorAll('.font-button-customizing-edit');
+
+                    fontButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            // Remove active class from all buttons in this group
+                            fontButtons.forEach(btn => btn.classList.remove('active'));
+                            // Add active class to clicked button
+                            this.classList.add('active');
+                            // Apply selected font to overlay text
+                            textOverlay.style.fontFamily = this.getAttribute('data-font');
+                        });
+                    });
+                }
             }
         });
     });
