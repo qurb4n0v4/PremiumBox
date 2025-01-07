@@ -140,23 +140,16 @@
                             <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                 <div class="modal-content rounded-4">
 
-                                    <div class="modal-body p-4">
-                                        <div class="d-flex align-items-start gap-4">
-                                            <!-- Image Carousel Section -->
-                                            <div class="position-relative" style="width: 360px; flex-shrink: 0;">
-
-                                                <div style="height: 340px; width: 360px; overflow: hidden;">
-                                                    @if($boxDetail && $boxDetail->images)
-                                                        @php
-                                                            $images = is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images;
-                                                            $firstImage = !empty($images) ? $images[0] : null;
-                                                        @endphp
-
-                                                        @if($firstImage)
-                                                            <img src="{{ asset('storage/' . $firstImage) }}"
-                                                                 class="d-block w-100 h-100 object-fit-cover"
-                                                                 alt="Box Image">
-                                                        @endif
+                                    <div class="modal-body p-4 h-100">
+                                        <div class="d-flex align-items-start gap-4 h-100">
+                                            <div class="position-relative d-flex align-items-center justify-content-center" style="width: 360px; flex-shrink: 0;">
+                                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; width: 250px; overflow: hidden;">
+                                                    @if($boxDetail && $boxDetail->customize_image)
+                                                        <img src="{{ asset('storage/' . $boxDetail->customize_image) }}"
+                                                             class="d-block w-100 h-100 object-fit-cover"
+                                                             alt="Customize Image">
+                                                    @else
+                                                        <p class="text-center">No Customize Image Available</p>
                                                     @endif
                                                 </div>
                                             </div>
@@ -186,6 +179,11 @@
                                                                 <p style="color: #898989; font-size: 12px">{{ $boxDetail->additional }}</p>
                                                             </div>
                                                         @endif
+                                                    </div>
+
+                                                    <div>
+                                                        <p>Customize with Their Name or Writing</p>
+
                                                     </div>
 
                                                     <button
@@ -218,13 +216,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize carousels
         const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
         carousels.forEach(carousel => new bootstrap.Carousel(carousel));
 
-        // Modal handling
         document.addEventListener('click', function(event) {
-            // Open modal
             if (event.target.hasAttribute('data-modal-target')) {
                 const modalId = event.target.getAttribute('data-modal-target');
                 const modal = document.getElementById(modalId);
@@ -233,7 +228,6 @@
                 }
             }
 
-            // Close modal
             if (event.target.hasAttribute('data-modal-close')) {
                 const modalId = event.target.getAttribute('data-modal-close');
                 const modal = document.getElementById(modalId);
@@ -242,7 +236,6 @@
                 }
             }
 
-            // Close modal when clicking outside
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }

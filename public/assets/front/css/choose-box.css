@@ -164,7 +164,7 @@
 
 .choose-box-customize-button {
     font-size: var(--font-size-regular);
-    padding: 5px 150px;
+    padding: 5px 140px;
     border-radius: 10px;
     background-color: var(--white);
     color: var(--primary-color);

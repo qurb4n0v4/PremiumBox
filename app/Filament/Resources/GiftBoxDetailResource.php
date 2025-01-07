@@ -42,6 +42,10 @@ class GiftBoxDetailResource extends Resource
                 Forms\Components\Textarea::make('additional')
                     ->label('Additional Information')
                     ->nullable(),
+                Forms\Components\FileUpload::make('customize_image')
+                ->label('Customize Image')
+                    ->image()
+                    ->directory('customize-images'),
             ]);
     }
 

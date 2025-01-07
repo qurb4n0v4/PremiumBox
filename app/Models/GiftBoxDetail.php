@@ -16,6 +16,7 @@ class GiftBoxDetail extends Model
         'available_same_day_delivery',
         'paragraph',
         'additional',
+        'customize_image',
     ];
 
     protected $casts = [
