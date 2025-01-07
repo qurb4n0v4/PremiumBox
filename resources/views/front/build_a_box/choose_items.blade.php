@@ -25,7 +25,9 @@
             <p style="color: #a3907a; font-size: 14px; font-weight: 600">Aşağıdakı məhsulları seçin, qutunu doldurun və özəlləşdirin!</p>
         </div>
 
-        <div class="gy-4 mt-4">
+        <hr style="color: #898989">
+
+        <div class="gy-4 mt-4" style="margin-top: 30px!important;">
 
             <div>
                 <div class="row">
@@ -94,8 +96,39 @@
 
                         <!-- Məhsullar -->
                         <div class="row">
+                            @foreach ($chooseItems as $item)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card text-center border-0">
+                                        <div class="image-wrapper" style="position: relative;">
+                                            <img
+                                                src="{{ asset('storage/' . $item->normal_image) }}"
+                                                alt="{{ $item->name }}"
+                                                class="img-fluid normal-image"
+                                            >
+                                            @if($item->hover_image)
+                                                <img
+                                                    src="{{ asset('storage/' . $item->hover_image) }}"
+                                                    alt="{{ $item->name }}"
+                                                    class="img-fluid hover-image"
+                                                >
+                                            @endif
+                                        </div>
 
+                                        <h5 class="mt-3">{{ $item->company_name }}</h5>
+
+                                        <p style="margin-top: -5px">{{ $item->name }}</p>
+
+                                        <p class="text-muted" style="margin-top: -13px; color: #343a40!important;">₼{{ number_format($item->price, 2) }}</p>
+
+                                        <!-- Button -->
+                                        <button class="choose-items-button">
+                                            {{ $item->button }}
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -115,3 +148,4 @@
     });
 
 </script>
+

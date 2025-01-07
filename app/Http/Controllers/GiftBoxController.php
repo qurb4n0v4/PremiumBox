@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\GiftBox;
 use App\Models\BoxCategory;
 use Illuminate\Http\Request;
+use App\Models\ChooseItem;
+
 
 class GiftBoxController extends Controller
 {
@@ -14,14 +16,17 @@ class GiftBoxController extends Controller
         $currentStep = session('currentStep', 1);
 
 
+
         return view('front.build_a_box.choose_a_box', compact('categories', 'currentStep'));
     }
 
     public function chooseItems()
     {
         $currentStep = session('currentStep', 1);
+        $chooseItems = ChooseItem::all();
 
-        return view('front.build_a_box.choose_items', compact('currentStep'));
+
+        return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems'));
     }
 
     public function chooseStep($step)
