@@ -168,29 +168,26 @@
         const loginModal = document.getElementById('login-modal');
         const openRegisterBtn = document.querySelector('.register-navbar');
         const openLoginBtn = document.querySelector('.login-navbar');
-        const closeButtons = document.querySelectorAll('.close-modal');
         const switchToLogin = document.getElementById('switch-to-login');
         const switchToRegister = document.getElementById('switch-to-register');
 
         const openModal = (modal) => (modal.style.display = 'flex');
         const closeModal = (modal) => (modal.style.display = 'none');
 
-        openRegisterBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            openModal(registerModal);
-        });
-
-        openLoginBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            openModal(loginModal);
-        });
-
-        closeButtons.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                closeModal(registerModal);
-                closeModal(loginModal);
+        // Modalları aç/kapatma işlemleri
+        if (openRegisterBtn) {
+            openRegisterBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                openModal(registerModal);
             });
-        });
+        }
+
+        if (openLoginBtn) {
+            openLoginBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                openModal(loginModal);
+            });
+        }
 
         switchToLogin.addEventListener('click', function (e) {
             e.preventDefault();
@@ -211,6 +208,7 @@
             }
         });
 
+        // Kayıt işlemi
         const registerForm = document.getElementById('register-form');
         registerForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -233,27 +231,31 @@
             };
 
             try {
-                const response = await fetch('/register', {
+                const response = await fetch('{{ route('register') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute('content'),
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     },
                     body: JSON.stringify(formData),
                 });
 
                 const result = await response.json();
+
                 if (response.ok) {
-                    alert(result.message);
+                    alert(result.message || 'Qeydiyyat uğurla tamamlandı.');
+                    registerForm.reset();
                     closeModal(registerModal);
-                } else if (result.errors) {
-                    Object.keys(result.errors).forEach(function (key) {
-                        const error = result.errors[key];
-                        alert(`${key}: ${error.join(', ')}`);
-                    });
+                } else {
+                    if (result.errors) {
+                        Object.keys(result.errors).forEach(function (key) {
+                            const error = result.errors[key];
+                            alert(`${key}: ${error.join(', ')}`);
+                        });
+                    } else {
+                        alert(result.message || 'Bir hata oluştu.');
+                    }
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -261,6 +263,7 @@
             }
         });
 
+        // Giriş işlemi
         const loginForm = document.getElementById('login-form');
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -276,19 +279,15 @@
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute('content'),
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     },
                     body: JSON.stringify(formData),
                 });
 
                 const result = await response.json();
                 if (response.ok) {
-                    const redirectUrl = result.redirect_url;
-                    if (redirectUrl) {
-                        window.location.href = redirectUrl;
-                    }
+                    const redirectUrl = result.redirect_url || '/';
+                    window.location.href = redirectUrl;
                 } else {
                     alert(result.message || 'Giriş işlemi başarısız');
                 }

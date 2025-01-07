@@ -7,14 +7,18 @@
     <div class="choose-box-steps-container">
         @foreach (range(1, 4) as $stepNumber)
             <div class="choose-box-step">
-                <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">{{ $stepNumber }}</div>
+                <a href="{{ route('choose.step', $stepNumber) }}" style="text-decoration: none" class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                    {{ $stepNumber }}
+                </a>
                 <div class="choose-box-text">
                     <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
                     <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
                 </div>
             </div>
+
         @endforeach
     </div>
+
 
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
@@ -207,12 +211,15 @@
                                                         </div>
                                                     </div>
 
-                                                    <button
+                                                    <a
+                                                        href="{{ route('choose.items') }}"
                                                         type="button"
                                                         class="choose-box-customize-button"
+                                                        style="text-decoration: none"
                                                     >
                                                         Tamamla
-                                                    </button>
+                                                    </a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -309,6 +316,13 @@
                     document.body.classList.remove('modal-opened');
                 }
             });
+        });
+    });
+
+    document.querySelectorAll('.choose-box-circle').forEach(circle => {
+        circle.addEventListener('click', function (e) {
+            const step = this.textContent.trim();
+            window.location.href = `/choose-step/${step}`;
         });
     });
 </script>
