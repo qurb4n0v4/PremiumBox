@@ -28,6 +28,11 @@ Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
 Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
+Route::get('/choose-items', [GiftBoxController::class, 'chooseItems'])->name('choose.items');
+Route::get('/choose-step/{step}', [GiftBoxController::class, 'chooseStep'])->name('choose.step');
+Route::get('/choose-card', [GiftBoxController::class, 'chooseCard'])->name('choose.card');
+Route::get('/order-complete', [GiftBoxController::class, 'orderComplete'])->name('order.complete');
+
 
 
 Route::get('/chat', function () {
