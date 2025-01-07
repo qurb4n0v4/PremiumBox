@@ -161,7 +161,6 @@
                         color: white;
                         font-size: 24px;
                         font-weight: bold;
-                        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
                         pointer-events: none;
                         width: 80%;
                         word-wrap: break-word;
@@ -198,13 +197,13 @@
                                                     </div>
 
                                                     <div>
-                                                        <p class="customizing-text-style-font" style="margin-top: -40px;">Customize with Their Name or Writing</p>
+                                                        <p class="customizing-text-style-font" style="margin-top: -30px;">Customize with Their Name or Writing</p>
                                                         <textarea id="customText_{{ $categoryIndex }}_{{ $boxIndex }}" class="customizing-text-input-fonts"></textarea>
                                                         <p class="customizing-text-style-font" style="margin-top: 10px">Choose The Font</p>
                                                         <div class="button-group-customizing-fonts" data-box-index="{{ $categoryIndex }}_{{ $boxIndex }}">
-                                                            <button class="font-button-customizing-edit" data-font="Arial">Font A</button>
-                                                            <button class="font-button-customizing-edit" data-font="Times New Roman">Font B</button>
-                                                            <button class="font-button-customizing-edit" data-font="Courier New">Font C</button>
+                                                            <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
+                                                            <button class="font-button-customizing-edit" data-font="Josefin Sans" style="font-family: Josefin Sans;">Font B</button>
+                                                            <button class="font-button-customizing-edit" data-font="Indie Flower" style="font-family: Indie Flower;">Font C</button>
                                                         </div>
                                                     </div>
 
@@ -293,6 +292,23 @@
                     });
                 }
             }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-modal-target]').forEach(button => {
+            button.addEventListener('click', function() {
+                document.documentElement.classList.add('modal-opened');
+                document.body.classList.add('modal-opened');
+            });
+        });
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    document.documentElement.classList.remove('modal-opened');
+                    document.body.classList.remove('modal-opened');
+                }
+            });
         });
     });
 </script>
