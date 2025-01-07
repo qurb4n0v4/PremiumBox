@@ -2,6 +2,7 @@
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+
 @section('content')
     <div class="choose-box-line"></div>
 
@@ -97,9 +98,10 @@
 
                     <!-- Products -->
                     <div class="row">
-                        @foreach ($premadeBoxes as $box)
+                        @foreach ($premadeBoxDetail as $box)
+                            @if($box->is_available) <!-- If box is available -->
                             <div class="col-12 col-md-4 mb-4">
-                                <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
+                                <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#boxModal{{ $box->id }}">
                                     <div class="rounded">
                                         <div class="text-center position-relative image-container">
                                             <!-- Normal Image -->
@@ -126,14 +128,72 @@
                                     </div>
                                     <div class="mt-1">
                                         <!-- Add to Cart Button -->
-                                        <button class="w-100">Add to Cart</button>
+                                        <button class="w-100" data-bs-toggle="modal" data-bs-target="#boxModal{{ $box->id }}">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal Structure -->
+    @foreach ($premadeBoxDetail as $box)
+        <div class="modal fade" id="boxModal{{ $box->id }}" tabindex="-1" aria-labelledby="boxModalLabel{{ $box->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="boxModalLabel{{ $box->id }}">{{ $box->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
+                                <div class="rounded">
+                                    <!-- Carousel Container -->
+                                    <div id="carousel{{ $box->id }}" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <!-- Normal Image (First Slide) -->
+                                            <div class="carousel-item active">
+                                                <img src="https://wallpapers.com/images/hd/beautiful-sunset-pictures-ubxtuvfhpoampb6d.jpg"
+                                                     alt="{{ $box->name }}"
+                                                     class="card-img-top rounded-top rounded-bottom normal-image">
+                                            </div>
+                                            <!-- Hover Image (Second Slide) -->
+                                            <div class="carousel-item">
+                                                <img src="https://images.wallpaperscraft.com/image/single/firtrees_lake_mountains_22568_1280x720.jpg"
+                                                     alt="{{ $box->name }}"
+                                                     class="card-img-top rounded-top rounded-bottom hover-image">
+                                            </div>
+                                        </div>
+                                        <!-- Carousel Controls -->
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ $box->id }}" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ $box->id }}" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <h4>{{ $box->title }}</h4>
+                                <p>{{ $box->description }}</p>
+                                <p><strong>Price:</strong> ₼ {{ number_format($box->price, 2) }}</p>
+                                <p><strong>Occasions:</strong> {{ $box->occasions }}</p>
+                                <p><strong>Recipient:</strong> {{ $box->recipient }}</p>
+                                <button class="btn btn-theme w-100">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
