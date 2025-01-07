@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -36,6 +37,7 @@ class AuthController extends Controller
             ]);
 
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return response()->json([
                 'message' => 'Qeydiyyat zamanı bir xəta baş verdi.',
                 'error' => $e->getMessage(),

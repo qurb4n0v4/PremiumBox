@@ -18,7 +18,6 @@
 
     .orders-title {
         font-size: 20px;
-        /*font-weight: bold;*/
         color: #a3907a !important;
         padding-bottom: 10px;
         margin-bottom: 20px;
@@ -26,6 +25,5 @@
 
     .orders-header {
         display: flex;
-        /*align-items: center;*/
     }
 </style>
