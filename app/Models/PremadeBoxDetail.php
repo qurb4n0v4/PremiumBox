@@ -26,6 +26,11 @@ class PremadeBoxDetail extends Model
 
     public function premadeBox()
     {
-        return $this->belongsTo(PremadeBox::class);
+        return $this->belongsTo(PremadeBox::class, 'premade_box_id');
+    }
+
+    public function premadeBoxInsidings()
+    {
+        return $this->hasMany(PremadeBoxInsiding::class);
     }
 }

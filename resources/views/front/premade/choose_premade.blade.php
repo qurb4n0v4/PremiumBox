@@ -147,11 +147,11 @@
                                                 </div>
 
                                                 <!-- Details -->
-                                                <div style="flex-grow: 1;">
+                                                <div style="flex-grow: 1; position: relative; padding-bottom: 60px;">
                                                     <h2 class="mb-2" style="color: #a3907a;">{{ $box->name }}</h2>
                                                     <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
                                                     @if($boxDetail && $boxDetail->paragraph)
-                                                        <div data-v-231e0cc6="" class="font-avenir-light">
+                                                        <div data-v-231e0cc6="" class="font-avenir-light mb-3">
                                                             <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
                                                                 <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
                                                                 <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
@@ -165,17 +165,21 @@
                                                     @endif
 
                                                     <!-- What's Inside -->
-                                                    <div id="accordionInside" class="accordion">
+                                                    <div id="accordionInside" class="accordion mb-4">
                                                         <div id="heading-inside">
                                                             <h2 class="mb-0 text-center">
-                                                                <button type="button" data-bs-toggle="collapse" data-bs-target="#collapse-inside"
+                                                                <button type="button" data-bs-toggle="collapse" 
+                                                                        data-bs-target="#collapse-inside-{{ $box->id }}"
                                                                         class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
-                                                                        aria-expanded="false">
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapse-inside-{{ $box->id }}">
                                                                     <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
                                                                 </button>
                                                             </h2>
                                                         </div>
-                                                        <div id="collapse-inside" aria-labelledby="heading-inside" data-bs-parent="#accordionInside" class="collapse">
+                                                        <div id="collapse-inside-{{ $box->id }}" 
+                                                            aria-labelledby="heading-inside-{{ $box->id }}"
+                                                            class="accordion-collapse collapse">
                                                             <div class="d-flex flex-column align-items-center pb-3">
                                                                 <div style="max-width: 80vw !important;">
                                                                     @if($boxDetail && is_array($boxDetail->insiding))
@@ -273,17 +277,6 @@
             updateSlider();
         });
     });
-
-    // document.getElementById("toggleButton").addEventListener("click", function() {
-    //     var collapseContent = document.getElementById("collapse-inside");
-    //     var isCollapsed = collapseContent.classList.contains("collapse");
-    //
-    //     if (isCollapsed) {
-    //         collapseContent.classList.remove("collapse");
-    //     } else {
-    //         collapseContent.classList.add("collapse");
-    //     }
-    // });
 
     function redirectToCustomize(id) {
         window.location.href = `/choose_premade_box/${id}`;
