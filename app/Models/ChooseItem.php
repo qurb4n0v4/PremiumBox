@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ChooseItem extends Model
 {
@@ -16,5 +17,21 @@ class ChooseItem extends Model
         'button',
         'normal_image',
         'hover_image',
+        'category',
+        'production_time',
+        'width',
+        'height',
+        'length',
     ];
+
+    /**
+     * Relationship with CustomProductDetail.
+     *
+     * @return HasOne
+     */
+    public function customProductDetail(): HasOne
+    {
+        return $this->hasOne(CustomProductDetail::class, 'choose_item_id');
+    }
+
 }

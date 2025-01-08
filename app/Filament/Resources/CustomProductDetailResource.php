@@ -9,6 +9,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
 
 class CustomProductDetailResource extends Resource
 {
@@ -24,61 +26,111 @@ class CustomProductDetailResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Toggle::make('same_day_delivery')
-                    ->label('Eyni Gün Çatdırılma Mövcuddur')
-                    ->default(false),
-
-                Forms\Components\Textarea::make('description')
-                    ->label('Təsvir')
-                    ->nullable(),
-
-                Forms\Components\FileUpload::make('images')
-                    ->label('Şəkillər')
-                    ->multiple()
-                    ->disk('public') // Şəkillər "public" diskində saxlanacaq
-                    ->nullable(),
-
-                Forms\Components\Toggle::make('require_user_images')
-                    ->label('Şəkil əlavə etmə tələb olunur')
-                    ->default(false),
-
-                Forms\Components\TextInput::make('user_image_title')
-                    ->label('Şəkil əlavə et başlığı')
-                    ->nullable()
-                    ->visible(fn (callable $get) => $get('require_user_images')),
-
-                Forms\Components\TextInput::make('user_image_limit')
-                    ->label('Şəkil limiti')
-                    ->type('number')
-                    ->nullable()
-                    ->visible(fn (callable $get) => $get('require_user_images')),
-
-                Forms\Components\Toggle::make('require_user_choices')
-                    ->label('Seçim tələb olunur')
-                    ->default(false),
-
-                Forms\Components\TextInput::make('user_choice_title')
-                    ->label('Seçim başlığı')
-                    ->nullable()
-                    ->visible(fn (callable $get) => $get('require_user_choices')),
-
-                Forms\Components\Repeater::make('user_choices')
-                    ->label('Seçimlər')
+                Section::make('Əsas Məlumatlar')
                     ->schema([
-                        Forms\Components\TextInput::make('choice')
-                            ->label('Seçim'),
+                        Forms\Components\Select::make('choose_item_id')
+                            ->relationship('chooseItem', 'name')
+                            ->required()
+                            ->label('Məhsul'),
+
+                        Forms\Components\Toggle::make('same_day_delivery')
+                            ->label('Eyni Gün Çatdırılma')
+                            ->default(false),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label('Məhsul Təsviri')
+                            ->nullable(),
+
+                        Forms\Components\FileUpload::make('images')
+                            ->label('Məhsul Şəkilləri')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->disk('public')
+                            ->directory('product-images')
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9')
+                            ->imageResizeTargetWidth('1920')
+                            ->imageResizeTargetHeight('1080')
+                            ->maxFiles(5)
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('Şəkil Yükləmə Parametrləri')
+                    ->schema([
+                        Forms\Components\Toggle::make('allow_user_images')
+                            ->label('İstifadəçi şəkil yükləyə bilər')
+                            ->default(false)
+                            ->reactive(),
+
+                        Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('image_upload_title')
+                                    ->label('Şəkil yükləmə başlığı')
+                                    ->required()
+                                    ->hidden(fn (callable $get) => !$get('allow_user_images')),
+
+                                Forms\Components\TextInput::make('max_image_count')
+                                    ->label('Maximum şəkil sayı')
+                                    ->type('number')
+                                    ->minValue(1)
+                                    ->required()
+                                    ->hidden(fn (callable $get) => !$get('allow_user_images')),
+                            ]),
                     ])
-                    ->nullable()
-                    ->visible(fn (callable $get) => $get('require_user_choices')),
+                    ->collapsed()
+                    ->collapsible(),
 
-                Forms\Components\Toggle::make('require_textarea')
-                    ->label('Textarea tələb olunur')
-                    ->default(false),
+                Section::make('Variant Parametrləri')
+                    ->schema([
+                        Forms\Components\Toggle::make('has_variants')
+                            ->label('Variant seçimi var')
+                            ->default(false)
+                            ->reactive(),
 
-                Forms\Components\TextInput::make('textarea_placeholder')
-                    ->label('Textarea Placeholder')
-                    ->nullable()
-                    ->visible(fn (callable $get) => $get('require_textarea')),
+                        Forms\Components\TextInput::make('variant_selection_title')
+                            ->label('Variant seçimi başlığı')
+                            ->required()
+                            ->hidden(fn (callable $get) => !$get('has_variants')),
+
+                        Forms\Components\Repeater::make('variants')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Variant adı')
+                                    ->required(),
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Variant şəkli')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('variants')
+                                    ->required(),
+                                Forms\Components\TextInput::make('price')
+                                    ->label('Variant qiyməti')
+                                    ->numeric()
+                                    ->required(),
+                            ])
+                            ->hidden(fn (callable $get) => !$get('has_variants'))
+                            ->columnSpanFull()
+                            ->defaultItems(0)
+                            ->createItemButtonLabel('Variant əlavə et'),
+                    ])
+                    ->collapsed()
+                    ->collapsible(),
+
+                Section::make('Mətn Sahəsi Parametrləri')
+                    ->schema([
+                        Forms\Components\Toggle::make('has_custom_text')
+                            ->label('Mətn sahəsi var')
+                            ->default(false)
+                            ->reactive(),
+
+                        Forms\Components\TextInput::make('text_field_placeholder')
+                            ->label('Mətn sahəsi placeholder')
+                            ->required()
+                            ->hidden(fn (callable $get) => !$get('has_custom_text')),
+                    ])
+                    ->collapsed()
+                    ->collapsible(),
             ]);
     }
 
@@ -86,6 +138,16 @@ class CustomProductDetailResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('chooseItem.name')
+                    ->label('Məhsul')
+                    ->searchable(),
+
+                Tables\Columns\ImageColumn::make('images')
+                    ->label('Şəkillər')
+                    ->circular()
+                    ->stacked()
+                    ->limit(3),
+
                 Tables\Columns\BooleanColumn::make('same_day_delivery')
                     ->label('Eyni Gün Çatdırılma'),
 
@@ -93,32 +155,17 @@ class CustomProductDetailResource extends Resource
                     ->label('Təsvir')
                     ->limit(50),
 
-                Tables\Columns\TagsColumn::make('images')
-                    ->label('Şəkillər'),
+                Tables\Columns\BooleanColumn::make('allow_user_images')
+                    ->label('Şəkil yükləmə'),
 
-                Tables\Columns\BooleanColumn::make('require_user_images')
-                    ->label('Şəkil Tələb olunur'),
+                Tables\Columns\TextColumn::make('max_image_count')
+                    ->label('Max şəkil sayı'),
 
-                Tables\Columns\TextColumn::make('user_image_title')
-                    ->label('Şəkil başlığı'),
+                Tables\Columns\BooleanColumn::make('has_variants')
+                    ->label('Variant seçimi'),
 
-                Tables\Columns\TextColumn::make('user_image_limit')
-                    ->label('Şəkil limiti'),
-
-                Tables\Columns\BooleanColumn::make('require_user_choices')
-                    ->label('Seçim Tələb olunur'),
-
-                Tables\Columns\TextColumn::make('user_choice_title')
-                    ->label('Seçim başlığı'),
-
-                Tables\Columns\TagsColumn::make('user_choices')
-                    ->label('Seçimlər'),
-
-                Tables\Columns\BooleanColumn::make('require_textarea')
-                    ->label('Textarea tələb olunur'),
-
-                Tables\Columns\TextColumn::make('textarea_placeholder')
-                    ->label('Textarea Placeholder'),
+                Tables\Columns\BooleanColumn::make('has_custom_text')
+                    ->label('Mətn sahəsi'),
             ])
             ->filters([])
             ->actions([

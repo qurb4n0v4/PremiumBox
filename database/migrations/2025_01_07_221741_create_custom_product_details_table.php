@@ -9,32 +9,36 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('custom_product_details', function (Blueprint $table) {
             $table->id();
-            $table->boolean('same_day_delivery')->default(false); // Eyni Gün Çatdırılma Mövcuddur
-            $table->text('description')->nullable(); // Açıklama
-            $table->json('images')->nullable(); // Şəkillər
 
-            // Admin tərəfindən təyin olunan "Şəkil əlavə et" funksiyası
-            $table->boolean('require_user_images')->default(false); // Admin tərəfindən aktiv olunub-olmaması
-            $table->string('user_image_title')->nullable(); // "Şəkil əlavə et" başlığı
-            $table->integer('user_image_limit')->nullable(); // Şəkil limiti
+            // Əsas Məlumatlar
+            $table->foreignId('choose_item_id')
+                ->constrained('choose_items')
+                ->onDelete('cascade');
+            $table->boolean('same_day_delivery')->default(false);
+            $table->text('description')->nullable();
+            $table->json('images')->nullable(); // Əsas məhsul şəkilləri
 
-            // Admin tərəfindən təyin olunan "Bunlardan birini seç" funksiyası
-            $table->boolean('require_user_choices')->default(false); // Admin tərəfindən aktiv olunub-olmaması
-            $table->string('user_choice_title')->nullable(); // "Bunlardan birini seç" başlığı
-            $table->json('user_choices')->nullable(); // Seçimlər
+            // Şəkil Yükləmə Parametrləri
+            $table->boolean('allow_user_images')->default(false);
+            $table->string('image_upload_title')->nullable();
+            $table->integer('max_image_count')->nullable();
 
-            // Admin tərəfindən təyin olunan "Textarea" funksiyası
-            $table->boolean('require_textarea')->default(false); // Admin tərəfindən aktiv olunub-olmaması
-            $table->string('textarea_placeholder')->nullable(); // Textarea üçün placeholder
+            // Variant Parametrləri
+            $table->boolean('has_variants')->default(false);
+            $table->string('variant_selection_title')->nullable();
+            $table->json('variants')->nullable(); // [{ name: string, image: string, price: numeric }]
 
-            $table->timestamps(); // Yaradılma və yenilənmə tarixləri
+            // Mətn Sahəsi Parametrləri
+            $table->boolean('has_custom_text')->default(false);
+            $table->string('text_field_placeholder')->nullable();
+
+            $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
