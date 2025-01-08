@@ -24,14 +24,15 @@ class ChooseItem extends Model
         'length',
     ];
 
-    /**
-     * Relationship with CustomProductDetail.
-     *
-     * @return HasOne
-     */
+
     public function customProductDetail(): HasOne
     {
         return $this->hasOne(CustomProductDetail::class, 'choose_item_id');
+    }
+
+    public function chooseVariant(): HasOne
+    {
+        return $this->hasOne(ChooseVariant::class, 'choose_item_id');
     }
 
 }
