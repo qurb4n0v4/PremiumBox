@@ -10,7 +10,7 @@ class PremadeBoxInsiding extends Model
     use HasFactory;
 
     protected $fillable = [
-        'premade_box_detail_id',
+        'premade_boxes_id',
         'name',
         'image',
         'allow_image_upload',

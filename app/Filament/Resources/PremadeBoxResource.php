@@ -46,6 +46,24 @@ class PremadeBoxResource extends Resource
                     ->image()
                     ->directory('premade-boxes')
                     ->required(),
+                Forms\Components\Select::make('recipient')
+                    ->options([
+                        'kişi' => 'Kişi',
+                        'qadın' => 'Qadın',
+                        'qız uşağı' => 'Qız Uşağı',
+                        'oğlan uşağı' => 'Oğlan Uşağı',
+                        'hər ikisi' => 'Hər İkisi',
+                    ])
+                    ->nullable()
+                    ->label('Recipient'),
+                Forms\Components\TextInput::make('occasion')
+                    ->nullable()
+                    ->maxLength(255)
+                    ->label('Occasion'),
+                Forms\Components\TextInput::make('production_time')
+                    ->numeric()
+                    ->nullable()
+                    ->label('Production Time'),
             ]);
     }
 
@@ -74,6 +92,9 @@ class PremadeBoxResource extends Resource
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
+                Tables\Columns\TextColumn::make('recipient')->label('Recipient')->sortable(),
+                Tables\Columns\TextColumn::make('occasion')->label('Occasion')->sortable(),
+                Tables\Columns\TextColumn::make('production_time')->label('Production Time')->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime(),
             ])
             ->filters([]);
