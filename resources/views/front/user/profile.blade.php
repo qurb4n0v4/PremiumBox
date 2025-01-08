@@ -24,7 +24,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"
-                           href="{{ route('address-list') }}">Ünvanlarım</a>
+                           href="{{ route('addresses.index') }}">Ünvanlarım</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('front/user/coupons') ? 'active' : '' }}"

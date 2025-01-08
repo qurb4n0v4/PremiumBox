@@ -54,4 +54,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }
