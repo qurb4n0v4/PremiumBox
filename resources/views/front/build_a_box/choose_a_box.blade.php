@@ -7,14 +7,18 @@
     <div class="choose-box-steps-container">
         @foreach (range(1, 4) as $stepNumber)
             <div class="choose-box-step">
-                <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">{{ $stepNumber }}</div>
+                <a href="{{ route('choose.step', $stepNumber) }}" style="text-decoration: none" class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                    {{ $stepNumber }}
+                </a>
                 <div class="choose-box-text">
                     <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
                     <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
                 </div>
             </div>
+
         @endforeach
     </div>
+
 
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
@@ -143,7 +147,7 @@
                                     <div class="modal-body p-4 h-100">
                                         <div class="d-flex align-items-start gap-4 h-100">
                                             <div class="position-relative d-flex align-items-center justify-content-center" style="width: 360px; flex-shrink: 0;">
-                                                <div class="d-flex align-items-center justify-content-center" style="height: 250px; width: 250px; overflow: hidden;">
+                                                <div class="d-flex align-items-center justify-content-center" style="height: 260px; width: 260px; overflow: hidden;">
                                                     @if($boxDetail && $boxDetail->customize_image)
                                                         <img src="{{ asset('storage/' . $boxDetail->customize_image) }}"
                                                              class="d-block w-100 h-100 object-fit-cover"
@@ -151,6 +155,21 @@
                                                     @else
                                                         <p class="text-center">No Customize Image Available</p>
                                                     @endif
+                                                        <div id="textOverlay_{{ $categoryIndex }}_{{ $boxIndex }}"
+                                                             class="position-absolute"
+                                                             style="
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                        color: white;
+                        font-size: 24px;
+                        font-weight: bold;
+                        pointer-events: none;
+                        width: 80%;
+                        word-wrap: break-word;
+                        z-index: 1000;">
+                                                        </div>
                                                 </div>
                                             </div>
 
@@ -169,7 +188,7 @@
                                                     @endif
                                                     <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
 
-                                                    <div class="mb-4" style="height: 90px; overflow-y: auto;">
+                                                    <div class="mb-4" style="height: 80px; overflow-y: auto;">
                                                         @if($boxDetail && $boxDetail->paragraph)
                                                             <p style="color: #898989; line-height: 1.6; font-size: 12px">{{ $boxDetail->paragraph }}</p>
                                                         @endif
@@ -182,16 +201,25 @@
                                                     </div>
 
                                                     <div>
-                                                        <p>Customize with Their Name or Writing</p>
-
+                                                        <p class="customizing-text-style-font" style="margin-top: -30px;">Customize with Their Name or Writing</p>
+                                                        <textarea id="customText_{{ $categoryIndex }}_{{ $boxIndex }}" class="customizing-text-input-fonts"></textarea>
+                                                        <p class="customizing-text-style-font" style="margin-top: 10px">Choose The Font</p>
+                                                        <div class="button-group-customizing-fonts" data-box-index="{{ $categoryIndex }}_{{ $boxIndex }}">
+                                                            <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
+                                                            <button class="font-button-customizing-edit" data-font="Josefin Sans" style="font-family: Josefin Sans;">Font B</button>
+                                                            <button class="font-button-customizing-edit" data-font="Indie Flower" style="font-family: Indie Flower;">Font C</button>
+                                                        </div>
                                                     </div>
 
-                                                    <button
+                                                    <a
+                                                        href="{{ route('choose.items') }}"
                                                         type="button"
                                                         class="choose-box-customize-button"
+                                                        style="text-decoration: none"
                                                     >
                                                         Tamamla
-                                                    </button>
+                                                    </a>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -216,9 +244,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Carousel initialization
         const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
         carousels.forEach(carousel => new bootstrap.Carousel(carousel));
 
+        // Modal handling
         document.addEventListener('click', function(event) {
             if (event.target.hasAttribute('data-modal-target')) {
                 const modalId = event.target.getAttribute('data-modal-target');
@@ -239,6 +269,60 @@
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }
+        });
+
+        // Text overlay handling for all instances
+        document.querySelectorAll('.customizing-text-input-fonts').forEach(textarea => {
+            const boxIndices = textarea.id.split('_').slice(1).join('_');
+            const textOverlay = document.getElementById(`textOverlay_${boxIndices}`);
+
+            if (textarea && textOverlay) {
+                // Update text overlay when typing
+                textarea.addEventListener('input', function() {
+                    textOverlay.textContent = this.value;
+                });
+
+                // Font selection for this specific box
+                const buttonGroup = textarea.closest('.modal').querySelector('.button-group-customizing-fonts');
+                if (buttonGroup) {
+                    const fontButtons = buttonGroup.querySelectorAll('.font-button-customizing-edit');
+
+                    fontButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            // Remove active class from all buttons in this group
+                            fontButtons.forEach(btn => btn.classList.remove('active'));
+                            // Add active class to clicked button
+                            this.classList.add('active');
+                            // Apply selected font to overlay text
+                            textOverlay.style.fontFamily = this.getAttribute('data-font');
+                        });
+                    });
+                }
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-modal-target]').forEach(button => {
+            button.addEventListener('click', function() {
+                document.documentElement.classList.add('modal-opened');
+                document.body.classList.add('modal-opened');
+            });
+        });
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    document.documentElement.classList.remove('modal-opened');
+                    document.body.classList.remove('modal-opened');
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll('.choose-box-circle').forEach(circle => {
+        circle.addEventListener('click', function (e) {
+            const step = this.textContent.trim();
+            window.location.href = `/choose-step/${step}`;
         });
     });
 </script>
