@@ -11,8 +11,17 @@ class AddressController extends Controller
 {
     public function index()
     {
-        $addresses = Auth::user()->addresses; // Kullanıcının adreslerini çek
+        $addresses = Address::where('user_id', Auth::id())->get();
         return view('front.user.addresses', compact('addresses'));
+    }
+
+    public function edit(Address $address)
+    {
+        // Sadece kendi adreslerini düzenleyebilir
+        if ($address->user_id !== Auth::id()) {
+            abort(403);
+        }
+        return view('front.user.address', compact('address'));
     }
 
     public function store(Request $request)
@@ -39,15 +48,6 @@ class AddressController extends Controller
 
             return redirect()->back()->with('error', 'An error occurred while adding the address.');
         }
-    }
-
-    public function edit(Address $address)
-    {
-        // Sadece kendi adreslerini düzenleyebilir
-        if ($address->user_id !== Auth::id()) {
-            abort(403);
-        }
-        return response()->json($address);
     }
 
     public function update(Request $request, Address $address)
@@ -96,6 +96,10 @@ class AddressController extends Controller
 
     public function destroy(Address $address)
     {
+        if (!$address) {
+            return redirect()->back()->with('error', 'Address not found.');
+        }
+
         if ($address->user_id !== Auth::id()) {
             abort(403);
         }

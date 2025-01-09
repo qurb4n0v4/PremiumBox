@@ -87,6 +87,19 @@ class ChooseVariantResource extends Resource
                     ])
                     ->collapsed()
                     ->collapsible(),
+                Section::make('Custom Text Settings')
+                    ->schema([
+                        Forms\Components\Toggle::make('has_custom_text')
+                            ->label('Has Custom Text')
+                            ->default(false)
+                            ->reactive(),
+
+                        Forms\Components\TextInput::make('text_field_placeholder')
+                            ->label('Text Field Placeholder')
+                            ->hidden(fn (callable $get) => !$get('has_custom_text')),
+                    ])
+                    ->collapsed()
+                    ->collapsible(),
             ]);
     }
 
@@ -113,6 +126,13 @@ class ChooseVariantResource extends Resource
 
                 Tables\Columns\BooleanColumn::make('has_variants')
                     ->label('Has Variants'),
+
+                Tables\Columns\BooleanColumn::make('has_custom_text')
+                    ->label('Has Custom Text'),
+
+                Tables\Columns\TextColumn::make('text_field_placeholder')
+                    ->label('Text Field Placeholder')
+                    ->limit(30),
             ])
             ->filters([])
             ->actions([

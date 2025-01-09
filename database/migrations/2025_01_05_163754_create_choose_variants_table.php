@@ -21,6 +21,8 @@ return new class extends Migration
                 $table->boolean('has_variants')->default(false);
                 $table->string('variant_selection_title')->nullable();
                 $table->json('variants')->nullable();
+                $table->boolean('has_custom_text')->default(false);
+                $table->string('text_field_placeholder')->nullable();
                 $table->timestamps();
             });
         }

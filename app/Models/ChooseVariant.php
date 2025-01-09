@@ -18,16 +18,17 @@ class ChooseVariant extends Model
         'has_variants',
         'variant_selection_title',
         'variants',
+        'has_custom_text',         // Add this line
+        'text_field_placeholder',  // Add this line
     ];
-
 
     protected $casts = [
-        'images' => 'array',
+        'images' => 'array',        // Ensure this casts correctly to an array
         'available_same_day_delivery' => 'boolean',
         'has_variants' => 'boolean',
-        'variants' => 'array',
+        'variants' => 'array',      // Ensure this casts correctly to an array
+        'has_custom_text' => 'boolean',  // Ensure this casts correctly to a boolean
     ];
-
 
     public function chooseItem(): BelongsTo
     {

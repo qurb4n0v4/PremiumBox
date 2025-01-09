@@ -18,9 +18,9 @@ return new class extends Migration
             $table->text('paragraph')->nullable();
             $table->timestamps();
 
+            // Foreign key relation with premade_boxes
             $table->foreign('premade_box_id')
-                ->references('id')
-                ->on('premade_boxes')
+                ->references('id')->on('premade_boxes')
                 ->onDelete('cascade');
         });
     }
