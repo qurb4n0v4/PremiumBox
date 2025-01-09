@@ -18,8 +18,11 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->string('normal_image');
             $table->string('hover_image');
+            $table->enum('recipient', ['kişi', 'qadın', 'qız uşağı', 'oğlan uşağı', 'hər ikisi'])->nullable();
+            $table->string('occasion')->nullable();
+            $table->integer('production_time')->nullable();
             $table->timestamps();
-            });
+        });
     }
 
     /**

@@ -16,13 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('premade_box_id');
             $table->json('images')->nullable();
             $table->text('paragraph')->nullable();
-            $table->json('insiding')->nullable();
-            $table->string('recipient');
-            $table->string('occasion')->nullable();
-            $table->integer('production_time');
             $table->timestamps();
 
-            $table->foreign('premade_box_id')->references('id')->on('premade_boxes')->onDelete('cascade');
+            $table->foreign('premade_box_id')
+                ->references('id')
+                ->on('premade_boxes')
+                ->onDelete('cascade');
         });
     }
 
