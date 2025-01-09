@@ -34,7 +34,7 @@
             @foreach($nonEmptyCategories as $categoryIndex => $category)
                 <div class="category-name-boxsize">
                     <h4>{{ $category->name }}</h4>
-                    <p>{{ $category->box_size }}</p>
+                    <p>{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
                 </div>
 
                 <div class="row gy-4">

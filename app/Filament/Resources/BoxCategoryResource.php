@@ -17,30 +17,36 @@ class BoxCategoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-star';
     protected static ?string $navigationGroup = 'Gift Boxes Management';
 
-    // Define the form layout
     public static function form(Form $form): Form
     {
         return $form->schema([
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
-            Forms\Components\TextInput::make('box_size') // Add box_size to the form
-            ->nullable() // Allow null values
-            ->maxLength(255), // You can adjust the max length if needed
+
+            Forms\Components\TextInput::make('width')
+                ->nullable() // Allow null values
+                ->maxLength(255),
+
+            Forms\Components\TextInput::make('height')
+                ->nullable() // Allow null values
+                ->maxLength(255),
+
+            Forms\Components\TextInput::make('length')
+                ->nullable() // Allow null values
+                ->maxLength(255),
         ]);
     }
 
-    // Define the table layout
     public static function table(Table $table): Table
     {
         return $table->columns([
             Tables\Columns\TextColumn::make('name')->searchable(),
-            Tables\Columns\TextColumn::make('box_size') // Display box_size in the table
-            ->sortable() // Allow sorting by box_size
-            ->searchable(), // Make box_size searchable
+            Tables\Columns\TextColumn::make('width')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('height')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('length')->sortable()->searchable(),
         ])
             ->filters([
-                // Add any filters if needed
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -50,7 +56,6 @@ class BoxCategoryResource extends Resource
             ]);
     }
 
-    // Define the available pages for this resource
     public static function getPages(): array
     {
         return [

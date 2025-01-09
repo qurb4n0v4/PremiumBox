@@ -9,7 +9,8 @@ class BoxCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'box_size'];
+    protected $fillable = ['name', 'width', 'height', 'length'];
+
 
     public function boxes()
     {
