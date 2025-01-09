@@ -116,20 +116,142 @@
                                         <p class="text-muted" style="margin-top: -13px; color: #343a40!important;">₼{{ number_format($item->price, 2) }}</p>
 
                                         <!-- Button -->
-                                        <button class="choose-items-button">
+                                        <button class="choose-items-button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modal-{{ $item->id }}">
                                             {{ $item->button }}
                                         </button>
                                     </div>
                                 </div>
+
+                                <!-- Modals -->
+                                @if($item->button == 'Custom Product')
+                                    <!-- Custom Product Modal -->
+                                    <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="customProductModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="customProductModalLabel">Custom Product Modal</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Custom Product Modal Content -->
+                                                    <p>Details for Custom Product: {{ $item->name }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($item->button == 'Choose Variant')
+                                        <!-- Choose Variant Modal -->
+                                        <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 60%;">
+                                                <div class="modal-content rounded-4">
+                                                    <div class="modal-body d-flex justify-content-between">
+                                                        <!-- Left Section: Image Slider -->
+                                                        <div class="col-md-6" style="max-width: 380px; height: 390px; overflow: hidden; background-color: #f8f9fa;">
+                                                            <div id="carousel-{{ $item->id }}" class="carousel slide w-100 h-100" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    @if($item->chooseVariants->isNotEmpty())
+                                                                        @foreach($item->chooseVariants as $variantKey => $chooseVariant)
+                                                                            @php
+                                                                                $variantData = is_string($chooseVariant->variants)
+                                                                                    ? json_decode($chooseVariant->variants, true)
+                                                                                    : $chooseVariant->variants;
+                                                                            @endphp
+
+                                                                            @if(is_array($variantData))
+                                                                                @foreach($variantData as $index => $variant)
+                                                                                    <div class="carousel-item {{ $variantKey === 0 && $index === 0 ? 'active' : '' }}">
+                                                                                        <img
+                                                                                            src="{{ asset('storage/' . $variant['image']) }}"
+                                                                                            class="d-block w-100 h-100"
+                                                                                            style="object-fit: cover;"
+                                                                                            alt="{{ $variant['name'] ?? '' }}"
+                                                                                        >
+                                                                                    </div>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+
+                                                                @if($item->chooseVariants->isNotEmpty())
+                                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $item->id }}" data-bs-slide="prev">
+                                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                        <span class="visually-hidden">Previous</span>
+                                                                    </button>
+                                                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $item->id }}" data-bs-slide="next">
+                                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                        <span class="visually-hidden">Next</span>
+                                                                    </button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Right Section: Data -->
+                                                        <div class="col-md-6 d-flex flex-column text-center">
+                                                            <p class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</p>
+                                                            <p class="mb-2" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</p>
+                                                            <p class="mb-2 text-muted price-display" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ number_format($item->price, 2) }}</p>
+
+                                                            @if($item->chooseVariants->isNotEmpty())
+                                                                @foreach($item->chooseVariants as $chooseVariant)
+                                                                    @if($chooseVariant->available_same_day_delivery)
+                                                                        <div class="mb-3 bg-opacity-10 rounded">
+                                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
+                                                                                Eyni Gün Çatdırılma Mövcuddur
+                                                                            </p>
+                                                                        </div>
+                                                                    @endif
+
+                                                                    @if($chooseVariant->variant_selection_title)
+                                                                        <h6 class="mt-3" style="color: #9e0b0f; font-size: 15px; font-weight: 500">{{ $chooseVariant->variant_selection_title }}</h6>
+                                                                    @endif
+
+                                                                    @php
+                                                                        $variantData = is_string($chooseVariant->variants)
+                                                                            ? json_decode($chooseVariant->variants, true)
+                                                                            : $chooseVariant->variants;
+                                                                    @endphp
+
+                                                                    <div class="variants-buttons d-flex flex-wrap justify-content-center mt-2">
+                                                                        @if(is_array($variantData))
+                                                                            @foreach($variantData as $variant)
+                                                                                <button class="btn btn-outline-secondary m-1 variant-button">
+                                                                                    {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                                </button>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+
+                                                                    @if($chooseVariant->paragraph)
+                                                                        <p class="mt-3" style="color: #898989; font-size: 14px">{{ $chooseVariant->paragraph }}</p>
+                                                                    @endif
+
+                                                                        <button
+                                                                            class="choose-box-choose-button"
+                                                                        >
+                                                                            Add to box
+                                                                        </button>
+                                                                @endforeach
+
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
                             @endforeach
                         </div>
+
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
-
 
 @endsection
 
@@ -142,4 +264,10 @@
     });
 
 </script>
+
+<style>
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+</style>
 

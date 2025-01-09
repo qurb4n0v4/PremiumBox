@@ -23,10 +23,14 @@ class GiftBoxController extends Controller
     public function chooseItems()
     {
         $currentStep = session('currentStep', 1);
+        $items = ChooseItem::with(['chooseVariants' => function($query) {
+            $query->select(['id', 'choose_item_id', 'variants', 'images']);
+        }])->get();
         $chooseItems = ChooseItem::all();
 
 
-        return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems'));
+
+        return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems', 'items'));
     }
 
     public function chooseStep($step)
