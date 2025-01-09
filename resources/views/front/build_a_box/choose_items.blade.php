@@ -31,7 +31,6 @@
 
             <div>
                 <div class="row">
-                    <!-- Sol Sidebar (Filtrləmə) -->
                     <div class="col-12 col-md-3">
                         <div class="filters">
                             <h5>Məhsulları Filtrləyin</h5>
@@ -74,15 +73,11 @@
                         </div>
                     </div>
 
-                    <!-- Sağ Sidebar (Məhsullar) -->
                     <div class="col-12 col-md-9">
-                        <!-- Axtar və Sırala -->
                         <div class="d-flex justify-content-between mb-4">
-                            <!-- Axtarış -->
                             <div class="search-container">
                                 <input type="text" id="search-box" class="form-control" placeholder="Qutuları axtarın...">
                             </div>
-                            <!-- Sırala -->
                             <div class="sort-container">
                                 <select id="sort-boxes" class="form-control">
                                     <option value="default">Sırala: Varsayılan</option>
@@ -94,7 +89,7 @@
                             </div>
                         </div>
 
-                        <!-- Məhsullar -->
+
                         <div class="row">
                             @foreach ($chooseItems as $item)
                                 <div class="col-md-4 mb-4">
@@ -128,7 +123,6 @@
                                 </div>
                             @endforeach
                         </div>
-
                     </div>
                 </div>
             </div>

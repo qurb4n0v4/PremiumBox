@@ -11,7 +11,9 @@ return new class extends Migration
         Schema::create('box_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('box_size')->nullable();
+            $table->integer('width')->nullable();
+            $table->integer('height')->nullable();
+            $table->integer('length')->nullable();
             $table->timestamps();
         });
     }
