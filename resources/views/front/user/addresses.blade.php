@@ -22,8 +22,7 @@
                         <p class="mb-1"><strong>Zip Code:</strong> {{ $address->zip_code }}</p>
                         <p class="mb-1"><strong>District:</strong> {{ $address->district }}</p>
                         <div class="text-end">
-                            <button class="btn btn-sm btn-edit-address me-2" data-bs-toggle="modal"
-                                    data-bs-target="#editAddressModal" data-id="{{ $address->id }}">
+                            <button class="btn btn-sm btn-edit-address me-2" data-bs-toggle="modal" data-bs-target="#editAddressModal-{{ $address->id }}">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                             <form action="{{ route('addresses.destroy', $address->id) }}" method="POST"
