@@ -29,9 +29,9 @@
             <p style="color: #a3907a; font-size: 14px; font-weight: 600">Sifarişi tamamlamaq üçün seçdiyiniz qutunun içərisindəkilərə nəzər yetirin!</p>
         </div>
 
-        <div class="container mt-5">
+        <div class="container mt-5" style="min-width: 1050px">
             <div id="accordion">
-                <div class="mt-5 w-100" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+                <div class="mt-5 w-100" style="border-radius: 20px; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
                     <!-- Heading və Collapse bölməsi -->
                     <div class="border-theme-secondary pb-3" style="border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; border-bottom-width: 0px !important;">
                         <h2 class="mb-0 d-flex flex-column pt-2">
@@ -60,31 +60,23 @@
                             <div class="col-md-6">
                                 <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin!</p>
                                 <div class="d-flex flex-row flex-wrap w-100 mx-0">
-                                    <div class="col-md-3 col-6 px-1">
-                                        <div class="form-check-inline mx-0">
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <img src="https://stroizakaz.su/thumb/2/_tjXSrjgEr6zUQQcol2bpQ/1024r/d/ts-rf-135725331.jpg" alt="black large" class="img-fluid rounded" style="object-fit: contain;">
-                                                <span class="text-capitalize font-butler w-100 text-center mt-2 text-theme h6">black large</span>
+                                    @foreach($boxes as $box)
+                                        <div class="col-md-3 col-6 px-1">
+                                            <div class="form-check-inline mx-0">
+                                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                                    <img src="{{ asset('images/' . $box['image']) }}"
+                                                         alt="{{ $box['name'] }}"
+                                                         class="img-fluid rounded"
+                                                         style="object-fit: contain;">
+                                                    <span class="text-capitalize font-butler w-100 text-center mt-2 text-theme h6">
+                                                        {{ $box['name'] }}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3 col-6 px-1">
-                                        <div class="form-check-inline mx-0">
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <img src="https://stroizakaz.su/thumb/2/_tjXSrjgEr6zUQQcol2bpQ/1024r/d/ts-rf-135725331.jpg" alt="cream large" class="img-fluid rounded" style="object-fit: contain;">
-                                                <span class="text-capitalize font-butler w-100 text-center mt-2 text-theme h6">cream large</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-6 px-1">
-                                        <div class="form-check-inline mx-0">
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <img src="https://stroizakaz.su/thumb/2/_tjXSrjgEr6zUQQcol2bpQ/1024r/d/ts-rf-135725331.jpg" alt="white large" class="img-fluid rounded" style="object-fit: contain;">
-                                                <span class="text-capitalize font-butler w-100 text-center mt-2 text-theme h6">white large</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
+
                                 <div class="ps-3 mt-3">
                                     <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın</p>
                                     <textarea class="customizing-text-input-fonts"></textarea>
@@ -97,99 +89,77 @@
                                 </div>
                                 <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin!</p>
                                 <div class="slider-container">
-                                    <div class="d-flex row px-3 mb-3">
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
-                                        </div>
-                                        <div class="col-6 px-1 col-md-6 mb-3">
-                                            <img
-                                                alt="CONGRATS"
-                                                src="https://avatars.mds.yandex.net/i?id=58d014271b1e99f9444554a8931bfaa1_l-6917174-images-thumbs&n=13"
-                                                class="rounded img-fluid w-100"
-                                                style="min-height: 80px; height: auto; object-fit: contain;"
-                                            >
+                                    <div class="d-flex row px-3">
+                                        <div id="slider-container">
+                                            <div class="row">
+                                                @foreach($cards as $card)
+                                                    <div class="col-6 px-1 col-md-6 mb-3 card-item" data-id="{{ $card->id }}">
+                                                        <img
+                                                            alt="{{ $card->name }}"
+                                                            src="{{ asset('images/' . $card->image) }}"
+                                                            class="rounded img-fluid w-100 select-card"
+                                                            style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
+                                                            data-name="{{ $card->name }}"
+                                                            data-price="{{ '₼ ' . $card->price ?? '' }}"
+                                                        >
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <!-- Prev və Next düymələri -->
+                                            <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <button class="nav-button next position-absolute d-flex justify-content-center align-items-center">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
                                         </div>
 
+                                        <!-- Seçilən kartın göstərilməsi -->
+                                        <div id="selected-card-container" style="display: none;">
+                                            <div class="text-center">
+                                                <img id="selected-card-image" src="" alt="" style="min-height:150px; height: auto" class="rounded img-fluid w-100 mb-3">
+                                                <h4 id="selected-card-name"></h4>
+                                                <p id="selected-card-price" style="font-size: 18px;"></p>
+                                                <span id="reset-slider" style="cursor: pointer; font-size:14px; text-decoration: underline;">(Kartı Dəyişdir)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ps-3 pb-3 w-100 d-flex flex-column">
+                                    <!-- "To" Field -->
+                                    <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
+                                        <label for="to-field" class="px-0 pt-2 mr-2 text-theme-secondary">To</label>
+                                        <input
+                                            type="text"
+                                            id="to-field"
+                                            maxlength="70"
+                                            class="col-md-10 rounded form-control recipient-name-0"
+                                            placeholder="Enter recipient name">
                                     </div>
 
-                                    <!-- Prev düyməsi -->
-                                    <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <!-- Next düyməsi -->
-                                    <button class="nav-button next position-absolute d-flex justify-content-center align-items-center">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
+                                    <!-- "From" Field -->
+                                    <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
+                                        <label for="from-field" class="px-0 pt-2 mr-2 text-theme-secondary">From</label>
+                                        <input
+                                            type="text"
+                                            id="from-field"
+                                            maxlength="70"
+                                            class="col-md-10 rounded form-control"
+                                            placeholder="Enter your name">
+                                    </div>
+
+                                    <!-- "Message" Field -->
+                                    <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
+                                        <label for="message-field" class="px-0 pt-2 mr-2 text-theme-secondary">Message</label>
+                                        <textarea
+                                            id="message-field"
+                                            maxlength="300"
+                                            class="col-md-10 rounded form-control"
+                                            placeholder="Write your message here"></textarea>
+                                    </div>
                                 </div>
+
                             </div>
 
                             <!-- Sağ tərəf: Məhsullar -->
@@ -198,7 +168,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -224,23 +193,28 @@
         padding: 0 15px; /* Reduced padding to bring buttons closer */
     }
 
+    input {
+        border-color: #3f6212;
+    }
+
     .nav-button {
         position: absolute;
-        top: 50%;
+        top: 40%;
         transform: translateY(-50%);
         background: none;
         border: none;
         color: #333;
         cursor: pointer;
         z-index: 2;
+        padding: 5px;
     }
 
     .nav-button.prev {
-        left: 0px; /* Moved closer to content */
+        left: 5px; /* Moved closer to content */
     }
 
     .nav-button.next {
-        right: 0px; /* Moved closer to content */
+        right: 5px; /* Moved closer to content */
     }
 
     /* Add transition styles for smooth animation */
@@ -269,7 +243,9 @@
         display: block;
     }
 
-
+    .slider-container img {
+        cursor: pointer;
+    }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -339,6 +315,46 @@
 
             if (callback) callback();
         }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const cardItems = document.querySelectorAll('.card-item img');
+        const selectedCardContainer = document.getElementById('selected-card-container');
+        const sliderContainer = document.getElementById('slider-container');
+        const selectedCardImage = document.getElementById('selected-card-image');
+        const selectedCardName = document.getElementById('selected-card-name');
+        const selectedCardPrice = document.getElementById('selected-card-price');
+        const resetSlider = document.getElementById('reset-slider');
+
+        // Kart seçmə və aktivləşdirmə
+        cardItems.forEach(card => {
+            card.addEventListener('click', function () {
+                const cardId = this.closest('.card-item').dataset.id;
+                const cardName = this.dataset.name;
+                const cardPrice = this.dataset.price || "No Price";
+
+                // Aktiv kartı göstər
+                sliderContainer.style.display = 'none';
+                selectedCardContainer.style.display = 'block';
+
+                // Şəkil və məlumatları göstər
+                selectedCardImage.src = this.src;
+                selectedCardName.textContent = cardName;
+                selectedCardPrice.textContent = cardPrice;
+
+                // Aktiv sinifini əlavə et
+                cardItems.forEach(img => img.classList.remove('active-card'));
+                this.classList.add('active-card');
+            });
+        });
+
+        // Yenidən seçim
+        resetSlider.addEventListener('click', function () {
+            sliderContainer.style.display = 'block';
+            selectedCardContainer.style.display = 'none';
+
+            // Aktiv sinifi təmizlə
+            cardItems.forEach(img => img.classList.remove('active-card'));
+        });
     });
 </script>
 

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PremadeBoxCustomize;
 use Illuminate\Http\Request;
 use App\Models\PremadeBox;
+use App\Models\Card;
+use App\Models\PremadeBoxInsiding;
 
 class PremadeBoxController extends Controller
 {
@@ -32,6 +35,15 @@ class PremadeBoxController extends Controller
         $premadeBoxDetail = PremadeBox::findOrFail($id);
         $currentStep = session('currentStep', 1);
 
-        return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep'));
+        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+        $customizedBoxes = PremadeBoxCustomize::where('premade_boxes_id', $id)->pluck('boxes');
+
+        $boxes = $customizedBoxes->map(function ($box) {
+            return json_decode($box, true);
+        });
+
+        $cards = Card::all();
+
+        return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep', 'insidings', 'boxes', 'cards'));
     }
 }

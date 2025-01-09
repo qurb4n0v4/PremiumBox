@@ -10,6 +10,7 @@ use App\Http\Controllers\CorporateGiftController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GiftBoxController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', function () {
@@ -30,6 +31,7 @@ Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a
 
 Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
 Route::get('/choose_premade_box/{id}', [PremadeBoxController::class, 'show'])->name('customize_premade_box');
+Route::get('/customize_premade_box/{id}', [CardController::class, 'index']);
 
 Route::get('/choose-items', [GiftBoxController::class, 'chooseItems'])->name('choose.items');
 Route::get('/choose-step/{step}', [GiftBoxController::class, 'chooseStep'])->name('choose.step');

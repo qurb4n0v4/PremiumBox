@@ -47,7 +47,6 @@ class PremadeBoxCustomizeResource extends Resource
 
                                 if ($giftBox) {
                                     $set('gift_box_title', $giftBox->title);
-                                    $set('gift_box_price', $giftBox->price);
 
                                     $image = $giftBox->image;
                                     if (is_string($image)) {
@@ -56,17 +55,12 @@ class PremadeBoxCustomizeResource extends Resource
                                     $set('gift_box_image', $image);
                                 } else {
                                     $set('gift_box_title', null);
-                                    $set('gift_box_price', null);
                                     $set('gift_box_image', null);
                                 }
                             }),
 
                         Forms\Components\TextInput::make('gift_box_title')
                             ->label('Gift Box Title')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('gift_box_price')
-                            ->label('Gift Box Price')
                             ->disabled(),
 
                         Forms\Components\FileUpload::make('gift_box_image')
@@ -85,52 +79,53 @@ class PremadeBoxCustomizeResource extends Resource
                     ->maxLength(255)
                     ->label('Name'),
 
-                Forms\Components\Repeater::make('cards')
-                    ->schema([
-                        Forms\Components\Select::make('card_id')
-                            ->label('Card')
-                            ->options(Card::pluck('name', 'id'))
-                            ->searchable()
-                            ->required()
-                            ->reactive()
-                            ->afterStateUpdated(function (callable $set, $state) {
-                                $card = Card::find($state);
-
-                                if ($card) {
-                                    $set('card_name', $card->name);
-                                    $set('card_price', $card->price);
-                                    $set('card_image', $card->image);
-
-                                    $image = $card->image;
-                                    if (is_string($image)) {
-                                        $image = json_decode($image, true);
-                                    }
-                                    $set('card_image', $image);
-                                } else {
-                                    $set('card_name', null);
-                                    $set('card_price', null);
-                                    $set('card_image', null);
-                                }
-                            }),
-
-                        Forms\Components\TextInput::make('card_name')
-                            ->label('Card Name')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('card_price')
-                            ->label('Card Price')
-                            ->disabled(),
-
-                        Forms\Components\FileUpload::make('card_image')
-                            ->label('Card Image')
-                            ->image()
-                            ->disabled()
-                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
-                                return 'cards/' . $file->getClientOriginalName();
-                            }),
-                    ])
-                    ->createItemButtonLabel('Add Card')
-                    ->label('Cards')
+//                Forms\Components\Repeater::make('cards')
+//                    ->schema([
+//                        Forms\Components\Select::make('card_id')
+//                            ->default(1)
+//                            ->label('Card')
+//                            ->options(Card::pluck('name', 'id'))
+//                            ->searchable()
+//                            ->required()
+//                            ->reactive()
+//                            ->afterStateUpdated(function (callable $set, $state) {
+//                                $card = Card::find($state);
+//
+//                                if ($card) {
+//                                    $set('card_name', $card->name);
+//                                    $set('card_price', $card->price);
+//                                    $set('card_image', $card->image);
+//
+//                                    $image = $card->image;
+//                                    if (is_string($image)) {
+//                                        $image = json_decode($image, true);
+//                                    }
+//                                    $set('card_image', $image);
+//                                } else {
+//                                    $set('card_name', null);
+//                                    $set('card_price', null);
+//                                    $set('card_image', null);
+//                                }
+//                            }),
+//
+//                        Forms\Components\TextInput::make('card_name')
+//                            ->label('Card Name')
+//                            ->disabled(),
+//
+//                        Forms\Components\TextInput::make('card_price')
+//                            ->label('Card Price')
+//                            ->disabled(),
+//
+//                        Forms\Components\FileUpload::make('card_image')
+//                            ->label('Card Image')
+//                            ->image()
+//                            ->disabled()
+//                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
+//                                return 'cards/' . $file->getClientOriginalName();
+//                            }),
+//                    ])
+//                    ->createItemButtonLabel('Add Card')
+//                    ->label('Cards')
 
             ]);
     }
@@ -157,18 +152,18 @@ class PremadeBoxCustomizeResource extends Resource
                         return $query->where('boxes', 'like', "%{$search}%");
                     }),
 
-                Tables\Columns\TextColumn::make('cards')
-                    ->label('Cards')
-                    ->formatStateUsing(function ($state) {
-                        if (!$state) return '-';
-
-                        return collect($state)->map(function ($card) {
-                            return $card['card_name'];
-                        })->join(', ');
-                    })
-                    ->searchable(query: function (Builder $query, string $search): Builder {
-                        return $query->where('cards', 'like', "%{$search}%");
-                    }),
+//                Tables\Columns\TextColumn::make('cards')
+//                    ->label('Cards')
+//                    ->formatStateUsing(function ($state) {
+//                        if (!$state) return '-';
+//
+//                        return collect($state)->map(function ($card) {
+//                            return $card['card_name'];
+//                        })->join(', ');
+//                    })
+//                    ->searchable(query: function (Builder $query, string $search): Builder {
+//                        return $query->where('cards', 'like', "%{$search}%");
+//                    }),
 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
