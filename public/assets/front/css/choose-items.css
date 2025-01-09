@@ -138,3 +138,139 @@
     top: 0;
     left: 0;
 }
+
+.variant-image-section {
+    max-width: 380px;
+    height: 390px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    margin: auto;
+   border-radius: 10px;
+}
+
+.variant-info-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.variant-info-content {
+    width: 100%;
+    text-align: center;
+}
+
+.company-name {
+    color: #898989;
+    font-size: 14px;
+}
+
+.item-name {
+    color: #a3907a;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.price-display {
+    color: #212529 !important;
+    font-size: 20px !important;
+    font-weight: 500;
+}
+
+.delivery-info p {
+    color: #898989 !important;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.variant-title {
+    color: #9e0b0f;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.variant-paragraph {
+    color: #898989;
+    font-size: 14px;
+}
+
+.variant-button {
+    font-size: 12px!important;
+    padding: 4px 12px!important;
+    border-radius: 15px!important;
+}
+
+.variant-button:hover {
+    background-color: transparent!important;
+    color: #898989!important;
+    border-color: #898989!important;
+}
+
+.variant-button.active {
+    background-color: #a3907a!important;
+    color: white!important;
+    border-color: #a3907a!important;
+}
+
+.custom-text {
+    resize: none;
+    font-size: 14px;
+}
+
+.show-more-btn {
+    color: #a3907a;
+    cursor: pointer;
+    margin-left: 4px;
+}
+.show-more-btn:hover {
+    text-decoration: underline;
+}
+.variant-paragraph {
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+ .custom-text {
+     width: 100%;
+     min-height: 30px!important;
+     border: 1px solid #e2e8f0;
+     border-radius: 6px;
+     margin-bottom: 20px;
+     resize: vertical;
+     font-size: 14px;
+ }
+
+.custom-text:focus {
+    outline: none!important;
+}
+.custom-text:focus,
+.form-control:focus {
+    outline: none!important;
+    box-shadow: none!important;
+    border-color: #898989!important;
+}
+
+.custom-text::placeholder {
+    font-size: 13px;
+    font-weight: 600;
+    color: #898989!important;
+}
+.choose-box-choose-button {
+    font-size: var(--font-size-regular);
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.choose-box-choose-button:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    opacity: 0.9;
+}
+
