@@ -57,7 +57,7 @@ class PremadeBoxDetailResource extends Resource
 
                 Tables\Columns\ImageColumn::make('images')
                     ->label('Images')
-                    ->getStateUsing(fn (PremadeBoxDetail $record) => json_decode($record->images, true) ?? [])
+                    ->getStateUsing(fn (PremadeBoxDetail $record) => $record->images ?? [])
                     ->limit(1),
 
                 Tables\Columns\TextColumn::make('paragraph')

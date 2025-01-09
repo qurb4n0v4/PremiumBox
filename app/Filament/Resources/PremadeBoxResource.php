@@ -45,7 +45,7 @@ class PremadeBoxResource extends Resource
                     ->label('Hover Image')
                     ->image()
                     ->directory('premade-boxes')
-                    ->required(),
+                    ->nullable(),
                 Forms\Components\Select::make('recipient')
                     ->options([
                         'kişi' => 'Kişi',

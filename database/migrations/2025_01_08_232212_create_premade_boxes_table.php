@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('premade_boxes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('title');
-            $table->decimal('price', 10, 2);
-            $table->string('normal_image');
-            $table->string('hover_image');
-            $table->enum('recipient', ['kişi', 'qadın', 'qız uşağı', 'oğlan uşağı', 'hər ikisi'])->nullable();
-            $table->string('occasion')->nullable();
-            $table->integer('production_time')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('choose_variants')) {
+            Schema::create('premade_boxes', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->unique();
+                $table->string('title');
+                $table->decimal('price', 10, 2);
+                $table->string('normal_image');
+                $table->string('hover_image')->nullable();
+                $table->enum('recipient', ['kişi', 'qadın', 'qız uşağı', 'oğlan uşağı', 'hər ikisi'])->nullable();
+                $table->string('occasion')->nullable();
+                $table->integer('production_time')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -20,10 +20,12 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('gift_boxes')
                 ->onDelete('cascade');
+            $table->foreignId('card_id')
+                ->constrained('cards')
+                ->onDelete('cascade');
             $table->string('name');
             $table->json('boxes')->nullable();
-            $table->string('card_image', 255);
-            $table->string('card_name', 255);
+            $table->json('cards')->nullable();
             $table->timestamps();
         });
     }

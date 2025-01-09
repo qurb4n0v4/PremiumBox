@@ -30,7 +30,8 @@ class PremadeBoxController extends Controller
     public function show($id)
     {
         $premadeBoxDetail = PremadeBox::findOrFail($id);
+        $currentStep = session('currentStep', 1);
 
-        return view('front.premade.customize_premade', compact('premadeBoxDetail'));
+        return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep'));
     }
 }
