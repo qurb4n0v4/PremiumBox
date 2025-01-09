@@ -34,11 +34,6 @@ class UserProfileController extends Controller
         return view('front.user.orders', compact('user'));
     }
 
-    public function showAddressList()
-    {
-        return view('front.user.addresses');
-    }
-
     public function showCoupons()
     {
         return view('front.user.coupons');

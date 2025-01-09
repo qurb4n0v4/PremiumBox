@@ -48,10 +48,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/front/user/profile', [UserProfileController::class, 'index'])->name('profile');
 Route::get('/front/user/profile/details', [UserProfileController::class, 'showProfile'])->name('profile-details');
 Route::get('/front/user/orders', [UserProfileController::class, 'showOrders'])->name('orders');
-Route::get('/front/user/addresses', [UserProfileController::class, 'showAddressList'])->name('address-list');
 Route::get('/front/user/coupons', [UserProfileController::class, 'showCoupons'])->name('coupons');
 Route::put('/front/user/profile/update', [UserProfileController::class, 'updateProfile'])->name('profile-update');
 Route::get('/front/user/profile/edit', [UserProfileController::class, 'editProfile'])->name('profile-edit');
 
 
-
+use App\Http\Controllers\AddressController;
+Route::middleware('auth')->group(function () {
+    Route::get('/front/user/addresses', [AddressController::class, 'index'])->name('addresses.index');
+    Route::post('/front/user/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('/user/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::put('/user/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/user/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+});

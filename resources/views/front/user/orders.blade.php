@@ -1,29 +1,29 @@
 @extends('front.user.profile')
 
 @section('profile-content')
-    <div class="orders-card card">
-        <div class="orders-card-body">
-            <div class="orders-header">
-                <h5 class="orders-title">Sifarişlərim</h5>
+    <div class="container orders-container py-4">
+        <div class="row align-items-center mb-4">
+            <div class="col-8 col-md-10">
+                <h5 class="mb-0">Sifarişlərim</h5>
+            </div>
+        </div>
+
+        <div class="row orders-body">
+            <div class="col-12">
+{{--                sifarisler bura gelecek--}}
             </div>
         </div>
     </div>
 @endsection
-
 <style>
-    .orders-card {
+    .orders-container {
         background-color: #fff;
-        border: none !important;
+        border-radius: 10px;
+        padding: 20px;
     }
 
-    .orders-title {
+    h5 {
         font-size: 20px;
         color: #a3907a !important;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    .orders-header {
-        display: flex;
     }
 </style>
