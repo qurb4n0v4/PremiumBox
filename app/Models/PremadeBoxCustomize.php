@@ -16,8 +16,6 @@ class PremadeBoxCustomize extends Model
         'gift_box_id',
         'name',
         'boxes',
-        'card_image',
-        'card_name',
     ];
 
     protected $casts = [

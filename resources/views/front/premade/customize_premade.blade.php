@@ -96,7 +96,7 @@
                                                     <div class="col-6 px-1 col-md-6 mb-3 card-item" data-id="{{ $card->id }}">
                                                         <img
                                                             alt="{{ $card->name }}"
-                                                            src="{{ asset('images/' . $card->image) }}"
+                                                            src="{{ asset('storage/images/' . $card->image) }}"
                                                             class="rounded img-fluid w-100 select-card"
                                                             style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                             data-name="{{ $card->name }}"

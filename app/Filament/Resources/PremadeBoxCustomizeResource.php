@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PremadeBoxCustomizeResource\Pages;
 use App\Models\PremadeBoxCustomize;
 use App\Models\GiftBox;
-use App\Models\Card;
+use App\Models\PremadeBox;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,7 +29,7 @@ class PremadeBoxCustomizeResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('premade_boxes_id')
-                    ->relationship('premadeBox', 'name')
+                    ->options(PremadeBox::pluck('name', 'id'))
                     ->required()
                     ->label('Premade Box')
                     ->searchable(),
@@ -136,8 +136,8 @@ class PremadeBoxCustomizeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('premadeBox.name')
                     ->label('Premade Box')
-                    ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('boxes')
                     ->label('Gift Boxes')

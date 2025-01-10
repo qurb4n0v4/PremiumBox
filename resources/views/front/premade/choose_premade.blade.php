@@ -104,10 +104,18 @@
                                 <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
                                         <div class="text-center position-relative image-container">
-                                            <img src="https://wallpapers.com/images/hd/beautiful-sunset-pictures-ubxtuvfhpoampb6d.jpg"
-                                                 alt="{{ $box->name }}" class="card-img-top rounded-top rounded-bottom normal-image">
-                                            <img src="https://images.wallpaperscraft.com/image/single/firtrees_lake_mountains_22568_1280x720.jpg"
-                                                 alt="{{ $box->name }}" class="card-img-top rounded-top rounded-bottom hover-image">
+                                            <!-- Normal Image -->
+                                            <img
+                                                src="{{ asset('storage/images/' . $box->normal_image) }}"
+                                                alt="{{ $box->name }}"
+                                                class="card-img-top rounded-top rounded-bottom normal-image"
+                                            >
+                                            <!-- Hover Image -->
+                                            <img
+                                                src="{{ asset('storage/images/' . $box->hover_image) }}"
+                                                alt="{{ $box->name }}"
+                                                class="card-img-top rounded-top rounded-bottom hover-image"
+                                            >
                                         </div>
                                     </div>
 
@@ -153,12 +161,18 @@
                                                     @if($boxDetail && $boxDetail->paragraph)
                                                         <div data-v-231e0cc6="" class="font-avenir-light mb-3">
                                                             <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
-                                                                <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
-                                                                <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
+                                                                @if(strlen($boxDetail->paragraph) > 100)
+                                                                    <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
+                                                                    <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
+                                                                @else
+                                                                    <span>{{ $boxDetail->paragraph }}</span>
+                                                                @endif
                                                             </p>
-                                                            <div class="text-center mb-2">
-                                                                <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
-                                                            </div>
+                                                            @if(strlen($boxDetail->paragraph) > 100)
+                                                                <div class="text-center mb-2">
+                                                                    <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     @else
                                                         <p>Details not available.</p>
@@ -168,7 +182,7 @@
                                                     <div id="accordionInside" class="accordion mb-4">
                                                         <div id="heading-inside">
                                                             <h2 class="mb-0 text-center">
-                                                                <button type="button" data-bs-toggle="collapse" 
+                                                                <button type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#collapse-inside-{{ $box->id }}"
                                                                         class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
                                                                         aria-expanded="false"
@@ -177,7 +191,7 @@
                                                                 </button>
                                                             </h2>
                                                         </div>
-                                                        <div id="collapse-inside-{{ $box->id }}" 
+                                                        <div id="collapse-inside-{{ $box->id }}"
                                                             aria-labelledby="heading-inside-{{ $box->id }}"
                                                             class="accordion-collapse collapse">
                                                             <div class="d-flex flex-column align-items-center pb-3">
