@@ -148,9 +148,9 @@
                                                                 <div class="carousel-inner">
                                                                     @if($item->customProductDetails)
                                                                         @foreach($item->customProductDetails->images as $index => $image)
-                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
                                                                                 <img src="{{ asset('storage/' . $image) }}"
-                                                                                     class="d-block w-100"
+                                                                                     class="d-block w-100 h-100 object-fit-cover"
                                                                                      alt="Product Image {{ $index + 1 }}">
                                                                             </div>
                                                                         @endforeach
@@ -172,23 +172,28 @@
 
                                                         <div class="flex-grow-1">
                                                             <div class="text-start">
-                                                                <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
-                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</h5>
+                                                                <p class="mb-1" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</p>
+                                                                <p class="mb-2" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</p>
 
                                                                 @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
-                                                                    <h5>Eyni gün çatdırılma</h5>
+                                                                    <div class="mb-3 delivery-info">
+                                                                        <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
+                                                                    </div>
                                                                 @endif
 
                                                                 <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
                                                                     ₼{{ number_format($item->price, 2) }}
                                                                 </p>
 
-                                                                @if($item->customProductDetails && $item->customProductDetails->paragraph)
-                                                                    <p class="mb-3">{{ $item->customProductDetails->paragraph }}</p>
+                                                                @if($item->customProductDetails && $item->customProductDetails->description)
+                                                                    <div class="variant-paragraph" id="description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                        <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
+                                                                        <span class="show-more-btn" onclick="toggleText('description-{{ $item->id }}')">Show more</span>
+                                                                    </div>
                                                                 @endif
 
                                                                 <button type="button"
-                                                                        class="choose-box-customize-button"
+                                                                        class="choose-box-customize-button mt-3"
                                                                         onclick="openCustomizationModal('{{ $item->id }}')">
                                                                     Tənzimləmək
                                                                 </button>
@@ -199,17 +204,37 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <!-- Second Modal - Customization -->
                                     <div class="modal fade" id="customizationModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                             <div class="modal-content rounded-4">
                                                 <div class="modal-body p-4 h-100">
                                                     <div class="d-flex align-items-start gap-4 h-100">
-                                                        <div class="position-relative d-flex align-items-center justify-content-center"
-                                                             style="width: 360px; flex-shrink: 0;">
-                                                            <div class="d-flex align-items-center justify-content-center"
-                                                                 style="height: 260px; width: 260px; overflow: hidden;">
-                                                                <img src="{{ $item->customize_image }}" alt="Customizable Product" class="img-fluid">
+                                                        <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                            <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    @if($item->customProductDetails)
+                                                                        @foreach($item->customProductDetails->images as $index => $image)
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
+                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100 h-100 object-fit-cover"
+                                                                                     alt="Product Image {{ $index + 1 }}">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+
+                                                                <button class="carousel-control-prev" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Əvvəlki</span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Sonrakı</span>
+                                                                </button>
                                                             </div>
                                                         </div>
 
@@ -267,7 +292,6 @@
                                                         <div class="variant-info-content">
                                                             <p class="mb-1 company-name">{{ $item->company_name }}</p>
                                                             <p class="mb-2 item-name">{{ $item->name }}</p>
-                                                            <p class="mb-1 price-display">₼<span class="variant-price">{{ number_format($item->price, 2) }}</span></p>
 
                                                             @if($item->chooseVariants->isNotEmpty())
                                                                 @foreach($item->chooseVariants as $chooseVariant)
@@ -276,6 +300,9 @@
                                                                             <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
                                                                         </div>
                                                                     @endif
+
+                                                                        <p class="mb-1 price-display">₼<span class="variant-price">{{ number_format($item->price, 2) }}</span></p>
+
 
                                                                     @if($chooseVariant->variant_selection_title)
                                                                         <h6 class="mt-3 variant-title">{{ $chooseVariant->variant_selection_title }}</h6>
@@ -302,9 +329,9 @@
                                                                     </div>
 
                                                                         @if($chooseVariant->paragraph)
-                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
-                                                                                <p class="content"></p>
-                                                                                <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
+                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}" data-full-text="{{ $chooseVariant->paragraph }}">
+                                                                                <p class="content">{{ \Illuminate\Support\Str::limit($chooseVariant->paragraph, 200, ' ...') }}</p>
+                                                                                <span class="show-more-btn" onclick="toggleText('paragraph-{{ $chooseVariant->id }}')">Show more</span>
                                                                             </div>
                                                                         @endif
 
@@ -366,26 +393,18 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        initializeText('{{ $chooseVariant->id }}', @json($chooseVariant->paragraph));
+        document.querySelectorAll('.variant-paragraph').forEach(container => {
+            const fullText = container.getAttribute('data-full-text');
+            const showMoreBtn = container.querySelector('.show-more-btn');
+
+            if (fullText.length <= 200) {
+                showMoreBtn.style.display = 'none';
+            }
+        });
     });
 
-    function initializeText(id, fullText) {
-        const container = document.getElementById(`paragraph-${id}`);
-        const content = container.querySelector('.content');
-        const showMoreBtn = container.querySelector('.show-more-btn');
-
-        container.setAttribute('data-full-text', fullText);
-
-        if (fullText.length > 200) {
-            content.textContent = fullText.substring(0, 200) + '...';
-            showMoreBtn.style.display = 'inline';
-        } else {
-            content.textContent = fullText;
-        }
-    }
-
-    function toggleText(id) {
-        const container = document.getElementById(`paragraph-${id}`);
+    function toggleText(elementId) {
+        const container = document.getElementById(elementId);
         const content = container.querySelector('.content');
         const showMoreBtn = container.querySelector('.show-more-btn');
         const fullText = container.getAttribute('data-full-text');
@@ -393,7 +412,7 @@
         const isExpanded = showMoreBtn.textContent === 'Show less';
 
         if (isExpanded) {
-            content.textContent = fullText.substring(0, 200) + '...';
+            content.textContent = fullText.substring(0, 200) + ' ...';
             showMoreBtn.textContent = 'Show more';
         } else {
             content.textContent = fullText;
@@ -402,7 +421,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Initial setup for Custom Product buttons
         document.querySelectorAll('.choose-items-button').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
