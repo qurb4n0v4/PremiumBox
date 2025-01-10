@@ -116,31 +116,120 @@
                                         <p class="text-muted" style="margin-top: -13px; color: #343a40!important;">₼{{ number_format($item->price, 2) }}</p>
 
                                         <!-- Button -->
-                                        <button class="choose-items-button"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modal-{{ $item->id }}">
-                                            {{ $item->button }}
-                                        </button>
+                                        @if($item->button == 'Custom Product')
+                                            <button class="choose-items-button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal1_{{ $item->id }}">  <!-- Updated to match first modal ID -->
+                                                {{ $item->button }}
+                                            </button>
+                                        @else
+                                            <button class="choose-items-button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-{{ $item->id }}">
+                                                {{ $item->button }}
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
 
+                                @php
+                                    $uniqueModalId1 = "modal1_" . $item->id; // Make IDs unique per item
+                                    $uniqueModalId2 = "modal2_" . $item->id;
+                                @endphp
                                 <!-- Modals -->
                                 @if($item->button == 'Custom Product')
-                                    <!-- Custom Product Modal -->
-                                    <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="customProductModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="customProductModalLabel">Custom Product Modal</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Custom Product Modal Content -->
-                                                    <p>Details for Custom Product: {{ $item->name }}</p>
+                                    <!-- First Modal - Product Preview -->
+                                    <div class="modal fade" id="{{ $uniqueModalId1 }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                            <div class="modal-content rounded-4">
+                                                <div class="modal-body p-4">
+                                                    <div class="d-flex align-items-start gap-4">
+                                                        <!-- Image Carousel Section -->
+                                                        <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                            <div id="carousel_{{ $uniqueModalId1 }}" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+
+                                                                </div>
+
+                                                                <button class="carousel-control-prev" type="button"
+                                                                        data-bs-target="#carousel_{{ $uniqueModalId1 }}" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Əvvəlki</span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button"
+                                                                        data-bs-target="#carousel_{{ $uniqueModalId1 }}" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Sonrakı</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-grow-1">
+                                                            <div class="text-start">
+                                                                <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
+                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->title }}</h5>
+                                                                <h5>Eyni gün çatdırılma</h5>
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ $item->price }}</p>
+
+                                                                <button type="button"
+                                                                        class="choose-box-customize-button"
+                                                                        onclick="openSecondModal('{{ $uniqueModalId1 }}', '{{ $uniqueModalId2 }}')">
+                                                                    Tənzimləmək
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Second Modal - Customization -->
+                                    <div class="modal fade" id="{{ $uniqueModalId2 }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                            <div class="modal-content rounded-4">
+                                                <div class="modal-body p-4 h-100">
+                                                    <div class="d-flex align-items-start gap-4 h-100">
+                                                        <div class="position-relative d-flex align-items-center justify-content-center"
+                                                             style="width: 360px; flex-shrink: 0;">
+                                                            <div class="d-flex align-items-center justify-content-center"
+                                                                 style="height: 260px; width: 260px; overflow: hidden;">
+                                                                <img src="{{ $item->customize_image }}" alt="Customizable Product" class="img-fluid">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-grow-1">
+                                                            <div class="text-start">
+                                                                <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
+                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->title }}</h5>
+                                                                <h5>Eyni gün çatdırılma</h5>
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ $item->price }}</p>
+
+                                                                <a href=""
+                                                                   class="choose-box-customize-button"
+                                                                   style="text-decoration: none">
+                                                                    Tamamla
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        function openSecondModal(firstModalId, secondModalId) {
+                                            // Hide first modal
+                                            const firstModal = bootstrap.Modal.getInstance(document.getElementById(firstModalId));
+                                            firstModal.hide();
+
+                                            // Show second modal
+                                            const secondModal = new bootstrap.Modal(document.getElementById(secondModalId));
+                                            secondModal.show();
+                                        }
+                                    </script>
+
                                 @elseif($item->button == 'Choose Variant')
                                     <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 60%;">
@@ -309,6 +398,15 @@
         }
     }
 
+    function openSecondModal(firstModalId, secondModalId) {
+        // Hide first modal
+        const firstModal = bootstrap.Modal.getInstance(document.getElementById(firstModalId));
+        firstModal.hide();
+
+        // Show second modal
+        const secondModal = new bootstrap.Modal(document.getElementById(secondModalId));
+        secondModal.show();
+    }
 </script>
 
 <style>
