@@ -18,6 +18,7 @@ class GiftBoxResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-gift';
     protected static ?string $navigationGroup = 'Gift Boxes Management';
 
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -26,7 +27,7 @@ class GiftBoxResource extends Resource
                 ->maxLength(14),
             Forms\Components\TextInput::make('title')
                 ->required()
-                ->maxLength(20),
+                ->maxLength(15),
             Forms\Components\TextInput::make('price')
                 ->required()
                 ->numeric(),

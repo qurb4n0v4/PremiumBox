@@ -23,18 +23,18 @@
                     </div>
                     <form>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Adınız:</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Adınızı daxil edin" required>
+                            <label for="name" class="form-label contact-label">Adınız:</label>
+                            <input type="text" class="form-control contact-input" id="name" name="name" placeholder="Adınızı daxil edin" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">E-poçt:</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="E-poçtunuzu daxil edin" required>
+                            <label for="email" class="form-label contact-label">E-poçt:</label>
+                            <input type="email" class="form-control contact-input" id="email" name="email" placeholder="E-poçtunuzu daxil edin" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="message" class="form-label">Mesajınız:</label>
-                            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Mesajınızı yazın" required></textarea>
+                            <label for="message" class="form-label contact-label">Mesajınız:</label>
+                            <textarea id="message" name="message" class="form-control contact-input" rows="4" placeholder="Mesajınızı yazın" required></textarea>
                         </div>
 
                         <button type="submit" class="btn contact-submit">Göndər</button>
@@ -85,6 +85,12 @@
         .contact-left p {
             color: #a3907a;
             font-size: 0.9rem;
+        }
+        .contact-label{
+            color: #a3907a;
+        }
+        .contact-input {
+            color: #898989;
         }
         .contact-submit {
             background-color: #ffffff;

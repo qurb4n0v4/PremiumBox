@@ -16,6 +16,7 @@ return new class extends Migration
             $table->boolean('available_same_day_delivery')->default(false);
             $table->text('paragraph')->nullable();
             $table->text('additional')->nullable();
+            $table->string('customize_image')->nullable();
             $table->timestamps();
         });
     }
