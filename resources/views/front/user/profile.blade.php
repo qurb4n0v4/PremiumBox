@@ -26,10 +26,6 @@
                         <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"
                            href="{{ route('addresses.index') }}">Ünvanlarım</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('front/user/coupons') ? 'active' : '' }}"
-                           href="{{ route('coupons') }}">Kuponlarım</a>
-                    </li>
                 </ul>
 
                 <div class="profile-content mt-4 d-flex justify-content-center">

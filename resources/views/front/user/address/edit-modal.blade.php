@@ -11,22 +11,22 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="receiverName-{{ $address->id }}" class="form-label">Receiver Name</label>
-                            <input type="text" class="form-control" id="receiverName-{{ $address->id }}" name="receiver_name" value="{{ $address->receiver_name }}" required>
+                            <label for="receiverName-{{ $address->id }}" class="form-label edit-address-label">Receiver Name</label>
+                            <input type="text" class="form-control edit-address-input" id="receiverName-{{ $address->id }}" name="receiver_name" value="{{ $address->receiver_name }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="phoneNumber-{{ $address->id }}" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phoneNumber-{{ $address->id }}" name="phone_number" value="{{ $address->phone_number }}" required>
+                            <label for="phoneNumber-{{ $address->id }}" class="form-label edit-address-label">Phone Number</label>
+                            <input type="text" class="form-control edit-address-input" id="phoneNumber-{{ $address->id }}" name="phone_number" value="{{ $address->phone_number }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="zipCode-{{ $address->id }}" class="form-label">ZIP Code</label>
-                            <input type="text" class="form-control" id="zipCode-{{ $address->id }}" name="zip_code" value="{{ $address->zip_code }}" required>
+                            <label for="zipCode-{{ $address->id }}" class="form-label edit-address-label">ZIP Code</label>
+                            <input type="text" class="form-control edit-address-input" id="zipCode-{{ $address->id }}" name="zip_code" value="{{ $address->zip_code }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="district-{{ $address->id }}" class="form-label">District</label>
-                            <input type="text" class="form-control" id="district-{{ $address->id }}" name="district" value="{{ $address->district }}" required>
+                            <label for="district-{{ $address->id }}" class="form-label edit-address-label">District</label>
+                            <input type="text" class="form-control edit-address-input" id="district-{{ $address->id }}" name="district" value="{{ $address->district }}" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-edit-save-address">Save Changes</button>
                     </form>
                 </div>
             </div>
@@ -48,15 +48,16 @@
         color: #a3907a;
     }
 
-    .address-label {
+    .edit-address-label {
         color: #a3907a;
     }
 
-    .address-input {
+    .edit-address-input {
         border-radius: 20px;
+        color: #898989;
     }
 
-    .btn-save-address {
+    .btn-edit-save-address {
         background-color: #ffffff;
         border: 1px solid #a3907a;
         color: #a3907a;

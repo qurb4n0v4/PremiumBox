@@ -17,10 +17,10 @@
             <div class="col-12">
                 @forelse($addresses as $address)
                     <div class="card mb-3 p-3">
-                        <h6 class="mb-1">{{ $address->receiver_name }}</h6>
-                        <p class="mb-1"><strong>Phone:</strong> {{ $address->phone_number }}</p>
-                        <p class="mb-1"><strong>Zip Code:</strong> {{ $address->zip_code }}</p>
-                        <p class="mb-1"><strong>District:</strong> {{ $address->district }}</p>
+                        <h6 class="mb-1" style="color: #a3907a;">{{ $address->receiver_name }}</h6>
+                        <p class="mb-1" style="color: #898989;"><strong style="color: #a3907a;">Phone:</strong> {{ $address->phone_number }}</p>
+                        <p class="mb-1" style="color: #898989;"><strong style="color: #a3907a;">Zip Code:</strong> {{ $address->zip_code }}</p>
+                        <p class="mb-1" style="color: #898989;"><strong style="color: #a3907a;">District:</strong> {{ $address->district }}</p>
                         <div class="text-end">
                             <button class="btn btn-sm btn-edit-address me-2" data-bs-toggle="modal" data-bs-target="#editAddressModal-{{ $address->id }}">
                                 <i class="fas fa-edit"></i> Edit
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 @empty
-                    <p>No addresses found. Please add a new address.</p>
+                    <p style="color: #898989;">No addresses found. Please add a new address.</p>
                 @endforelse
             </div>
         </div>
@@ -70,5 +70,8 @@
     .btn-add-address:hover {
         background-color: #a3907a;
         color: #ffffff;
+    }
+    .btn-edit-address, .btn-delete-address {
+        color: #a3907a !important;
     }
 </style>
