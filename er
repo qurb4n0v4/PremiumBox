@@ -1,0 +1,752 @@
+[1mdiff --git a/.env b/.env[m
+[1mindex 1ab59832..ba5f7019 100644[m
+[1m--- a/.env[m
+[1m+++ b/.env[m
+[36m@@ -9,7 +9,7 @@[m [mLOG_DEPRECATIONS_CHANNEL=null[m
+ LOG_LEVEL=debug[m
+ [m
+ DB_CONNECTION=mysql[m
+[31m-DB_HOST=localhost[m
+[32m+[m[32mDB_HOST=127.0.0.1[m
+ DB_PORT=3306[m
+ DB_DATABASE=boxtale[m
+ DB_USERNAME=root[m
+[1mdiff --git "a/an cache\357\200\272clear" "b/an cache\357\200\272clear"[m
+[1mdeleted file mode 100644[m
+[1mindex 15850380..00000000[m
+[1m--- "a/an cache\357\200\272clear"[m	
+[1m+++ /dev/null[m
+[36m@@ -1,14 +0,0 @@[m
+[31m-[m
+[31m-                   SSUUMMMMAARRYY OOFF LLEESSSS CCOOMMMMAANNDDSS[m
+[31m-[m
+[31m-      Commands marked with * may be preceded by a number, _N.[m
+[31m-      Notes in parentheses indicate the behavior if _N is given.[m
+[31m-      A key preceded by a caret indicates the Ctrl key; thus ^K is ctrl-K.[m
+[31m-[m
+[31m-  h  H                 Display this help.[m
+[31m-  q  :q  Q  :Q  ZZ     Exit.[m
+[31m- ---------------------------------------------------------------------------[m
+[31m-[m
+[31m-                           MMOOVVIINNGG[m
+[31m-[m
+[31m-  e  ^E  j  ^N  CR  *  Forward  one line   (or _N lines).[m
+[1mdiff --git a/app/Filament/Resources/BoxCategoryResource.php b/app/Filament/Resources/BoxCategoryResource.php[m
+[1mindex ba99c1a7..70574d22 100644[m
+[1m--- a/app/Filament/Resources/BoxCategoryResource.php[m
+[1m+++ b/app/Filament/Resources/BoxCategoryResource.php[m
+[36m@@ -17,36 +17,30 @@[m [mclass BoxCategoryResource extends Resource[m
+     protected static ?string $navigationIcon = 'heroicon-o-star';[m
+     protected static ?string $navigationGroup = 'Gift Boxes Management';[m
+ [m
+[32m+[m[32m    // Define the form layout[m
+     public static function form(Form $form): Form[m
+     {[m
+         return $form->schema([[m
+             Forms\Components\TextInput::make('name')[m
+                 ->required()[m
+                 ->maxLength(255),[m
+[31m-[m
+[31m-            Forms\Components\TextInput::make('width')[m
+[31m-                ->nullable() // Allow null values[m
+[31m-                ->maxLength(255),[m
+[31m-[m
+[31m-            Forms\Components\TextInput::make('height')[m
+[31m-                ->nullable() // Allow null values[m
+[31m-                ->maxLength(255),[m
+[31m-[m
+[31m-            Forms\Components\TextInput::make('length')[m
+[31m-                ->nullable() // Allow null values[m
+[31m-                ->maxLength(255),[m
+[32m+[m[32m            Forms\Components\TextInput::make('box_size') // Add box_size to the form[m
+[32m+[m[32m            ->nullable() // Allow null values[m
+[32m+[m[32m            ->maxLength(255), // You can adjust the max length if needed[m
+         ]);[m
+     }[m
+ [m
+[32m+[m[32m    // Define the table layout[m
+     public static function table(Table $table): Table[m
+     {[m
+         return $table->columns([[m
+             Tables\Columns\TextColumn::make('name')->searchable(),[m
+[31m-            Tables\Columns\TextColumn::make('width')->sortable()->searchable(),[m
+[31m-            Tables\Columns\TextColumn::make('height')->sortable()->searchable(),[m
+[31m-            Tables\Columns\TextColumn::make('length')->sortable()->searchable(),[m
+[32m+[m[32m            Tables\Columns\TextColumn::make('box_size') // Display box_size in the table[m
+[32m+[m[32m            ->sortable() // Allow sorting by box_size[m
+[32m+[m[32m            ->searchable(), // Make box_size searchable[m
+         ])[m
+             ->filters([[m
+[32m+[m[32m                // Add any filters if needed[m
+             ])[m
+             ->actions([[m
+                 Tables\Actions\EditAction::make(),[m
+[36m@@ -56,6 +50,7 @@[m [mpublic static function table(Table $table): Table[m
+             ]);[m
+     }[m
+ [m
+[32m+[m[32m    // Define the available pages for this resource[m
+     public static function getPages(): array[m
+     {[m
+         return [[m
+[1mdiff --git a/app/Filament/Resources/CardResource.php b/app/Filament/Resources/CardResource.php[m
+[1mdeleted file mode 100644[m
+[1mindex 807ebe72..00000000[m
+[1m--- a/app/Filament/Resources/CardResource.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,73 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources;[m
+[31m-[m
+[31m-use App\Filament\Resources\CardResource\Pages;[m
+[31m-use App\Models\Card;[m
+[31m-use Filament\Forms;[m
+[31m-use Filament\Resources\Resource;[m
+[31m-use Filament\Tables;[m
+[31m-use Filament\Forms\Components\FileUpload;[m
+[31m-use Filament\Forms\Components\TextInput;[m
+[31m-[m
+[31m-class CardResource extends Resource[m
+[31m-{[m
+[31m-    protected static ?string $model = Card::class;[m
+[31m-[m
+[31m-    protected static ?string $navigationIcon = 'heroicon-o-star';[m
+[31m-[m
+[31m-    protected static ?string $navigationLabel = 'Cards';[m
+[31m-[m
+[31m-    protected static ?string $navigationGroup = 'Content Management';[m
+[31m-[m
+[31m-    public static function form(Forms\Form $form): Forms\Form[m
+[31m-    {[m
+[31m-        return $form->schema([[m
+[31m-            TextInput::make('name')[m
+[31m-                ->label('Kartın Adı')[m
+[31m-                ->required()[m
+[31m-                ->maxLength(255),[m
+[31m-[m
+[31m-            TextInput::make('price')[m
+[31m-                ->label('Kartın Qiyməti')[m
+[31m-                ->numeric()[m
+[31m-                ->nullable()[m
+[31m-                ->minValue(0)[m
+[31m-                ->maxLength(10)[m
+[31m-                ->placeholder('Məsələn: 99.99'),[m
+[31m-[m
+[31m-            FileUpload::make('image')[m
+[31m-                ->label('Kartın Şəkli')[m
+[31m-                ->image()[m
+[31m-                ->required()[m
+[31m-                ->disk('public')[m
+[31m-                ->directory('card_images'),[m
+[31m-        ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function table(Tables\Table $table): Tables\Table[m
+[31m-    {[m
+[31m-        return $table->columns([[m
+[31m-            Tables\Columns\TextColumn::make('name')->label('Kartın Adı')->sortable()->searchable(),[m
+[31m-            Tables\Columns\ImageColumn::make('image')->label('Kartın Şəkli')->sortable(),[m
+[31m-            Tables\Columns\TextColumn::make('price')[m
+[31m-                ->label('Kartın Qiyməti')[m
+[31m-                ->sortable()[m
+[31m-                ->formatStateUsing(fn ($state) => $state !== null ? number_format($state, 2) . ' ₺' : 'Qiymət verilməyib'),[m
+[31m-            Tables\Columns\TextColumn::make('created_at')->label('Yaradılma Tarixi')->sortable(),[m
+[31m-        ])[m
+[31m-            ->actions([[m
+[31m-                Tables\Actions\EditAction::make(),[m
+[31m-                Tables\Actions\DeleteAction::make(),[m
+[31m-            ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function getPages(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            'index' => Pages\ListCards::route('/'),[m
+[31m-            'create' => Pages\CreateCard::route('/create'),[m
+[31m-            'edit' => Pages\EditCard::route('/{record}/edit'),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/CardResource/Pages/CreateCard.php b/app/Filament/Resources/CardResource/Pages/CreateCard.php[m
+[1mdeleted file mode 100644[m
+[1mindex 20f8bee3..00000000[m
+[1m--- a/app/Filament/Resources/CardResource/Pages/CreateCard.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,12 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\CardResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\CardResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\CreateRecord;[m
+[31m-[m
+[31m-class CreateCard extends CreateRecord[m
+[31m-{[m
+[31m-    protected static string $resource = CardResource::class;[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/CardResource/Pages/EditCard.php b/app/Filament/Resources/CardResource/Pages/EditCard.php[m
+[1mdeleted file mode 100644[m
+[1mindex 169cf229..00000000[m
+[1m--- a/app/Filament/Resources/CardResource/Pages/EditCard.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\CardResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\CardResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\EditRecord;[m
+[31m-[m
+[31m-class EditCard extends EditRecord[m
+[31m-{[m
+[31m-    protected static string $resource = CardResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\DeleteAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/CardResource/Pages/ListCards.php b/app/Filament/Resources/CardResource/Pages/ListCards.php[m
+[1mdeleted file mode 100644[m
+[1mindex 88c28f55..00000000[m
+[1m--- a/app/Filament/Resources/CardResource/Pages/ListCards.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\CardResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\CardResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\ListRecords;[m
+[31m-[m
+[31m-class ListCards extends ListRecords[m
+[31m-{[m
+[31m-    protected static string $resource = CardResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\CreateAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseItemResource.php b/app/Filament/Resources/ChooseItemResource.php[m
+[1mdeleted file mode 100644[m
+[1mindex 636d133c..00000000[m
+[1m--- a/app/Filament/Resources/ChooseItemResource.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,109 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseItemResource\Pages;[m
+[31m-use App\Models\ChooseItem;[m
+[31m-use Filament\Forms;[m
+[31m-use Filament\Forms\Form;[m
+[31m-use Filament\Resources\Resource;[m
+[31m-use Filament\Tables\Table;[m
+[31m-use Filament\Tables;[m
+[31m-use Filament\Tables\Columns\TextColumn;[m
+[31m-use Filament\Forms\Components\TextInput;[m
+[31m-use Filament\Forms\Components\Select;[m
+[31m-use Filament\Forms\Components\FileUpload;[m
+[31m-use Filament\Tables\Filters\SelectFilter;[m
+[31m-[m
+[31m-class ChooseItemResource extends Resource[m
+[31m-{[m
+[31m-    protected static ?string $model = ChooseItem::class;[m
+[31m-[m
+[31m-    protected static ?string $navigationIcon = 'heroicon-o-gift';[m
+[31m-[m
+[31m-    protected static ?string $navigationLabel = 'Choose Items';[m
+[31m-[m
+[31m-    protected static ?string $pluralLabel = 'Choose Items';[m
+[31m-    protected static ?string $navigationGroup = 'Gift Boxes Management';[m
+[31m-[m
+[31m-[m
+[31m-    public static function form(Form $form): Form[m
+[31m-    {[m
+[31m-        return $form[m
+[31m-            ->schema([[m
+[31m-                TextInput::make('company_name')[m
+[31m-                    ->required()[m
+[31m-                    ->maxLength(255),[m
+[31m-                TextInput::make('name')[m
+[31m-                    ->required()[m
+[31m-                    ->maxLength(255),[m
+[31m-                TextInput::make('price')[m
+[31m-                    ->required()[m
+[31m-                    ->numeric(),[m
+[31m-                Select::make('button')[m
+[31m-                    ->options([[m
+[31m-                        'Add to Box' => 'Add to Box',[m
+[31m-                        'Custom Product' => 'Custom Product',[m
+[31m-                        'Choose Variant' => 'Choose Variant',[m
+[31m-                    ])[m
+[31m-                    ->required(),[m
+[31m-                FileUpload::make('normal_image')[m
+[31m-                    ->required(),[m
+[31m-                FileUpload::make('hover_image'),[m
+[31m-                TextInput::make('category')[m
+[31m-                    ->required()[m
+[31m-                    ->maxLength(255),[m
+[31m-                TextInput::make('production_time')[m
+[31m-                    ->required()[m
+[31m-                    ->numeric(),[m
+[31m-                TextInput::make('width')[m
+[31m-                    ->required()[m
+[31m-                    ->numeric(),[m
+[31m-                TextInput::make('height')[m
+[31m-                    ->required()[m
+[31m-                    ->numeric(),[m
+[31m-                TextInput::make('length')[m
+[31m-                    ->required()[m
+[31m-                    ->numeric(),[m
+[31m-            ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function table(Table $table): Table[m
+[31m-    {[m
+[31m-        return $table[m
+[31m-            ->columns([[m
+[31m-                TextColumn::make('company_name')->sortable()->searchable(),[m
+[31m-                TextColumn::make('name')->sortable()->searchable(),[m
+[31m-                TextColumn::make('price')->sortable(),[m
+[31m-                TextColumn::make('button')->sortable(),[m
+[31m-                TextColumn::make('category')->sortable()->searchable(),[m
+[31m-                TextColumn::make('production_time')->sortable(),[m
+[31m-                TextColumn::make('width'),[m
+[31m-                TextColumn::make('height'),[m
+[31m-                TextColumn::make('length'),[m
+[31m-                TextColumn::make('created_at')->label('Created')->dateTime(),[m
+[31m-            ])[m
+[31m-            ->filters([[m
+[31m-                SelectFilter::make('button')[m
+[31m-                    ->options([[m
+[31m-                        'Add to Box' => 'Add to Box',[m
+[31m-                        'Custom Product' => 'Custom Product',[m
+[31m-                        'Choose Variant' => 'Choose Variant',[m
+[31m-                    ]),[m
+[31m-            ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function getRelations(): array[m
+[31m-    {[m
+[31m-        return [];[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function getPages(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            'index' => Pages\ListChooseItems::route('/'),[m
+[31m-            'create' => Pages\CreateChooseItem::route('/create'),[m
+[31m-            'edit' => Pages\EditChooseItem::route('/{record}/edit'),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseItemResource/Pages/CreateChooseItem.php b/app/Filament/Resources/ChooseItemResource/Pages/CreateChooseItem.php[m
+[1mdeleted file mode 100644[m
+[1mindex fd9a221e..00000000[m
+[1m--- a/app/Filament/Resources/ChooseItemResource/Pages/CreateChooseItem.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,12 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseItemResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseItemResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\CreateRecord;[m
+[31m-[m
+[31m-class CreateChooseItem extends CreateRecord[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseItemResource::class;[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseItemResource/Pages/EditChooseItem.php b/app/Filament/Resources/ChooseItemResource/Pages/EditChooseItem.php[m
+[1mdeleted file mode 100644[m
+[1mindex f5a43d03..00000000[m
+[1m--- a/app/Filament/Resources/ChooseItemResource/Pages/EditChooseItem.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseItemResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseItemResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\EditRecord;[m
+[31m-[m
+[31m-class EditChooseItem extends EditRecord[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseItemResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\DeleteAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseItemResource/Pages/ListChooseItems.php b/app/Filament/Resources/ChooseItemResource/Pages/ListChooseItems.php[m
+[1mdeleted file mode 100644[m
+[1mindex 14208496..00000000[m
+[1m--- a/app/Filament/Resources/ChooseItemResource/Pages/ListChooseItems.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseItemResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseItemResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\ListRecords;[m
+[31m-[m
+[31m-class ListChooseItems extends ListRecords[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseItemResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\CreateAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseVariantResource.php b/app/Filament/Resources/ChooseVariantResource.php[m
+[1mdeleted file mode 100644[m
+[1mindex 77e0a158..00000000[m
+[1m--- a/app/Filament/Resources/ChooseVariantResource.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,159 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseVariantResource\Pages;[m
+[31m-use App\Models\ChooseVariant;[m
+[31m-use Filament\Forms;[m
+[31m-use Filament\Forms\Form;[m
+[31m-use Filament\Resources\Resource;[m
+[31m-use Filament\Tables\Table;[m
+[31m-use Filament\Tables;[m
+[31m-use Filament\Forms\Components\Section;[m
+[31m-use Filament\Forms\Components\Grid;[m
+[31m-[m
+[31m-class ChooseVariantResource extends Resource[m
+[31m-{[m
+[31m-    protected static ?string $model = ChooseVariant::class;[m
+[31m-[m
+[31m-    protected static ?string $navigationIcon = 'heroicon-o-gift';[m
+[31m-[m
+[31m-    protected static ?string $navigationLabel = 'Choose Variants';[m
+[31m-[m
+[31m-    protected static ?string $navigationGroup = 'Gift Boxes Management';[m
+[31m-[m
+[31m-    public static function form(Form $form): Form[m
+[31m-    {[m
+[31m-        return $form[m
+[31m-            ->schema([[m
+[31m-                Section::make('General Information')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Select::make('choose_item_id')[m
+[31m-                            ->relationship('chooseItem', 'name')[m
+[31m-                            ->required()[m
+[31m-                            ->label('Product'),[m
+[31m-[m
+[31m-                        Forms\Components\FileUpload::make('images')[m
+[31m-                            ->label('Images')[m
+[31m-                            ->image()[m
+[31m-                            ->multiple()[m
+[31m-                            ->disk('public')[m
+[31m-                            ->directory('variant-images')[m
+[31m-                            ->reorderable()[m
+[31m-                            ->columnSpanFull(),[m
+[31m-[m
+[31m-                        Forms\Components\Toggle::make('available_same_day_delivery')[m
+[31m-                            ->label('Same Day Delivery')[m
+[31m-                            ->default(false),[m
+[31m-[m
+[31m-                        Forms\Components\Textarea::make('paragraph')[m
+[31m-                            ->label('Description')[m
+[31m-                            ->nullable(),[m
+[31m-                    ]),[m
+[31m-                Section::make('Variant Settings')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Toggle::make('has_variants')[m
+[31m-                            ->label('Has Variants')[m
+[31m-                            ->default(false)[m
+[31m-                            ->reactive(),[m
+[31m-[m
+[31m-                        Forms\Components\TextInput::make('variant_selection_title')[m
+[31m-                            ->label('Variant Selection Title')[m
+[31m-                            ->required()[m
+[31m-                            ->hidden(fn (callable $get) => !$get('has_variants')),[m
+[31m-[m
+[31m-                        Forms\Components\Repeater::make('variants')[m
+[31m-                            ->schema([[m
+[31m-                                Forms\Components\TextInput::make('name')[m
+[31m-                                    ->label('Variant Name')[m
+[31m-                                    ->required(),[m
+[31m-[m
+[31m-                                Forms\Components\FileUpload::make('image')[m
+[31m-                                    ->label('Variant Image')[m
+[31m-                                    ->image()[m
+[31m-                                    ->disk('public')[m
+[31m-                                    ->directory('variant-images')[m
+[31m-                                    ->required(),[m
+[31m-[m
+[31m-                                Forms\Components\TextInput::make('price')[m
+[31m-                                    ->label('Variant Price')[m
+[31m-                                    ->numeric()[m
+[31m-                                    ->required(),[m
+[31m-                            ])[m
+[31m-                            ->hidden(fn (callable $get) => !$get('has_variants'))[m
+[31m-                            ->columnSpanFull()[m
+[31m-                            ->defaultItems(0)[m
+[31m-                            ->createItemButtonLabel('Add Variant'),[m
+[31m-                    ])[m
+[31m-                    ->collapsed()[m
+[31m-                    ->collapsible(),[m
+[31m-                Section::make('Custom Text Settings')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Toggle::make('has_custom_text')[m
+[31m-                            ->label('Has Custom Text')[m
+[31m-                            ->default(false)[m
+[31m-                            ->reactive(),[m
+[31m-[m
+[31m-                        Forms\Components\TextInput::make('text_field_placeholder')[m
+[31m-                            ->label('Text Field Placeholder')[m
+[31m-                            ->hidden(fn (callable $get) => !$get('has_custom_text')),[m
+[31m-                    ])[m
+[31m-                    ->collapsed()[m
+[31m-                    ->collapsible(),[m
+[31m-            ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function table(Table $table): Table[m
+[31m-    {[m
+[31m-        return $table[m
+[31m-            ->columns([[m
+[31m-                Tables\Columns\TextColumn::make('chooseItem.name')[m
+[31m-                    ->label('Product')[m
+[31m-                    ->searchable(),[m
+[31m-[m
+[31m-                Tables\Columns\ImageColumn::make('images')[m
+[31m-                    ->label('Images')[m
+[31m-                    ->circular()[m
+[31m-                    ->stacked()[m
+[31m-                    ->limit(3),[m
+[31m-[m
+[31m-                Tables\Columns\BooleanColumn::make('available_same_day_delivery')[m
+[31m-                    ->label('Same Day Delivery'),[m
+[31m-[m
+[31m-                Tables\Columns\TextColumn::make('paragraph')[m
+[31m-                    ->label('Description')[m
+[31m-                    ->limit(50),[m
+[31m-[m
+[31m-                Tables\Columns\BooleanColumn::make('has_variants')[m
+[31m-                    ->label('Has Variants'),[m
+[31m-[m
+[31m-                Tables\Columns\BooleanColumn::make('has_custom_text')[m
+[31m-                    ->label('Has Custom Text'),[m
+[31m-[m
+[31m-                Tables\Columns\TextColumn::make('text_field_placeholder')[m
+[31m-                    ->label('Text Field Placeholder')[m
+[31m-                    ->limit(30),[m
+[31m-            ])[m
+[31m-            ->filters([])[m
+[31m-            ->actions([[m
+[31m-                Tables\Actions\EditAction::make(),[m
+[31m-            ])[m
+[31m-            ->bulkActions([[m
+[31m-                Tables\Actions\DeleteBulkAction::make(),[m
+[31m-            ]);[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function getRelations(): array[m
+[31m-    {[m
+[31m-        return [];[m
+[31m-    }[m
+[31m-[m
+[31m-    public static function getPages(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            'index' => Pages\ListChooseVariants::route('/'),[m
+[31m-            'create' => Pages\CreateChooseVariant::route('/create'),[m
+[31m-            'edit' => Pages\EditChooseVariant::route('/{record}/edit'),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseVariantResource/Pages/CreateChooseVariant.php b/app/Filament/Resources/ChooseVariantResource/Pages/CreateChooseVariant.php[m
+[1mdeleted file mode 100644[m
+[1mindex 654cded2..00000000[m
+[1m--- a/app/Filament/Resources/ChooseVariantResource/Pages/CreateChooseVariant.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,12 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseVariantResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseVariantResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\CreateRecord;[m
+[31m-[m
+[31m-class CreateChooseVariant extends CreateRecord[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseVariantResource::class;[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseVariantResource/Pages/EditChooseVariant.php b/app/Filament/Resources/ChooseVariantResource/Pages/EditChooseVariant.php[m
+[1mdeleted file mode 100644[m
+[1mindex 9a02d410..00000000[m
+[1m--- a/app/Filament/Resources/ChooseVariantResource/Pages/EditChooseVariant.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseVariantResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseVariantResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\EditRecord;[m
+[31m-[m
+[31m-class EditChooseVariant extends EditRecord[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseVariantResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\DeleteAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/ChooseVariantResource/Pages/ListChooseVariants.php b/app/Filament/Resources/ChooseVariantResource/Pages/ListChooseVariants.php[m
+[1mdeleted file mode 100644[m
+[1mindex bf89ba22..00000000[m
+[1m--- a/app/Filament/Resources/ChooseVariantResource/Pages/ListChooseVariants.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,19 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources\ChooseVariantResource\Pages;[m
+[31m-[m
+[31m-use App\Filament\Resources\ChooseVariantResource;[m
+[31m-use Filament\Actions;[m
+[31m-use Filament\Resources\Pages\ListRecords;[m
+[31m-[m
+[31m-class ListChooseVariants extends ListRecords[m
+[31m-{[m
+[31m-    protected static string $resource = ChooseVariantResource::class;[m
+[31m-[m
+[31m-    protected function getHeaderActions(): array[m
+[31m-    {[m
+[31m-        return [[m
+[31m-            Actions\CreateAction::make(),[m
+[31m-        ];[m
+[31m-    }[m
+[31m-}[m
+[1mdiff --git a/app/Filament/Resources/CustomProductDetailResource.php b/app/Filament/Resources/CustomProductDetailResource.php[m
+[1mdeleted file mode 100644[m
+[1mindex 5e8450c6..00000000[m
+[1m--- a/app/Filament/Resources/CustomProductDetailResource.php[m
+[1m+++ /dev/null[m
+[36m@@ -1,192 +0,0 @@[m
+[31m-<?php[m
+[31m-[m
+[31m-namespace App\Filament\Resources;[m
+[31m-[m
+[31m-use App\Filament\Resources\CustomProductDetailResource\Pages;[m
+[31m-use App\Models\CustomProductDetail;[m
+[31m-use Filament\Forms;[m
+[31m-use Filament\Forms\Form;[m
+[31m-use Filament\Resources\Resource;[m
+[31m-use Filament\Tables\Table;[m
+[31m-use Filament\Tables;[m
+[31m-use Filament\Forms\Components\Section;[m
+[31m-use Filament\Forms\Components\Grid;[m
+[31m-[m
+[31m-class CustomProductDetailResource extends Resource[m
+[31m-{[m
+[31m-    protected static ?string $model = CustomProductDetail::class;[m
+[31m-[m
+[31m-    protected static ?string $navigationIcon = 'heroicon-o-gift';[m
+[31m-[m
+[31m-    protected static ?string $navigationLabel = 'Custom Product Details';[m
+[31m-[m
+[31m-    protected static ?string $navigationGroup = 'Gift Boxes Management';[m
+[31m-[m
+[31m-    public static function form(Form $form): Form[m
+[31m-    {[m
+[31m-        return $form[m
+[31m-            ->schema([[m
+[31m-                Section::make('Əsas Məlumatlar')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Select::make('choose_item_id')[m
+[31m-                            ->relationship('chooseItem', 'name')[m
+[31m-                            ->required()[m
+[31m-                            ->label('Məhsul'),[m
+[31m-[m
+[31m-                        Forms\Components\Toggle::make('same_day_delivery')[m
+[31m-                            ->label('Eyni Gün Çatdırılma')[m
+[31m-                            ->default(false),[m
+[31m-[m
+[31m-                        Forms\Components\Textarea::make('description')[m
+[31m-                            ->label('Məhsul Təsviri')[m
+[31m-                            ->nullable(),[m
+[31m-[m
+[31m-                        Forms\Components\FileUpload::make('images')[m
+[31m-                            ->label('Məhsul Şəkilləri')[m
+[31m-                            ->image()[m
+[31m-                            ->multiple()[m
+[31m-                            ->reorderable()[m
+[31m-                            ->disk('public')[m
+[31m-                            ->directory('product-images')[m
+[31m-                            ->imageResizeMode('cover')[m
+[31m-                            ->imageCropAspectRatio('16:9')[m
+[31m-                            ->imageResizeTargetWidth('1920')[m
+[31m-                            ->imageResizeTargetHeight('1080')[m
+[31m-                            ->maxFiles(5)[m
+[31m-                            ->columnSpanFull(),[m
+[31m-                    ]),[m
+[31m-[m
+[31m-                Section::make('Şəkil Yükləmə Parametrləri')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Toggle::make('allow_user_images')[m
+[31m-                            ->label('İstifadəçi şəkil yükləyə bilər')[m
+[31m-                            ->default(false)[m
+[31m-                            ->reactive(),[m
+[31m-[m
+[31m-                        Grid::make(2)[m
+[31m-                            ->schema([[m
+[31m-                                Forms\Components\TextInput::make('image_upload_title')[m
+[31m-                                    ->label('Şəkil yükləmə başlığı')[m
+[31m-                                    ->required()[m
+[31m-                                    ->hidden(fn (callable $get) => !$get('allow_user_images')),[m
+[31m-[m
+[31m-                                Forms\Components\TextInput::make('max_image_count')[m
+[31m-                                    ->label('Maximum şəkil sayı')[m
+[31m-                                    ->type('number')[m
+[31m-                                    ->minValue(1)[m
+[31m-                                    ->required()[m
+[31m-                                    ->hidden(fn (callable $get) => !$get('allow_user_images')),[m
+[31m-                            ]),[m
+[31m-                    ])[m
+[31m-                    ->collapsed()[m
+[31m-                    ->collapsible(),[m
+[31m-[m
+[31m-                Section::make('Variant Parametrləri')[m
+[31m-                    ->schema([[m
+[31m-                        Forms\Components\Toggle::make('has_variants')[m
+[31m-                            ->label('Variant seçimi var')[m
+[31m-                            ->default(false)[m
+[31m-                            ->reactive(),[m
+[31m-[m
+[31m-                        Forms\Components\TextInput::make('variant_selection_title')[m
+[31m-                        

@@ -31,6 +31,10 @@ class GiftBoxDetailResource extends Resource
                     ->multiple()
                     ->label('Images')
                     ->required(),
+                Forms\Components\FileUpload::make('customize_image')
+                    ->label('Customize Image')
+                    ->required()
+                    ->image(),
                 Forms\Components\TextInput::make('box_name')
                     ->required()
                     ->label('Box Name'),
@@ -59,6 +63,18 @@ class GiftBoxDetailResource extends Resource
                     ->label('Box Name'),
                 Tables\Columns\BooleanColumn::make('available_same_day_delivery')
                     ->label('Same Day Delivery'),
+                Tables\Columns\TextColumn::make('customize_image')
+                    ->label('Customize Image')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
+                Tables\Columns\TextColumn::make('images')
+                    ->label('Images')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime(),
@@ -73,6 +89,7 @@ class GiftBoxDetailResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+
 
     public static function getRelations(): array
     {

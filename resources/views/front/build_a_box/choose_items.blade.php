@@ -1,5 +1,6 @@
 @extends('front.layouts.app')
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
 @section('content')
     <div class="choose-box-line"></div>
@@ -119,7 +120,7 @@
                                         @if($item->button == 'Custom Product')
                                             <button class="choose-items-button"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#modal1_{{ $item->id }}">  <!-- Updated to match first modal ID -->
+                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">  <!-- Burada dəyişiklik edildi -->
                                                 {{ $item->button }}
                                             </button>
                                         @else
@@ -132,32 +133,28 @@
                                     </div>
                                 </div>
 
-                                @php
-                                    $uniqueModalId1 = "modal1_" . $item->id; // Make IDs unique per item
-                                    $uniqueModalId2 = "modal2_" . $item->id;
-                                @endphp
-                                    <!-- Modals -->
+
+                                <!-- Modals -->
                                 @if($item->button == 'Custom Product')
                                     <!-- First Modal - Product Preview -->
-                                    <div class="modal fade" id="{{ $uniqueModalId1 }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="productPreviewModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                             <div class="modal-content rounded-4">
                                                 <div class="modal-body p-4">
                                                     <div class="d-flex align-items-start gap-4">
                                                         <!-- Image Carousel Section -->
                                                         <div class="position-relative" style="width: 360px; flex-shrink: 0;">
-                                                            <div id="carousel_{{ $uniqueModalId1 }}" class="carousel slide" data-bs-ride="carousel">
+                                                            <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
                                                                 <div class="carousel-inner">
-
                                                                 </div>
 
                                                                 <button class="carousel-control-prev" type="button"
-                                                                        data-bs-target="#carousel_{{ $uniqueModalId1 }}" data-bs-slide="prev">
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="prev">
                                                                     <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                                     <span class="visually-hidden">Əvvəlki</span>
                                                                 </button>
                                                                 <button class="carousel-control-next" type="button"
-                                                                        data-bs-target="#carousel_{{ $uniqueModalId1 }}" data-bs-slide="next">
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="next">
                                                                     <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                                     <span class="visually-hidden">Sonrakı</span>
                                                                 </button>
@@ -173,7 +170,7 @@
 
                                                                 <button type="button"
                                                                         class="choose-box-customize-button"
-                                                                        onclick="openSecondModal('{{ $uniqueModalId1 }}', '{{ $uniqueModalId2 }}')">
+                                                                        onclick="openCustomizationModal('{{ $item->id }}')">
                                                                     Tənzimləmək
                                                                 </button>
                                                             </div>
@@ -185,7 +182,7 @@
                                     </div>
 
                                     <!-- Second Modal - Customization -->
-                                    <div class="modal fade" id="{{ $uniqueModalId2 }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal fade" id="customizationModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                             <div class="modal-content rounded-4">
                                                 <div class="modal-body p-4 h-100">
@@ -219,14 +216,14 @@
                                     </div>
 
                                     <script>
-                                        function openSecondModal(firstModalId, secondModalId) {
-                                            // Hide first modal
-                                            const firstModal = bootstrap.Modal.getInstance(document.getElementById(firstModalId));
-                                            firstModal.hide();
+                                        function openCustomizationModal(itemId) {
+                                            // Hide preview modal
+                                            const previewModal = bootstrap.Modal.getInstance(document.getElementById(`productPreviewModal_${itemId}`));
+                                            previewModal.hide();
 
-                                            // Show second modal
-                                            const secondModal = new bootstrap.Modal(document.getElementById(secondModalId));
-                                            secondModal.show();
+                                            // Show customization modal
+                                            const customizationModal = new bootstrap.Modal(document.getElementById(`customizationModal_${itemId}`));
+                                            customizationModal.show();
                                         }
                                     </script>
 
@@ -298,23 +295,23 @@
                                                                         @endif
                                                                     </div>
 
-                                                                    @if($chooseVariant->paragraph)
-                                                                        <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
-                                                                            <p class="content"></p>
-                                                                            <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
-                                                                        </div>
-                                                                    @endif
+                                                                        @if($chooseVariant->paragraph)
+                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
+                                                                                <p class="content"></p>
+                                                                                <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
+                                                                            </div>
+                                                                        @endif
 
-                                                                    @if($chooseVariant->has_custom_text)
-                                                                        <div class="mt-3">
+                                                                        @if($chooseVariant->has_custom_text)
+                                                                            <div class="mt-3">
        <textarea
            style="height: 40px; outline: none;"
            class="form-control custom-text"
            placeholder="{{ $chooseVariant->text_field_placeholder }}"
            rows="3"
        ></textarea>
-                                                                        </div>
-                                                                    @endif
+                                                                            </div>
+                                                                        @endif
 
                                                                     <button class="choose-box-choose-button">Qutuya əlavə et</button>
                                                                 @endforeach
@@ -414,3 +411,4 @@
         background-color: rgba(0, 0, 0, 0.4) !important;
     }
 </style>
+
