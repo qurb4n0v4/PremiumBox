@@ -27,7 +27,19 @@ class PremadeBoxController extends Controller
 
         }
 
-        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'currentStep'));
+        if ($id) {
+            $boxInsidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+
+            if (!$boxInsidings) {
+                return redirect()->back()->with('error', 'Box not found.');
+            }
+
+            $premadeBoxInsidings = $boxInsidings->insidings;
+        } else {
+            $premadeBoxInsidings = null;
+        }
+
+        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsidings', 'currentStep'));
     }
 
     public function show($id)

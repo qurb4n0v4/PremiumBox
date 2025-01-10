@@ -1,5 +1,6 @@
 @extends('front.layouts.app')
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
 @section('content')
     <div class="choose-box-line"></div>
@@ -116,31 +117,314 @@
                                         <p class="text-muted" style="margin-top: -13px; color: #343a40!important;">₼{{ number_format($item->price, 2) }}</p>
 
                                         <!-- Button -->
-                                        <button class="choose-items-button"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modal-{{ $item->id }}">
-                                            {{ $item->button }}
-                                        </button>
+                                        @if($item->button == 'Custom Product')
+                                            <button class="choose-items-button"
+                                                    type="button"
+                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">
+                                                {{ $item->button }}
+                                            </button>
+                                        @else
+                                            <button class="choose-items-button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-{{ $item->id }}">
+                                                {{ $item->button }}
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
 
+
                                 <!-- Modals -->
                                 @if($item->button == 'Custom Product')
-                                    <!-- Custom Product Modal -->
-                                    <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="customProductModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="customProductModalLabel">Custom Product Modal</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Custom Product Modal Content -->
-                                                    <p>Details for Custom Product: {{ $item->name }}</p>
+                                    <!-- First Modal - Product Preview -->
+                                    <div class="modal fade" id="productPreviewModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                            <div class="modal-content rounded-4">
+                                                <div class="modal-body p-4">
+                                                    <div class="d-flex align-items-start gap-4">
+                                                        <!-- Image Carousel Section -->
+                                                        <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                            <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    @if($item->customProductDetails)
+                                                                        @foreach($item->customProductDetails->images as $index => $image)
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
+                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100 h-100 object-fit-cover"
+                                                                                     alt="Product Image {{ $index + 1 }}">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+
+                                                                <button class="carousel-control-prev" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Əvvəlki</span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Sonrakı</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-grow-1">
+                                                            <div class="text-start">
+                                                                <p class="mb-1" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</p>
+                                                                <p class="mb-2" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
+                                                                    <div class="mb-3 delivery-info">
+                                                                        <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
+                                                                    </div>
+                                                                @endif
+
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                                    ₼{{ number_format($item->price, 2) }}
+                                                                </p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->description)
+                                                                    <div class="variant-paragraph" id="preview-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                        <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
+                                                                        <span class="show-more-btn" onclick="toggleText('preview-description-{{ $item->id }}')">Show more</span>
+                                                                    </div>
+                                                                @endif
+
+                                                                <button type="button"
+                                                                        class="choose-box-customize-button mt-3"
+                                                                        onclick="openCustomizationModal('{{ $item->id }}')">
+                                                                    Tənzimləmək
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Second Modal - Customization -->
+                                    <div class="modal fade" id="customizationModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
+                                            <div class="modal-content rounded-4">
+                                                <div class="modal-body p-4 h-100">
+                                                    <div class="d-flex align-items-start gap-4 h-100">
+                                                        <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+                                                            <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    @if($item->customProductDetails)
+                                                                        @foreach($item->customProductDetails->images as $index => $image)
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
+                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100 h-100 object-fit-cover"
+                                                                                     alt="Product Image {{ $index + 1 }}">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+
+                                                                <button class="carousel-control-prev" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Əvvəlki</span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button"
+                                                                        data-bs-target="#previewCarousel_{{ $item->id }}" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                                    <span class="visually-hidden">Sonrakı</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex-grow-1">
+                                                            <div class="text-start">
+                                                                <p class="mb-1" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</p>
+                                                                <p class="mb-2" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
+                                                                    <div class="mb-3 delivery-info">
+                                                                        <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
+                                                                    </div>
+                                                                @endif
+
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                                    ₼{{ number_format($item->price, 2) }}
+                                                                </p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->description)
+                                                                    <div class="variant-paragraph" id="customization-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                        <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
+                                                                        <span class="show-more-btn" onclick="toggleText('customization-description-{{ $item->id }}')">Show more</span>
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Add variants section --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->has_variants)
+                                                                    @if($item->customProductDetails->variant_selection_title)
+                                                                        <h6 class="mt-3 variant-title">{{ $item->customProductDetails->variant_selection_title }}</h6>
+                                                                    @endif
+
+                                                                    @php
+                                                                        $variantData = is_string($item->customProductDetails->variants)
+                                                                            ? json_decode($item->customProductDetails->variants, true)
+                                                                            : $item->customProductDetails->variants;
+                                                                    @endphp
+
+                                                                    <div class="variants-buttons d-flex flex-wrap justify-content-center mt-2">
+                                                                        @if(is_array($variantData))
+                                                                            @foreach($variantData as $index => $variant)
+                                                                                <button
+                                                                                    class="btn btn-outline-secondary m-1 variant-button {{ $index === 0 ? 'active' : '' }}"
+                                                                                    data-price="{{ $variant['price'] ?? $item->price }}"
+                                                                                >
+                                                                                    {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                                </button>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Add image upload section if allowed --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->allow_user_images)
+                                                                    <div class="mt-3">
+                                                                        <h6 style="font-size: 14px; color: #a39079">{{ $item->customProductDetails->image_upload_title }}</h6>
+                                                                        <div class="upload-wrapper">
+                                                                            <div class="upload-container" id="uploadContainer_{{ $item->id }}">
+                                                                                @for($i = 0; $i < $item->customProductDetails->max_image_count; $i++)
+                                                                                    <label class="custom-upload-box">
+                                                                                        <input type="file" class="hidden-input" accept="image/*"
+                                                                                               onchange="handleImageUpload(this, {{ $item->id }}, {{ $i }})">
+                                                                                        <div class="upload-icon">+</div>
+                                                                                        <img class="image-preview" src="" alt="">
+                                                                                    </label>
+                                                                                @endfor
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <style>
+                                                                        .upload-wrapper {
+                                                                            display: flex;
+                                                                            justify-content: center;
+                                                                            width: 100%;
+                                                                        }
+
+                                                                        .upload-container {
+                                                                            display: flex;
+                                                                            gap: 10px;
+                                                                            flex-wrap: wrap;
+                                                                            justify-content: center;
+                                                                        }
+
+                                                                        .custom-upload-box {
+                                                                            display: flex;
+                                                                            align-items: center;
+                                                                            justify-content: center;
+                                                                            width: 60px;
+                                                                            height: 60px;
+                                                                            border: 2px solid #9da4aa;
+                                                                            border-radius: 12px;
+                                                                            cursor: pointer;
+                                                                            transition: all 0.3s ease;
+                                                                            position: relative;
+                                                                            overflow: hidden;
+                                                                        }
+
+                                                                        .hidden-input {
+                                                                            display: none;
+                                                                        }
+
+                                                                        .upload-icon {
+                                                                            font-size: 40px;
+                                                                            color: #6C757D;
+                                                                            font-weight: 300;
+                                                                            position: absolute;
+                                                                        }
+
+                                                                        .image-preview {
+                                                                            width: 100%;
+                                                                            height: 100%;
+                                                                            object-fit: cover;
+                                                                            display: none;
+                                                                        }
+                                                                    </style>
+
+                                                                    <script>
+                                                                        function handleImageUpload(input, itemId, index) {
+                                                                            if (input.files && input.files[0]) {
+                                                                                const container = input.closest('.custom-upload-box');
+                                                                                const uploadIcon = container.querySelector('.upload-icon');
+                                                                                const imagePreview = container.querySelector('.image-preview');
+                                                                                const reader = new FileReader();
+
+                                                                                reader.onload = function(e) {
+                                                                                    imagePreview.src = e.target.result;
+                                                                                    imagePreview.style.display = 'block';
+                                                                                    uploadIcon.style.display = 'none';
+                                                                                }
+
+                                                                                reader.readAsDataURL(input.files[0]);
+
+                                                                                // Store the uploaded file in FormData for later submission
+                                                                                if (!window.uploadedFiles) {
+                                                                                    window.uploadedFiles = {};
+                                                                                }
+                                                                                if (!window.uploadedFiles[itemId]) {
+                                                                                    window.uploadedFiles[itemId] = {};
+                                                                                }
+                                                                                window.uploadedFiles[itemId][index] = input.files[0];
+                                                                            }
+                                                                        }
+
+                                                                        // Function to get all uploaded files for an item
+                                                                        function getUploadedFiles(itemId) {
+                                                                            return window.uploadedFiles && window.uploadedFiles[itemId]
+                                                                                ? Object.values(window.uploadedFiles[itemId])
+                                                                                : [];
+                                                                        }
+                                                                    </script>
+                                                                @endif
+                                                                {{-- Add textarea section --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->has_custom_text)
+                                                                    <div class="mt-5">
+        <textarea
+            style="height: 40px; outline: none;"
+            class="form-control custom-text"
+            placeholder="{{ $item->customProductDetails->text_field_placeholder }}"
+            rows="3"
+        ></textarea>
+                                                                    </div>
+                                                                @endif
+
+
+                                                                <button class="choose-box-choose-button mt-1">Qutuya əlavə et</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        document.querySelectorAll('.variant-button').forEach(button => {
+                                            button.addEventListener('click', function() {
+                                                const parentDiv = this.closest('.variants-buttons');
+                                                parentDiv.querySelectorAll('.variant-button').forEach(btn => btn.classList.remove('active'));
+                                                this.classList.add('active');
+
+                                                const modalBody = this.closest('.modal-body');
+                                                const imageElement = modalBody.querySelector('.variant-image');
+                                                imageElement.src = this.dataset.image;
+
+                                                const priceElement = modalBody.querySelector('.variant-price');
+                                                priceElement.textContent = Number(this.dataset.price).toFixed(2);
+                                            });
+                                        });
+                                    </script>
+
                                 @elseif($item->button == 'Choose Variant')
                                     <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 60%;">
@@ -175,7 +459,6 @@
                                                         <div class="variant-info-content">
                                                             <p class="mb-1 company-name">{{ $item->company_name }}</p>
                                                             <p class="mb-2 item-name">{{ $item->name }}</p>
-                                                            <p class="mb-1 price-display">₼<span class="variant-price">{{ number_format($item->price, 2) }}</span></p>
 
                                                             @if($item->chooseVariants->isNotEmpty())
                                                                 @foreach($item->chooseVariants as $chooseVariant)
@@ -184,6 +467,9 @@
                                                                             <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
                                                                         </div>
                                                                     @endif
+
+                                                                        <p class="mb-1 price-display">₼<span class="variant-price">{{ number_format($item->price, 2) }}</span></p>
+
 
                                                                     @if($chooseVariant->variant_selection_title)
                                                                         <h6 class="mt-3 variant-title">{{ $chooseVariant->variant_selection_title }}</h6>
@@ -210,9 +496,9 @@
                                                                     </div>
 
                                                                         @if($chooseVariant->paragraph)
-                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
-                                                                                <p class="content"></p>
-                                                                                <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
+                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}" data-full-text="{{ $chooseVariant->paragraph }}">
+                                                                                <p class="content">{{ \Illuminate\Support\Str::limit($chooseVariant->paragraph, 200, ' ...') }}</p>
+                                                                                <span class="show-more-btn" onclick="toggleText('paragraph-{{ $chooseVariant->id }}')">Show more</span>
                                                                             </div>
                                                                         @endif
 
@@ -274,26 +560,21 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        initializeText('{{ $chooseVariant->id }}', @json($chooseVariant->paragraph));
+        // Check text length and hide show more button if not needed
+        document.querySelectorAll('.variant-paragraph').forEach(container => {
+            const fullText = container.getAttribute('data-full-text');
+            const showMoreBtn = container.querySelector('.show-more-btn');
+
+            if (fullText.length <= 200) {
+                showMoreBtn.style.display = 'none';
+            }
+        });
     });
 
-    function initializeText(id, fullText) {
-        const container = document.getElementById(`paragraph-${id}`);
-        const content = container.querySelector('.content');
-        const showMoreBtn = container.querySelector('.show-more-btn');
+    function toggleText(elementId) {
+        const container = document.getElementById(elementId);
+        if (!container) return; // Safety check
 
-        container.setAttribute('data-full-text', fullText);
-
-        if (fullText.length > 200) {
-            content.textContent = fullText.substring(0, 200) + '...';
-            showMoreBtn.style.display = 'inline';
-        } else {
-            content.textContent = fullText;
-        }
-    }
-
-    function toggleText(id) {
-        const container = document.getElementById(`paragraph-${id}`);
         const content = container.querySelector('.content');
         const showMoreBtn = container.querySelector('.show-more-btn');
         const fullText = container.getAttribute('data-full-text');
@@ -301,7 +582,7 @@
         const isExpanded = showMoreBtn.textContent === 'Show less';
 
         if (isExpanded) {
-            content.textContent = fullText.substring(0, 200) + '...';
+            content.textContent = fullText.substring(0, 200) + ' ...';
             showMoreBtn.textContent = 'Show more';
         } else {
             content.textContent = fullText;
@@ -309,11 +590,87 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.choose-items-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modalId = this.getAttribute('data-bs-target');
+                if (modalId) {
+                    const modal = document.getElementById(modalId.replace('#', ''));
+                    if (modal) {
+                        new bootstrap.Modal(modal).show();
+                    }
+                }
+            });
+        });
+
+        // Function to reset modal state
+        function resetModalState() {
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+        }
+
+        // Enhanced openCustomizationModal function
+        window.openCustomizationModal = function(itemId) {
+            // Close the preview modal
+            const previewModal = document.getElementById(`productPreviewModal_${itemId}`);
+            if (previewModal) {
+                bootstrap.Modal.getInstance(previewModal)?.hide();
+            }
+
+            // Reset state
+            resetModalState();
+
+            // Open customization modal
+            const customModal = document.getElementById(`customizationModal_${itemId}`);
+            if (customModal) {
+                new bootstrap.Modal(customModal).show();
+            }
+        };
+
+        // Handle modal closing
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function() {
+                resetModalState();
+            });
+
+            // Handle backdrop clicks
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    bootstrap.Modal.getInstance(this)?.hide();
+                }
+            });
+        });
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    bootstrap.Modal.getInstance(openModal)?.hide();
+                }
+            }
+        });
+    });
+
 </script>
 
 <style>
     .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+    .modal {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    body.modal-open {
+        overflow: hidden;
+        padding-right: 0 !important;
     }
 </style>
 

@@ -64,7 +64,7 @@
                                         <div class="col-md-3 col-6 px-1">
                                             <div class="form-check-inline mx-0">
                                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                                    <img src="{{ asset('images/' . $box['image']) }}"
+                                                    <img src="{{ asset('storage/' . $box['image']) }}"
                                                          alt="{{ $box['name'] }}"
                                                          class="img-fluid rounded"
                                                          style="object-fit: contain;">
@@ -93,11 +93,11 @@
                                         <div id="slider-container">
                                             <div class="row">
                                                 @foreach($cards as $card)
-                                                    <div class="col-6 px-1 col-md-6 mb-3 card-item" data-id="{{ $card->id }}">
+                                                    <div class="col-6 px-2 col-md-6 card-item m-auto" data-id="{{ $card->id }}" style="width: 220px; height: 90px; margin-bottom: 75px!important;">
                                                         <img
                                                             alt="{{ $card->name }}"
-                                                            src="{{ asset('images/' . $card->image) }}"
-                                                            class="rounded img-fluid w-100 select-card"
+                                                            src="{{ asset('storage/' . $card->image) }}"
+                                                            class="rounded img-fluid w-100 select-card d-block h-100 object-fit-cover"
                                                             style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                             data-name="{{ $card->name }}"
                                                             data-price="{{ '₼ ' . $card->price ?? '' }}"
@@ -115,9 +115,13 @@
                                         </div>
 
                                         <!-- Seçilən kartın göstərilməsi -->
-                                        <div id="selected-card-container" style="display: none;">
+                                        <div id="selected-card-container" style="display: none; margin-top: 20px">
                                             <div class="text-center">
-                                                <img id="selected-card-image" src="" alt="" style="min-height:150px; height: auto" class="rounded img-fluid w-100 mb-3">
+                                                <img
+                                                    id="selected-card-image"
+                                                    src=""
+                                                    alt=""
+                                                    class="rounded img-fluid w-100 mb-3 fixed-size-image">
                                                 <h4 id="selected-card-name"></h4>
                                                 <p id="selected-card-price" style="font-size: 18px;"></p>
                                                 <span id="reset-slider" style="cursor: pointer; font-size:14px; text-decoration: underline;">(Kartı Dəyişdir)</span>
@@ -245,6 +249,14 @@
 
     .slider-container img {
         cursor: pointer;
+    }
+    #selected-card-image {
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
     }
 </style>
 

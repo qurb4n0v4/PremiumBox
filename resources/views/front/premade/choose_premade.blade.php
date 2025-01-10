@@ -103,12 +103,24 @@
                             <div class="col-12 col-md-4 mb-4">
                                 <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
-                                        <div class="text-center position-relative image-container">
-                                            <img src="https://wallpapers.com/images/hd/beautiful-sunset-pictures-ubxtuvfhpoampb6d.jpg"
-                                                 alt="{{ $box->name }}" class="card-img-top rounded-top rounded-bottom normal-image">
-                                            <img src="https://images.wallpaperscraft.com/image/single/firtrees_lake_mountains_22568_1280x720.jpg"
-                                                 alt="{{ $box->name }}" class="card-img-top rounded-top rounded-bottom hover-image">
+                                        <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
+                                            <!-- Normal Image -->
+                                            <img
+                                                src="{{ asset('storage/' . $box->normal_image) }}"
+                                                alt="{{ $box->name }}"
+                                                class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
+                                            >
+
+                                            <!-- Hover Image -->
+                                            @if ($box->hover_image)
+                                                <img
+                                                    src="{{ asset('storage/' . $box->hover_image) }}"
+                                                    alt="{{ $box->name }}"
+                                                    class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
+                                                >
+                                            @endif
                                         </div>
+
                                     </div>
 
                                     <div class="card-block my-2" style="flex-grow: 1;">
@@ -132,11 +144,12 @@
                                         <div class="modal-body p-4">
                                             <div class="d-flex flex-column flex-md-row gap-4">
                                                 <!-- Slider -->
-                                                <div class="slider-container position-relative" style="width: 480px; flex-shrink: 0;">
+                                                <div class="slider-container position-relative" style="height: 340px; width: 360px; overflow: hidden;">
                                                     <div class="slider" id="{{ $uniqueCarouselId }}">
                                                         @if($boxDetail && $boxDetail->images)
                                                             @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $image)
-                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item" alt="Box Image">
+                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item d-block w-100 h-100 object-fit-cover"
+                                                                     alt="Box Image">
                                                             @endforeach
                                                         @else
                                                             <p>No images available</p>
@@ -153,12 +166,18 @@
                                                     @if($boxDetail && $boxDetail->paragraph)
                                                         <div data-v-231e0cc6="" class="font-avenir-light mb-3">
                                                             <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
-                                                                <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
-                                                                <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
+                                                                @if(strlen($boxDetail->paragraph) > 100)
+                                                                    <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
+                                                                    <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
+                                                                @else
+                                                                    <span>{{ $boxDetail->paragraph }}</span>
+                                                                @endif
                                                             </p>
-                                                            <div class="text-center mb-2">
-                                                                <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
-                                                            </div>
+                                                            @if(strlen($boxDetail->paragraph) > 100)
+                                                                <div class="text-center mb-2">
+                                                                    <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     @else
                                                         <p>Details not available.</p>
@@ -168,7 +187,7 @@
                                                     <div id="accordionInside" class="accordion mb-4">
                                                         <div id="heading-inside">
                                                             <h2 class="mb-0 text-center">
-                                                                <button type="button" data-bs-toggle="collapse" 
+                                                                <button type="button" data-bs-toggle="collapse"
                                                                         data-bs-target="#collapse-inside-{{ $box->id }}"
                                                                         class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
                                                                         aria-expanded="false"
@@ -177,27 +196,24 @@
                                                                 </button>
                                                             </h2>
                                                         </div>
-                                                        <div id="collapse-inside-{{ $box->id }}" 
+                                                        <div id="collapse-inside-{{ $box->id }}"
                                                             aria-labelledby="heading-inside-{{ $box->id }}"
                                                             class="accordion-collapse collapse">
                                                             <div class="d-flex flex-column align-items-center pb-3">
                                                                 <div style="max-width: 80vw !important;">
-                                                                    @if($boxDetail && is_array($boxDetail->insiding))
-                                                                        @foreach($boxDetail->insiding as $item)
+                                                                    @if($premadeBoxInsidings && $premadeBoxInsidings->isNotEmpty())
+                                                                        @foreach($premadeBoxInsidings as $insiding)
                                                                             <div class="d-flex align-items-center pb-3">
-                                                                                <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['item'] ?? 'Box Item' }}" style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 35px; height: 35px; object-fit: contain;">
                                                                                 <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                    <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                        {{ $item['item'] ?? 'No item name available' }}
-                                                                                    </p>
-                                                                                    <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                        {{ $item['item'] ?? 'No item name available' }}
+                                                                                    <p class="font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                        {{ $insiding->name }}
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach
                                                                     @else
-                                                                        <p>No items inside this box.</p>
+                                                                        <p>No items found for this box.</p>
                                                                     @endif
                                                                 </div>
                                                             </div>
