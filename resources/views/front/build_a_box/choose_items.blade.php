@@ -146,6 +146,15 @@
                                                         <div class="position-relative" style="width: 360px; flex-shrink: 0;">
                                                             <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
                                                                 <div class="carousel-inner">
+                                                                    @if($item->customProductDetails)
+                                                                        @foreach($item->customProductDetails->images as $index => $image)
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100"
+                                                                                     alt="Product Image {{ $index + 1 }}">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
                                                                 </div>
 
                                                                 <button class="carousel-control-prev" type="button"
@@ -164,9 +173,19 @@
                                                         <div class="flex-grow-1">
                                                             <div class="text-start">
                                                                 <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
-                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->title }}</h5>
-                                                                <h5>Eyni gün çatdırılma</h5>
-                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ $item->price }}</p>
+                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</h5>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
+                                                                    <h5>Eyni gün çatdırılma</h5>
+                                                                @endif
+
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                                    ₼{{ number_format($item->price, 2) }}
+                                                                </p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->paragraph)
+                                                                    <p class="mb-3">{{ $item->customProductDetails->paragraph }}</p>
+                                                                @endif
 
                                                                 <button type="button"
                                                                         class="choose-box-customize-button"
@@ -180,7 +199,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Second Modal - Customization -->
                                     <div class="modal fade" id="customizationModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
