@@ -43,11 +43,22 @@ class GiftBoxController extends Controller
                 $query->select([
                     'id',
                     'choose_item_id',
-                    'images',
                     'same_day_delivery',
-                    'description'
+                    'description',
+                    'images',
+                    'allow_user_images',
+                    'image_upload_title',
+                    'max_image_count',
+                    'has_variants',
+                    'variant_selection_title',
+                    'variants',
+                    'has_custom_text',
+                    'text_field_placeholder',
+                    'created_at',
+                    'updated_at'
                 ]);
             }
+
         ])->get();
 
         return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems'));

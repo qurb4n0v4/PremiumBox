@@ -186,9 +186,9 @@
                                                                 </p>
 
                                                                 @if($item->customProductDetails && $item->customProductDetails->description)
-                                                                    <div class="variant-paragraph" id="description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                    <div class="variant-paragraph" id="preview-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
                                                                         <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
-                                                                        <span class="show-more-btn" onclick="toggleText('description-{{ $item->id }}')">Show more</span>
+                                                                        <span class="show-more-btn" onclick="toggleText('preview-description-{{ $item->id }}')">Show more</span>
                                                                     </div>
                                                                 @endif
 
@@ -254,15 +254,152 @@
                                                                 </p>
 
                                                                 @if($item->customProductDetails && $item->customProductDetails->description)
-                                                                    <div class="variant-paragraph" id="description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                    <div class="variant-paragraph" id="customization-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
                                                                         <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
-                                                                        <span class="show-more-btn" onclick="toggleText('description-{{ $item->id }}')">Show more</span>
+                                                                        <span class="show-more-btn" onclick="toggleText('customization-description-{{ $item->id }}')">Show more</span>
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Add variants section --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->has_variants)
+                                                                    @if($item->customProductDetails->variant_selection_title)
+                                                                        <h6 class="mt-3 variant-title">{{ $item->customProductDetails->variant_selection_title }}</h6>
+                                                                    @endif
+
+                                                                    @php
+                                                                        $variantData = is_string($item->customProductDetails->variants)
+                                                                            ? json_decode($item->customProductDetails->variants, true)
+                                                                            : $item->customProductDetails->variants;
+                                                                    @endphp
+
+                                                                    <div class="variants-buttons d-flex flex-wrap justify-content-center mt-2">
+                                                                        @if(is_array($variantData))
+                                                                            @foreach($variantData as $index => $variant)
+                                                                                <button
+                                                                                    class="btn btn-outline-secondary m-1 variant-button {{ $index === 0 ? 'active' : '' }}"
+                                                                                    data-price="{{ $variant['price'] ?? $item->price }}"
+                                                                                >
+                                                                                    {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                                </button>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Add image upload section if allowed --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->allow_user_images)
+                                                                    <div class="mt-3">
+                                                                        <h6 style="font-size: 14px; color: #a39079">{{ $item->customProductDetails->image_upload_title }}</h6>
+                                                                        <div class="upload-wrapper">
+                                                                            <div class="upload-container" id="uploadContainer_{{ $item->id }}">
+                                                                                @for($i = 0; $i < $item->customProductDetails->max_image_count; $i++)
+                                                                                    <label class="custom-upload-box">
+                                                                                        <input type="file" class="hidden-input" accept="image/*"
+                                                                                               onchange="handleImageUpload(this, {{ $item->id }}, {{ $i }})">
+                                                                                        <div class="upload-icon">+</div>
+                                                                                        <img class="image-preview" src="" alt="">
+                                                                                    </label>
+                                                                                @endfor
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <style>
+                                                                        .upload-wrapper {
+                                                                            display: flex;
+                                                                            justify-content: center;
+                                                                            width: 100%;
+                                                                        }
+
+                                                                        .upload-container {
+                                                                            display: flex;
+                                                                            gap: 10px;
+                                                                            flex-wrap: wrap;
+                                                                            justify-content: center;
+                                                                        }
+
+                                                                        .custom-upload-box {
+                                                                            display: flex;
+                                                                            align-items: center;
+                                                                            justify-content: center;
+                                                                            width: 60px;
+                                                                            height: 60px;
+                                                                            border: 2px solid #9da4aa;
+                                                                            border-radius: 12px;
+                                                                            cursor: pointer;
+                                                                            transition: all 0.3s ease;
+                                                                            position: relative;
+                                                                            overflow: hidden;
+                                                                        }
+
+                                                                        .hidden-input {
+                                                                            display: none;
+                                                                        }
+
+                                                                        .upload-icon {
+                                                                            font-size: 40px;
+                                                                            color: #6C757D;
+                                                                            font-weight: 300;
+                                                                            position: absolute;
+                                                                        }
+
+                                                                        .image-preview {
+                                                                            width: 100%;
+                                                                            height: 100%;
+                                                                            object-fit: cover;
+                                                                            display: none;
+                                                                        }
+                                                                    </style>
+
+                                                                    <script>
+                                                                        function handleImageUpload(input, itemId, index) {
+                                                                            if (input.files && input.files[0]) {
+                                                                                const container = input.closest('.custom-upload-box');
+                                                                                const uploadIcon = container.querySelector('.upload-icon');
+                                                                                const imagePreview = container.querySelector('.image-preview');
+                                                                                const reader = new FileReader();
+
+                                                                                reader.onload = function(e) {
+                                                                                    imagePreview.src = e.target.result;
+                                                                                    imagePreview.style.display = 'block';
+                                                                                    uploadIcon.style.display = 'none';
+                                                                                }
+
+                                                                                reader.readAsDataURL(input.files[0]);
+
+                                                                                // Store the uploaded file in FormData for later submission
+                                                                                if (!window.uploadedFiles) {
+                                                                                    window.uploadedFiles = {};
+                                                                                }
+                                                                                if (!window.uploadedFiles[itemId]) {
+                                                                                    window.uploadedFiles[itemId] = {};
+                                                                                }
+                                                                                window.uploadedFiles[itemId][index] = input.files[0];
+                                                                            }
+                                                                        }
+
+                                                                        // Function to get all uploaded files for an item
+                                                                        function getUploadedFiles(itemId) {
+                                                                            return window.uploadedFiles && window.uploadedFiles[itemId]
+                                                                                ? Object.values(window.uploadedFiles[itemId])
+                                                                                : [];
+                                                                        }
+                                                                    </script>
+                                                                @endif
+                                                                {{-- Add textarea section --}}
+                                                                @if($item->customProductDetails && $item->customProductDetails->has_custom_text)
+                                                                    <div class="mt-5">
+        <textarea
+            style="height: 40px; outline: none;"
+            class="form-control custom-text"
+            placeholder="{{ $item->customProductDetails->text_field_placeholder }}"
+            rows="3"
+        ></textarea>
                                                                     </div>
                                                                 @endif
 
 
-
-                                                                <button class="choose-box-choose-button mt-3">Qutuya əlavə et</button>
+                                                                <button class="choose-box-choose-button mt-1">Qutuya əlavə et</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -270,6 +407,23 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <script>
+                                        document.querySelectorAll('.variant-button').forEach(button => {
+                                            button.addEventListener('click', function() {
+                                                const parentDiv = this.closest('.variants-buttons');
+                                                parentDiv.querySelectorAll('.variant-button').forEach(btn => btn.classList.remove('active'));
+                                                this.classList.add('active');
+
+                                                const modalBody = this.closest('.modal-body');
+                                                const imageElement = modalBody.querySelector('.variant-image');
+                                                imageElement.src = this.dataset.image;
+
+                                                const priceElement = modalBody.querySelector('.variant-price');
+                                                priceElement.textContent = Number(this.dataset.price).toFixed(2);
+                                            });
+                                        });
+                                    </script>
 
                                 @elseif($item->button == 'Choose Variant')
                                     <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
@@ -406,6 +560,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Check text length and hide show more button if not needed
         document.querySelectorAll('.variant-paragraph').forEach(container => {
             const fullText = container.getAttribute('data-full-text');
             const showMoreBtn = container.querySelector('.show-more-btn');
@@ -418,6 +573,8 @@
 
     function toggleText(elementId) {
         const container = document.getElementById(elementId);
+        if (!container) return; // Safety check
+
         const content = container.querySelector('.content');
         const showMoreBtn = container.querySelector('.show-more-btn');
         const fullText = container.getAttribute('data-full-text');
@@ -496,6 +653,7 @@
             }
         });
     });
+
 </script>
 
 <style>
