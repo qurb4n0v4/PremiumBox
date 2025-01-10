@@ -573,7 +573,7 @@ body.home .menu-button span {
         max-width: 800px;
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);*/
         padding: 2rem;
     }
 
@@ -583,7 +583,7 @@ body.home .menu-button span {
         font-size: 2.25rem;
         margin-bottom: 2.5rem;
         font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);*/
     }
 
     .faq-list {
