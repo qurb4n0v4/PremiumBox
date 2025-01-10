@@ -260,6 +260,8 @@
                                                                     </div>
                                                                 @endif
 
+
+
                                                                 <button class="choose-box-choose-button mt-3">Qutuya əlavə et</button>
                                                             </div>
                                                         </div>

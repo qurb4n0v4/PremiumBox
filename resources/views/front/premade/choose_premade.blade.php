@@ -103,12 +103,12 @@
                             <div class="col-12 col-md-4 mb-4">
                                 <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
-                                        <div class="text-center position-relative image-container">
+                                        <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
                                             <!-- Normal Image -->
                                             <img
                                                 src="{{ asset('storage/' . $box->normal_image) }}"
                                                 alt="{{ $box->name }}"
-                                                class="card-img-top rounded-top rounded-bottom"
+                                                class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
                                             >
 
                                             <!-- Hover Image -->
@@ -116,7 +116,7 @@
                                                 <img
                                                     src="{{ asset('storage/' . $box->hover_image) }}"
                                                     alt="{{ $box->name }}"
-                                                    class="card-img-top rounded-top rounded-bottom"
+                                                    class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
                                                 >
                                             @endif
                                         </div>
@@ -144,11 +144,12 @@
                                         <div class="modal-body p-4">
                                             <div class="d-flex flex-column flex-md-row gap-4">
                                                 <!-- Slider -->
-                                                <div class="slider-container position-relative" style="width: 480px; flex-shrink: 0;">
+                                                <div class="slider-container position-relative" style="height: 340px; width: 360px; overflow: hidden;">
                                                     <div class="slider" id="{{ $uniqueCarouselId }}">
                                                         @if($boxDetail && $boxDetail->images)
                                                             @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $image)
-                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item" alt="Box Image">
+                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item d-block w-100 h-100 object-fit-cover"
+                                                                     alt="Box Image">
                                                             @endforeach
                                                         @else
                                                             <p>No images available</p>
