@@ -136,7 +136,7 @@
                                     $uniqueModalId1 = "modal1_" . $item->id; // Make IDs unique per item
                                     $uniqueModalId2 = "modal2_" . $item->id;
                                 @endphp
-                                <!-- Modals -->
+                                    <!-- Modals -->
                                 @if($item->button == 'Custom Product')
                                     <!-- First Modal - Product Preview -->
                                     <div class="modal fade" id="{{ $uniqueModalId1 }}" tabindex="-1" aria-hidden="true">
@@ -298,23 +298,23 @@
                                                                         @endif
                                                                     </div>
 
-                                                                        @if($chooseVariant->paragraph)
-                                                                            <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
-                                                                                <p class="content"></p>
-                                                                                <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
-                                                                            </div>
-                                                                        @endif
+                                                                    @if($chooseVariant->paragraph)
+                                                                        <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}">
+                                                                            <p class="content"></p>
+                                                                            <span class="show-more-btn" style="display: none;" onclick="toggleText('{{ $chooseVariant->id }}')">Show more</span>
+                                                                        </div>
+                                                                    @endif
 
-                                                                        @if($chooseVariant->has_custom_text)
-                                                                            <div class="mt-3">
+                                                                    @if($chooseVariant->has_custom_text)
+                                                                        <div class="mt-3">
        <textarea
            style="height: 40px; outline: none;"
            class="form-control custom-text"
            placeholder="{{ $chooseVariant->text_field_placeholder }}"
            rows="3"
        ></textarea>
-                                                                            </div>
-                                                                        @endif
+                                                                        </div>
+                                                                    @endif
 
                                                                     <button class="choose-box-choose-button">Qutuya əlavə et</button>
                                                                 @endforeach
@@ -414,4 +414,3 @@
         background-color: rgba(0, 0, 0, 0.4) !important;
     }
 </style>
-
