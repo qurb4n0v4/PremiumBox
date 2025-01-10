@@ -106,17 +106,21 @@
                                         <div class="text-center position-relative image-container">
                                             <!-- Normal Image -->
                                             <img
-                                                src="{{ asset('storage/images/' . $box->normal_image) }}"
+                                                src="{{ asset('storage/' . $box->normal_image) }}"
                                                 alt="{{ $box->name }}"
-                                                class="card-img-top rounded-top rounded-bottom normal-image"
+                                                class="card-img-top rounded-top rounded-bottom"
                                             >
+
                                             <!-- Hover Image -->
-                                            <img
-                                                src="{{ asset('storage/images/' . $box->hover_image) }}"
-                                                alt="{{ $box->name }}"
-                                                class="card-img-top rounded-top rounded-bottom hover-image"
-                                            >
+                                            @if ($box->hover_image)
+                                                <img
+                                                    src="{{ asset('storage/' . $box->hover_image) }}"
+                                                    alt="{{ $box->name }}"
+                                                    class="card-img-top rounded-top rounded-bottom"
+                                                >
+                                            @endif
                                         </div>
+
                                     </div>
 
                                     <div class="card-block my-2" style="flex-grow: 1;">

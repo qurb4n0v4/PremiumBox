@@ -240,16 +240,27 @@
 
                                                         <div class="flex-grow-1">
                                                             <div class="text-start">
-                                                                <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
-                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->title }}</h5>
-                                                                <h5>Eyni gün çatdırılma</h5>
-                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ $item->price }}</p>
+                                                                <p class="mb-1" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</p>
+                                                                <p class="mb-2" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</p>
 
-                                                                <a href=""
-                                                                   class="choose-box-customize-button"
-                                                                   style="text-decoration: none">
-                                                                    Tamamla
-                                                                </a>
+                                                                @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
+                                                                    <div class="mb-3 delivery-info">
+                                                                        <p class="m-0">Eyni Gün Çatdırılma Mövcuddur</p>
+                                                                    </div>
+                                                                @endif
+
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                                    ₼{{ number_format($item->price, 2) }}
+                                                                </p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->description)
+                                                                    <div class="variant-paragraph" id="description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
+                                                                        <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
+                                                                        <span class="show-more-btn" onclick="toggleText('description-{{ $item->id }}')">Show more</span>
+                                                                    </div>
+                                                                @endif
+
+                                                                <button class="choose-box-choose-button mt-3">Qutuya əlavə et</button>
                                                             </div>
                                                         </div>
                                                     </div>
