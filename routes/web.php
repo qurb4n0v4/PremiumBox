@@ -1,7 +1,10 @@
 <?php
 
+use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
 use App\Http\Controllers\UserProfileController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AddressController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PrivacyPolicyController;
@@ -54,8 +57,6 @@ Route::get('/front/user/coupons', [UserProfileController::class, 'showCoupons'])
 Route::put('/front/user/profile/update', [UserProfileController::class, 'updateProfile'])->name('profile-update');
 Route::get('/front/user/profile/edit', [UserProfileController::class, 'editProfile'])->name('profile-edit');
 
-
-use App\Http\Controllers\AddressController;
 Route::middleware('auth')->group(function () {
     Route::get('/front/user/addresses', [AddressController::class, 'index'])->name('addresses.index');
     Route::post('/front/user/addresses', [AddressController::class, 'store'])->name('addresses.store');
