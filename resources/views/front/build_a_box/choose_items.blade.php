@@ -119,8 +119,8 @@
                                         <!-- Button -->
                                         @if($item->button == 'Custom Product')
                                             <button class="choose-items-button"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">  <!-- Burada dəyişiklik edildi -->
+                                                    type="button"
+                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">
                                                 {{ $item->button }}
                                             </button>
                                         @else
@@ -146,6 +146,15 @@
                                                         <div class="position-relative" style="width: 360px; flex-shrink: 0;">
                                                             <div id="previewCarousel_{{ $item->id }}" class="carousel slide" data-bs-ride="carousel">
                                                                 <div class="carousel-inner">
+                                                                    @if($item->customProductDetails)
+                                                                        @foreach($item->customProductDetails->images as $index => $image)
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100"
+                                                                                     alt="Product Image {{ $index + 1 }}">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
                                                                 </div>
 
                                                                 <button class="carousel-control-prev" type="button"
@@ -164,9 +173,19 @@
                                                         <div class="flex-grow-1">
                                                             <div class="text-start">
                                                                 <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $item->company_name }}</h6>
-                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->title }}</h5>
-                                                                <h5>Eyni gün çatdırılma</h5>
-                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼{{ $item->price }}</p>
+                                                                <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">{{ $item->name }}</h5>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->same_day_delivery)
+                                                                    <h5>Eyni gün çatdırılma</h5>
+                                                                @endif
+
+                                                                <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                                    ₼{{ number_format($item->price, 2) }}
+                                                                </p>
+
+                                                                @if($item->customProductDetails && $item->customProductDetails->paragraph)
+                                                                    <p class="mb-3">{{ $item->customProductDetails->paragraph }}</p>
+                                                                @endif
 
                                                                 <button type="button"
                                                                         class="choose-box-customize-button"
@@ -180,7 +199,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Second Modal - Customization -->
                                     <div class="modal fade" id="customizationModal_{{ $item->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
@@ -214,18 +232,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <script>
-                                        function openCustomizationModal(itemId) {
-                                            // Hide preview modal
-                                            const previewModal = bootstrap.Modal.getInstance(document.getElementById(`productPreviewModal_${itemId}`));
-                                            previewModal.hide();
-
-                                            // Show customization modal
-                                            const customizationModal = new bootstrap.Modal(document.getElementById(`customizationModal_${itemId}`));
-                                            customizationModal.show();
-                                        }
-                                    </script>
 
                                 @elseif($item->button == 'Choose Variant')
                                     <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
@@ -395,20 +401,87 @@
         }
     }
 
-    function openSecondModal(firstModalId, secondModalId) {
-        // Hide first modal
-        const firstModal = bootstrap.Modal.getInstance(document.getElementById(firstModalId));
-        firstModal.hide();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initial setup for Custom Product buttons
+        document.querySelectorAll('.choose-items-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modalId = this.getAttribute('data-bs-target');
+                if (modalId) {
+                    const modal = document.getElementById(modalId.replace('#', ''));
+                    if (modal) {
+                        new bootstrap.Modal(modal).show();
+                    }
+                }
+            });
+        });
 
-        // Show second modal
-        const secondModal = new bootstrap.Modal(document.getElementById(secondModalId));
-        secondModal.show();
-    }
+        // Function to reset modal state
+        function resetModalState() {
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+        }
+
+        // Enhanced openCustomizationModal function
+        window.openCustomizationModal = function(itemId) {
+            // Close the preview modal
+            const previewModal = document.getElementById(`productPreviewModal_${itemId}`);
+            if (previewModal) {
+                bootstrap.Modal.getInstance(previewModal)?.hide();
+            }
+
+            // Reset state
+            resetModalState();
+
+            // Open customization modal
+            const customModal = document.getElementById(`customizationModal_${itemId}`);
+            if (customModal) {
+                new bootstrap.Modal(customModal).show();
+            }
+        };
+
+        // Handle modal closing
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function() {
+                resetModalState();
+            });
+
+            // Handle backdrop clicks
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    bootstrap.Modal.getInstance(this)?.hide();
+                }
+            });
+        });
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    bootstrap.Modal.getInstance(openModal)?.hide();
+                }
+            }
+        });
+    });
 </script>
 
 <style>
     .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+    .modal {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    body.modal-open {
+        overflow: hidden;
+        padding-right: 0 !important;
     }
 </style>
 

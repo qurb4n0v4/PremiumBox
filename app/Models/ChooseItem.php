@@ -40,4 +40,9 @@ class ChooseItem extends Model
         return $this->hasMany(ChooseVariant::class, 'choose_item_id');
     }
 
+    public function customProductDetails()
+    {
+        return $this->hasOne(CustomProductDetail::class);
+    }
+
 }
