@@ -119,8 +119,8 @@
                                         <!-- Button -->
                                         @if($item->button == 'Custom Product')
                                             <button class="choose-items-button"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">  <!-- Burada dəyişiklik edildi -->
+                                                    type="button"
+                                                    data-bs-target="#productPreviewModal_{{ $item->id }}">
                                                 {{ $item->button }}
                                             </button>
                                         @else
@@ -214,18 +214,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <script>
-                                        function openCustomizationModal(itemId) {
-                                            // Hide preview modal
-                                            const previewModal = bootstrap.Modal.getInstance(document.getElementById(`productPreviewModal_${itemId}`));
-                                            previewModal.hide();
-
-                                            // Show customization modal
-                                            const customizationModal = new bootstrap.Modal(document.getElementById(`customizationModal_${itemId}`));
-                                            customizationModal.show();
-                                        }
-                                    </script>
 
                                 @elseif($item->button == 'Choose Variant')
                                     <div class="modal fade" id="modal-{{ $item->id }}" tabindex="-1" aria-labelledby="chooseVariantModalLabel" aria-hidden="true">
@@ -395,20 +383,87 @@
         }
     }
 
-    function openSecondModal(firstModalId, secondModalId) {
-        // Hide first modal
-        const firstModal = bootstrap.Modal.getInstance(document.getElementById(firstModalId));
-        firstModal.hide();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initial setup for Custom Product buttons
+        document.querySelectorAll('.choose-items-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modalId = this.getAttribute('data-bs-target');
+                if (modalId) {
+                    const modal = document.getElementById(modalId.replace('#', ''));
+                    if (modal) {
+                        new bootstrap.Modal(modal).show();
+                    }
+                }
+            });
+        });
 
-        // Show second modal
-        const secondModal = new bootstrap.Modal(document.getElementById(secondModalId));
-        secondModal.show();
-    }
+        // Function to reset modal state
+        function resetModalState() {
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+        }
+
+        // Enhanced openCustomizationModal function
+        window.openCustomizationModal = function(itemId) {
+            // Close the preview modal
+            const previewModal = document.getElementById(`productPreviewModal_${itemId}`);
+            if (previewModal) {
+                bootstrap.Modal.getInstance(previewModal)?.hide();
+            }
+
+            // Reset state
+            resetModalState();
+
+            // Open customization modal
+            const customModal = document.getElementById(`customizationModal_${itemId}`);
+            if (customModal) {
+                new bootstrap.Modal(customModal).show();
+            }
+        };
+
+        // Handle modal closing
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('hidden.bs.modal', function() {
+                resetModalState();
+            });
+
+            // Handle backdrop clicks
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    bootstrap.Modal.getInstance(this)?.hide();
+                }
+            });
+        });
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    bootstrap.Modal.getInstance(openModal)?.hide();
+                }
+            }
+        });
+    });
 </script>
 
 <style>
     .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+    .modal {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    body.modal-open {
+        overflow: hidden;
+        padding-right: 0 !important;
     }
 </style>
 
