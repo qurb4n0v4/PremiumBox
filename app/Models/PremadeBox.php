@@ -28,4 +28,9 @@ class PremadeBox extends Model
     {
         return $this->hasMany(PremadeBoxDetail::class, 'premade_box_id');
     }
+
+    public function insidings()
+    {
+        return $this->hasMany(PremadeBoxInsiding::class, 'premade_boxes_id', 'id');
+    }
 }

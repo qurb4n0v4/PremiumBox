@@ -196,22 +196,19 @@
                                                             class="accordion-collapse collapse">
                                                             <div class="d-flex flex-column align-items-center pb-3">
                                                                 <div style="max-width: 80vw !important;">
-                                                                    @if($boxDetail && is_array($boxDetail->insiding))
-                                                                        @foreach($boxDetail->insiding as $item)
+                                                                    @if($premadeBoxInsidings && $premadeBoxInsidings->isNotEmpty())
+                                                                        @foreach($premadeBoxInsidings as $insiding)
                                                                             <div class="d-flex align-items-center pb-3">
-                                                                                <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['item'] ?? 'Box Item' }}" style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 35px; height: 35px; object-fit: contain;">
                                                                                 <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                    <p class="d-block d-md-none font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                        {{ $item['item'] ?? 'No item name available' }}
-                                                                                    </p>
-                                                                                    <p class="d-none d-md-block font-butler text-theme-secondary text-capitalize mb-0 small">
-                                                                                        {{ $item['item'] ?? 'No item name available' }}
+                                                                                    <p class="font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                        {{ $insiding->name }}
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach
                                                                     @else
-                                                                        <p>No items inside this box.</p>
+                                                                        <p>No items found for this box.</p>
                                                                     @endif
                                                                 </div>
                                                             </div>
