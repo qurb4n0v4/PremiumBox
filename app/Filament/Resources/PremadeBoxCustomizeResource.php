@@ -11,74 +11,61 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\Builder;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Illuminate\Database\Eloquent\Builder;
 
 class PremadeBoxCustomizeResource extends Resource
 {
     protected static ?string $model = PremadeBoxCustomize::class;
-
     protected static ?string $slug = 'premade-box-customizes';
-
     protected static ?string $navigationIcon = 'heroicon-o-cube';
     protected static ?string $navigationLabel = 'Premade Box Customize';
     protected static ?string $navigationGroup = 'Premade Gift Boxes';
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('premade_boxes_id')
-                    ->label('Premade Box')
-                    ->options(PremadeBox::pluck('name', 'id'))
-                    ->required()
-                    ->searchable(),
+        return $form->schema([
+            Forms\Components\Select::make('premade_boxes_id')
+                ->label('Premade Box')
+                ->options(PremadeBox::pluck('name', 'id'))
+                ->required()
+                ->searchable(),
 
-                Forms\Components\Repeater::make('boxes')
-                    ->schema([
-                        Forms\Components\Select::make('gift_boxes_id')
-                            ->label('Gift Box')
-                            ->options(GiftBox::pluck('title', 'id'))
-                            ->searchable()
-                            ->required()
-                            ->reactive()
-                            ->afterStateUpdated(function (callable $set, $state) {
-                                $giftBox = GiftBox::find($state);
+            Forms\Components\Repeater::make('boxes')
+                ->schema([
+                    Forms\Components\Select::make('gift_boxes_id')
+                        ->label('Gift Box')
+                        ->options(GiftBox::pluck('title', 'id'))
+                        ->searchable()
+                        ->required()
+                        ->reactive()
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            $giftBox = GiftBox::find($state);
+                            if ($giftBox) {
+                                $set('gift_boxes_title', $giftBox->title);
+                                $set('gift_boxes_image', $giftBox->image);
+                            }
+                        }),
 
-                                if ($giftBox) {
-                                    $set('gift_boxes_title', $giftBox->title);
+                    Forms\Components\Hidden::make('gift_boxes_title'),
+                    Forms\Components\Hidden::make('gift_boxes_image'),
+                ])
+                ->createItemButtonLabel('Add Gift Box')
+                ->label('Gift Boxes')
+                ->columns(1)
+                ->defaultItems(1)
+                ->minItems(1)
+                ->maxItems(10)
+                ->grid(1)
+                ->collapsible()
+                ->cloneable()
+                ->reorderable()
+                ->columnSpanFull(),
 
-                                    $image = $giftBox->image;
-                                    if (is_string($image)) {
-                                        $image = json_decode($image, true);
-                                    }
-                                    $set('gift_boxes_image', $image);
-                                } else {
-                                    $set('gift_boxes_title', null);
-                                    $set('gift_boxes_image', null);
-                                }
-                            }),
-
-                        Forms\Components\TextInput::make('gift_boxes_title')
-                            ->label('Gift Box Title')
-                            ->disabled(),
-
-                        Forms\Components\FileUpload::make('gift_boxes_image')
-                            ->label('Gift Box Image')
-                            ->image()
-                            ->disabled()
-                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
-                                return 'gift_boxes/' . $file->getClientOriginalName();
-                            }),
-                    ])
-                    ->createItemButtonLabel('Add Gift Box')
-                    ->label('Gift Boxes'),
-
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Name'),
-            ]);
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->maxLength(255)
+                ->label('Name'),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -90,41 +77,30 @@ class PremadeBoxCustomizeResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('boxes')
-                    ->label('Gift Boxes')
-                    ->formatStateUsing(function ($state) {
-                        // Önce veriyi debug edelim
-                        \Log::info('Boxes State:', ['state' => $state]);
-
-                        if (empty($state) || !is_array($state)) {
-                            return '-';
-                        }
-
-                        $result = collect($state)->map(function ($box) {
-                            \Log::info('Box Item:', ['box' => $box]); // Her bir box'ı kontrol edelim
-
-                            // Key'leri kontrol edelim
-                            $title = data_get($box, 'gift_box_title', '-');
-
-                            // Image verisi için güvenli erişim
-                            $image = data_get($box, 'gift_box_image');
-                            if (is_array($image)) {
-                                $imagePath = data_get($image, 0, '-');
-                            } else {
-                                $imagePath = $image ?? '-';
+                    Tables\Columns\TextColumn::make('boxes')
+                        ->label('Gift Boxes')
+                        ->getStateUsing(function ($record) {
+                            if (!$record->boxes) {
+                                return '-';
                             }
 
-                            // String formatını döndür
-                            return sprintf('%s (%s)', $title, $imagePath);
-                        });
+                            $boxes = is_string($record->boxes) ? json_decode($record->boxes, true) : $record->boxes;
 
-                        \Log::info('Result:', ['result' => $result->toArray()]);
+                            return collect($boxes)->map(function ($box) {
+                                $giftBox = GiftBox::find($box['gift_boxes_id']);
+                                if (!$giftBox) return '-';
 
-                        return $result->implode(', ');
+                                return sprintf(
+                                    "ID: %s | Title: %s <br> <img src='%s' style='max-width: 50px; height: auto;'>",
+                                    $giftBox->id,
+                                    $giftBox->title,
+                                    asset($giftBox->image)
+                                );
+                            })->implode('<br><hr><br>');
                     })
-                    ->searchable(query: function (Builder $query, string $search): Builder {
-                        return $query->whereJsonContains('boxes', ['gift_box_title' => $search]);
-                    }),
+                    ->html()
+                    ->wrap()
+                    ->alignLeft(),
 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()

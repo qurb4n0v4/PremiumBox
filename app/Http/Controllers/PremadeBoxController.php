@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PremadeBoxCustomize;
 use Illuminate\Http\Request;
 use App\Models\PremadeBox;
+use App\Models\GiftBox;
 use App\Models\Card;
 use App\Models\PremadeBoxInsiding;
 
@@ -38,13 +39,36 @@ class PremadeBoxController extends Controller
     {
         $premadeBoxDetail = PremadeBox::findOrFail($id);
         $currentStep = session('currentStep', 1);
-
         $cards = Card::all();
         $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
-        $boxes = is_string($premadeBoxDetail->boxes)
-            ? json_decode($premadeBoxDetail->boxes, true)
-            : $premadeBoxDetail->boxes;
 
-        return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep', 'insidings', 'boxes', 'cards'));
+        // PremadeBoxCustomize'dan veriyi çekelim
+        $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
+            ->pluck('boxes')
+            ->first();
+
+        $giftBoxes = [];
+        if ($boxes && is_array($boxes)) {  // is_array kontrolü ekledik
+            foreach ($boxes as $box) {
+                if (isset($box['gift_boxes_id'])) {
+                    $giftBox = GiftBox::find($box['gift_boxes_id']);
+                    if ($giftBox) {
+                        $giftBoxes[] = [
+                            'id' => $giftBox->id,
+                            'title' => $giftBox->title,
+                            'image' => asset($giftBox->image),
+                        ];
+                    }
+                }
+            }
+        }
+
+        return view('front.premade.customize_premade', compact(
+            'premadeBoxDetail',
+            'currentStep',
+            'insidings',
+            'cards',
+            'giftBoxes'
+        ));
     }
 }

@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/customize-premade.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
 
 @section('content')
     <div class="choose-box-line"></div>
@@ -60,24 +60,46 @@
                             <!-- Sol tərəf -->
                             <div class="col-md-6">
                                 <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin!</p>
-                                <div class="d-flex flex-row flex-wrap w-100">
-                                    <div class="col-md-3 col-6 px-1">
-                                        <div class="form-check-inline mx-0">
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <!-- Şəkil -->
-                                                <img src="https://stroizakaz.su/thumb/2/_tjXSrjgEr6zUQQcol2bpQ/1024r/d/ts-rf-135725331.jpg" alt="t"
-                                                     class="img-fluid rounded"
-                                                     style="object-fit: contain;">
-                                                <!-- Başlıq -->
-                                                <span class="text-capitalize font-butler w-100 text-center mt-2 text-theme h6">
-                                                    title
-                                                </span>
+                                <div class="boxes-slider-container">
+                                    <div class="d-flex flex-column px-3 position-relative">
+                                        <div id="boxes-slider-container">
+                                            <div class="row boxes-slider-wrapper ps-1">
+                                                @if(count($giftBoxes) > 0)
+                                                    @foreach ($giftBoxes as $index => $giftBox)
+                                                        <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
+                                                            <div class="card mb-4 text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
+                                                                <img src="{{ $giftBox['image'] }}"
+                                                                     class="card-img-top mx-auto gift-box-img"
+                                                                     alt="{{ $giftBox['title'] }}"
+                                                                     data-box-id="{{ $index }}"
+                                                                     style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
+                                                                <div class="card-body p-0">
+                                                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <p>No Gift Boxes found.</p>
+                                                @endif
                                             </div>
+
+                                            @if(count($giftBoxes) > 4)
+                                                <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
+                                                        style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
+                                                        style="right: -2px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="ps-3 mt-3">
+                                <!-- Customize it! -->
+                                <div class="ps-3">
                                     <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın</p>
                                     <textarea class="customizing-text-input-fonts"></textarea>
                                     <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px; font-weight: 600">Font Seçin</p>
@@ -87,6 +109,8 @@
                                         <button class="font-button-customizing-edit" data-font="Indie Flower" style="font-family: Indie Flower;">Font C</button>
                                     </div>
                                 </div>
+
+                                <!-- Choose Card! -->
                                 <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin!</p>
                                 <div class="slider-container">
                                     <div class="d-flex row px-3">
@@ -106,12 +130,14 @@
                                                 @endforeach
                                             </div>
                                             <!-- Prev və Next düymələri -->
-                                            <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
-                                                <i class="fas fa-chevron-left"></i>
-                                            </button>
-                                            <button class="nav-button next position-absolute d-flex justify-content-center align-items-center">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </button>
+                                            @if(count($cards) > 4)
+                                                <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <button class="nav-button next position-absolute d-flex justify-content-center align-items-center">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </button>
+                                            @endif
                                         </div>
 
                                         <!-- Seçilən kartın göstərilməsi -->
@@ -122,14 +148,15 @@
                                                     src=""
                                                     alt=""
                                                     class="rounded img-fluid w-100 mb-3 fixed-size-image">
-                                                <h4 id="selected-card-name"></h4>
-                                                <p id="selected-card-price" style="font-size: 18px;"></p>
+                                                <h4 id="selected-card-name" style="text-align: center !important;"></h4>
+                                                <p id="selected-card-price" style="font-size: 18px; text-align: center !important;"></p>
                                                 <span id="reset-slider" style="cursor: pointer; font-size:14px; text-decoration: underline;">(Kartı Dəyişdir)</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Form -->
                                 <div class="ps-3 pb-3 w-100 d-flex flex-column">
                                     <!-- "To" Field -->
                                     <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
@@ -163,7 +190,6 @@
                                             placeholder="Write your message here"></textarea>
                                     </div>
                                 </div>
-
                             </div>
 
                             <!-- Sağ tərəf: Məhsullar -->
@@ -258,241 +284,9 @@
     </div>
 @endsection
 
-<style>
-    .button-group-customizing-fonts {
-        display: flex;
-        text-align: left;
-        margin: 0;
-        padding: 0;
-    }
-
-    .font-button-customizing-edit {
-        float: left;
-        clear: left;
-        margin-bottom: 5px;
-    }
-
-    .slider-container {
-        position: relative;
-        padding: 0 15px; /* Reduced padding to bring buttons closer */
-    }
-
-    input {
-        border-color: #3f6212;
-    }
-
-    .nav-button {
-        position: absolute;
-        top: 40%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #333;
-        cursor: pointer;
-        z-index: 2;
-        padding: 5px;
-    }
-
-    .nav-button.prev {
-        left: 5px; /* Moved closer to content */
-    }
-
-    .nav-button.next {
-        right: 5px; /* Moved closer to content */
-    }
-
-    /* Add transition styles for smooth animation */
-    .col-6 {
-        transition: all 0.5s ease-in-out;
-        opacity: 1;
-    }
-
-    .col-6.hiding {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-
-    .col-6.showing {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    .col-6 {
-        transition: opacity 0.5s ease-in-out;
-        opacity: 0;
-        display: none;
-    }
-
-    .col-6.active {
-        opacity: 1;
-        display: block;
-    }
-
-    .slider-container img {
-        cursor: pointer;
-    }
-    #selected-card-image {
-        width: 100%;
-        max-width: 300px;
-        height: 200px;
-        object-fit: cover;
-        margin: 0 auto;
-        display: block;
-    }
-
-    p, h4 {
-        text-align: left !important;
-    }
-</style>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sliderContainer = document.querySelector('.slider-container');
-        const row = sliderContainer.querySelector('.row');
-        const prevBtn = sliderContainer.querySelector('.prev');
-        const nextBtn = sliderContainer.querySelector('.next');
 
-        const items = row.querySelectorAll('.col-6');
-        const itemCount = items.length;
-        const itemsPerView = 4;
-        let currentPosition = 0;
-        let isAnimating = false;
-
-        updateSliderView();
-
-        prevBtn.addEventListener('click', () => {
-            if (!isAnimating && currentPosition > 0) {
-                slideItems('prev');
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (!isAnimating && currentPosition + itemsPerView < itemCount) {
-                slideItems('next');
-            }
-        });
-
-        function slideItems(direction) {
-            isAnimating = true;
-
-            const start = currentPosition;
-            if (direction === 'next') {
-                currentPosition += itemsPerView;
-            } else if (direction === 'prev') {
-                currentPosition -= itemsPerView;
-            }
-
-            // Yeni elementləri animasiya ilə göstər
-            updateSliderView(() => {
-                isAnimating = false; // Animasiya tamamlandıqda aktivliyi yenilə
-            });
-        }
-
-        function updateSliderView(callback) {
-            // Bütün elementləri gizlət
-            items.forEach((item, index) => {
-                if (index >= currentPosition && index < currentPosition + itemsPerView) {
-                    item.style.display = 'block';
-                    item.style.opacity = '0'; // Şəffaflıq
-                    setTimeout(() => {
-                        item.style.transition = 'opacity 0.5s';
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            // Düymə vəziyyətlərini yenilə
-            prevBtn.style.display = currentPosition === 0 ? 'none' : 'block';
-            nextBtn.style.display = currentPosition + itemsPerView >= itemCount ? 'none' : 'block';
-
-            if (callback) callback();
-        }
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-        const cardItems = document.querySelectorAll('.card-item img');
-        const selectedCardContainer = document.getElementById('selected-card-container');
-        const sliderContainer = document.getElementById('slider-container');
-        const selectedCardImage = document.getElementById('selected-card-image');
-        const selectedCardName = document.getElementById('selected-card-name');
-        const selectedCardPrice = document.getElementById('selected-card-price');
-        const resetSlider = document.getElementById('reset-slider');
-
-        // Kart seçmə və aktivləşdirmə
-        cardItems.forEach(card => {
-            card.addEventListener('click', function () {
-                const cardId = this.closest('.card-item').dataset.id;
-                const cardName = this.dataset.name;
-                const cardPrice = this.dataset.price || "No Price";
-
-                // Aktiv kartı göstər
-                sliderContainer.style.display = 'none';
-                selectedCardContainer.style.display = 'block';
-
-                // Şəkil və məlumatları göstər
-                selectedCardImage.src = this.src;
-                selectedCardName.textContent = cardName;
-                selectedCardPrice.textContent = cardPrice;
-
-                // Aktiv sinifini əlavə et
-                cardItems.forEach(img => img.classList.remove('active-card'));
-                this.classList.add('active-card');
-            });
-        });
-
-        // Yenidən seçim
-        resetSlider.addEventListener('click', function () {
-            sliderContainer.style.display = 'block';
-            selectedCardContainer.style.display = 'none';
-
-            // Aktiv sinifi təmizlə
-            cardItems.forEach(img => img.classList.remove('active-card'));
-        });
-    });
-    // JavaScript function to handle the variant change
-    function changeVariantActive(selectedIndex) {
-        // Get all variant buttons
-        let variantButtons = document.querySelectorAll('.variant-button');
-
-        // Remove 'active' class from all buttons
-        variantButtons.forEach(function(button) {
-            button.classList.remove('active');
-        });
-
-        // Add 'active' class to the selected button
-        variantButtons[selectedIndex].classList.add('active');
-    }
-
-    // Automatically activate the first variant when the page loads
-    document.addEventListener("DOMContentLoaded", function() {
-        // Find the first button with the 'active' class and add it
-        let firstButton = document.querySelector('.variant-button');
-        if (firstButton) {
-            firstButton.classList.add('active');
-        }
-    });
-
-    function previewImage(event, id) {
-        const input = event.target;
-        const label = document.querySelector(`#image-preview-${id}`);
-        const img = document.querySelector(`#image-preview-img-${id}`);
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                // Şəkilin URL-ni alırıq və img etiketi ilə göstəririk
-                img.src = e.target.result;
-                img.style.display = 'block'; // Şəkili göstəririk
-                label.style.display = 'none'; // `+` işarəsini gizlədirik
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-</script>
+<script src={{ asset('assets/front/js/customize-premade.js') }}></script>
 

@@ -22,9 +22,17 @@ class PremadeBoxCustomize extends Model
         'boxes' => 'array',
     ];
 
+    public function getBoxesAttribute($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
+
     public function premadeBox()
     {
-        return $this->belongsTo(PremadeBox::class);
+        return $this->belongsTo(PremadeBox::class, 'premade_boxes_id');
     }
 
     public function giftBox()

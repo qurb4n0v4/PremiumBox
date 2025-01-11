@@ -29,4 +29,8 @@ class GiftBox extends Model
         return $this->hasMany(GiftBoxDetail::class);
     }
 
+    public function premadeBoxCustomizes()
+    {
+        return $this->hasMany(PremadeBoxCustomize::class, 'gift_boxes_id');
+    }
 }

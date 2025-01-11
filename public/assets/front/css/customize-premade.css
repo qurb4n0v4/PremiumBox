@@ -1,0 +1,118 @@
+.button-group-customizing-fonts {
+    display: flex;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.font-button-customizing-edit {
+    float: left;
+    clear: left;
+    margin-bottom: 5px;
+}
+
+.slider-container {
+    position: relative;
+    padding: 0 15px; /* Reduced padding to bring buttons closer */
+}
+
+input {
+    border-color: #3f6212;
+}
+
+.nav-button,
+.boxes-nav-button {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    z-index: 2;
+    padding: 5px;
+}
+
+.nav-button.prev {
+    left: 5px; /* Moved closer to content */
+}
+
+.nav-button.next {
+    right: 5px; /* Moved closer to content */
+}
+
+/* Add transition styles for smooth animation */
+.col-6 {
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+}
+
+.col-6.hiding {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.col-6.showing {
+    opacity: 1;
+    transform: translateX(0);
+}
+.col-6 {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    display: none;
+}
+
+.col-6.active {
+    opacity: 1;
+    display: block;
+}
+
+.slider-container img {
+    cursor: pointer;
+}
+#selected-card-image {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+}
+
+p, h4 {
+    text-align: left !important;
+}
+
+.boxes-slider-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.boxes-slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.box-item {
+    transition: all 0.3s ease-in-out;
+    flex: 0 0 25%;
+    padding: 0 10px;
+}
+
+.boxes-nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.boxes-nav-button:hover {
+    color: black;
+    background-color: transparent !important;
+}
+
+.boxes-nav-button {
+    z-index: 10;
+}
+
+.gift-box-img.active {
+    border: 2px solid red;
+}
