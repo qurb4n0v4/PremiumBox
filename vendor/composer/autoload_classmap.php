@@ -113,6 +113,7 @@ return array(
     'App\\Http\\Controllers\\AddressController' => $baseDir . '/app/Http/Controllers/AddressController.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\BlogController' => $baseDir . '/app/Http/Controllers/BlogController.php',
+    'App\\Http\\Controllers\\CardController' => $baseDir . '/app/Http/Controllers/CardController.php',
     'App\\Http\\Controllers\\ContactUsController' => $baseDir . '/app/Http/Controllers/ContactUsController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\CorporateGiftController' => $baseDir . '/app/Http/Controllers/CorporateGiftController.php',

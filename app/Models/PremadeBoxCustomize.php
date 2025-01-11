@@ -13,7 +13,7 @@ class PremadeBoxCustomize extends Model
 
     protected $fillable = [
         'premade_boxes_id',
-        'gift_box_id',
+        'gift_boxes_id',
         'name',
         'boxes',
     ];

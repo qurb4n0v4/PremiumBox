@@ -15,28 +15,20 @@ class PremadeBoxController extends Controller
         $premadeBoxes = PremadeBox::all();
         $currentStep = session('currentStep', 1);
 
-        if ($id) {
-            $premadeBoxDetail = PremadeBox::where('id', $id);
-            $box = PremadeBox::find($id);
+        $premadeBoxDetail = $id
+            ? PremadeBox::find($id)
+            : null;
 
-            if (!$box) {
-                return redirect()->back()->with('error', 'Box not found.');
-            }
-        } else {
-            $premadeBoxDetail = PremadeBox::all();
-
+        if ($id && !$premadeBoxDetail) {
+            return redirect()->back()->with('error', 'Box not found.');
         }
 
-        if ($id) {
-            $boxInsidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+        $premadeBoxInsidings = $id
+            ? PremadeBoxInsiding::where('premade_boxes_id', $id)->get()
+            : null;
 
-            if (!$boxInsidings) {
-                return redirect()->back()->with('error', 'Box not found.');
-            }
-
-            $premadeBoxInsidings = $boxInsidings->insidings;
-        } else {
-            $premadeBoxInsidings = null;
+        if ($id && $premadeBoxInsidings->isEmpty()) {
+            return redirect()->back()->with('error', 'Box insidings not found.');
         }
 
         return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsidings', 'currentStep'));
@@ -47,14 +39,11 @@ class PremadeBoxController extends Controller
         $premadeBoxDetail = PremadeBox::findOrFail($id);
         $currentStep = session('currentStep', 1);
 
-        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
-        $customizedBoxes = PremadeBoxCustomize::where('premade_boxes_id', $id)->pluck('boxes');
-
-        $boxes = $customizedBoxes->map(function ($box) {
-            return json_decode($box, true);
-        });
-
         $cards = Card::all();
+        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+        $boxes = is_string($premadeBoxDetail->boxes)
+            ? json_decode($premadeBoxDetail->boxes, true)
+            : $premadeBoxDetail->boxes;
 
         return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep', 'insidings', 'boxes', 'cards'));
     }

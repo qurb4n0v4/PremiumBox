@@ -29,14 +29,14 @@ class PremadeBoxCustomizeResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('premade_boxes_id')
+                    ->label('Premade Box')
                     ->options(PremadeBox::pluck('name', 'id'))
                     ->required()
-                    ->label('Premade Box')
                     ->searchable(),
 
                 Forms\Components\Repeater::make('boxes')
                     ->schema([
-                        Forms\Components\Select::make('gift_box_id')
+                        Forms\Components\Select::make('gift_boxes_id')
                             ->label('Gift Box')
                             ->options(GiftBox::pluck('title', 'id'))
                             ->searchable()
@@ -46,24 +46,24 @@ class PremadeBoxCustomizeResource extends Resource
                                 $giftBox = GiftBox::find($state);
 
                                 if ($giftBox) {
-                                    $set('gift_box_title', $giftBox->title);
+                                    $set('gift_boxes_title', $giftBox->title);
 
                                     $image = $giftBox->image;
                                     if (is_string($image)) {
                                         $image = json_decode($image, true);
                                     }
-                                    $set('gift_box_image', $image);
+                                    $set('gift_boxes_image', $image);
                                 } else {
-                                    $set('gift_box_title', null);
-                                    $set('gift_box_image', null);
+                                    $set('gift_boxes_title', null);
+                                    $set('gift_boxes_image', null);
                                 }
                             }),
 
-                        Forms\Components\TextInput::make('gift_box_title')
+                        Forms\Components\TextInput::make('gift_boxes_title')
                             ->label('Gift Box Title')
                             ->disabled(),
 
-                        Forms\Components\FileUpload::make('gift_box_image')
+                        Forms\Components\FileUpload::make('gift_boxes_image')
                             ->label('Gift Box Image')
                             ->image()
                             ->disabled()
@@ -78,55 +78,6 @@ class PremadeBoxCustomizeResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Name'),
-
-//                Forms\Components\Repeater::make('cards')
-//                    ->schema([
-//                        Forms\Components\Select::make('card_id')
-//                            ->default(1)
-//                            ->label('Card')
-//                            ->options(Card::pluck('name', 'id'))
-//                            ->searchable()
-//                            ->required()
-//                            ->reactive()
-//                            ->afterStateUpdated(function (callable $set, $state) {
-//                                $card = Card::find($state);
-//
-//                                if ($card) {
-//                                    $set('card_name', $card->name);
-//                                    $set('card_price', $card->price);
-//                                    $set('card_image', $card->image);
-//
-//                                    $image = $card->image;
-//                                    if (is_string($image)) {
-//                                        $image = json_decode($image, true);
-//                                    }
-//                                    $set('card_image', $image);
-//                                } else {
-//                                    $set('card_name', null);
-//                                    $set('card_price', null);
-//                                    $set('card_image', null);
-//                                }
-//                            }),
-//
-//                        Forms\Components\TextInput::make('card_name')
-//                            ->label('Card Name')
-//                            ->disabled(),
-//
-//                        Forms\Components\TextInput::make('card_price')
-//                            ->label('Card Price')
-//                            ->disabled(),
-//
-//                        Forms\Components\FileUpload::make('card_image')
-//                            ->label('Card Image')
-//                            ->image()
-//                            ->disabled()
-//                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file) {
-//                                return 'cards/' . $file->getClientOriginalName();
-//                            }),
-//                    ])
-//                    ->createItemButtonLabel('Add Card')
-//                    ->label('Cards')
-
             ]);
     }
 
@@ -142,51 +93,42 @@ class PremadeBoxCustomizeResource extends Resource
                 Tables\Columns\TextColumn::make('boxes')
                     ->label('Gift Boxes')
                     ->formatStateUsing(function ($state) {
-                        if (!$state) return '-';
+                        // Önce veriyi debug edelim
+                        \Log::info('Boxes State:', ['state' => $state]);
 
-                        return collect($state)->map(function ($box) {
-                            return $box['gift_box_title'];
-                        })->join(', ');
+                        if (empty($state) || !is_array($state)) {
+                            return '-';
+                        }
+
+                        $result = collect($state)->map(function ($box) {
+                            \Log::info('Box Item:', ['box' => $box]); // Her bir box'ı kontrol edelim
+
+                            // Key'leri kontrol edelim
+                            $title = data_get($box, 'gift_box_title', '-');
+
+                            // Image verisi için güvenli erişim
+                            $image = data_get($box, 'gift_box_image');
+                            if (is_array($image)) {
+                                $imagePath = data_get($image, 0, '-');
+                            } else {
+                                $imagePath = $image ?? '-';
+                            }
+
+                            // String formatını döndür
+                            return sprintf('%s (%s)', $title, $imagePath);
+                        });
+
+                        \Log::info('Result:', ['result' => $result->toArray()]);
+
+                        return $result->implode(', ');
                     })
                     ->searchable(query: function (Builder $query, string $search): Builder {
-                        return $query->where('boxes', 'like', "%{$search}%");
+                        return $query->whereJsonContains('boxes', ['gift_box_title' => $search]);
                     }),
-
-//                Tables\Columns\TextColumn::make('cards')
-//                    ->label('Cards')
-//                    ->formatStateUsing(function ($state) {
-//                        if (!$state) return '-';
-//
-//                        return collect($state)->map(function ($card) {
-//                            return $card['card_name'];
-//                        })->join(', ');
-//                    })
-//                    ->searchable(query: function (Builder $query, string $search): Builder {
-//                        return $query->where('cards', 'like', "%{$search}%");
-//                    }),
 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-
-                Tables\Columns\ImageColumn::make('card_image')
-                    ->disk('public'),
-
-                Tables\Columns\TextColumn::make('card_name')
-                    ->searchable()
-                    ->sortable(),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ])
             ->filters([
                 //

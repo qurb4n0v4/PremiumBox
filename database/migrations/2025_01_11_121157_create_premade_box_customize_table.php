@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('premade_boxes_id')
                 ->constrained('premade_boxes')
                 ->onDelete('cascade');
-            $table->foreignId('gift_box_id')
+            $table->foreignId('gift_boxes_id')
                 ->nullable()
                 ->constrained('gift_boxes')
                 ->onDelete('cascade');

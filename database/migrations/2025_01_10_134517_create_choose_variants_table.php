@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('choose_variants', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('choose_item_id')->constrained('choose_items')->onDelete('cascade');
-            $table->string('images')->nullable();
-            $table->boolean('available_same_day_delivery')->default(false);
-            $table->text('paragraph')->nullable();
-            $table->boolean('has_variants')->default(false);
-            $table->string('variant_selection_title')->nullable();
-            $table->json('variants')->nullable();
-            $table->boolean('has_custom_text')->default(false);
-            $table->string('text_field_placeholder')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('choose_variants')) {
+            Schema::create('choose_variants', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('choose_item_id')->constrained('choose_items')->onDelete('cascade');
+                $table->string('images')->nullable();
+                $table->boolean('available_same_day_delivery')->default(false);
+                $table->text('paragraph')->nullable();
+                $table->boolean('has_variants')->default(false);
+                $table->string('variant_selection_title')->nullable();
+                $table->json('variants')->nullable();
+                $table->boolean('has_custom_text')->default(false);
+                $table->string('text_field_placeholder')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
