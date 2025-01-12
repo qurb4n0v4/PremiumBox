@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('image');
+            $table->integer('quantity')->default(1);
 
             $table->boolean('allow_image_upload')->default(false);
             $table->string('image_upload_title')->nullable();

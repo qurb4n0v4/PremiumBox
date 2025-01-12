@@ -116,3 +116,24 @@ p, h4 {
 .gift-box-img.active {
     border: 2px solid red;
 }
+
+.custom-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-btn h5 {
+    margin: 0;
+    font-family: 'Avenir', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.custom-btn:hover {
+    background-color: #8e7b6c;
+}

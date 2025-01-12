@@ -2,6 +2,8 @@
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 @section('content')
     <div class="choose-box-line"></div>
@@ -184,41 +186,39 @@
                                                     @endif
 
                                                     <!-- What's Inside -->
-                                                    <div id="accordionInside" class="accordion mb-4">
-                                                        <div id="heading-inside">
-                                                            <h2 class="mb-0 text-center">
-                                                                <button type="button" data-bs-toggle="collapse"
-                                                                        data-bs-target="#collapse-inside-{{ $box->id }}"
-                                                                        class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3 collapsed"
-                                                                        aria-expanded="false"
-                                                                        aria-controls="collapse-inside-{{ $box->id }}">
-                                                                    <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
-                                                                </button>
-                                                            </h2>
-                                                        </div>
-                                                        <div id="collapse-inside-{{ $box->id }}"
-                                                            aria-labelledby="heading-inside-{{ $box->id }}"
-                                                            class="accordion-collapse collapse">
-                                                            <div class="d-flex flex-column align-items-center pb-3">
-                                                                <div style="max-width: 80vw !important;">
-                                                                    @if($premadeBoxInsidings && $premadeBoxInsidings->isNotEmpty())
-                                                                        @foreach($premadeBoxInsidings as $insiding)
-                                                                            <div class="d-flex align-items-center pb-3">
-                                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 35px; height: 35px; object-fit: contain;">
-                                                                                <div class="d-flex flex-column justify-content-center pl-3">
-                                                                                    <p class="font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                        {{ $insiding->name }}
-                                                                                    </p>
+                                                    @foreach($premadeBoxes as $box)
+                                                        <div class="accordion mb-4">
+                                                            <div class="accordion-header">
+                                                                <h2 class="mb-0 text-center">
+                                                                    <button type="button"
+                                                                            class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3"
+                                                                            onclick="toggleAccordion('collapse-inside-{{ $box->id }}')">
+                                                                        <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
+                                                                    </button>
+                                                                </h2>
+                                                            </div>
+                                                            <div id="collapse-inside-{{ $box->id }}" class="collapse-content">
+                                                                <div class="collapse-inner">
+                                                                    <div class="d-flex flex-column align-items-center pb-3">
+                                                                        <div style="max-width: 80vw !important;">
+                                                                            @foreach($box->insidings as $insiding)
+                                                                                <div class="d-flex align-items-center pb-3 gap-3">
+                                                                                    <img src="{{ $insiding->image }}"
+                                                                                         alt="{{ $insiding->name }}"
+                                                                                         style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                    <div class="d-flex flex-column justify-content-start pl-3">
+                                                                                        <p class="font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                            {{ $insiding->name }}
+                                                                                        </p>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @else
-                                                                        <p>No items found for this box.</p>
-                                                                    @endif
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @endforeach
 
                                                     <!-- Customize Button -->
                                                     <div>
@@ -245,30 +245,10 @@
     </div>
 @endsection
 
-<style>
-    .toggle-button {
-        display: inline-block;
-        margin-top: 10px;
-        text-decoration: none;
-        color: #007bff;
-        font-weight: bold;
-    }
-
-    .toggle-button:hover {
-        text-decoration: underline;
-    }
-
-    .font-avenir-light {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-</style>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS ve Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 <script>
     document.querySelectorAll('.slider-container').forEach(container => {
@@ -315,4 +295,28 @@
             }
         }
     }
+
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const allContents = document.querySelectorAll('.collapse-content');
+
+        allContents.forEach(item => {
+            if (item.id !== id && item.style.height !== '0px') {
+                item.style.height = '0px';
+            }
+        });
+
+        if (content.style.height === '0px' || content.style.height === '') {
+            content.style.height = content.scrollHeight + 'px';
+        } else {
+            content.style.height = '0px';
+        }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const contents = document.querySelectorAll('.collapse-content');
+            contents.forEach(content => {
+                content.style.height = '0px';
+            });
+        });
 </script>

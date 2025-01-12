@@ -59,8 +59,8 @@
                         <div class="row">
                             <!-- Sol tərəf -->
                             <div class="col-md-6">
-                                <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin!</p>
-                                <div class="boxes-slider-container">
+                            <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin! <span class="text-danger">*</span></p>
+                            <div class="boxes-slider-container">
                                     <div class="d-flex flex-column px-3 position-relative">
                                         <div id="boxes-slider-container">
                                             <div class="row boxes-slider-wrapper ps-1">
@@ -100,18 +100,21 @@
 
                                 <!-- Customize it! -->
                                 <div class="ps-3">
-                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın</p>
-                                    <textarea class="customizing-text-input-fonts"></textarea>
-                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px; font-weight: 600">Font Seçin</p>
+                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın <span class="text-danger">*</span></p>
+                                    <textarea class="customizing-text-input-fonts" required></textarea>
+                                    <span class="text-danger error-message" style="display: none;">Bu sahə tələb olunur</span>
+
+                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px; font-weight: 600">Font Seçin <span class="text-danger">*</span></p>
                                     <div class="button-group-customizing-fonts" data-box-index="">
                                         <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
                                         <button class="font-button-customizing-edit" data-font="Josefin Sans" style="font-family: Josefin Sans;">Font B</button>
                                         <button class="font-button-customizing-edit" data-font="Indie Flower" style="font-family: Indie Flower;">Font C</button>
                                     </div>
+                                    <span class="text-danger error-message" style="display: none;">Font seçilməlidir</span>
                                 </div>
 
                                 <!-- Choose Card! -->
-                                <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin!</p>
+                                <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin! <span class="text-danger">*</span></p>
                                 <div class="slider-container">
                                     <div class="d-flex row px-3">
                                         <div id="slider-container">
@@ -155,42 +158,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>
 
                                 <!-- Form -->
                                 <div class="ps-3 pb-3 w-100 d-flex flex-column">
                                     <!-- "To" Field -->
                                     <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
-                                        <label for="to-field" class="px-0 pt-2 mr-2 text-theme-secondary">To</label>
-                                        <input
-                                            type="text"
-                                            id="to-field"
-                                            maxlength="70"
-                                            class="col-md-10 rounded form-control recipient-name-0"
-                                            placeholder="Enter recipient name">
+                                        <label for="to-field" class="px-0 pt-2 mr-2 text-theme-secondary">To <span class="text-danger">*</span></label>
+                                        <input type="text" id="to-field" maxlength="70" class="col-md-10 rounded form-control recipient-name-0" placeholder="Enter recipient name" required>
+                                        <span class="text-danger error-message" style="display: none;">Alıcı adı daxil edilməlidir</span>
                                     </div>
 
                                     <!-- "From" Field -->
                                     <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
-                                        <label for="from-field" class="px-0 pt-2 mr-2 text-theme-secondary">From</label>
-                                        <input
-                                            type="text"
-                                            id="from-field"
-                                            maxlength="70"
-                                            class="col-md-10 rounded form-control"
-                                            placeholder="Enter your name">
+                                        <label for="from-field" class="px-0 pt-2 mr-2 text-theme-secondary">From <span class="text-danger">*</span></label>
+                                        <input type="text" id="from-field" maxlength="70" class="col-md-10 rounded form-control" placeholder="Enter your name" required>
+                                        <span class="text-danger error-message" style="display: none;">Göndərən adı daxil edilməlidir</span>
                                     </div>
 
                                     <!-- "Message" Field -->
                                     <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
-                                        <label for="message-field" class="px-0 pt-2 mr-2 text-theme-secondary">Message</label>
-                                        <textarea
-                                            id="message-field"
-                                            maxlength="300"
-                                            class="col-md-10 rounded form-control"
-                                            placeholder="Write your message here"></textarea>
+                                        <label for="message-field" class="px-0 pt-2 mr-2 text-theme-secondary">Message <span class="text-danger">*</span></label>
+                                        <textarea id="message-field" maxlength="300" class="col-md-10 rounded form-control" placeholder="Write your message here" required></textarea>
+                                        <span class="text-danger error-message" style="display: none;">Mesaj daxil edilməlidir</span>
                                     </div>
                                 </div>
                             </div>
+                            <span class="text-danger error-message ps-3" style="display: none;">Qutu seçilməlidir</span>
 
                             <!-- Sağ tərəf: Məhsullar -->
                             <div class="col-md-6">
@@ -199,29 +193,35 @@
                                     <ul class="list-group gap-2">
                                         @foreach($insidings as $insiding)
                                             <li class="list-group-item rounded" style="border-radius: 20px; border: 1px solid #ccc;">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="{{ asset('storage/' . $insiding->image_path) }}"
-                                                         alt="{{ $insiding->name }}"
-                                                         class="mr-3 rounded"
-                                                         style="width: 75px; height: 75px; object-fit: contain;">
-                                                    <div class="flex-grow-1">
-                                                        <h4 class="text-capitalize text-dark">{{ $insiding->name }}</h4>
+                                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                                    <div class="d-flex flex-row align-items-center gap-3">
+                                                        <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
+                                                        <div>
+                                                            <h6 class="mb-0">{{ $insiding->name }}</h6>
+                                                            <p class="mb-0" style="font-size: 14px; color: #898989;">{{ $insiding->description }}</p>
+                                                        </div>
                                                     </div>
                                                     <div class="d-flex align-items-center justify-content-center p-2"
                                                          style="border: 1px solid #ccc; border-radius: 15px; font-size: 14px;">
-                                                        1
+                                                        {{ $insiding->quantity }}
                                                     </div>
                                                 </div>
-
-                                                <!-- Məhsul mesajı və şəkil yükləmə bölməsi -->
                                                 <div class="d-flex flex-row flex-wrap flex-md-nowrap justify-content-between gap-1">
                                                     <!-- Məhsul mesajı -->
                                                     @if($insiding->allow_text)
                                                         <div class="mt-2 order-1 order-md-1" style="flex-grow: 4;">
                                                             <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
-                                                                <label class="px-0 pt-2 mr-2 text-theme-secondary" style="font-size: 0.9rem;">Message</label>
-                                                                <textarea class="w-100 rounded form-control" style="height: 65px;"
-                                                                          placeholder="{{ $insiding->text_field_placeholder ?? 'Message' }}"></textarea>
+                                                                <label class="px-0 pt-2 mr-2 text-theme-secondary" style="font-size: 0.9rem;">
+                                                                    Message <span class="text-danger">*</span>
+                                                                </label>
+                                                                <textarea
+                                                                    class="w-100 rounded form-control dynamic-textarea"
+                                                                    style="height: 65px;"
+                                                                    data-insiding-id="{{ $insiding->id }}"
+                                                                    placeholder="{{ $insiding->text_field_placeholder ?? 'Message' }}"
+                                                                    required
+                                                                ></textarea>
+                                                                <span class="text-danger error-message" style="display: none;">Mesaj daxil edilməlidir</span>
                                                             </div>
                                                         </div>
                                                     @endif
@@ -230,47 +230,60 @@
                                                     @if($insiding->allow_image_upload)
                                                         <div class="flex-column order-2 order-md-2" style="flex-grow: 4;">
                                                             <div class="d-flex flex-column justify-content-start align-items-start">
-                                                                <p class="text-theme mt-2 mb-1" style="font-size: 0.9rem;">Upload Your Photos</p>
+                                                                <p class="text-theme mt-2 mb-1" style="font-size: 0.9rem;">
+                                                                    Upload Your Photos <span class="text-danger">*</span>
+                                                                </p>
                                                                 <div class="d-flex flex-row justify-content-center align-items-center">
                                                                     <label for="image-upload-input-{{ $insiding->id }}"
-                                                                           class="d-flex justify-content-center align-items-center"
-                                                                           style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
+                                                                        class="d-flex justify-content-center align-items-center image-upload-label"
+                                                                        style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
                                                                         <span id="image-preview-{{ $insiding->id }}" style="font-size: 24px; font-weight: bold;">+</span>
                                                                         <img id="image-preview-img-{{ $insiding->id }}" src="" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
                                                                     </label>
-                                                                    <input id="image-upload-input-{{ $insiding->id }}" accept="image/*,.heic" type="file" class="d-none" onchange="previewImage(event, {{ $insiding->id }})">
+                                                                    <input id="image-upload-input-{{ $insiding->id }}"
+                                                                        accept="image/*,.heic"
+                                                                        type="file"
+                                                                        class="d-none dynamic-image-upload"
+                                                                        data-insiding-id="{{ $insiding->id }}"
+                                                                        required
+                                                                        onchange="previewImage(event, {{ $insiding->id }})">
                                                                 </div>
+                                                                <span class="text-danger error-message" style="display: none;">Şəkil yüklənməlidir</span>
                                                             </div>
                                                         </div>
                                                     @endif
+
                                                 </div>
-
-                                                {{-- Add variants section --}}
+                                                {{-- Variants section --}}
                                                 @if($insiding->allow_variant_selection)
-                                                @php
-                                                    $variantData = is_string($insiding->variant_options)
-                                                        ? json_decode($insiding->variant_options, true)
-                                                        : $insiding->variant_options;
-                                                @endphp
+                                                        @php
+                                                            $variantData = is_string($insiding->variant_options)
+                                                                ? json_decode($insiding->variant_options, true)
+                                                                : $insiding->variant_options;
+                                                        @endphp
 
-                                                @if(!empty($variantData) && is_array($variantData))
-                                                    @if($insiding->variant_selection_title)
-                                                        <h6 class="mt-3 variant-title">{{ $insiding->variant_selection_title }}</h6>
+                                                        @if(!empty($variantData) && is_array($variantData))
+                                                            @if($insiding->variant_selection_title)
+                                                                <h6 class="mt-3 variant-title">
+                                                                    {{ $insiding->variant_selection_title }} <span class="text-danger">*</span>
+                                                                </h6>
+                                                            @endif
+
+                                                            <div class="variants-buttons d-flex flex-wrap justify-content-center mt-2"
+                                                                data-insiding-id="{{ $insiding->id }}">
+                                                                @foreach($variantData as $index => $variant)
+                                                                    <button
+                                                                        class="btn btn-outline-secondary m-1 variant-button"
+                                                                        data-price="{{ $variant['price'] ?? $insiding->price }}"
+                                                                        data-index="{{ $index }}"
+                                                                        onclick="changeVariantActive(this, {{ $insiding->id }})">
+                                                                        {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                    </button>
+                                                                @endforeach
+                                                            </div>
+                                                            <span class="text-danger error-message" style="display: none;">Variant seçilməlidir</span>
+                                                        @endif
                                                     @endif
-
-                                                    <div class="variants-buttons d-flex flex-wrap justify-content-center mt-2">
-                                                        @foreach($variantData as $index => $variant)
-                                                            <button
-                                                                class="btn btn-outline-secondary m-1 variant-button {{ $index === 0 ? 'active' : '' }}"
-                                                                data-price="{{ $variant['price'] ?? $insiding->price }}"
-                                                                data-index="{{ $index }}"
-                                                                onclick="changeVariantActive({{ $index }})">
-                                                                {{ $variant['name'] ?? 'Unnamed Variant' }}
-                                                            </button>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-                                                @endif
                                             </li>
                                         @endforeach
                                     </ul>
@@ -279,6 +292,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="w-100 mt-4 d-flex flex-row justify-content-end">
+                <button class="custom-btn">
+                    <h5 class="mb-0 font-avenir-medium">Yadda Saxlayın</h5>
+                </button>
             </div>
         </div>
     </div>

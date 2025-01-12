@@ -20,6 +20,7 @@ class PremadeBoxInsiding extends Model
         'text_field_placeholder',
         'allow_variant_selection',
         'variant_options',
+        'quantity',
     ];
 
     protected $casts = [

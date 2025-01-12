@@ -17,6 +17,9 @@ class PremadeBox extends Model
         'price',
         'normal_image',
         'hover_image',
+        'recipient',
+        'occasion',
+        'production_time',
     ];
 
     protected $hidden = [

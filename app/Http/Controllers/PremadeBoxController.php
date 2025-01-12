@@ -24,15 +24,15 @@ class PremadeBoxController extends Controller
             return redirect()->back()->with('error', 'Box not found.');
         }
 
-        $premadeBoxInsidings = $id
-            ? PremadeBoxInsiding::where('premade_boxes_id', $id)->get()
+        $premadeBoxInsiding = $id
+            ? PremadeBox::with('insidings')->find($id)
             : null;
 
-        if ($id && $premadeBoxInsidings->isEmpty()) {
-            return redirect()->back()->with('error', 'Box insidings not found.');
+        if ($id && !$premadeBoxInsiding) {
+            return redirect()->back()->with('error', 'Box not found.');
         }
 
-        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsidings', 'currentStep'));
+        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsiding', 'currentStep'));
     }
 
     public function show($id)
@@ -42,13 +42,12 @@ class PremadeBoxController extends Controller
         $cards = Card::all();
         $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
 
-        // PremadeBoxCustomize'dan veriyi çekelim
         $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
             ->pluck('boxes')
             ->first();
 
         $giftBoxes = [];
-        if ($boxes && is_array($boxes)) {  // is_array kontrolü ekledik
+        if ($boxes && is_array($boxes)) {
             foreach ($boxes as $box) {
                 if (isset($box['gift_boxes_id'])) {
                     $giftBox = GiftBox::find($box['gift_boxes_id']);

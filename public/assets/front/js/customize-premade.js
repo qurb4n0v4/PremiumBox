@@ -102,13 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
         cardItems.forEach(img => img.classList.remove('active-card'));
     });
 });
+
 // JavaScript function to handle the variant change
 function changeVariantActive(selectedIndex) {
     // Get all variant buttons
     let variantButtons = document.querySelectorAll('.variant-button');
 
     // Remove 'active' class from all buttons
-    variantButtons.forEach(function(button) {
+    variantButtons.forEach(function (button) {
         button.classList.remove('active');
     });
 
@@ -117,7 +118,7 @@ function changeVariantActive(selectedIndex) {
 }
 
 // Automatically activate the first variant when the page loads
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Find the first button with the 'active' class and add it
     let firstButton = document.querySelector('.variant-button');
     if (firstButton) {
@@ -133,7 +134,7 @@ function previewImage(event, id) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             img.src = e.target.result;
             img.style.display = 'block'; // Şəkili göstəririk
             label.style.display = 'none'; // `+` işarəsini gizlədirik
@@ -153,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentIndex = 0;
 
     // İlk yüklemede prev butonunu gizle
-    if(prevButton) prevButton.style.display = totalItems <= 4 ? 'none' : 'none';
-    if(nextButton) nextButton.style.display = totalItems <= 4 ? 'none' : 'flex';
+    if (prevButton) prevButton.style.display = totalItems <= 4 ? 'none' : 'none';
+    if (nextButton) nextButton.style.display = totalItems <= 4 ? 'none' : 'flex';
 
     const showItems = (startIndex) => {
         // Tüm öğeleri gizle
@@ -163,27 +164,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Sadece gösterilmesi gereken öğeleri göster
-        for(let i = startIndex; i < Math.min(startIndex + itemsPerSlide, totalItems); i++) {
+        for (let i = startIndex; i < Math.min(startIndex + itemsPerSlide, totalItems); i++) {
             boxItems[i].style.display = 'block';
         }
 
         // Butonların görünürlüğünü güncelle
-        if(prevButton) prevButton.style.display = startIndex === 0 ? 'none' : 'flex';
-        if(nextButton) nextButton.style.display = startIndex + itemsPerSlide >= totalItems ? 'none' : 'flex';
+        if (prevButton) prevButton.style.display = startIndex === 0 ? 'none' : 'flex';
+        if (nextButton) nextButton.style.display = startIndex + itemsPerSlide >= totalItems ? 'none' : 'flex';
     };
 
-    if(nextButton) {
+    if (nextButton) {
         nextButton.addEventListener('click', () => {
-            if(currentIndex + itemsPerSlide < totalItems) {
+            if (currentIndex + itemsPerSlide < totalItems) {
                 currentIndex += itemsPerSlide;
                 showItems(currentIndex);
             }
         });
     }
 
-    if(prevButton) {
+    if (prevButton) {
         prevButton.addEventListener('click', () => {
-            if(currentIndex > 0) {
+            if (currentIndex > 0) {
                 currentIndex -= itemsPerSlide;
                 showItems(currentIndex);
             }
@@ -194,11 +195,11 @@ document.addEventListener('DOMContentLoaded', function () {
     showItems(0);
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const giftBoxImages = document.querySelectorAll('.gift-box-img');
 
     giftBoxImages.forEach(img => {
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             giftBoxImages.forEach(image => {
                 image.classList.remove('active');
             });
@@ -211,11 +212,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const fontButtons = document.querySelectorAll('.font-button-customizing-edit');
 
     fontButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             // Remove active class from all buttons
             fontButtons.forEach(btn => {
                 btn.classList.remove('active');
@@ -229,4 +230,208 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Selected font:', selectedFont);
         });
     });
+});
+
+function validateForm() {
+    let isValid = true;
+    const errorMessages = document.querySelectorAll('.error-message');
+
+    // Tüm hata mesajlarını gizle
+    errorMessages.forEach(msg => msg.style.display = 'none');
+
+    // Kutu seçimi kontrolü
+    const selectedBox = document.querySelector('.gift-box-img.selected');
+    if (!selectedBox) {
+    const boxErrorMsg = document.querySelector('.boxes-slider-container').nextElementSibling;
+    boxErrorMsg.style.display = 'block';
+    isValid = false;
+}
+
+    // Kart seçimi kontrolü
+    const selectedCard = document.querySelector('#selected-card-image');
+    if (!selectedCard.src || selectedCard.style.display === 'none') {
+    const cardErrorMsg = document.querySelector('.slider-container').nextElementSibling;
+    cardErrorMsg.style.display = 'block';
+    isValid = false;
+}
+
+    // Qutu yazısı kontrolü
+    const boxText = document.querySelector('.customizing-text-input-fonts');
+    if (!boxText.value.trim()) {
+    boxText.nextElementSibling.style.display = 'block';
+    isValid = false;
+}
+
+    // Font seçimi kontrolü
+    const selectedFont = document.querySelector('.font-button-customizing-edit.active');
+    if (!selectedFont) {
+    document.querySelector('.button-group-customizing-fonts')
+    .nextElementSibling.style.display = 'block';
+    isValid = false;
+}
+
+    // Form alanları kontrolü
+    ['to-field', 'from-field', 'message-field'].forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (!field.value.trim()) {
+    field.nextElementSibling.style.display = 'block';
+    isValid = false;
+}
+});
+
+    // Dinamik textarea kontrolü
+    document.querySelectorAll('.dynamic-textarea').forEach(textarea => {
+    if (!textarea.value.trim()) {
+    const errorMsg = textarea.nextElementSibling;
+    errorMsg.style.display = 'block';
+    isValid = false;
+}
+});
+
+    // Dinamik resim yükleme kontrolü
+    document.querySelectorAll('.dynamic-image-upload').forEach(input => {
+    const insidingId = input.dataset.insidingId;
+    const previewImg = document.querySelector(`#image-preview-img-${insidingId}`);
+
+    if (!previewImg.src || previewImg.style.display === 'none') {
+    const errorMsg = input.closest('.flex-column').querySelector('.error-message');
+    errorMsg.style.display = 'block';
+    isValid = false;
+}
+});
+
+    // Dinamik variant seçimi kontrolü
+    document.querySelectorAll('.variants-buttons').forEach(variantGroup => {
+    const hasActiveVariant = variantGroup.querySelector('.variant-button.active');
+    if (!hasActiveVariant) {
+    const errorMsg = variantGroup.nextElementSibling;
+    errorMsg.style.display = 'block';
+    isValid = false;
+}
+});
+
+    if (!isValid) {
+    alert('Zəhmət olmasa bütün tələb olunan sahələri doldurun!');
+}
+
+    return isValid;
+}
+
+    // Variant seçimi için fonksiyon
+    function changeVariantActive(button, insidingId) {
+    // Aynı grup içindeki tüm butonlardan active sınıfını kaldır
+    const variantGroup = button.closest('.variants-buttons');
+    variantGroup.querySelectorAll('.variant-button').forEach(btn => {
+    btn.classList.remove('active');
+});
+
+    // Tıklanan butona active sınıfını ekle
+    button.classList.add('active');
+
+    // Hata mesajını gizle
+    const errorMsg = variantGroup.nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'none';
+}
+}
+
+    // Resim önizleme fonksiyonu
+    function previewImage(event, insidingId) {
+    const file = event.target.files[0];
+    if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+    const preview = document.querySelector(`#image-preview-${insidingId}`);
+    const previewImg = document.querySelector(`#image-preview-img-${insidingId}`);
+
+    preview.style.display = 'none';
+    previewImg.src = e.target.result;
+    previewImg.style.display = 'block';
+
+    // Hata mesajını gizle
+    const errorMsg = event.target.closest('.flex-column').querySelector('.error-message');
+    if (errorMsg) {
+    errorMsg.style.display = 'none';
+}
+}
+    reader.readAsDataURL(file);
+}
+}
+
+    // Sayfa yüklendiğinde
+    document.addEventListener('DOMContentLoaded', function() {
+    // Form gönderilmeden önce kontrol et
+    const form = document.querySelector('form');
+    if (form) {
+    form.addEventListener('submit', function(e) {
+    if (!validateForm()) {
+    e.preventDefault();
+}
+});
+}
+
+    // Input alanları değiştiğinde hata mesajını gizle
+    document.querySelectorAll('input, textarea').forEach(element => {
+    element.addEventListener('input', function() {
+    const errorMessage = this.nextElementSibling;
+    if (errorMessage && errorMessage.classList.contains('error-message')) {
+    errorMessage.style.display = 'none';
+}
+});
+});
+
+    // Dinamik textarea değişikliklerini dinle
+    document.querySelectorAll('.dynamic-textarea').forEach(textarea => {
+    textarea.addEventListener('input', function() {
+    const errorMsg = this.nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'none';
+}
+});
+});
+
+    // Font seçimi değişikliklerini dinle
+    document.querySelectorAll('.font-button-customizing-edit').forEach(button => {
+    button.addEventListener('click', function() {
+    const errorMsg = this.closest('.button-group-customizing-fonts').nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'none';
+}
+});
+});
+
+    // Kutu seçimi için event listener
+    document.querySelectorAll('.gift-box-img').forEach(box => {
+    box.addEventListener('click', function() {
+    // Diğer kutulardan selected class'ını kaldır
+    document.querySelectorAll('.gift-box-img').forEach(b => b.classList.remove('selected'));
+    // Seçilen kutuya selected class'ı ekle
+    this.classList.add('selected');
+    // Hata mesajını gizle
+    const errorMsg = document.querySelector('.boxes-slider-container').nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'none';
+}
+});
+});
+
+    // Kart seçimi için event listener
+    document.querySelectorAll('.select-card').forEach(card => {
+    card.addEventListener('click', function() {
+    // Hata mesajını gizle
+    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'none';
+}
+});
+});
+
+    // Reset slider için event listener
+    document.getElementById('reset-slider')?.addEventListener('click', function() {
+    // Kart seçimi sıfırlandığında hata mesajını göster
+    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+    errorMsg.style.display = 'block';
+}
+});
 });
