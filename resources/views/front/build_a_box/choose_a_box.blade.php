@@ -202,7 +202,7 @@
 
                                                     <div>
                                                         <p class="customizing-text-style-font" style="margin-top: -30px;">Customize with Their Name or Writing</p>
-                                                        <textarea id="customText_{{ $categoryIndex }}_{{ $boxIndex }}" class="customizing-text-input-fonts"></textarea>
+                                                        <textarea id="customText_{{ $categoryIndex }}_{{ $boxIndex }}" class="customizing-text-input-fonts" required></textarea>
                                                         <p class="customizing-text-style-font" style="margin-top: 10px">Choose The Font</p>
                                                         <div class="button-group-customizing-fonts" data-box-index="{{ $categoryIndex }}_{{ $boxIndex }}">
                                                             <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
@@ -211,14 +211,13 @@
                                                         </div>
                                                     </div>
 
-                                                    <a
-                                                        href="{{ route('choose.items') }}"
-                                                        type="button"
+                                                    <button
                                                         class="choose-box-customize-button"
                                                         style="text-decoration: none"
+                                                        id="submitButton"
                                                     >
                                                         Tamamla
-                                                    </a>
+                                                    </button>
 
                                                 </div>
                                             </div>
@@ -323,6 +322,42 @@
         circle.addEventListener('click', function (e) {
             const step = this.textContent.trim();
             window.location.href = `/choose-step/${step}`;
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitButton = document.getElementById('submitButton');
+        const textarea = document.getElementById('customText_{{ $categoryIndex }}_{{ $boxIndex }}');
+        const fontButtons = document.querySelectorAll('.font-button-customizing-edit');
+
+        let fontSelected = false;
+
+        submitButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Font kontrolü
+            fontSelected = false;
+            fontButtons.forEach(button => {
+                if (button.classList.contains('selected')) {
+                    fontSelected = true;
+                }
+            });
+
+            // Validasyon
+            if (!textarea.value.trim()) {
+                alert('Lütfen metin alanını doldurun.');
+            } else if (!fontSelected) {
+                alert('Lütfen bir font seçin.');
+            } else {
+                window.location.href = "{{ route('choose.items') }}";
+            }
+        });
+
+        fontButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                fontButtons.forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+            });
         });
     });
 </script>

@@ -6,6 +6,8 @@ use App\Models\GiftBox;
 use App\Models\BoxCategory;
 use Illuminate\Http\Request;
 use App\Models\ChooseItem;
+use App\Models\Card;
+
 
 
 class GiftBoxController extends Controller
@@ -24,7 +26,6 @@ class GiftBoxController extends Controller
     {
         $currentStep = session('currentStep', 1);
 
-        // Fetch items with both choose variants and custom product details
         $chooseItems = ChooseItem::with([
             'chooseVariants' => function($query) {
                 $query->select([
@@ -62,6 +63,15 @@ class GiftBoxController extends Controller
         ])->get();
 
         return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems'));
+    }
+
+    public function chooseCard()
+    {
+        $cards = Card::all();
+        $currentStep = session('currentStep', 1);
+
+
+        return view('front.build_a_box.choose_a_card', compact('currentStep', 'cards'));
     }
     public function chooseStep($step)
     {
