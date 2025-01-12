@@ -169,6 +169,8 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FilamentServiceProvider::class,
+        Filament\FilamentServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -178,7 +180,7 @@ return [
     |
     | This array of class aliases will be registered when this application
     | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
+    | the aliases are "lazy" loaded  they don't hinder performance.
     |
     */
 

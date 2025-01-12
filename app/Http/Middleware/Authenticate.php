@@ -16,8 +16,15 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         // If the request is for an admin area, redirect to the admin login
-        if ($request->is('admin/*')) {
-            return route('admin.login');
+        if (auth()->check() && auth()->check()->role !== 'admin') {
+            if ($request->is('admin/*')) {
+                return route('admin.login');
+            }
+        }
+        if (!auth()->check()){
+            if ($request->is('admin/*')) {
+                return route('admin.login');
+            }
         }
 
         // Default route to login for regular users (if necessary)
