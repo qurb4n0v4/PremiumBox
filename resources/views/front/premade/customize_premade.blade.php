@@ -68,7 +68,7 @@
                                                     @foreach ($giftBoxes as $index => $giftBox)
                                                         <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
                                                             <div class="card mb-4 text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
-                                                                <img src="{{ $giftBox['image'] }}"
+                                                                <img src="{{ asset('storage/' . $giftBox['image']) }}"
                                                                      class="card-img-top mx-auto gift-box-img"
                                                                      alt="{{ $giftBox['title'] }}"
                                                                      data-box-id="{{ $index }}"
