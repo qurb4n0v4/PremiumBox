@@ -15,20 +15,6 @@
     --spacing-xlarge: 40px;
 }
 
-button {
-    outline: none;
-    border: 1px solid var(--primary-color);
-    border-radius: 20px !important;
-    background-color: var(--white);
-    color: var(--primary-color);
-    transition: .5s;
-}
-
-button:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-}
-
 .image-container {
     position: relative;
     width: 100%; /* Konteyner genişliği */

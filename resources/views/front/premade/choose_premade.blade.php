@@ -20,22 +20,26 @@
             $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
-        @foreach ($premadeBoxes as $box)
-            @foreach (range(1, 3) as $stepNumber)
-                <div
-                    class="choose-box-step"
-                    onclick="window.location.href='{{ route($routes[$stepNumber], $box->id) }}'"
-                    style="cursor: pointer;"
-                >
-                    <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
-                        {{ $stepNumber }}
-                    </div>
-                    <div class="choose-box-text">
-                        <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                        <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
-                    </div>
+        @foreach (range(1, 3) as $stepNumber)
+            <div
+                class="choose-box-step"
+                @if($stepNumber < 3)
+                    @if($stepNumber == 2)
+                        onclick="window.location.href='{{ isset($selectedBoxId) ? route($routes[$stepNumber], $selectedBoxId) : route($routes[$stepNumber]) }}'"
+                @else
+                    onclick="window.location.href='{{ route($routes[$stepNumber]) }}'"
+                @endif
+                style="cursor: pointer;"
+                @endif
+            >
+                <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                    {{ $stepNumber }}
                 </div>
-            @endforeach
+                <div class="choose-box-text">
+                    <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
+                    <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
+                </div>
+            </div>
         @endforeach
     </div>
 
@@ -141,19 +145,18 @@
                                                 >
                                             @endif
                                         </div>
-
                                     </div>
 
                                     <div class="card-block my-2" style="flex-grow: 1;">
-                                        <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler gift-box-title">{{ $box->name }}</h5>
-                                        <p class="card-text text-center font-avenir-black gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
+                                        <h6 class="gift-box-title">{{ $box->title }}</h6>
+                                        <div class="gift-box-name">
+                                            {{ $box->name }}
+                                        </div>
                                     </div>
-                                    <div class="text-center small my-2 gift-box-name">
-                                        {{ $box->title }}
-                                    </div>
-                                    <div class="mt-1">
+                                        <p class="gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
+                                    <div class="mt-1" style="text-align: center !important;">
                                         <!-- Səbətə Əlavə -->
-                                        <button class="choose-box-choose-button" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
+                                        <button class="choose-box-choose-button" style="text-align: center" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
                                     </div>
                                 </div>
                             </div>
@@ -206,19 +209,22 @@
                                                 <!-- Details -->
                                                 <div class="flex-grow-1">
                                                     <div class="text-start">
-                                                        <h2 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->name }}</h2>
+                                                        <h2 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->title }}</h2>
+                                                        <div class="gift-box-name" style="font-size: 21px; font-weight: 600">
+                                                            {{ $box->name }}
+                                                        </div>
                                                         <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
-                                                        @if($premadeBoxDetail && $premadeBoxDetail->paragraph)
+                                                        @if($box->details->first() && $box->details->first()->paragraph)
                                                             <div data-v-231e0cc6="" class="font-avenir-light mb-3">
                                                                 <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
-                                                                    @if(strlen($premadeBoxDetail->paragraph) > 100)
-                                                                        <span class="short-paragraph">{{ substr($premadeBoxDetail->paragraph, 0, 100) }}...</span>
-                                                                        <span class="d-none full-paragraph">{{ $premadeBoxDetail->paragraph }}</span>
+                                                                    @if(strlen($box->details->first()->paragraph) > 100)
+                                                                        <span class="short-paragraph">{{ substr($box->details->first()->paragraph, 0, 100) }}...</span>
+                                                                        <span class="d-none full-paragraph">{{ $box->details->first()->paragraph }}</span>
                                                                     @else
-                                                                        <span>{{ $premadeBoxDetail->paragraph }}</span>
+                                                                        <span>{{ $box->details->first()->paragraph }}</span>
                                                                     @endif
                                                                 </p>
-                                                                @if(strlen($premadeBoxDetail->paragraph) > 100)
+                                                                @if(strlen($box->details->first()->paragraph) > 100)
                                                                     <div class="text-center mb-2">
                                                                         <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
                                                                     </div>
