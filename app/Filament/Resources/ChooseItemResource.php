@@ -33,10 +33,10 @@ class ChooseItemResource extends Resource
             ->schema([
                 TextInput::make('company_name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(18),
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(14),
                 TextInput::make('price')
                     ->required()
                     ->numeric(),

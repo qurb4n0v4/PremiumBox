@@ -11,10 +11,10 @@ return new class extends Migration
     {
         Schema::create('pop_up_homes', function (Blueprint $table) {
             $table->id();
-            $table->string('title1');
-            $table->string('image1');
-            $table->string('title2');
-            $table->string('image2');
+            $table->string('title1')->nullable();
+            $table->string('image1')->nullable();
+            $table->string('title2')->nullable();
+            $table->string('image2')->nullable();
             $table->timestamps();
         });
     }
