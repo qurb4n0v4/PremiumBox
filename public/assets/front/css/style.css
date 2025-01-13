@@ -550,7 +550,7 @@ body.home .menu-button span {
         color: var(--social-links);
     }
 
-    .footer-contact .text-secondary {
+    .footer-contact .chat-label {
         font-size: 15px;
     }
 
