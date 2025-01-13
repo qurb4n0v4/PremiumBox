@@ -193,11 +193,11 @@
                                                     </div>
 {{--                                                    <button class="slider-prev">‹</button>--}}
 {{--                                                    <button class="slider-next">›</button>--}}
-                                                    <button class="carousel-control-prev slider-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Əvvəlki</span>
                                                     </button>
-                                                    <button class="carousel-control-next slider-next" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="next">
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="next">
                                                         <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Sonrakı</span>
                                                     </button>
@@ -230,7 +230,6 @@
                                                     </div>
 
                                                     <!-- What's Inside -->
-                                                    @foreach($premadeBoxes as $box)
                                                         <div class="accordion mb-4">
                                                             <div class="accordion-header">
                                                                 <h2 class="mb-0 text-center">
@@ -262,7 +261,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endforeach
 
                                                     <!-- Customize Button -->
                                                     <div>
