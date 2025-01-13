@@ -117,7 +117,7 @@
                     <div class="row">
                         @foreach ($premadeBoxes as $box)
                             @php
-                                $boxDetail = $box->details->first();
+                                $boxDetail = $box->details;
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
@@ -145,64 +145,89 @@
                                     </div>
 
                                     <div class="card-block my-2" style="flex-grow: 1;">
-                                        <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler">{{ $box->name }}</h5>
-                                        <p class="card-text text-center font-avenir-black">₼ {{ number_format($box->price, 2) }}</p>
+                                        <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler gift-box-title">{{ $box->name }}</h5>
+                                        <p class="card-text text-center font-avenir-black gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
                                     </div>
-                                    <div class="text-center small my-2">
+                                    <div class="text-center small my-2 gift-box-name">
                                         {{ $box->title }}
                                     </div>
                                     <div class="mt-1">
                                         <!-- Səbətə Əlavə -->
-                                        <button class="w-100" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
+                                        <button class="choose-box-choose-button" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Modal -->
                             <div class="modal" id="{{ $uniqueModalId }}">
-                                <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 1000px;">
+                                <div class="modal-dialog modal-dialog-centered rounded-4" style="max-width: 800px">
                                     <div class="modal-content rounded-4">
-                                        <div class="modal-body p-4">
-                                            <div class="d-flex flex-column flex-md-row gap-4">
-                                                <!-- Slider -->
-                                                <div class="slider-container position-relative" style="height: 340px; width: 360px; overflow: hidden;">
-                                                    <div class="slider" id="{{ $uniqueCarouselId }}">
-                                                        @if($boxDetail && $boxDetail->images)
-                                                            @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $image)
-                                                                <img src="{{ asset('storage/' . $image) }}" class="slider-item d-block w-100 h-100 object-fit-cover"
-                                                                     alt="Box Image">
-                                                            @endforeach
-                                                        @else
-                                                            <p>No images available</p>
-                                                        @endif
-                                                    </div>
-                                                    <button class="slider-prev">‹</button>
-                                                    <button class="slider-next">›</button>
-                                                </div>
 
-                                                <!-- Details -->
-                                                <div style="flex-grow: 1; position: relative; padding-bottom: 60px;">
-                                                    <h2 class="mb-2" style="color: #a3907a;">{{ $box->name }}</h2>
-                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
-                                                    @if($boxDetail && $boxDetail->paragraph)
-                                                        <div data-v-231e0cc6="" class="font-avenir-light mb-3">
-                                                            <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
-                                                                @if(strlen($boxDetail->paragraph) > 100)
-                                                                    <span class="short-paragraph">{{ substr($boxDetail->paragraph, 0, 100) }}...</span>
-                                                                    <span class="d-none full-paragraph">{{ $boxDetail->paragraph }}</span>
-                                                                @else
-                                                                    <span>{{ $boxDetail->paragraph }}</span>
-                                                                @endif
-                                                            </p>
-                                                            @if(strlen($boxDetail->paragraph) > 100)
-                                                                <div class="text-center mb-2">
-                                                                    <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
+                                        <div class="modal-body p-4">
+                                            <div class="d-flex align-items-start gap-4">
+                                                <!-- Slider -->
+                                                <div class="position-relative" style="width: 360px; flex-shrink: 0;">
+
+                                                    <div class="carousel slider" id="{{ $uniqueCarouselId }}" data-bs-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @if($premadeBoxDetail && !empty($premadeBoxDetail->images))
+                                                                @foreach($premadeBoxDetail->images as $key => $image)
+                                                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                                        <div style="height: 340px; width: 360px; overflow: hidden;">
+                                                                            <img src="{{ asset('storage/' . $image) }}"
+                                                                                 class="slider-item d-block w-100 h-100 object-fit-cover"
+                                                                                 alt="Box Image">
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div class="carousel-item active">
+                                                                    <div style="height: 340px; width: 360px; overflow: hidden;">
+                                                                        <img src="{{ asset('storage/' . $box->normal_image) }}"
+                                                                             class="slider-item d-block w-100 h-100 object-fit-cover"
+                                                                             alt="Box Image">
+                                                                    </div>
                                                                 </div>
                                                             @endif
                                                         </div>
-                                                    @else
-                                                        <p>Details not available.</p>
-                                                    @endif
+                                                    </div>
+{{--                                                    <button class="slider-prev">‹</button>--}}
+{{--                                                    <button class="slider-next">›</button>--}}
+                                                    <button class="carousel-control-prev slider-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                        <span class="visually-hidden">Əvvəlki</span>
+                                                    </button>
+                                                    <button class="carousel-control-next slider-next" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                        <span class="visually-hidden">Sonrakı</span>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Details -->
+                                                <div class="flex-grow-1">
+                                                    <div class="text-start">
+                                                        <h2 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->name }}</h2>
+                                                        <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
+                                                        @if($premadeBoxDetail && $premadeBoxDetail->paragraph)
+                                                            <div data-v-231e0cc6="" class="font-avenir-light mb-3">
+                                                                <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
+                                                                    @if(strlen($premadeBoxDetail->paragraph) > 100)
+                                                                        <span class="short-paragraph">{{ substr($premadeBoxDetail->paragraph, 0, 100) }}...</span>
+                                                                        <span class="d-none full-paragraph">{{ $premadeBoxDetail->paragraph }}</span>
+                                                                    @else
+                                                                        <span>{{ $premadeBoxDetail->paragraph }}</span>
+                                                                    @endif
+                                                                </p>
+                                                                @if(strlen($premadeBoxDetail->paragraph) > 100)
+                                                                    <div class="text-center mb-2">
+                                                                        <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        @else
+                                                            <p>Details not available.</p>
+                                                        @endif
+                                                    </div>
 
                                                     <!-- What's Inside -->
                                                     @foreach($premadeBoxes as $box)
@@ -244,7 +269,6 @@
                                                         <button
                                                             type="button"
                                                             class="choose-box-customize-button"
-                                                            style="position: absolute; right: 55px; bottom: 35px;"
                                                             onclick="window.location.href='{{ route('customize_premade_box', $box->id) }}'"
                                                         >
                                                             Tənzimləmək

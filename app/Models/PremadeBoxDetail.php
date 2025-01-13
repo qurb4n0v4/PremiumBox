@@ -11,16 +11,11 @@ class PremadeBoxDetail extends Model
 
     protected $fillable = [
         'premade_box_id',
-        'insiding',
         'paragraph',
         'images',
-        'recipient',
-        'occasion',
-        'production_time',
     ];
 
     protected $casts = [
-        'insiding' => 'array',
         'images' => 'array',
     ];
 
