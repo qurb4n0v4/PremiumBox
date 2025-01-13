@@ -34,11 +34,26 @@ class PremadeBoxController extends Controller
             return redirect()->back()->with('error', 'Box not found.');
         }
 
+        $recipients = PremadeBox::select('recipient')
+        ->distinct()
+        ->whereNotNull('recipient')
+        ->get();
+
+        $occasions = PremadeBox::select('occasion')
+            ->distinct()
+            ->whereNotNull('occasion')
+            ->get();
+
+        $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
+
         return view('front.premade.choose_premade', compact(
             'premadeBoxes',
             'premadeBoxDetail',
             'premadeBoxInsiding',
-            'currentStep'
+            'currentStep',
+            'recipients',
+            'occasions',
+            'premadeBoxes'
         ));
     }
 
@@ -97,5 +112,26 @@ class PremadeBoxController extends Controller
     {
         $currentStep = self::STEP_CUSTOMIZE_BOX;
         return view('front.premade.done_premade', compact('currentStep'));
+    }
+
+    public function choosePremadeBox()
+    {
+        $recipients = PremadeBox::select('recipient')
+            ->distinct()
+            ->whereNotNull('recipient')
+            ->get();
+
+        $occasions = PremadeBox::select('occasion')
+            ->distinct()
+            ->whereNotNull('occasion')
+            ->get();
+
+        $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
+
+        return view('front.premade.choose_premade', compact(
+            'recipients',
+            'occasions',
+            'premadeBoxes'
+        ));
     }
 }

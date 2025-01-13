@@ -58,41 +58,41 @@
                 <div class="col-12 col-md-3">
                     <div class="filters">
                         <h5>Məhsulları Filtrləyin</h5>
+                        
                         <!-- Alıcı Filtresi -->
-                        <div class="filter-section">
-                            <label for="recipient">Alıcı</label>
-                            <select id="recipient" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="male">Kişi</option>
-                                <option value="female">Qadın</option>
-                                <option value="children">Uşaq</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Alıcı</label>
+                            <div class="filter-buttons">
+                                @foreach($recipients as $recipient)
+                                    <button class="filter-btn" data-filter="recipient" data-value="{{ $recipient->id }}">
+                                        {{ $recipient }}
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
+
                         <!-- Xüsusi Günlər -->
-                        <div class="filter-section">
-                            <label for="occasions">Xüsusi Günlər</label>
-                            <select id="occasions" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="birthday">Ad günü</option>
-                                <option value="wedding">Toy</option>
-                                <option value="anniversary">İl dönümü</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Xüsusi Günlər</label>
+                            <div class="filter-buttons">
+                                @foreach($occasions as $occasion)
+                                    <button class="filter-btn" data-filter="occasion" data-value="{{ $occasion->id }}">
+                                        {{ $occasion }}
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
+
                         <!-- Qiymət Aralığı -->
-                        <div class="filter-section">
-                            <label for="price-range">Qiymət Aralığı</label>
-                            <input type="range" id="price-range" class="form-control" min="0" max="1000" step="10">
-                            <span id="price-range-label">₼ 0 - ₼ 1000</span>
-                        </div>
-                        <!-- İstehsal Müddəti -->
-                        <div class="filter-section">
-                            <label for="production-time">İstehsal Müddəti</label>
-                            <select id="production-time" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="1">1 gün</option>
-                                <option value="3">3 gün</option>
-                                <option value="7">7 gün</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Qiymət Aralığı</label>
+                            <div class="price-range-container">
+                                <div class="price-inputs d-flex gap-2">
+                                    <input type="number" class="form-control form-control-sm" id="min-price" placeholder="Min">
+                                    <input type="number" class="form-control form-control-sm" id="max-price" placeholder="Max">
+                                </div>
+                                <button class="filter-btn w-100 mt-2" data-filter="price">Tətbiq et</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -363,3 +363,119 @@
             });
         });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const boxes = document.querySelectorAll('.col-12.col-md-4');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filterType = this.dataset.filter;
+            const filterValue = this.dataset.value;
+            
+            // Aynı filtre grubundaki diğer butonların active sınıfını kaldır
+            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Tıklanan butona active sınıfını ekle
+            this.classList.add('active');
+            
+            // Filtreleme işlemini gerçekleştir
+            filterBoxes();
+        });
+    });
+    
+    function filterBoxes() {
+        const activeFilters = {
+            recipient: getActiveFilter('recipient'),
+            occasion: getActiveFilter('occasion'),
+            price: getPriceFilter()
+        };
+        
+        boxes.forEach(box => {
+            const shouldShow = checkFilters(box, activeFilters);
+            box.style.display = shouldShow ? 'block' : 'none';
+        });
+    }
+    
+    function getActiveFilter(filterType) {
+        const activeButton = document.querySelector(`.filter-btn[data-filter="${filterType}"].active`);
+        return activeButton ? activeButton.dataset.value : null;
+    }
+    
+    function getPriceFilter() {
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        return {min: minPrice, max: maxPrice};
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    console.log('Bulunan filter butonları:', filterButtons.length);
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            console.log('Tıklanan buton:', this.dataset.filter, this.dataset.value);
+            const filterType = this.dataset.filter;
+            const filterValue = this.dataset.value;
+            
+            // Test için
+            console.log('Aktif filtreler:', {
+                type: filterType,
+                value: filterValue
+            });
+        });
+    });
+});
+</script>
+
+<style>
+    .filters {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .filter-label {
+        color: #666;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        color: #666;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .filter-btn.active {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .price-range-container {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+    }
+</style>
