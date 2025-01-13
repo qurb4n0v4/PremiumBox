@@ -17,6 +17,9 @@ class PremadeBox extends Model
         'price',
         'normal_image',
         'hover_image',
+        'recipient',
+        'occasion',
+        'production_time',
     ];
 
     protected $hidden = [
@@ -27,5 +30,10 @@ class PremadeBox extends Model
     public function details()
     {
         return $this->hasMany(PremadeBoxDetail::class, 'premade_box_id');
+    }
+
+    public function insidings()
+    {
+        return $this->hasMany(PremadeBoxInsiding::class, 'premade_boxes_id', 'id');
     }
 }

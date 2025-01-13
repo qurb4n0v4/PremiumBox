@@ -58,6 +58,15 @@ class PremadeBoxInsidingResource extends Resource
                             ->storeFileNamesIn('image')
                             ->columnSpanFull(),
 
+                        Forms\Components\TextInput::make('quantity')
+                            ->label('Say')
+                            ->required()
+                            ->default(1)
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(100)
+                            ->step(1),
+
                     ]),
 
                 Section::make('Şəkil Yükləmə Parametrləri')
@@ -136,6 +145,7 @@ class PremadeBoxInsidingResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable(),
                 Tables\Columns\ImageColumn::make('image')->sortable(),
+                Tables\Columns\TextColumn::make('quantity')->sortable(),
                 Tables\Columns\BooleanColumn::make('allow_image_upload')->sortable(),
                 Tables\Columns\TextColumn::make('image_upload_title')->default(fn ($record) => $record->image_upload_title ?? 'No title'),
                 Tables\Columns\TextColumn::make('max_image_count')->default(fn ($record) => $record->max_image_count ?? 0),

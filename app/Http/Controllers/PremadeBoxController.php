@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PremadeBoxCustomize;
 use Illuminate\Http\Request;
 use App\Models\PremadeBox;
+use App\Models\GiftBox;
 use App\Models\Card;
 use App\Models\PremadeBoxInsiding;
 
@@ -15,35 +16,58 @@ class PremadeBoxController extends Controller
         $premadeBoxes = PremadeBox::all();
         $currentStep = session('currentStep', 1);
 
-        if ($id) {
-            $premadeBoxDetail = PremadeBox::where('id', $id);
-            $box = PremadeBox::find($id);
+        $premadeBoxDetail = $id
+            ? PremadeBox::find($id)
+            : null;
 
-            if (!$box) {
-                return redirect()->back()->with('error', 'Box not found.');
-            }
-        } else {
-            $premadeBoxDetail = PremadeBox::all();
-
+        if ($id && !$premadeBoxDetail) {
+            return redirect()->back()->with('error', 'Box not found.');
         }
 
-        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'currentStep'));
+        $premadeBoxInsiding = $id
+            ? PremadeBox::with('insidings')->find($id)
+            : null;
+
+        if ($id && !$premadeBoxInsiding) {
+            return redirect()->back()->with('error', 'Box not found.');
+        }
+
+        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsiding', 'currentStep'));
     }
 
     public function show($id)
     {
         $premadeBoxDetail = PremadeBox::findOrFail($id);
         $currentStep = session('currentStep', 1);
-
-        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
-        $customizedBoxes = PremadeBoxCustomize::where('premade_boxes_id', $id)->pluck('boxes');
-
-        $boxes = $customizedBoxes->map(function ($box) {
-            return json_decode($box, true);
-        });
-
         $cards = Card::all();
+        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
 
-        return view('front.premade.customize_premade', compact('premadeBoxDetail', 'currentStep', 'insidings', 'boxes', 'cards'));
+        $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
+            ->pluck('boxes')
+            ->first();
+
+        $giftBoxes = [];
+        if ($boxes && is_array($boxes)) {
+            foreach ($boxes as $box) {
+                if (isset($box['gift_boxes_id'])) {
+                    $giftBox = GiftBox::find($box['gift_boxes_id']);
+                    if ($giftBox) {
+                        $giftBoxes[] = [
+                            'id' => $giftBox->id,
+                            'title' => $giftBox->title,
+                            'image' => asset($giftBox->image),
+                        ];
+                    }
+                }
+            }
+        }
+
+        return view('front.premade.customize_premade', compact(
+            'premadeBoxDetail',
+            'currentStep',
+            'insidings',
+            'cards',
+            'giftBoxes'
+        ));
     }
 }

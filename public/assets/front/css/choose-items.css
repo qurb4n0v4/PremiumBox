@@ -274,7 +274,7 @@
     opacity: 0.9;
 }
 
-/* Sadəcə responsivlik üçün əlavə CSS */
+
 @media (max-width: 991px) {
     .modal-dialog {
         max-width: 90% !important;

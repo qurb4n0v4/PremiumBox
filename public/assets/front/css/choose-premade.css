@@ -110,3 +110,44 @@ h2 {
     cursor: pointer;
 }
 
+.toggle-button {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: var(--link);
+    font-weight: bold;
+}
+
+.toggle-button:hover {
+    text-decoration: underline;
+}
+
+.font-avenir-light {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.collapse-content {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+}
+
+.collapse-inner {
+    padding: 1rem;
+}
+
+.accordion-header button {
+    width: 100%;
+    text-align: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.accordion-header button:hover {
+    opacity: 0.8;
+}
+
