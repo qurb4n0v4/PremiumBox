@@ -11,14 +11,16 @@ use App\Models\PremadeBoxInsiding;
 
 class PremadeBoxController extends Controller
 {
+    const STEP_CHOOSE_BOX = 1;
+    const STEP_CUSTOMIZE_BOX = 2;
+    const STEP_COMPLETE = 3;
+
     public function index($id = null)
     {
         $premadeBoxes = PremadeBox::all();
-        $currentStep = session('currentStep', 1);
+        $currentStep = self::STEP_CHOOSE_BOX;
 
-        $premadeBoxDetail = $id
-            ? PremadeBox::find($id)
-            : null;
+        $premadeBoxDetail = $id ? PremadeBox::find($id) : null;
 
         if ($id && !$premadeBoxDetail) {
             return redirect()->back()->with('error', 'Box not found.');
@@ -32,13 +34,19 @@ class PremadeBoxController extends Controller
             return redirect()->back()->with('error', 'Box not found.');
         }
 
-        return view('front.premade.choose_premade', compact('premadeBoxes', 'premadeBoxDetail', 'premadeBoxInsiding', 'currentStep'));
+        return view('front.premade.choose_premade', compact(
+            'premadeBoxes',
+            'premadeBoxDetail',
+            'premadeBoxInsiding',
+            'currentStep'
+        ));
     }
 
     public function show($id)
     {
         $premadeBoxDetail = PremadeBox::findOrFail($id);
-        $currentStep = session('currentStep', 1);
+        $currentStep = self::STEP_CUSTOMIZE_BOX;
+
         $cards = Card::all();
         $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
 
@@ -69,5 +77,11 @@ class PremadeBoxController extends Controller
             'cards',
             'giftBoxes'
         ));
+    }
+
+    function done()
+    {
+        $currentStep = self::STEP_CUSTOMIZE_BOX;
+        return view('front.premade.done_premade', compact('currentStep'));
     }
 }

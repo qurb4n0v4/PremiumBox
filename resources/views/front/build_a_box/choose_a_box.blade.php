@@ -215,6 +215,7 @@
                                                         class="choose-box-customize-button"
                                                         style="text-decoration: none"
                                                         id="submitButton"
+                                                        onclick="window.location.href='{{ route('choose.step', $currentStep + 1) }}'"
                                                     >
                                                         Tamamla
                                                     </button>

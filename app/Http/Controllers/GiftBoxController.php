@@ -85,11 +85,18 @@ class GiftBoxController extends Controller
         } elseif ($step == 3) {
             return redirect()->route('choose.card');
         } elseif ($step == 4) {
-            return redirect()->route('order.complete');
-        }
+            if (!$this->checkCompletion()) {
+                return redirect()->back()->with('error', 'Bütün xanaları doldurun.');
+            }
+            return redirect()->route('order.complete');        }
 
         return redirect()->route('choose.box');
     }
 
-
+    private function checkCompletion()
+    {
+        return session()->has('selectedBox') &&
+            session()->has('selectedItems') &&
+            session()->has('selectedCard');
+    }
 }

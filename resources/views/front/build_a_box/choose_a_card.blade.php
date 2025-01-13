@@ -3,23 +3,37 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-a-cart.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
         @foreach (range(1, 4) as $stepNumber)
             <div class="choose-box-step">
-                <a href="{{ route('choose.step', $stepNumber) }}" style="text-decoration: none" class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                @if ($stepNumber < 4 || session('currentStep') >= $stepNumber) {{-- Adım tamamlanmadığı sürece ilerleme yapılamaz --}}
+                <a href="{{ route('choose.step', $stepNumber) }}"
+                   style="text-decoration: none"
+                   class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
                     {{ $stepNumber }}
                 </a>
+                @else
+                    <span
+                        class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}"
+                        style="cursor: not-allowed;">
+                    {{ $stepNumber }}
+                </span>
+                @endif
                 <div class="choose-box-text">
                     <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
                     <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
                 </div>
             </div>
-
         @endforeach
     </div>
-
 
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
@@ -285,6 +299,20 @@
             updateTextareaState();
             updatePreview();
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const allFields = document.querySelectorAll('.required-field');
+        const stepFourLink = document.querySelector('.choose-box-step:nth-child(4) a');
+        const isComplete = Array.from(allFields).every(field => field.value.trim() !== '');
+
+        if (isComplete) {
+            stepFourLink.style.pointerEvents = 'auto';
+            stepFourLink.style.opacity = '1';
+        } else {
+            stepFourLink.style.pointerEvents = 'none';
+            stepFourLink.style.opacity = '0.5';
+        }
     });
 </script>
 

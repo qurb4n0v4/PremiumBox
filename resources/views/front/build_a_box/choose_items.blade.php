@@ -513,7 +513,10 @@
                                                                             </div>
                                                                         @endif
 
-                                                                    <button class="choose-box-choose-button">Qutuya əlavə et</button>
+                                                                    <button class="choose-box-choose-button"
+                                                                            onclick="window.location.href='{{ route('choose.step', $currentStep + 1) }}'"
+                                                                    >
+                                                                        Qutuya əlavə et</button>
                                                                 @endforeach
                                                             @endif
                                                         </div>

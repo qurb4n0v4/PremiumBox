@@ -9,14 +9,33 @@
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
-        @foreach (range(1, 3) as $stepNumber)
-            <div class="choose-box-step">
-                <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">{{ $stepNumber }}</div>
-                <div class="choose-box-text">
-                    <h3>{{ ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
-                    <p>{{ ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
+        @php
+            $routes = [
+                1 => 'choose_premade_box',
+                2 => 'customize_premade_box',
+                3 => 'done_premade'
+            ];
+
+            $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
+            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
+        @endphp
+
+        @foreach ($premadeBoxes as $box)
+            @foreach (range(1, 3) as $stepNumber)
+                <div
+                    class="choose-box-step"
+                    onclick="window.location.href='{{ route($routes[$stepNumber], $box->id) }}'"
+                    style="cursor: pointer;"
+                >
+                    <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                        {{ $stepNumber }}
+                    </div>
+                    <div class="choose-box-text">
+                        <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
+                        <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         @endforeach
     </div>
 
@@ -273,10 +292,6 @@
             updateSlider();
         });
     });
-
-    function redirectToCustomize(id) {
-        window.location.href = `/choose_premade_box/${id}`;
-    }
 
     function toggleParagraph(link) {
         const container = link.closest('.font-avenir-light');
