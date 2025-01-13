@@ -13,6 +13,15 @@ class FilamentServiceProvider extends ServiceProvider
         Filament::registerResources([
             PremadeBoxCustomizeResource::class,
         ]);
+//        // Filament servislerini çalıştırmadan önce giriş kontrolü yapın
+//        Filament::serving(function () {
+//            // Admin olmayan kullanıcıları yönlendir
+//            if (auth()->check() && auth()->user()->role !== 'admin') {
+//                auth()->logout();
+//                return redirect('/admin/login')->with('error', 'You do not have admin access.');
+//            }
+//        });
+
     }
 }
 
