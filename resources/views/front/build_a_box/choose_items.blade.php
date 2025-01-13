@@ -148,9 +148,8 @@
                                                                 <div class="carousel-inner">
                                                                     @if($item->customProductDetails)
                                                                         @foreach($item->customProductDetails->images as $index => $image)
-                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
-                                                                                <img src="{{ asset('storage/' . $image) }}"
-                                                                                     class="d-block w-100 h-100 object-fit-cover"
+                                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">                                                                                <img src="{{ asset('storage/' . $image) }}"
+                                                                                     class="d-block w-100 h-100 object-fit-cover" style="object-fit: cover"
                                                                                      alt="Product Image {{ $index + 1 }}">
                                                                             </div>
                                                                         @endforeach
@@ -218,7 +217,7 @@
                                                                         @foreach($item->customProductDetails->images as $index => $image)
                                                                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 340px; width: 360px; overflow: hidden;">
                                                                                 <img src="{{ asset('storage/' . $image) }}"
-                                                                                     class="d-block w-100 h-100 object-fit-cover"
+                                                                                     class="d-block w-100 h-100 object-fit-cover" style="object-fit: cover"
                                                                                      alt="Product Image {{ $index + 1 }}">
                                                                             </div>
                                                                         @endforeach
@@ -341,13 +340,6 @@
                                                                             color: #6C757D;
                                                                             font-weight: 300;
                                                                             position: absolute;
-                                                                        }
-
-                                                                        .image-preview {
-                                                                            width: 100%;
-                                                                            height: 100%;
-                                                                            object-fit: cover;
-                                                                            display: none;
                                                                         }
                                                                     </style>
 
@@ -654,6 +646,184 @@
         });
     });
 
+    document.addEventListener('DOMContentLoaded', () => {
+        // Helper function to create error message element
+        function createErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.style.display = 'block';
+            errorDiv.style.fontSize = '12px';
+            errorDiv.style.color = '#dc3545';
+            errorDiv.style.marginTop = '5px';
+            errorDiv.textContent = message;
+            return errorDiv;
+        }
+
+        // Helper function to add validation to an input
+        function addValidation(element, errorMessage) {
+            if (!element) return;
+
+            element.classList.add('form-control');
+            element.setAttribute('required', '');
+
+            element.addEventListener('input', () => {
+                validateElement(element, errorMessage);
+            });
+        }
+
+        // Helper function to validate a single element
+        function validateElement(element, errorMessage) {
+            const existingError = element.nextElementSibling;
+            if (existingError && existingError.classList.contains('invalid-feedback')) {
+                existingError.remove();
+            }
+
+            if (!element.value.trim()) {
+                element.classList.add('is-invalid');
+                element.style.borderColor = '#dc3545';
+                const error = createErrorMessage(errorMessage);
+                element.parentNode.insertBefore(error, element.nextSibling);
+                return false;
+            } else {
+                element.classList.remove('is-invalid');
+                element.style.borderColor = '';
+                return true;
+            }
+        }
+
+        // Helper function to validate variant selection
+        function validateVariantSelection(variantButtons, errorMessage) {
+            const variantContainer = variantButtons[0]?.closest('.variants-buttons');
+            if (!variantContainer) return true;
+
+            const existingError = variantContainer.nextElementSibling;
+            if (existingError && existingError.classList.contains('invalid-feedback')) {
+                existingError.remove();
+            }
+
+            let isSelected = false;
+            variantButtons.forEach(button => {
+                if (button.classList.contains('active')) {
+                    isSelected = true;
+                }
+            });
+
+            if (!isSelected) {
+                variantContainer.style.borderColor = '#dc3545';
+                variantContainer.style.borderWidth = '1px';
+                variantContainer.style.borderStyle = 'solid';
+                variantContainer.style.borderRadius = '8px';
+                variantContainer.style.padding = '10px';
+                const error = createErrorMessage(errorMessage);
+                variantContainer.parentNode.insertBefore(error, variantContainer.nextSibling);
+                return false;
+            } else {
+                variantContainer.style.borderColor = '';
+                variantContainer.style.borderWidth = '';
+                variantContainer.style.borderStyle = '';
+                variantContainer.style.padding = '';
+                return true;
+            }
+        }
+
+        // Validate Custom Product Modal
+        document.querySelectorAll('[id^="customizationModal_"]').forEach(modal => {
+            const customText = modal.querySelector('.custom-text');
+            const imageUploads = modal.querySelectorAll('.hidden-input');
+            const variantButtons = modal.querySelectorAll('.variant-button');
+            const addToBoxButton = modal.querySelector('.choose-box-choose-button');
+
+            if (customText) {
+                addValidation(customText, 'Bu sahəni doldurmaq məcburidir');
+            }
+
+            if (imageUploads.length > 0) {
+                imageUploads.forEach(upload => {
+                    upload.setAttribute('required', '');
+                });
+            }
+
+            if (addToBoxButton) {
+                addToBoxButton.addEventListener('click', (e) => {
+                    let isValid = true;
+
+                    if (customText && !validateElement(customText, 'Bu sahəni doldurmaq məcburidir')) {
+                        isValid = false;
+                    }
+
+                    if (variantButtons.length > 0 && !validateVariantSelection(variantButtons, 'Variant seçimi məcburidir')) {
+                        isValid = false;
+                    }
+
+                    if (imageUploads.length > 0) {
+                        let hasOneImage = false;
+                        imageUploads.forEach(upload => {
+                            if (upload.files.length > 0) hasOneImage = true;
+                        });
+
+                        if (!hasOneImage) {
+                            const uploadContainer = modal.querySelector('.upload-container');
+                            if (uploadContainer) {
+                                const existingError = uploadContainer.nextElementSibling;
+                                if (existingError?.classList.contains('invalid-feedback')) {
+                                    existingError.remove();
+                                }
+                                uploadContainer.style.borderColor = '#dc3545';
+                                const error = createErrorMessage('Ən az bir şəkil yükləmək məcburidir');
+                                uploadContainer.parentNode.insertBefore(error, uploadContainer.nextSibling);
+                                isValid = false;
+                            }
+                        }
+                    }
+
+                    if (!isValid) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+        });
+
+        // Validate Choose Variant Modal
+        document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+            if (!modal.id.startsWith('modal-customization')) {
+                const customText = modal.querySelector('.custom-text');
+                const variantButtons = modal.querySelectorAll('.variant-button');
+                const addToBoxButton = modal.querySelector('.choose-box-choose-button');
+
+                if (customText) {
+                    addValidation(customText, 'Bu sahəni doldurmaq məcburidir');
+                }
+
+                // Add click event listeners for variant buttons
+                variantButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        validateVariantSelection(variantButtons, 'Variant seçimi məcburidir');
+                    });
+                });
+
+                if (addToBoxButton) {
+                    addToBoxButton.addEventListener('click', (e) => {
+                        let isValid = true;
+
+                        if (customText && !validateElement(customText, 'Bu sahəni doldurmaq məcburidir')) {
+                            isValid = false;
+                        }
+
+                        if (variantButtons.length > 0 && !validateVariantSelection(variantButtons, 'Variant seçimi məcburidir')) {
+                            isValid = false;
+                        }
+
+                        if (!isValid) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
+    });
+
 </script>
 
 <style>
@@ -672,5 +842,51 @@
         overflow: hidden;
         padding-right: 0 !important;
     }
+    /* Add these styles to your existing CSS */
+    .form-control.is-invalid {
+        border-color: #dc3545 !important;
+        background-image: none !important;
+        padding-right: 0.75rem !important;
+    }
+
+    .form-control.is-invalid:focus {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
+
+    .upload-container.is-invalid {
+        border: 2px solid #dc3545 !important;
+    }
+
+    .invalid-feedback {
+        display: none;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #dc3545;
+    }
+
+    .form-control.is-invalid ~ .invalid-feedback {
+        display: block;
+    }
+
+    .custom-upload-box.is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    /* New styles for variant validation */
+    .variants-buttons.invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .variant-button {
+        transition: all 0.3s ease;
+    }
+
+    .variant-button.active {
+        border-color: #a3907a !important;
+        background-color: #a3907a !important;
+        color: white !important;
+    }
+
 </style>
 

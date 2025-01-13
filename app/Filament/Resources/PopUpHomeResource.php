@@ -18,28 +18,28 @@ class PopUpHomeResource extends Resource
 
     protected static ?string $navigationGroup = 'Content Management';
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title1')
                     ->label('Title for Image 1')
-                    ->required(),
+                    ->nullable()
+                    ->default(''), // Default dəyər təyin olundu
                 Forms\Components\FileUpload::make('image1')
                     ->label('Image 1')
+                    ->nullable()
                     ->image()
-                    ->required()
                     ->directory('pop-up'),
                 Forms\Components\TextInput::make('title2')
                     ->label('Title for Image 2')
-                    ->required(),
+                    ->nullable()
+                    ->default(''), // Default dəyər təyin olundu
                 Forms\Components\FileUpload::make('image2')
                     ->label('Image 2')
+                    ->nullable()
                     ->image()
-                    ->required()
                     ->directory('pop-up'),
-
             ]);
     }
 
@@ -48,24 +48,30 @@ class PopUpHomeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title1')
-                    ->label('Title 1'),
+                    ->label('Title 1')
+                    ->formatStateUsing(fn ($state) => $state ?: '-'), // Boş dəyəri "-" kimi göstər
                 Tables\Columns\TextColumn::make('image1')
                     ->label('Image 1')
                     ->formatStateUsing(function ($state) {
-                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                        return $state
+                            ? '<img src="' . asset('storage/' . $state) . '" alt="Image 1" style="width: 100px; height: auto;" />'
+                            : 'No Image';
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('title2')
-                    ->label('Title 2'),
+                    ->label('Title 2')
+                    ->formatStateUsing(fn ($state) => $state ?: '-'), // Boş dəyəri "-" kimi göstər
                 Tables\Columns\TextColumn::make('image2')
                     ->label('Image 2')
                     ->formatStateUsing(function ($state) {
-                        return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
+                        return $state
+                            ? '<img src="' . asset('storage/' . $state) . '" alt="Image 2" style="width: 100px; height: auto;" />'
+                            : 'No Image';
                     })
                     ->html(),
             ])
             ->filters([
-                //
+                // Buraya əlavə filtrlər əlavə edə bilərsiniz
             ]);
     }
 
