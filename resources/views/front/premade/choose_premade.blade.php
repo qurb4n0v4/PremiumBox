@@ -20,22 +20,26 @@
             $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
-        @foreach ($premadeBoxes as $box)
-            @foreach (range(1, 3) as $stepNumber)
-                <div
-                    class="choose-box-step"
-                    onclick="window.location.href='{{ route($routes[$stepNumber], $box->id) }}'"
-                    style="cursor: pointer;"
-                >
-                    <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
-                        {{ $stepNumber }}
-                    </div>
-                    <div class="choose-box-text">
-                        <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                        <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
-                    </div>
+        @foreach (range(1, 3) as $stepNumber)
+            <div
+                class="choose-box-step"
+                @if($stepNumber < 3)
+                    @if($stepNumber == 2)
+                        onclick="window.location.href='{{ isset($selectedBoxId) ? route($routes[$stepNumber], $selectedBoxId) : route($routes[$stepNumber]) }}'"
+                @else
+                    onclick="window.location.href='{{ route($routes[$stepNumber]) }}'"
+                @endif
+                style="cursor: pointer;"
+                @endif
+            >
+                <div class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
+                    {{ $stepNumber }}
                 </div>
-            @endforeach
+                <div class="choose-box-text">
+                    <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
+                    <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
+                </div>
+            </div>
         @endforeach
     </div>
 
@@ -54,41 +58,41 @@
                 <div class="col-12 col-md-3">
                     <div class="filters">
                         <h5>Məhsulları Filtrləyin</h5>
+                        
                         <!-- Alıcı Filtresi -->
-                        <div class="filter-section">
-                            <label for="recipient">Alıcı</label>
-                            <select id="recipient" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="male">Kişi</option>
-                                <option value="female">Qadın</option>
-                                <option value="children">Uşaq</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Alıcı</label>
+                            <div class="filter-buttons">
+                                @foreach($recipients as $recipient)
+                                    <button class="filter-btn" data-filter="recipient" data-value="{{ $recipient->id }}">
+                                        {{ $recipient }}
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
+
                         <!-- Xüsusi Günlər -->
-                        <div class="filter-section">
-                            <label for="occasions">Xüsusi Günlər</label>
-                            <select id="occasions" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="birthday">Ad günü</option>
-                                <option value="wedding">Toy</option>
-                                <option value="anniversary">İl dönümü</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Xüsusi Günlər</label>
+                            <div class="filter-buttons">
+                                @foreach($occasions as $occasion)
+                                    <button class="filter-btn" data-filter="occasion" data-value="{{ $occasion->id }}">
+                                        {{ $occasion }}
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
+
                         <!-- Qiymət Aralığı -->
-                        <div class="filter-section">
-                            <label for="price-range">Qiymət Aralığı</label>
-                            <input type="range" id="price-range" class="form-control" min="0" max="1000" step="10">
-                            <span id="price-range-label">₼ 0 - ₼ 1000</span>
-                        </div>
-                        <!-- İstehsal Müddəti -->
-                        <div class="filter-section">
-                            <label for="production-time">İstehsal Müddəti</label>
-                            <select id="production-time" class="form-control">
-                                <option value="all">Hamısı</option>
-                                <option value="1">1 gün</option>
-                                <option value="3">3 gün</option>
-                                <option value="7">7 gün</option>
-                            </select>
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Qiymət Aralığı</label>
+                            <div class="price-range-container">
+                                <div class="price-inputs d-flex gap-2">
+                                    <input type="number" class="form-control form-control-sm" id="min-price" placeholder="Min">
+                                    <input type="number" class="form-control form-control-sm" id="max-price" placeholder="Max">
+                                </div>
+                                <button class="filter-btn w-100 mt-2" data-filter="price">Tətbiq et</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,19 +145,18 @@
                                                 >
                                             @endif
                                         </div>
-
                                     </div>
 
                                     <div class="card-block my-2" style="flex-grow: 1;">
-                                        <h5 class="text-center text-theme h4 mb-1 text-capitalize font-butler gift-box-title">{{ $box->name }}</h5>
-                                        <p class="card-text text-center font-avenir-black gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
+                                        <h6 class="gift-box-title">{{ $box->title }}</h6>
+                                        <div class="gift-box-name">
+                                            {{ $box->name }}
+                                        </div>
                                     </div>
-                                    <div class="text-center small my-2 gift-box-name">
-                                        {{ $box->title }}
-                                    </div>
-                                    <div class="mt-1">
+                                        <p class="gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
+                                    <div class="mt-1" style="text-align: center !important;">
                                         <!-- Səbətə Əlavə -->
-                                        <button class="choose-box-choose-button" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
+                                        <button class="choose-box-choose-button" style="text-align: center" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
                                     </div>
                                 </div>
                             </div>
@@ -206,19 +209,22 @@
                                                 <!-- Details -->
                                                 <div class="flex-grow-1">
                                                     <div class="text-start">
-                                                        <h2 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->name }}</h2>
+                                                        <h2 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->title }}</h2>
+                                                        <div class="gift-box-name" style="font-size: 21px; font-weight: 600">
+                                                            {{ $box->name }}
+                                                        </div>
                                                         <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
-                                                        @if($premadeBoxDetail && $premadeBoxDetail->paragraph)
+                                                        @if($box->details->first() && $box->details->first()->paragraph)
                                                             <div data-v-231e0cc6="" class="font-avenir-light mb-3">
                                                                 <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
-                                                                    @if(strlen($premadeBoxDetail->paragraph) > 100)
-                                                                        <span class="short-paragraph">{{ substr($premadeBoxDetail->paragraph, 0, 100) }}...</span>
-                                                                        <span class="d-none full-paragraph">{{ $premadeBoxDetail->paragraph }}</span>
+                                                                    @if(strlen($box->details->first()->paragraph) > 100)
+                                                                        <span class="short-paragraph">{{ substr($box->details->first()->paragraph, 0, 100) }}...</span>
+                                                                        <span class="d-none full-paragraph">{{ $box->details->first()->paragraph }}</span>
                                                                     @else
-                                                                        <span>{{ $premadeBoxDetail->paragraph }}</span>
+                                                                        <span>{{ $box->details->first()->paragraph }}</span>
                                                                     @endif
                                                                 </p>
-                                                                @if(strlen($premadeBoxDetail->paragraph) > 100)
+                                                                @if(strlen($box->details->first()->paragraph) > 100)
                                                                     <div class="text-center mb-2">
                                                                         <a href="javascript:void(0);" class="toggle-button" style="font-size: 12px; font-weight: normal" onclick="toggleParagraph(this)">Show More</a>
                                                                     </div>
@@ -357,3 +363,119 @@
             });
         });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const boxes = document.querySelectorAll('.col-12.col-md-4');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const filterType = this.dataset.filter;
+            const filterValue = this.dataset.value;
+            
+            // Aynı filtre grubundaki diğer butonların active sınıfını kaldır
+            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Tıklanan butona active sınıfını ekle
+            this.classList.add('active');
+            
+            // Filtreleme işlemini gerçekleştir
+            filterBoxes();
+        });
+    });
+    
+    function filterBoxes() {
+        const activeFilters = {
+            recipient: getActiveFilter('recipient'),
+            occasion: getActiveFilter('occasion'),
+            price: getPriceFilter()
+        };
+        
+        boxes.forEach(box => {
+            const shouldShow = checkFilters(box, activeFilters);
+            box.style.display = shouldShow ? 'block' : 'none';
+        });
+    }
+    
+    function getActiveFilter(filterType) {
+        const activeButton = document.querySelector(`.filter-btn[data-filter="${filterType}"].active`);
+        return activeButton ? activeButton.dataset.value : null;
+    }
+    
+    function getPriceFilter() {
+        const minPrice = document.getElementById('min-price').value;
+        const maxPrice = document.getElementById('max-price').value;
+        return {min: minPrice, max: maxPrice};
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    console.log('Bulunan filter butonları:', filterButtons.length);
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            console.log('Tıklanan buton:', this.dataset.filter, this.dataset.value);
+            const filterType = this.dataset.filter;
+            const filterValue = this.dataset.value;
+            
+            // Test için
+            console.log('Aktif filtreler:', {
+                type: filterType,
+                value: filterValue
+            });
+        });
+    });
+});
+</script>
+
+<style>
+    .filters {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .filter-label {
+        color: #666;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        color: #666;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .filter-btn.active {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .price-range-container {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+    }
+</style>

@@ -34,54 +34,104 @@ class PremadeBoxController extends Controller
             return redirect()->back()->with('error', 'Box not found.');
         }
 
+        $recipients = PremadeBox::select('recipient')
+        ->distinct()
+        ->whereNotNull('recipient')
+        ->get();
+
+        $occasions = PremadeBox::select('occasion')
+            ->distinct()
+            ->whereNotNull('occasion')
+            ->get();
+
+        $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
+
         return view('front.premade.choose_premade', compact(
             'premadeBoxes',
             'premadeBoxDetail',
             'premadeBoxInsiding',
-            'currentStep'
+            'currentStep',
+            'recipients',
+            'occasions',
+            'premadeBoxes'
         ));
     }
 
-    public function show($id)
+    public function show($id = null)
     {
-        $premadeBoxDetail = PremadeBox::findOrFail($id);
         $currentStep = self::STEP_CUSTOMIZE_BOX;
 
-        $cards = Card::all();
-        $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+        if (!$id) {
+            return view('front.premade.customize_premade', [
+                'currentStep' => $currentStep,
+                'premadeBoxDetail' => null,
+                'cards' => [],
+                'insidings' => [],
+                'giftBoxes' => []
+            ]);
+        }
 
-        $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
-            ->pluck('boxes')
-            ->first();
+        try {
+            $premadeBoxDetail = PremadeBox::with('details')->findOrFail($id);
+            $cards = Card::all();
+            $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
 
-        $giftBoxes = [];
-        if ($boxes && is_array($boxes)) {
-            foreach ($boxes as $box) {
-                if (isset($box['gift_boxes_id'])) {
-                    $giftBox = GiftBox::find($box['gift_boxes_id']);
-                    if ($giftBox) {
-                        $giftBoxes[] = [
-                            'id' => $giftBox->id,
-                            'title' => $giftBox->title,
-                            'image' => asset($giftBox->image),
-                        ];
+            $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
+                ->pluck('boxes')
+                ->first();
+
+            $giftBoxes = [];
+            if ($boxes && is_array($boxes)) {
+                foreach ($boxes as $box) {
+                    if (isset($box['gift_boxes_id'])) {
+                        $giftBox = GiftBox::find($box['gift_boxes_id']);
+                        if ($giftBox) {
+                            $giftBoxes[] = [
+                                'id' => $giftBox->id,
+                                'title' => $giftBox->title,
+                                'image' => asset($giftBox->image),
+                            ];
+                        }
                     }
                 }
             }
-        }
 
-        return view('front.premade.customize_premade', compact(
-            'premadeBoxDetail',
-            'currentStep',
-            'insidings',
-            'cards',
-            'giftBoxes'
-        ));
+            return view('front.premade.customize_premade', compact(
+                'premadeBoxDetail',
+                'currentStep',
+                'insidings',
+                'cards',
+                'giftBoxes'
+            ));
+        } catch (\Exception $e) {
+            return redirect()->route('choose_premade_box')->with('error', 'Qutu tapılmadı.');
+        }
     }
 
     function done()
     {
         $currentStep = self::STEP_CUSTOMIZE_BOX;
         return view('front.premade.done_premade', compact('currentStep'));
+    }
+
+    public function choosePremadeBox()
+    {
+        $recipients = PremadeBox::select('recipient')
+            ->distinct()
+            ->whereNotNull('recipient')
+            ->get();
+
+        $occasions = PremadeBox::select('occasion')
+            ->distinct()
+            ->whereNotNull('occasion')
+            ->get();
+
+        $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
+
+        return view('front.premade.choose_premade', compact(
+            'recipients',
+            'occasions',
+            'premadeBoxes'
+        ));
     }
 }

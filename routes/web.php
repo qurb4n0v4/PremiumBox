@@ -33,7 +33,7 @@ Route::get('/blog/{id}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a_box');
 
 Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
-Route::get('/choose_premade_box/{id}', [PremadeBoxController::class, 'show'])->name('customize_premade_box');
+Route::get('/customize_premade_box/{id?}', [PremadeBoxController::class, 'show'])->name('customize_premade_box');
 Route::get('/customize_premade_box/{id}', [CardController::class, 'index']);
 Route::get('/done_premade', [PremadeBoxController::class, 'done'])->name('done_premade');
 

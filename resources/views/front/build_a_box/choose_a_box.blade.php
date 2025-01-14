@@ -137,7 +137,7 @@
                                                             class="choose-box-customize-button"
                                                             data-modal-target="{{ $uniqueModalId2 }}"
                                                             data-modal-close="{{ $uniqueModalId1 }}">
-                                                        Tənzimləmək
+                                                        Fərdiləşdir
                                                     </button>
                                                 </div>
                                             </div>

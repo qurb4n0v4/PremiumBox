@@ -137,3 +137,254 @@ p, h4 {
 .custom-btn:hover {
     background-color: #8e7b6c;
 }
+
+/* Ana container için responsive ayarlar */
+.choose-boxes-page {
+    width: 100%;
+    padding: 2rem !important;
+}
+
+/* Textarea özel stilleri */
+.customizing-text-input-fonts {
+    width: 100%;
+    max-width: 400px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    resize: none;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* Ekstra Büyük Ekranlar */
+@media (min-width: 1400px) {
+    .choose-boxes-page {
+        max-width: 1300px !important;
+    }
+}
+
+/* Büyük Ekranlar */
+@media (max-width: 1200px) {
+    .choose-boxes-page {
+        max-width: 95% !important;
+    }
+
+    .container {
+        min-width: auto !important;
+        padding: 0 15px;
+    }
+
+    .customizing-text-input-fonts {
+        max-width: 350px;
+    }
+}
+
+/* Orta Boy Ekranlar */
+@media (max-width: 991px) {
+    .choose-boxes-page {
+        padding: 1.5rem !important;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .col-md-6 {
+        padding: 15px;
+    }
+
+    .customizing-text-input-fonts {
+        max-width: 100%;
+        height: 80px;
+    }
+
+    /* Qutu ve Kart seçim bölümleri */
+    .boxes-slider-container,
+    .slider-container {
+        overflow-x: auto;
+        padding: 0 5px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .box-item,
+    .card-item {
+        min-width: 150px;
+    }
+}
+
+/* Tablet Ekranlar */
+@media (max-width: 768px) {
+    .choose-boxes-page {
+        padding: 1rem !important;
+    }
+
+    /* Başlık ve açıklama metinleri */
+    .choose-boxes-header h3 {
+        font-size: 1.3rem;
+        line-height: 1.4;
+        margin-bottom: 10px !important;
+    }
+
+    .choose-boxes-header p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    /* Ürün listesi */
+    .list-group-item {
+        padding: 0.75rem;
+    }
+
+    .list-group-item img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .customizing-text-input-fonts {
+        height: 70px;
+        font-size: 13px;
+    }
+
+    /* Font seçim butonları */
+    .button-group-customizing-fonts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .font-button-customizing-edit {
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+}
+
+/* Küçük Tablet ve Büyük Mobil */
+@media (max-width: 576px) {
+    .choose-boxes-page {
+        padding: 0.75rem !important;
+    }
+
+    .customizing-text-input-fonts {
+        height: 60px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Ürün kartları */
+    .list-group-item {
+        margin-bottom: 0.5rem;
+        padding: 10px;
+    }
+
+    .list-group-item h6 {
+        font-size: 0.85rem;
+    }
+
+    .list-group-item p {
+        font-size: 0.75rem;
+    }
+
+    /* Form etiketleri */
+    label {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+
+    /* Butonlar */
+    .custom-btn {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 8px 15px;
+    }
+
+    .custom-btn h5 {
+        font-size: 0.9rem;
+    }
+}
+
+/* Çok Küçük Mobil Ekranlar */
+@media (max-width: 375px) {
+    .choose-boxes-page {
+        padding: 0.5rem !important;
+    }
+
+    .customizing-text-input-fonts {
+        height: 50px;
+        font-size: 11px;
+    }
+
+    .button-group-customizing-fonts {
+        gap: 5px;
+    }
+
+    .font-button-customizing-edit {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .list-group-item img {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Form elementleri */
+    input.form-control,
+    textarea.form-control {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+/* Genel düzenlemeler */
+.text-theme-secondary {
+    word-wrap: break-word;
+}
+
+/* Slider navigasyon butonları */
+.boxes-nav-button,
+.nav-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 991px) {
+    .boxes-nav-button,
+    .nav-button {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* Hata mesajları */
+.error-message {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Kart seçim alanı */
+.select-card {
+    transition: transform 0.2s;
+}
+
+.select-card:hover {
+    transform: scale(1.02);
+}
+
+/* Form grupları için ek düzenlemeler */
+.form-group {
+    margin-bottom: 15px;
+}
+
+@media (max-width: 480px) {
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        font-size: 13px;
+    }
+}
