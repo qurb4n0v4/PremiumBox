@@ -99,6 +99,23 @@ p, h4 {
     padding: 0 10px;
 }
 
+.boxes-nav-button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.boxes-nav-button i {
+    color: #898989;
+    font-size: 14px;
+}
+
+.boxes-nav-button:focus {
+    outline: none !important;
+}
+
 .boxes-nav-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -200,7 +217,6 @@ p, h4 {
     }
 
     /* Qutu ve Kart seçim bölümleri */
-    .boxes-slider-container,
     .slider-container {
         overflow-x: auto;
         padding: 0 5px;

@@ -48,16 +48,16 @@
             <p style="color: #898989; text-align: center !important;">Zəhmət olmasa əvvəlcə bir qutu seçin.</p>
         </div>
     @else
-        <div class="container my-5 p-5 choose-boxes-page" style="background-color: #ffffff; max-width: 1150px!important; border-radius: 20px">
+        <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc;">
             <div class="choose-boxes-header text-center" style="line-height: 0.5">
                 <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutunuzu fərdiləşdirin</h3>
                 <p style="font-size: 14px; color: #898989; text-align: center !important;">Qutunu, Kartı seçin və Məhsulları Fərdiləşdirin.</p>
                 <p style="color: #a3907a; font-size: 14px; font-weight: 600; text-align: center !important;">Sifarişi tamamlamaq üçün seçdiyiniz qutunun içərisindəkilərə nəzər yetirin!</p>
             </div>
 
-            <div class="container mt-5" style="min-width: 1050px">
+            <div class="container mt-5" style="min-width: 1050px;">
                 <div id="accordion">
-                    <div class="mt-5 w-100" style="border-radius: 20px; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+                    <div class="cont mt-5 w-100" style="border-radius: 20px; border: 1px solid #ccc; width: 70%;">
                         <!-- Heading və Collapse bölməsi -->
                         <div class="border-theme-secondary pb-3" style="border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; border-bottom-width: 0px !important;">
                             <h2 class="mb-0 d-flex flex-row pt-2">
@@ -115,7 +115,7 @@
                                                         <i class="fas fa-chevron-left"></i>
                                                     </button>
                                                     <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
-                                                            style="right: -2px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                            style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
                                                         <i class="fas fa-chevron-right"></i>
                                                     </button>
                                                 @endif
@@ -333,6 +333,314 @@
         </div>
     @endif
 @endsection
+
+<style>
+    .boxes-slider-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start !important;  /* Boxları sola hizalar */
+        gap: 10px;  /* Boxlar arası sabit boşluk */
+    }
+
+    .box-item {
+        flex: 0 0 auto;
+        margin: 0 !important;  /* Fazladan margin'leri kaldırır */
+    }
+
+    /* Boxes slider responsive tasarımı */
+    .boxes-slider-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;  /* Sabit boşluk */
+    }
+
+    /* General container responsive adjustments */
+    @media (max-width: 1200px) {
+        .container {
+            margin-top: 0 !important;
+            min-width: auto !important;
+            width: 100% !important;
+        }
+    }
+
+    /* Responsive adjustments for different screen sizes */
+    @media (max-width: 991px) {
+        .box-item {
+            flex: 0 0 calc(33.333% - 15px);
+        }
+
+        .card-item {
+            height: 80px !important;
+            margin-bottom: 60px !important;
+        }
+
+        /* Box and Card Slider Responsive Design */
+        .boxes-slider-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .box-item {
+            flex: 0 0 calc(25% - 15px);
+            margin: 0 !important;
+        }
+
+        .card-item {
+            width: calc(50% - 15px) !important;
+            margin: 10px auto !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .box-item {
+            flex: 0 0 calc(50% - 15px);
+        }
+
+        .col-md-6 {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .card-item {
+            width: calc(100% - 15px) !important;
+            max-width: 300px;
+        }
+
+        .choose-box-steps-container {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choose-box-step {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .box-item {
+            flex: 0 0 calc(50% - 10px);
+        }
+
+        .gift-box-img {
+            width: 80px !important;
+            height: 80px !important;
+        }
+    }
+
+    @media (max-width: 350px) {
+        .box-item {
+            flex: 0 0 100%;
+        }
+    }
+
+    /* Form Elements Responsive Design */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .form-group input,
+        .form-group textarea,
+        .customizing-text-input-fonts {
+            width: 100% !important;
+        }
+
+        .button-group-customizing-fonts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .font-button-customizing-edit {
+            flex: 1 1 calc(33.333% - 10px);
+            min-width: 80px;
+        }
+    }
+
+    /* Product List Responsive Design */
+    .list-group-item {
+        padding: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .list-group-item {
+            margin-bottom: 15px;
+        }
+
+        .list-group-item .d-flex {
+            flex-direction: column;
+            align-items: flex-start !important;
+        }
+
+        .list-group-item img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .variants-buttons {
+            justify-content: flex-start;
+        }
+
+        .variant-button {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    }
+
+    /* Image Upload Section Responsive */
+    @media (max-width: 768px) {
+        .image-upload-label {
+            width: 60px !important;
+            height: 60px !important;
+        }
+    }
+
+    /* Navigation Buttons Responsive */
+    @media (max-width: 768px) {
+        .nav-button,
+        .boxes-nav-button {
+            width: 30px;
+            height: 30px;
+            font-size: 12px;
+        }
+    }
+
+    /* Custom Button Responsive */
+    .custom-btn {
+        max-width: 200px;
+        width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .custom-btn {
+            max-width: 100%;
+            margin: 15px 0;
+        }
+    }
+
+    /* Additional Helper Classes */
+    .gap-2 {
+        gap: 0.5rem !important;
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+    /* Error Messages Responsive */
+    .error-message {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* Card Container Responsive */
+    #selected-card-container {
+        margin-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+        #selected-card-container img {
+            max-width: 250px;
+            margin: 0 auto;
+        }
+    }
+
+
+    /* Font Selection Responsive */
+    @media (max-width: 576px) {
+        .button-group-customizing-fonts button {
+            font-size: 12px;
+            padding: 8px;
+        }
+    }
+
+    /* Box slider responsive adjustments */
+    @media (max-width: 767px) {
+        .boxes-slider-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .box-item {
+            width: 100%;
+        }
+
+        .gift-box-card {
+            margin: 0 auto;
+        }
+
+        /* Card items in slider */
+        .slider-container .col-6 {
+            width: 50% !important;
+            padding: 0 5px;
+        }
+    }
+
+    /* Font selection buttons responsive */
+    @media (max-width: 767px) {
+        .button-group-customizing-fonts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .font-button-customizing-edit {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px;
+            font-size: 14px;
+        }
+    }
+
+    /* Product box responsive layout */
+    @media (max-width: 767px) {
+        .list-group-item .gap-3 {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: space-around;
+        }
+
+        .list-group-item .d-flex .p-2 {
+            max-width: 25px;
+        }
+
+        .list-group-item .d-flex .d-flex {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .list-group-item .d-flex:first-child {
+            gap: 15px;
+        }
+
+        .list-group-item .d-flex .d-flex:last-child {
+            justify-content: flex-start !important;
+            margin-top: 10px;
+        }
+
+        .list-group-item .d-flex.flex-row.flex-wrap {
+            flex-direction: column !important;
+        }
+
+        .list-group-item .order-1,
+        .list-group-item .order-2 {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .list-group-item .flex-column.order-2 {
+            align-items: flex-start !important;
+        }
+
+        .list-group-item .dynamic-textarea {
+            width: 100% !important;
+        }
+    }
+</style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
