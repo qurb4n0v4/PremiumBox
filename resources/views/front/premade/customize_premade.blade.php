@@ -57,7 +57,7 @@
 
             <div class="container mt-5" style="min-width: 1050px;">
                 <div id="accordion">
-                    <div class="cont mt-5 w-100" style="border-radius: 20px; border: 1px solid #ccc; width: 70%;">
+                    <div class="cont mt-5 mx-auto w-100" style="border-radius: 20px; border: 1px solid #ccc;">
                         <!-- Heading və Collapse bölməsi -->
                         <div class="border-theme-secondary pb-3" style="border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; border-bottom-width: 0px !important;">
                             <h2 class="mb-0 d-flex flex-row pt-2">
@@ -86,13 +86,20 @@
                                 <div class="col-md-6">
                                     <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin! <span class="text-danger">*</span></p>
                                     <div class="boxes-slider-container">
-                                        <div class="d-flex flex-column px-3 position-relative">
+                                        @if(count($giftBoxes) > 4)
+                                            <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
+                                                    style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                        @endif
+
+                                        <div class="d-flex flex-column position-relative">
                                             <div id="boxes-slider-container">
-                                                <div class="row boxes-slider-wrapper ps-1">
+                                                <div class="row boxes-slider-wrapper px-1">
                                                     @if(count($giftBoxes) > 0)
                                                         @foreach ($giftBoxes as $index => $giftBox)
                                                             <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
-                                                                <div class="card mb-4 text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
+                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
                                                                     <img src="{{ asset('storage/' . $giftBox['image']) }}"
                                                                          class="card-img-top mx-auto gift-box-img"
                                                                          alt="{{ $giftBox['title'] }}"
@@ -108,23 +115,19 @@
                                                         <p>No Gift Boxes found.</p>
                                                     @endif
                                                 </div>
-
-                                                @if(count($giftBoxes) > 4)
-                                                    <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
-                                                            style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
-                                                        <i class="fas fa-chevron-left"></i>
-                                                    </button>
-                                                    <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
-                                                            style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
-                                                        <i class="fas fa-chevron-right"></i>
-                                                    </button>
-                                                @endif
                                             </div>
                                         </div>
+
+                                        @if(count($giftBoxes) > 4)
+                                            <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
+                                                    style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        @endif
                                     </div>
 
                                     <!-- Customize it! -->
-                                    <div class="ps-3">
+                                    <div class="px-3 pt-4">
                                         <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın <span class="text-danger">*</span></p>
                                         <textarea class="customizing-text-input-fonts" required></textarea>
                                         <span class="text-danger error-message" style="display: none;">Bu sahə tələb olunur</span>
@@ -189,7 +192,7 @@
                                     <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>
 
                                     <!-- Form -->
-                                    <div class="ps-3 pb-3 w-100 d-flex flex-column">
+                                    <div class="px-3 pb-3 w-100 d-flex flex-column">
                                         <!-- "To" Field -->
                                         <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
                                             <label for="to-field" class="px-0 pt-2 mr-2 text-theme-secondary">Kimə <span class="text-danger">*</span></label>
@@ -333,314 +336,6 @@
         </div>
     @endif
 @endsection
-
-<style>
-    .boxes-slider-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start !important;  /* Boxları sola hizalar */
-        gap: 10px;  /* Boxlar arası sabit boşluk */
-    }
-
-    .box-item {
-        flex: 0 0 auto;
-        margin: 0 !important;  /* Fazladan margin'leri kaldırır */
-    }
-
-    /* Boxes slider responsive tasarımı */
-    .boxes-slider-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;  /* Sabit boşluk */
-    }
-
-    /* General container responsive adjustments */
-    @media (max-width: 1200px) {
-        .container {
-            margin-top: 0 !important;
-            min-width: auto !important;
-            width: 100% !important;
-        }
-    }
-
-    /* Responsive adjustments for different screen sizes */
-    @media (max-width: 991px) {
-        .box-item {
-            flex: 0 0 calc(33.333% - 15px);
-        }
-
-        .card-item {
-            height: 80px !important;
-            margin-bottom: 60px !important;
-        }
-
-        /* Box and Card Slider Responsive Design */
-        .boxes-slider-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .box-item {
-            flex: 0 0 calc(25% - 15px);
-            margin: 0 !important;
-        }
-
-        .card-item {
-            width: calc(50% - 15px) !important;
-            margin: 10px auto !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .box-item {
-            flex: 0 0 calc(50% - 15px);
-        }
-
-        .col-md-6 {
-            width: 100%;
-            padding: 10px;
-        }
-
-        .card-item {
-            width: calc(100% - 15px) !important;
-            max-width: 300px;
-        }
-
-        .choose-box-steps-container {
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .choose-box-step {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .box-item {
-            flex: 0 0 calc(50% - 10px);
-        }
-
-        .gift-box-img {
-            width: 80px !important;
-            height: 80px !important;
-        }
-    }
-
-    @media (max-width: 350px) {
-        .box-item {
-            flex: 0 0 100%;
-        }
-    }
-
-    /* Form Elements Responsive Design */
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    @media (max-width: 768px) {
-        .form-group input,
-        .form-group textarea,
-        .customizing-text-input-fonts {
-            width: 100% !important;
-        }
-
-        .button-group-customizing-fonts {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .font-button-customizing-edit {
-            flex: 1 1 calc(33.333% - 10px);
-            min-width: 80px;
-        }
-    }
-
-    /* Product List Responsive Design */
-    .list-group-item {
-        padding: 15px;
-    }
-
-    @media (max-width: 768px) {
-        .list-group-item {
-            margin-bottom: 15px;
-        }
-
-        .list-group-item .d-flex {
-            flex-direction: column;
-            align-items: flex-start !important;
-        }
-
-        .list-group-item img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 10px;
-        }
-
-        .variants-buttons {
-            justify-content: flex-start;
-        }
-
-        .variant-button {
-            font-size: 12px;
-            padding: 5px 10px;
-        }
-    }
-
-    /* Image Upload Section Responsive */
-    @media (max-width: 768px) {
-        .image-upload-label {
-            width: 60px !important;
-            height: 60px !important;
-        }
-    }
-
-    /* Navigation Buttons Responsive */
-    @media (max-width: 768px) {
-        .nav-button,
-        .boxes-nav-button {
-            width: 30px;
-            height: 30px;
-            font-size: 12px;
-        }
-    }
-
-    /* Custom Button Responsive */
-    .custom-btn {
-        max-width: 200px;
-        width: 100%;
-    }
-
-    @media (max-width: 768px) {
-        .custom-btn {
-            max-width: 100%;
-            margin: 15px 0;
-        }
-    }
-
-    /* Additional Helper Classes */
-    .gap-2 {
-        gap: 0.5rem !important;
-    }
-
-    .object-fit-cover {
-        object-fit: cover;
-    }
-
-    /* Error Messages Responsive */
-    .error-message {
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    /* Card Container Responsive */
-    #selected-card-container {
-        margin-top: 15px;
-    }
-
-    @media (max-width: 768px) {
-        #selected-card-container img {
-            max-width: 250px;
-            margin: 0 auto;
-        }
-    }
-
-
-    /* Font Selection Responsive */
-    @media (max-width: 576px) {
-        .button-group-customizing-fonts button {
-            font-size: 12px;
-            padding: 8px;
-        }
-    }
-
-    /* Box slider responsive adjustments */
-    @media (max-width: 767px) {
-        .boxes-slider-wrapper {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .box-item {
-            width: 100%;
-        }
-
-        .gift-box-card {
-            margin: 0 auto;
-        }
-
-        /* Card items in slider */
-        .slider-container .col-6 {
-            width: 50% !important;
-            padding: 0 5px;
-        }
-    }
-
-    /* Font selection buttons responsive */
-    @media (max-width: 767px) {
-        .button-group-customizing-fonts {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .font-button-customizing-edit {
-            flex: 1;
-            min-width: 80px;
-            padding: 8px;
-            font-size: 14px;
-        }
-    }
-
-    /* Product box responsive layout */
-    @media (max-width: 767px) {
-        .list-group-item .gap-3 {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            justify-content: space-around;
-        }
-
-        .list-group-item .d-flex .p-2 {
-            max-width: 25px;
-        }
-
-        .list-group-item .d-flex .d-flex {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .list-group-item .d-flex:first-child {
-            gap: 15px;
-        }
-
-        .list-group-item .d-flex .d-flex:last-child {
-            justify-content: flex-start !important;
-            margin-top: 10px;
-        }
-
-        .list-group-item .d-flex.flex-row.flex-wrap {
-            flex-direction: column !important;
-        }
-
-        .list-group-item .order-1,
-        .list-group-item .order-2 {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .list-group-item .flex-column.order-2 {
-            align-items: flex-start !important;
-        }
-
-        .list-group-item .dynamic-textarea {
-            width: 100% !important;
-        }
-    }
-</style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
