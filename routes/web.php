@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContactController;
 use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
 use App\Http\Controllers\UserProfileController;
@@ -68,3 +69,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

@@ -21,7 +21,13 @@
                             <i class="bi bi-instagram"> : </i><a href="" target="_blank" class="text-decoration-none" style="color: #a3907a;">@giftbox</a>
                         </p>
                     </div>
-                    <form>
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <form action="{{ route('contact.store') }}" method="POST">
+                        @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label contact-label">Adınız:</label>
                             <input type="text" class="form-control contact-input" id="name" name="name" placeholder="Adınızı daxil edin" required>
