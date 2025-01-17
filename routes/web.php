@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
 use App\Http\Controllers\UserProfileController;
@@ -65,3 +66,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/user/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
     Route::delete('/user/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 });
+
+Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');

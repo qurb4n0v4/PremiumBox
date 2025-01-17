@@ -15,7 +15,14 @@
                     Xüsusi gününüzü necə qeyd etməkdə sizə kömək edə biləcəyimizi bizə bildirin.
                 </p>
 
-                <form action="" method="POST">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <form action="{{ route('chat.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label chat-label">Ad</label>
@@ -51,7 +58,7 @@
         font-weight: normal;
     }
 
-    .form-control, .form-select {
+    .form-control{
         background-color: #f8f9fa;
         border-color: #a3907a;
     }

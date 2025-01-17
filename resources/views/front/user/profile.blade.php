@@ -1,39 +1,41 @@
 @extends('front.layouts.app')
 @section('content')
-    <div class="container my-5">
-        <div class="profile-card card border-0">
-            <div class="card-body">
-                <div class="profile-header d-flex align-items-center gap-2">
-                    <div class="profile-avatar bg-light rounded-circle d-flex justify-content-center align-items-center">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                    </div>
-                    <div class="d-flex flex-column justify-content-center ms-3">
-                        <h4 class="profile-name mb-0 text-uppercase">{{ Auth::user()->name }}</h4>
-                        <p class="profile-email text-muted">{{ Auth::user()->email }}</p>
-                    </div>
-                </div>
+        <div class="container my-5">
+            <div class="profile-card card border-0">
+                <div class="card-body">
+                    <div class="profile-header d-flex align-items-center gap-2">
 
-                <ul class="nav nav-tabs mt-4">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('front/user/profile-details') ? 'active' : '' }}"
-                           href="{{ route('profile-details') }}">Profilim</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('front/user/orders') ? 'active' : '' }}"
-                           href="{{ route('orders') }}">Sifarişlərim</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"
-                           href="{{ route('addresses.index') }}">Ünvanlarım</a>
-                    </li>
-                </ul>
+                        <div
+                            class="profile-avatar bg-light rounded-circle d-flex justify-content-center align-items-center">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+                        <div class="d-flex flex-column justify-content-center ms-3">
+                            <h4 class="profile-name mb-0 text-uppercase">{{ Auth::user()->name }}</h4>
+                            <p class="profile-email text-muted">{{ Auth::user()->email }}</p>
+                        </div>
+                    </div>
 
-                <div class="profile-content mt-4 d-flex justify-content-center">
-                    @yield('profile-content')
+                    <ul class="nav nav-tabs mt-4">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('front/user/profile-details') ? 'active' : '' }}"
+                               href="{{ route('profile-details') }}">Profilim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('front/user/orders') ? 'active' : '' }}"
+                               href="{{ route('orders') }}">Sifarişlərim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"
+                               href="{{ route('addresses.index') }}">Ünvanlarım</a>
+                        </li>
+                    </ul>
+
+                    <div class="profile-content mt-4 d-flex justify-content-center">
+                        @yield('profile-content')
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 <style>
     .container {
