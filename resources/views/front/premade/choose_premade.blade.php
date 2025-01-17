@@ -60,12 +60,14 @@
                         <h5>Məhsulları Filtrləyin</h5>
 
                         <!-- Alıcı Filtresi -->
-                        <div class="filter-section mb-4">
+                        <div class="filter-section my-4">
                             <label class="filter-label mb-2">Alıcı</label>
                             <div class="filter-buttons">
                                 @foreach($recipients as $recipient)
-                                    <button class="filter-btn" data-filter="recipient" data-value="{{ $recipient->id }}">
-                                        {{ $recipient }}
+                                    <button class="filter-btn"
+                                            data-filter="recipient"
+                                            data-value="{{ $recipient['name'] }}">
+                                        {{ $recipient['name'] }}
                                     </button>
                                 @endforeach
                             </div>
@@ -76,8 +78,10 @@
                             <label class="filter-label mb-2">Xüsusi Günlər</label>
                             <div class="filter-buttons">
                                 @foreach($occasions as $occasion)
-                                    <button class="filter-btn" data-filter="occasion" data-value="{{ $occasion->id }}">
-                                        {{ $occasion }}
+                                    <button class="filter-btn"
+                                            data-filter="occasion"
+                                            data-value="{{ $occasion['name'] }}">
+                                        {{ $occasion['name'] }}
                                     </button>
                                 @endforeach
                             </div>
@@ -88,15 +92,23 @@
                             <label class="filter-label mb-2">Qiymət Aralığı</label>
                             <div class="price-range-container">
                                 <div class="price-inputs d-flex gap-2">
-                                    <input type="number" class="form-control form-control-sm" id="min-price" placeholder="Min">
-                                    <input type="number" class="form-control form-control-sm" id="max-price" placeholder="Max">
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           id="min-price"
+                                           placeholder="Min">
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           id="max-price"
+                                           placeholder="Max">
                                 </div>
-                                <button class="filter-btn w-100 mt-2" data-filter="price">Tətbiq et</button>
+                                <button class="filter-btn w-100 mt-2"
+                                        data-filter="price">
+                                    Tətbiq et
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Sağ Sidebar (Məhsullar) -->
                 <div class="col-12 col-md-9">
                     <!-- Axtar və Sırala -->
@@ -125,7 +137,11 @@
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
-                            <div class="col-12 col-md-4 mb-4">
+                            <div class="col-12 col-md-4 mb-4 premade-box"
+                                 data-recipient="{{ $box->recipient }}"
+                                 data-occasion="{{ $box->occasion }}"
+                                 data-price="{{ $box->price }}">
+
                                 <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
                                         <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
@@ -363,66 +379,335 @@
         });
     });
 
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const filterButtons = document.querySelectorAll('.filter-btn');
+    //     const boxes = document.querySelectorAll('.premade-box');
+    //     const searchBox = document.getElementById('search-box');
+    //     const sortSelect = document.getElementById('sort-boxes');
+    //
+    //     let activeFilters = {
+    //         recipient: null,
+    //         occasion: null,
+    //         price: {
+    //             min: null,
+    //             max: null
+    //         }
+    //     };
+    //
+    //     // Filter butonları için event listener
+    //     filterButtons.forEach(button => {
+    //         button.addEventListener('click', function() {
+    //             const filterType = this.dataset.filter;
+    //             const filterValue = this.dataset.value;
+    //
+    //             // Toggle active class
+    //             if (filterType !== 'price') {
+    //                 if (activeFilters[filterType] === filterValue) {
+    //                     // Aynı butona tekrar tıklandıysa filtreyi kaldır
+    //                     activeFilters[filterType] = null;
+    //                     this.classList.remove('active');
+    //                 } else {
+    //                     // Diğer butonlardan active class'ı kaldır
+    //                     document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`)
+    //                         .forEach(btn => btn.classList.remove('active'));
+    //
+    //                     // Yeni filtre değerini ata ve butonu aktif yap
+    //                     activeFilters[filterType] = filterValue;
+    //                     this.classList.add('active');
+    //                 }
+    //             } else {
+    //                 // Fiyat filtresi için
+    //                 const minPrice = parseFloat(document.getElementById('min-price').value) || null;
+    //                 const maxPrice = parseFloat(document.getElementById('max-price').value) || null;
+    //
+    //                 activeFilters.price = {
+    //                     min: minPrice,
+    //                     max: maxPrice
+    //                 };
+    //             }
+    //
+    //             applyFilters();
+    //         });
+    //     });
+    //
+    //     function applyFilters() {
+    //         boxes.forEach(box => {
+    //             let shouldShow = true;
+    //
+    //             // Recipient filter
+    //             if (activeFilters.recipient !== null) {
+    //                 shouldShow = box.dataset.recipient === activeFilters.recipient;
+    //             }
+    //
+    //             // Occasion filter
+    //             if (shouldShow && activeFilters.occasion !== null) {
+    //                 shouldShow = box.dataset.occasion === activeFilters.occasion;
+    //             }
+    //
+    //             // Price filter
+    //             if (shouldShow && (activeFilters.price.min !== null || activeFilters.price.max !== null)) {
+    //                 const price = parseFloat(box.dataset.price);
+    //                 if (activeFilters.price.min !== null && price < activeFilters.price.min) {
+    //                     shouldShow = false;
+    //                 }
+    //                 if (activeFilters.price.max !== null && price > activeFilters.price.max) {
+    //                     shouldShow = false;
+    //                 }
+    //             }
+    //
+    //             // Update visibility
+    //             box.style.display = shouldShow ? '' : 'none';
+    //         });
+    //     }
+    //
+    //     // Reset filters button (add this to your HTML if needed)
+    //     const resetButton = document.createElement('button');
+    //     resetButton.textContent = 'Filtrleri Sıfırla';
+    //     resetButton.className = 'filter-btn mt-3 w-100';
+    //     resetButton.addEventListener('click', function() {
+    //         activeFilters = {
+    //             recipient: null,
+    //             occasion: null,
+    //             price: {
+    //                 min: null,
+    //                 max: null
+    //             }
+    //         };
+    //
+    //         // Reset all active classes
+    //         filterButtons.forEach(btn => btn.classList.remove('active'));
+    //
+    //         // Reset price inputs
+    //         document.getElementById('min-price').value = '';
+    //         document.getElementById('max-price').value = '';
+    //
+    //         // Show all boxes
+    //         boxes.forEach(box => box.style.display = '');
+    //     });
+    //
+    //     // Add reset button to filters container
+    //     document.querySelector('.filters').appendChild(resetButton);
+    // });
+
     document.addEventListener('DOMContentLoaded', function() {
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const boxes = document.querySelectorAll('.col-12.col-md-4');
+        const boxes = document.querySelectorAll('.premade-box');
+        const searchBox = document.getElementById('search-box');
+        const sortSelect = document.getElementById('sort-boxes');
 
+        let activeFilters = {
+            recipient: null,
+            occasion: null,
+            price: {
+                min: null,
+                max: null
+            }
+        };
+
+        // Arama fonksiyonu
+        searchBox.addEventListener('input', function() {
+            applyFilters();
+        });
+
+        // Sıralama fonksiyonu
+        sortSelect.addEventListener('change', function() {
+            const boxesArray = Array.from(boxes);
+            const sortValue = this.value;
+
+            boxesArray.sort((a, b) => {
+                switch(sortValue) {
+                    case 'price_asc':
+                        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                    case 'price_desc':
+                        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                    case 'name_asc':
+                        return a.querySelector('.gift-box-name').textContent.trim()
+                            .localeCompare(b.querySelector('.gift-box-name').textContent.trim());
+                    case 'name_desc':
+                        return b.querySelector('.gift-box-name').textContent.trim()
+                            .localeCompare(a.querySelector('.gift-box-name').textContent.trim());
+                    default:
+                        return 0;
+                }
+            });
+
+            const container = boxes[0].parentElement;
+            boxesArray.forEach(box => container.appendChild(box));
+        });
+
+        // Filter butonları için event listener
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const filterType = this.dataset.filter;
                 const filterValue = this.dataset.value;
 
-                document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
-                    btn.classList.remove('active');
-                });
+                // Toggle active class
+                if (filterType !== 'price') {
+                    if (activeFilters[filterType] === filterValue) {
+                        // Aynı butona tekrar tıklandıysa filtreyi kaldır
+                        activeFilters[filterType] = null;
+                        this.classList.remove('active');
+                    } else {
+                        // Diğer butonlardan active class'ı kaldır
+                        document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`)
+                            .forEach(btn => btn.classList.remove('active'));
 
-                this.classList.add('active');
+                        // Yeni filtre değerini ata ve butonu aktif yap
+                        activeFilters[filterType] = filterValue;
+                        this.classList.add('active');
+                    }
+                } else {
+                    // Fiyat filtresi için
+                    const minPrice = parseFloat(document.getElementById('min-price').value) || null;
+                    const maxPrice = parseFloat(document.getElementById('max-price').value) || null;
 
-                filterBoxes();
+                    activeFilters.price = {
+                        min: minPrice,
+                        max: maxPrice
+                    };
+                }
+
+                applyFilters();
             });
         });
 
-        function filterBoxes() {
-            const activeFilters = {
-                recipient: getActiveFilter('recipient'),
-                occasion: getActiveFilter('occasion'),
-                price: getPriceFilter()
-            };
+        function applyFilters() {
+            const searchTerm = searchBox.value.toLowerCase();
 
             boxes.forEach(box => {
-                const shouldShow = checkFilters(box, activeFilters);
-                box.style.display = shouldShow ? 'block' : 'none';
+                let shouldShow = true;
+
+                // Arama filtresi
+                const boxName = box.querySelector('.gift-box-name').textContent.toLowerCase();
+                const boxTitle = box.querySelector('.gift-box-title').textContent.toLowerCase();
+                if (searchTerm && !boxName.includes(searchTerm) && !boxTitle.includes(searchTerm)) {
+                    shouldShow = false;
+                }
+
+                // Recipient filter
+                if (shouldShow && activeFilters.recipient !== null) {
+                    shouldShow = box.dataset.recipient === activeFilters.recipient;
+                }
+
+                // Occasion filter
+                if (shouldShow && activeFilters.occasion !== null) {
+                    shouldShow = box.dataset.occasion === activeFilters.occasion;
+                }
+
+                // Price filter
+                if (shouldShow && (activeFilters.price.min !== null || activeFilters.price.max !== null)) {
+                    const price = parseFloat(box.dataset.price);
+                    if (activeFilters.price.min !== null && price < activeFilters.price.min) {
+                        shouldShow = false;
+                    }
+                    if (activeFilters.price.max !== null && price > activeFilters.price.max) {
+                        shouldShow = false;
+                    }
+                }
+
+                // Update visibility
+                box.style.display = shouldShow ? '' : 'none';
             });
         }
 
-        function getActiveFilter(filterType) {
-            const activeButton = document.querySelector(`.filter-btn[data-filter="${filterType}"].active`);
-            return activeButton ? activeButton.dataset.value : null;
-        }
+        // Reset filters button
+        const resetButton = document.createElement('button');
+        resetButton.textContent = 'Filtrleri Sıfırla';
+        resetButton.className = 'filter-btn mt-3 w-100';
+        resetButton.addEventListener('click', function() {
+            activeFilters = {
+                recipient: null,
+                occasion: null,
+                price: {
+                    min: null,
+                    max: null
+                }
+            };
 
-        function getPriceFilter() {
-            const minPrice = document.getElementById('min-price').value;
-            const maxPrice = document.getElementById('max-price').value;
-            return {min: minPrice, max: maxPrice};
-        }
+            // Reset all active classes
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Reset price inputs
+            document.getElementById('min-price').value = '';
+            document.getElementById('max-price').value = '';
+
+            // Reset search box
+            searchBox.value = '';
+
+            // Reset sort select
+            sortSelect.value = 'default';
+
+            // Show all boxes
+            boxes.forEach(box => box.style.display = '');
+        });
+
+        // Add reset button to filters container
+        document.querySelector('.filters').appendChild(resetButton);
     });
 
+    // Slider ve diğer fonksiyonlar
+    document.querySelectorAll('.slider-container').forEach(container => {
+        const slider = container.querySelector('.slider');
+        const items = container.querySelectorAll('.slider-item');
+        const prevButton = container.querySelector('.slider-prev');
+        const nextButton = container.querySelector('.slider-next');
+
+        let currentIndex = 0;
+
+        const updateSlider = () => {
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        };
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+            updateSlider();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+            updateSlider();
+        });
+    });
+
+    function toggleParagraph(link) {
+        const container = link.closest('.font-avenir-light');
+        const shortParagraph = container.querySelector('.short-paragraph');
+        const fullParagraph = container.querySelector('.full-paragraph');
+
+        if (shortParagraph && fullParagraph) {
+            if (fullParagraph.classList.contains('d-none')) {
+                shortParagraph.classList.add('d-none');
+                fullParagraph.classList.remove('d-none');
+                link.textContent = "Show Less";
+            } else {
+                shortParagraph.classList.remove('d-none');
+                fullParagraph.classList.add('d-none');
+                link.textContent = "Show More";
+            }
+        }
+    }
+
+    function toggleAccordion(id) {
+        const content = document.getElementById(id);
+        const allContents = document.querySelectorAll('.collapse-content');
+
+        allContents.forEach(item => {
+            if (item.id !== id && item.style.height !== '0px') {
+                item.style.height = '0px';
+            }
+        });
+
+        if (content.style.height === '0px' || content.style.height === '') {
+            content.style.height = content.scrollHeight + 'px';
+        } else {
+            content.style.height = '0px';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        console.log('Bulunan filter butonları:', filterButtons.length);
-
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                console.log('Tıklanan buton:', this.dataset.filter, this.dataset.value);
-                const filterType = this.dataset.filter;
-                const filterValue = this.dataset.value;
-
-                // Test için
-                console.log('Aktif filtreler:', {
-                    type: filterType,
-                    value: filterValue
-                });
-            });
+        const contents = document.querySelectorAll('.collapse-content');
+        contents.forEach(content => {
+            content.style.height = '0px';
         });
     });
 </script>
