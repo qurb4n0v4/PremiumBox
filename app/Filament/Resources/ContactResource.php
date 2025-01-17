@@ -17,7 +17,7 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationLabel = 'Messages';
+    protected static ?string $navigationLabel = 'Suggestions';
 
     protected static ?string $navigationGroup = 'Contact/Messages';
 
@@ -28,16 +28,16 @@ class ContactResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Ad')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->label('E-posta')
+                    ->label('Email')
                     ->required()
                     ->email()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('message')
-                    ->label('Mesaj')
+                    ->label('Message')
                     ->required(),
             ]);
     }
@@ -46,10 +46,10 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Ad')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->label('E-posta')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('message')->label('Mesaj')->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Gönderilme Tarihi')->dateTime(),
+                Tables\Columns\TextColumn::make('name')->label('Name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('email')->label('Email')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('message')->label('Message')->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Created_at')->dateTime(),
             ])
             ->filters([
                 //

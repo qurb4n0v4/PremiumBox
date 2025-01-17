@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Bizimlə Əlaqə | BOX & TALE')
+@section('title', 'Təklifləriniz | BOX & TALE')
 
 @section('content')
     <div class="contact-main">
@@ -9,7 +9,7 @@
                 <div class="col-lg-6 col-md-6 contact-left">
                     <h1>Əlaqə</h1>
                     <h5></h5>
-                    <p>Əgər daha çox sualınız varsa, GiftBox komandasına aşağıdakı əlaqə vasitələri ilə müraciət edə bilərsiniz:</p>
+                    <p>Əgər daha çox sualınız və ya təklifləriniz varsa, GiftBox komandasına aşağıdakı əlaqə vasitələri ilə müraciət edə bilərsiniz:</p>
                     <div class="contact-details">
                         <p>
                             <i class="bi bi-telephone-fill"> : </i>+1234567890
