@@ -24,13 +24,8 @@
 
                     <div class="mb-3">
                         <label for="gift_type" class="form-label chat-label">Hansı növ hədiyyə axtarırsınız?</label>
-                        <select id="gift_type" name="gift_type" class="form-select chat-select" required>
-                            <option value="Birthday">Doğum Günü</option>
-                            <option value="Anniversary">Yubiley</option>
-                            <option value="Corporate">Korporativ</option>
-                            <option value="Custom">Xüsusi</option>
-                            <option value="Custom">Yeni Il</option>
-                        </select>
+                        <input type="text" name="gift_type" id="gift_type" class="form-control chat-input" placeholder="" required>
+
                     </div>
 
                     <div class="mb-3">
@@ -69,10 +64,6 @@
         color: #898989 !important;
     }
 
-    .chat-select {
-        color: #a3907a !important;
-    }
-
     .btn-whatsapp-send {
         background-color: #a3907a;
         border: none;
@@ -106,7 +97,7 @@
             flex-direction: column;
         }
 
-        .form-control, .form-select {
+        .form-control {
             font-size: 1rem;
         }
 
@@ -129,7 +120,7 @@
             font-size: 1.8rem;
         }
 
-        .form-control, .form-select {
+        .form-control {
             font-size: 1rem;
         }
 
