@@ -50,7 +50,7 @@
 
                             <!-- Kategori Filtresi -->
                             <div class="filter-section my-4">
-                                <label class="filter-label mb-2">Alıcı</label>
+                                <label class="filter-label mb-2">Kateqoriya</label>
                                 <div class="filter-buttons">
                                     @foreach($categories as $category)
                                         <button class="filter-btn"
