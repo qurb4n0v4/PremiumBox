@@ -173,7 +173,7 @@ h2 {
     background: white;
     border: 1px solid #ddd;
     padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 10px !important;
     font-size: 13px;
     color: #666;
     transition: all 0.3s ease;

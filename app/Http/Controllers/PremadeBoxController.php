@@ -35,14 +35,20 @@ class PremadeBoxController extends Controller
         }
 
         $recipients = PremadeBox::select('recipient')
-        ->distinct()
-        ->whereNotNull('recipient')
-        ->get();
+            ->distinct()
+            ->whereNotNull('recipient')
+            ->pluck('recipient')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
 
         $occasions = PremadeBox::select('occasion')
             ->distinct()
             ->whereNotNull('occasion')
-            ->get();
+            ->pluck('occasion')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
 
         $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
 
@@ -119,12 +125,18 @@ class PremadeBoxController extends Controller
         $recipients = PremadeBox::select('recipient')
             ->distinct()
             ->whereNotNull('recipient')
-            ->get();
+            ->pluck('recipient')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
 
         $occasions = PremadeBox::select('occasion')
             ->distinct()
             ->whereNotNull('occasion')
-            ->get();
+            ->pluck('occasion')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
 
         $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
 
