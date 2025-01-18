@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 @section('content')
+    @php
+        $hideFooter = true;
+    @endphp
+
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
@@ -30,7 +34,7 @@
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%; margin-bottom: 90px!important;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Məhsulları seçin</h3>
             <p style="font-size: 14px; color: #898989">Sizin üçün ən yaxşı məhsulları seçdik.</p>
@@ -658,6 +662,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+
         // Check text length and hide show more button if not needed
         document.querySelectorAll('.variant-paragraph').forEach(container => {
             const fullText = container.getAttribute('data-full-text');

@@ -9,6 +9,10 @@
         </div>
     @endif
 
+    @php
+        $hideFooter = true;
+    @endphp
+
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
