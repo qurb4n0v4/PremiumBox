@@ -598,6 +598,77 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        // Add this inside your DOMContentLoaded event listener
+        document.querySelectorAll('.choose-box-choose-button').forEach(button => {
+            button.addEventListener('click', async function(e) {
+                e.preventDefault();
+
+                // Get the modal element
+                const modal = this.closest('.modal');
+                const itemId = modal.id.split('_')[1]; // Extract item ID from modal ID
+
+                // Get all customization data
+                const customText = modal.querySelector('.custom-text')?.value;
+                const selectedVariant = modal.querySelector('.variant-button.active')?.textContent.trim();
+                const selectedVariantPrice = modal.querySelector('.variant-button.active')?.dataset.price;
+
+                // Get uploaded files if they exist
+                const uploadedFiles = getUploadedFiles(itemId);
+
+                // Create FormData object to handle file uploads
+                const formData = new FormData();
+
+                // Add basic data
+                formData.append('choose_item_id', itemId);
+                formData.append('user_text', customText || null);
+                formData.append('selected_variant', selectedVariant || null);
+                formData.append('variant_price', selectedVariantPrice || null);
+
+                // Add files if they exist
+                uploadedFiles.forEach((file, index) => {
+                    formData.append(`uploaded_images[${index}]`, file);
+                });
+
+                try {
+                    const response = await saveCustomItemSelection(formData);
+
+                    if (response.success) {
+                        // Close the modal
+                        bootstrap.Modal.getInstance(modal).hide();
+
+                        // Show success message
+                        alert("Məhsul uğurla əlavə edildi!");
+
+                        // Optional: Refresh the page or update UI
+                        window.location.reload();
+                    } else {
+                        handleError(response.message);
+                    }
+                } catch (error) {
+                    handleError(error);
+                }
+            });
+        });
+
+// Function to send data to server
+        async function saveCustomItemSelection(formData) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch('/session/save-item', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            });
+
+            return await response.json();
+        }
+
+
+
+
         document.querySelectorAll('.choose-items-button').forEach(button => {
             button.addEventListener('click', async function (e) {
                 e.preventDefault();

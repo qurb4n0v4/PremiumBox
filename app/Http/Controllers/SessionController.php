@@ -46,24 +46,34 @@ class SessionController extends Controller
             $itemData = [
                 'item_id' => $item->id,
                 'item_name' => $item->name,
-                'item_image' => $item->image,
-                'item_price' => $item->price,
-                'selected_variants' => $request->selected_variants,
-                'user_text' => $request->user_text
+                'item_image' => $item->normal_image,
+                'item_price' => $request->variant_price ?? $item->price,
+                'selected_variant' => $request->selected_variant,
+                'user_text' => $request->user_text,
+                'uploaded_images' => []
             ];
 
-            // Sessiyadakı 'selected_item' məlumatını alırıq
-            $existingItems = Session::get('selected_item', []);
-
-            // Əgər 'selected_item' bir array deyilsə, bunu array olaraq dəyişirik
-            if (!is_array($existingItems)) {
-                $existingItems = []; // Yalnız array olsun deyə təmizləyirik
+            // Handle file uploads if they exist
+            if ($request->hasFile('uploaded_images')) {
+                foreach ($request->file('uploaded_images') as $image) {
+                    // Store the image and get the path
+                    $path = $image->store('custom-uploads', 'public');
+                    $itemData['uploaded_images'][] = $path;
+                }
             }
 
-            // Yeni itemData məlumatını əlavə edirik
+            // Get existing items from session
+            $existingItems = Session::get('selected_item', []);
+
+            // Ensure it's an array
+            if (!is_array($existingItems)) {
+                $existingItems = [];
+            }
+
+            // Add new item data
             $existingItems[] = $itemData;
 
-            // 'selected_item' sessiyasına yeni məlumatları əlavə edirik
+            // Update session
             Session::put('selected_item', $existingItems);
 
             return response()->json([
@@ -77,7 +87,6 @@ class SessionController extends Controller
             ], 500);
         }
     }
-
 
 
 

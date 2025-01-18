@@ -55,6 +55,7 @@ Route::prefix('session')->group(function () {
     Route::get('/current-step', [SessionController::class, 'getCurrentStep']);
     Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('remove.selection');
 });
+Route::post('/remove-selection', [App\Http\Controllers\SessionController::class, 'removeSelection'])->name('remove.selection');
 
 
 Route::get('/chat', function () {
