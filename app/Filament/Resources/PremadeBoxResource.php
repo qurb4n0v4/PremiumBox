@@ -31,7 +31,7 @@ class PremadeBoxResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->required(),
