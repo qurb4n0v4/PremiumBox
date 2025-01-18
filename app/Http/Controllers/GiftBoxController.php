@@ -115,4 +115,24 @@ class GiftBoxController extends Controller
             session()->has('selectedItems') &&
             session()->has('selectedCard');
     }
+
+
+    public function orderComplete()
+    {
+        // Sessiyada saxlanılan məlumatları götürmək
+        $selectedBox = session('selectedBox');
+        $selectedItems = session('selectedItems');
+        $selectedCard = session('selectedCard');
+        $currentStep = session('currentStep', 1);
+
+
+//        // Məlumatları yoxlamaq (istəyə görə)
+//        if (!$selectedBox || !$selectedItems || !$selectedCard) {
+//            return redirect()->route('front.choose_a_box')->with('error', 'Sifariş tam deyil.');
+//        }
+
+        // done.blade.php görünüşünə məlumatları ötürmək
+        return view('front.build_a_box.done', compact('selectedBox', 'selectedItems', 'selectedCard', 'currentStep'));
+    }
+
 }
