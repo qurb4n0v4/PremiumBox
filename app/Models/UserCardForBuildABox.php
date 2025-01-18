@@ -3,6 +3,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class UserCardForBuildABox extends Model {
+
+    protected $table = 'user_card_for_build_a_box';
+
     protected $fillable = [
         'user_id',
         'gift_box_id',

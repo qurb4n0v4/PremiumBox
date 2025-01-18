@@ -222,6 +222,8 @@
                 @endif
             @endforeach
         </div>
+
+        @include('front.build_a_box.selected-items-summary')
     </div>
 
     <style>
@@ -323,49 +325,128 @@
             });
         });
 
-        // Form validation and submission
+        // Updated submit customization handling
         document.querySelectorAll('.submit-customize').forEach(submitButton => {
-            submitButton.addEventListener('click', function(e) {
+            submitButton.addEventListener('click', async function(e) {
                 e.preventDefault();
+
+                // Get elements
                 const boxId = this.getAttribute('data-box-id');
+                const boxElement = document.querySelector(`[data-box-id="${boxId}"]`);
                 const textarea = document.querySelector(`.box-customize-text[data-box-id="${boxId}"]`);
                 const fontButtons = document.querySelectorAll(`.button-group-customizing-fonts[data-box-id="${boxId}"] .font-button-customizing-edit`);
 
-                let isValid = true;
-
-                // Validate text input
-                if (!textarea.value.trim()) {
-                    textarea.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    textarea.classList.remove('is-invalid');
-                }
-
-                // Font validation
-                let fontSelected = false;
-                fontButtons.forEach(button => {
-                    if (button.classList.contains('selected')) {
-                        fontSelected = true;
-                    }
-                });
-
-                // Add visual feedback for font selection
-                fontButtons.forEach(button => {
-                    if (!fontSelected) {
-                        button.style.borderColor = '#dc3545';
-                    } else {
-                        button.style.borderColor = '';
-                    }
-                });
-
-                if (!isValid || !fontSelected) {
+                // Validate form
+                if (!validateForm(textarea, fontButtons)) {
                     return;
                 }
 
-                // If all validations pass, proceed to next step
-                window.location.href = "/choose-items"; // or use Laravel route
+                // Get selected font
+                const selectedFont = getSelectedFont(fontButtons);
+
+                try {
+                    // Save to session
+                    const response = await saveToSession({
+                        gift_box_id: boxId,
+                        box_name: boxElement.getAttribute('data-box-name'),
+                        box_image: boxElement.getAttribute('data-box-image'),
+                        box_price: boxElement.getAttribute('data-box-price'),
+                        box_customization_text: textarea.value.trim(),
+                        selected_font: selectedFont
+                    });
+
+                    if (response.success) {
+                        // Get current step and redirect to next step
+                        const stepResponse = await getCurrentStep();
+                        if (stepResponse.success) {
+                            window.location.href = '{{ route('choose.items') }}';
+                        }
+                    } else {
+                        handleError(response.message);
+                    }
+                } catch (error) {
+                    handleError(error);
+                }
             });
         });
+
+// Form validation
+        function validateForm(textarea, fontButtons) {
+            let isValid = true;
+
+            // Validate text
+            if (!textarea.value.trim()) {
+                textarea.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                textarea.classList.remove('is-invalid');
+            }
+
+            // Validate font selection
+            const hasSelectedFont = Array.from(fontButtons).some(button =>
+                button.classList.contains('selected')
+            );
+
+            fontButtons.forEach(button => {
+                if (!hasSelectedFont) {
+                    button.style.borderColor = '#dc3545';
+                    isValid = false;
+                } else {
+                    button.style.borderColor = '';
+                }
+            });
+
+            return isValid;
+        }
+
+// Get selected font
+        function getSelectedFont(fontButtons) {
+            const selectedButton = Array.from(fontButtons).find(button =>
+                button.classList.contains('selected')
+            );
+            return selectedButton ? selectedButton.getAttribute('data-font') : null;
+        }
+
+// Save to session
+        async function saveToSession(data) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch('/session/save-box', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+
+            return await response.json();
+        }
+
+// Get current step
+        async function getCurrentStep() {
+            const response = await fetch('/session/current-step', {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            return await response.json();
+        }
+
+// Handle errors
+        function handleError(error) {
+            console.error('Request Error:', error);
+            showError('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
+
+// Show error message
+        function showError(message) {
+            alert(message);
+        }
 
         // Add CSS for invalid state
         const style = document.createElement('style');

@@ -115,6 +115,7 @@
 
 <script src="{{ asset('assets/front/js/script.js') }}"></script>
 
+
 @vite(['resources/js/app.js'])
 </body>
 </html>
