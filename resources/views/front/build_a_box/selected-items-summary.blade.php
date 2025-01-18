@@ -1,5 +1,4 @@
-<head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <div id="selectionsSummary" class="selected-items-summary">
@@ -9,7 +8,7 @@
                     <h4>Seçilmiş Qutu</h4>
                     <div class="item-details">
                         <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
-                        <img src="{{ $box['box_image'] }}" alt="Box Image">
+                        <img src="{{ asset('storage/' .  $box['box_image']) }}" alt="Box Image" style="width: 40px; height: 40px">
                         <div class="details">
                             <h5>{{ $box['box_name'] }}</h5>
                             <p>Fərdiləşdirmə: {{ $box['customization_text'] }}</p>
@@ -157,11 +156,12 @@
                     <h4>Seçilmiş Kart</h4>
                     <div class="item-details">
                         <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
-                        <img src="{{ $card['card_image'] }}" alt="Card Image">
+                        <img src="{{ asset('storage/' . $card['card_image']) }}" alt="Card Image" style="width: 50px; height: 60px">
                         <div class="details">
                             <h5>{{ $card['card_name'] }}</h5>
                             <p>Kimə: {{ $card['recipient_name'] }}</p>
                             <p>Kimdən: {{ $card['sender_name'] }}</p>
+                            <p>Mesaj: {{ $card['card_message'] }}</p>
                             <p>Qiymət: ₼{{ $card['card_price'] }}</p>
                         </div>
                     </div>

@@ -1,20 +1,26 @@
 <?php
+
 namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BuildABoxItemImage extends Model {
+class BuildABoxItemImage extends Model
+{
+    use HasFactory;
+
     protected $fillable = [
-        'user_card_id',
-        'choose_item_id',
-        'image',
-        'order'
+        'user_build_a_box_card_item_id', 'choose_item_id', 'image', 'order'
     ];
 
-    public function userCard() {
-        return $this->belongsTo(UserCardForBuildABox::class, 'user_card_id');
+    // İlişkili modellər
+    public function userBuildABoxCardItem()
+    {
+        return $this->belongsTo(UserBuildABoxCardItem::class);
     }
 
-    public function chooseItem() {
+    public function chooseItem()
+    {
         return $this->belongsTo(ChooseItem::class);
     }
 }
