@@ -119,6 +119,8 @@
                 </div>
             @endforeach
         </div>
+        @include('front.build_a_box.selected-items-summary')
+
     </div>
 @endsection
 

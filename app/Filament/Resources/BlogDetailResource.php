@@ -14,7 +14,7 @@ use Filament\Forms\Components\Repeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BlogDetailResource extends Resource
+class  BlogDetailResource extends Resource
 {
     protected static ?string $model = BlogDetail::class;
 

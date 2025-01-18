@@ -104,7 +104,7 @@
                         <div class="row">
                             @foreach ($chooseItems as $item)
                                 <div class="col-md-4 mb-4">
-                                    <div class="card text-center border-0">
+                                    <div class="card text-center border-0" data-item-id="{{ $item->id }}">
                                         <div class="image-wrapper" style="position: relative;">
                                             <img
                                                 src="{{ asset('storage/' . $item->normal_image) }}"
@@ -552,6 +552,8 @@
             </div>
 
         </div>
+        @include('front.build_a_box.selected-items-summary')
+
     </div>
 
 @endsection
@@ -597,17 +599,74 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.choose-items-button').forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', async function (e) {
                 e.preventDefault();
+                const buttonType = this.innerText.trim();
+
+                // Əgər düymə növü "Choose variant" və ya "Custom Product"dirsə, modal açılır
                 const modalId = this.getAttribute('data-bs-target');
-                if (modalId) {
+                if (modalId && (buttonType === "Choose variant" || buttonType === "Custom Product")) {
                     const modal = document.getElementById(modalId.replace('#', ''));
                     if (modal) {
                         new bootstrap.Modal(modal).show();
                     }
+                    return;
+                }
+
+                // Əgər düymə növü "Add to Box"dursa, məlumatları sessiyaya əlavə edir
+                if (buttonType === "Add to Box") {
+                    const cardElement = this.closest('.card');
+                    const itemId = cardElement.getAttribute('data-item-id');
+                    const itemName = cardElement.querySelector('p').innerText.trim();
+                    const itemImage = cardElement.querySelector('.normal-image').getAttribute('src');
+                    const itemPrice = cardElement.querySelector('.text-muted').innerText.replace('₼', '').trim();
+
+                    try {
+                        const response = await saveItemSelection({
+                            choose_item_id: itemId,
+                            item_name: itemName,
+                            item_image: itemImage,
+                            item_price: itemPrice,
+                            user_text: null, // İstifadəçi mətn əlavə etmirsə
+                            selected_variants: null // Variant seçimi yoxdursa
+                        });
+
+                        if (response.success) {
+                            alert("Məhsul uğurla əlavə edildi!");
+                        } else {
+                            handleError(response.message);
+                        }
+                    } catch (error) {
+                        handleError(error);
+                    }
                 }
             });
         });
+
+// AJAX ilə sessiyaya məlumatları göndərən funksiya
+        async function saveItemSelection(data) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch('/session/save-item', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+
+            return await response.json();
+        }
+
+// Xətaların idarə olunması
+        function handleError(error) {
+            console.error('Xəta baş verdi:', error);
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
+
 
         // Function to reset modal state
         function resetModalState() {

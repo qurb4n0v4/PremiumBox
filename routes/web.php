@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BoxCustomizationController;
+use App\Http\Controllers\SessionController;
 use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
 use App\Http\Controllers\UserProfileController;
@@ -42,6 +44,16 @@ Route::get('/choose-step/{step}', [GiftBoxController::class, 'chooseStep'])->nam
 Route::get('/choose-card', [GiftBoxController::class, 'chooseCard'])->name('choose.card');
 Route::get('/order-complete', [GiftBoxController::class, 'orderComplete'])->name('order.complete');
 
+Route::prefix('session')->group(function () {
+    Route::post('/save-box', [SessionController::class, 'saveBoxSelection']);
+    Route::post('/save-item', [SessionController::class, 'saveItemSelection']);
+    Route::post('/save-card', [SessionController::class, 'saveCardSelection']);
+    Route::get('/get-selections', [SessionController::class, 'getSelections']);
+    Route::post('/clear', [SessionController::class, 'clearSelections']);
+    Route::get('/current-step', [SessionController::class, 'getCurrentStep']);
+    Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('remove.selection');
+});
+
 
 Route::get('/chat', function () {
     return view('front.chat');
@@ -65,3 +77,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/user/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
     Route::delete('/user/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 });
+
+
+

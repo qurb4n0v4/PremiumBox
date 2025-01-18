@@ -28,10 +28,10 @@ class PremadeBoxResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(20),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->required(),

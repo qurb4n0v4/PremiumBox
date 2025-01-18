@@ -14,14 +14,14 @@ return new class extends Migration {
             $table->string('selected_font')->nullable();
 
             // Item və variant əlaqələri
-            $table->foreignId('choose_item_id')->constrained('choose_items')->onDelete('cascade');
+            $table->foreignId('choose_item_id')->nullable()->constrained('choose_items')->onDelete('cascade');
             $table->json('selected_variants')->nullable();
             $table->text('user_text')->nullable();
 
             // Card məlumatları
-            $table->foreignId('card_id')->constrained('cards')->onDelete('cascade');
-            $table->string('recipient_name');
-            $table->string('sender_name');
+            $table->foreignId('card_id')->nullable()->constrained('cards')->onDelete('cascade');
+            $table->string('recipient_name')->nullable();
+            $table->string('sender_name')->nullable();
             $table->text('card_message')->nullable();
 
             $table->enum('status', ['pending', 'rejected', 'completed'])->default('pending');
