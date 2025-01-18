@@ -15,6 +15,26 @@
     --spacing-xlarge: 40px;
 }
 
+.filter-head {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.filter-label {
+    font-size: 16px !important;
+    color: var(--text-gray) !important;
+}
+
+.form-control:focus {
+    outline: var(--primary-color) !important;
+    box-shadow: none !important;
+    border-color: var(--primary-color) !important;
+}
+
+.sort-container option {
+    color: var(--primary-color) !important;
+}
+
 .image-container {
     position: relative;
     width: 100%; /* Konteyner genişliği */

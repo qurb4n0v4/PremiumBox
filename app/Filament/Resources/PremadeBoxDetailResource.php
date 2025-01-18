@@ -61,8 +61,7 @@ class PremadeBoxDetailResource extends Resource
                     ->limit(1),
 
                 Tables\Columns\TextColumn::make('paragraph')
-                    ->label('Paragraph')
-                    ->limit(50),
+                    ->label('Paragraph'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')

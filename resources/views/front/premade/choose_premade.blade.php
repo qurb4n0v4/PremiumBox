@@ -57,7 +57,7 @@
                 <!-- Sol Sidebar (Filtrləmə) -->
                 <div class="col-12 col-md-3">
                     <div class="filters">
-                        <h5>Məhsulları Filtrləyin</h5>
+                        <h5 class="filter-head">Məhsulları Filtrləyin</h5>
 
                         <!-- Alıcı Filtresi -->
                         <div class="filter-section my-4">
@@ -87,6 +87,20 @@
                             </div>
                         </div>
 
+                        <!-- Hazırlanma Müddəti -->
+                        <div class="filter-section mb-4">
+                            <label class="filter-label mb-2">Hazırlanma müddəti</label>
+                            <div class="filter-buttons">
+                                @foreach($production_times as $production_time)
+                                    <button class="filter-btn"
+                                            data-filter="production_time"
+                                            data-value="{{ $production_time['name'] }}">
+                                        {{ $production_time['name'] }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <!-- Qiymət Aralığı -->
                         <div class="filter-section mb-4">
                             <label class="filter-label mb-2">Qiymət Aralığı</label>
@@ -109,12 +123,13 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Sağ Sidebar (Məhsullar) -->
                 <div class="col-12 col-md-9">
                     <!-- Axtar və Sırala -->
-                    <div class="d-flex justify-content-between mb-4">
+                    <div class="d-flex gap-2 mb-4">
                         <!-- Axtarış -->
-                        <div class="search-container">
+                        <div class="search-container w-100">
                             <input type="text" id="search-box" class="form-control" placeholder="Qutuları axtarın...">
                         </div>
                         <!-- Sırala -->
@@ -140,6 +155,7 @@
                             <div class="col-12 col-md-4 mb-4 premade-box"
                                  data-recipient="{{ $box->recipient }}"
                                  data-occasion="{{ $box->occasion }}"
+                                 data-production_time="{{ $box->production_time }}"
                                  data-price="{{ $box->price }}">
 
                                 <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
@@ -210,8 +226,7 @@
                                                             @endif
                                                         </div>
                                                     </div>
-                                                    {{--                                                    <button class="slider-prev">‹</button>--}}
-                                                    {{--                                                    <button class="slider-next">›</button>--}}
+
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Əvvəlki</span>
@@ -232,9 +247,9 @@
                                                         <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
                                                         @if($box->details->first() && $box->details->first()->paragraph)
                                                             <div data-v-231e0cc6="" class="font-avenir-light mb-3">
-                                                                <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="overflow-wrap: break-word;">
+                                                                <p data-v-231e0cc6="" class="mb-0 text-center description text-theme-secondary" style="max-width: 300px; word-wrap: break-word; word-break: break-word; overflow-wrap: break-word;">
                                                                     @if(strlen($box->details->first()->paragraph) > 100)
-                                                                        <span class="short-paragraph">{{ substr($box->details->first()->paragraph, 0, 100) }}...</span>
+                                                                        <span class="short-paragraph">{{ substr($box->details->first()->paragraph, 0, 80) }}...</span>
                                                                         <span class="d-none full-paragraph">{{ $box->details->first()->paragraph }}</span>
                                                                     @else
                                                                         <span>{{ $box->details->first()->paragraph }}</span>
@@ -379,116 +394,6 @@
         });
     });
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const filterButtons = document.querySelectorAll('.filter-btn');
-    //     const boxes = document.querySelectorAll('.premade-box');
-    //     const searchBox = document.getElementById('search-box');
-    //     const sortSelect = document.getElementById('sort-boxes');
-    //
-    //     let activeFilters = {
-    //         recipient: null,
-    //         occasion: null,
-    //         price: {
-    //             min: null,
-    //             max: null
-    //         }
-    //     };
-    //
-    //     // Filter butonları için event listener
-    //     filterButtons.forEach(button => {
-    //         button.addEventListener('click', function() {
-    //             const filterType = this.dataset.filter;
-    //             const filterValue = this.dataset.value;
-    //
-    //             // Toggle active class
-    //             if (filterType !== 'price') {
-    //                 if (activeFilters[filterType] === filterValue) {
-    //                     // Aynı butona tekrar tıklandıysa filtreyi kaldır
-    //                     activeFilters[filterType] = null;
-    //                     this.classList.remove('active');
-    //                 } else {
-    //                     // Diğer butonlardan active class'ı kaldır
-    //                     document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`)
-    //                         .forEach(btn => btn.classList.remove('active'));
-    //
-    //                     // Yeni filtre değerini ata ve butonu aktif yap
-    //                     activeFilters[filterType] = filterValue;
-    //                     this.classList.add('active');
-    //                 }
-    //             } else {
-    //                 // Fiyat filtresi için
-    //                 const minPrice = parseFloat(document.getElementById('min-price').value) || null;
-    //                 const maxPrice = parseFloat(document.getElementById('max-price').value) || null;
-    //
-    //                 activeFilters.price = {
-    //                     min: minPrice,
-    //                     max: maxPrice
-    //                 };
-    //             }
-    //
-    //             applyFilters();
-    //         });
-    //     });
-    //
-    //     function applyFilters() {
-    //         boxes.forEach(box => {
-    //             let shouldShow = true;
-    //
-    //             // Recipient filter
-    //             if (activeFilters.recipient !== null) {
-    //                 shouldShow = box.dataset.recipient === activeFilters.recipient;
-    //             }
-    //
-    //             // Occasion filter
-    //             if (shouldShow && activeFilters.occasion !== null) {
-    //                 shouldShow = box.dataset.occasion === activeFilters.occasion;
-    //             }
-    //
-    //             // Price filter
-    //             if (shouldShow && (activeFilters.price.min !== null || activeFilters.price.max !== null)) {
-    //                 const price = parseFloat(box.dataset.price);
-    //                 if (activeFilters.price.min !== null && price < activeFilters.price.min) {
-    //                     shouldShow = false;
-    //                 }
-    //                 if (activeFilters.price.max !== null && price > activeFilters.price.max) {
-    //                     shouldShow = false;
-    //                 }
-    //             }
-    //
-    //             // Update visibility
-    //             box.style.display = shouldShow ? '' : 'none';
-    //         });
-    //     }
-    //
-    //     // Reset filters button (add this to your HTML if needed)
-    //     const resetButton = document.createElement('button');
-    //     resetButton.textContent = 'Filtrleri Sıfırla';
-    //     resetButton.className = 'filter-btn mt-3 w-100';
-    //     resetButton.addEventListener('click', function() {
-    //         activeFilters = {
-    //             recipient: null,
-    //             occasion: null,
-    //             price: {
-    //                 min: null,
-    //                 max: null
-    //             }
-    //         };
-    //
-    //         // Reset all active classes
-    //         filterButtons.forEach(btn => btn.classList.remove('active'));
-    //
-    //         // Reset price inputs
-    //         document.getElementById('min-price').value = '';
-    //         document.getElementById('max-price').value = '';
-    //
-    //         // Show all boxes
-    //         boxes.forEach(box => box.style.display = '');
-    //     });
-    //
-    //     // Add reset button to filters container
-    //     document.querySelector('.filters').appendChild(resetButton);
-    // });
-
     document.addEventListener('DOMContentLoaded', function() {
         const filterButtons = document.querySelectorAll('.filter-btn');
         const boxes = document.querySelectorAll('.premade-box');
@@ -498,6 +403,7 @@
         let activeFilters = {
             recipient: null,
             occasion: null,
+            production_time: null,
             price: {
                 min: null,
                 max: null
@@ -605,6 +511,11 @@
                     }
                 }
 
+                // Production time filter
+                if (shouldShow && activeFilters.production_time !== null) {
+                    shouldShow = box.dataset.production_time === activeFilters.production_time;
+                }
+
                 // Update visibility
                 box.style.display = shouldShow ? '' : 'none';
             });
@@ -613,11 +524,12 @@
         // Reset filters button
         const resetButton = document.createElement('button');
         resetButton.textContent = 'Filtrleri Sıfırla';
-        resetButton.className = 'filter-btn mt-3 w-100';
+        resetButton.className = 'filter-btn mt-3 w-100 fs-6';
         resetButton.addEventListener('click', function() {
             activeFilters = {
                 recipient: null,
                 occasion: null,
+                production_time: null,
                 price: {
                     min: null,
                     max: null
@@ -643,71 +555,5 @@
 
         // Add reset button to filters container
         document.querySelector('.filters').appendChild(resetButton);
-    });
-
-    // Slider ve diğer fonksiyonlar
-    document.querySelectorAll('.slider-container').forEach(container => {
-        const slider = container.querySelector('.slider');
-        const items = container.querySelectorAll('.slider-item');
-        const prevButton = container.querySelector('.slider-prev');
-        const nextButton = container.querySelector('.slider-next');
-
-        let currentIndex = 0;
-
-        const updateSlider = () => {
-            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-        };
-
-        prevButton.addEventListener('click', () => {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
-            updateSlider();
-        });
-
-        nextButton.addEventListener('click', () => {
-            currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
-            updateSlider();
-        });
-    });
-
-    function toggleParagraph(link) {
-        const container = link.closest('.font-avenir-light');
-        const shortParagraph = container.querySelector('.short-paragraph');
-        const fullParagraph = container.querySelector('.full-paragraph');
-
-        if (shortParagraph && fullParagraph) {
-            if (fullParagraph.classList.contains('d-none')) {
-                shortParagraph.classList.add('d-none');
-                fullParagraph.classList.remove('d-none');
-                link.textContent = "Show Less";
-            } else {
-                shortParagraph.classList.remove('d-none');
-                fullParagraph.classList.add('d-none');
-                link.textContent = "Show More";
-            }
-        }
-    }
-
-    function toggleAccordion(id) {
-        const content = document.getElementById(id);
-        const allContents = document.querySelectorAll('.collapse-content');
-
-        allContents.forEach(item => {
-            if (item.id !== id && item.style.height !== '0px') {
-                item.style.height = '0px';
-            }
-        });
-
-        if (content.style.height === '0px' || content.style.height === '') {
-            content.style.height = content.scrollHeight + 'px';
-        } else {
-            content.style.height = '0px';
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const contents = document.querySelectorAll('.collapse-content');
-        contents.forEach(content => {
-            content.style.height = '0px';
-        });
     });
 </script>

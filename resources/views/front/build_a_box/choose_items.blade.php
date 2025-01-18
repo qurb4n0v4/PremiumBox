@@ -2,6 +2,7 @@
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 @section('content')
     <div class="choose-box-line"></div>
 
@@ -42,44 +43,58 @@
 
             <div>
                 <div class="row">
-                    <div class="col-12 col-md-3">
-                        <div class="filters">
-                            <h5>Məhsulları Filtrləyin</h5>
-                            <!-- Alıcı Filtresi -->
-                            <div class="filter-section">
-                                <label for="recipient">Alıcı</label>
-                                <select id="recipient" class="form-control">
-                                    <option value="all">Hamısı</option>
-                                    <option value="male">Kişi</option>
-                                    <option value="female">Qadın</option>
-                                    <option value="children">Uşaq</option>
-                                </select>
+                    <!-- Sol Sidebar (Filtrləmə) -->
+                    <div class="col-12 col-md-3 filter-column">
+                        <div class="filters" style="background-color: white !important; border: 1px solid #ccc !important;">
+                            <h5 class="filter-head">Məhsulları Filtrləyin</h5>
+
+                            <!-- Kategori Filtresi -->
+                            <div class="filter-section my-4">
+                                <label class="filter-label mb-2">Alıcı</label>
+                                <div class="filter-buttons">
+                                    @foreach($categories as $category)
+                                        <button class="filter-btn"
+                                                data-filter="category"
+                                                data-value="{{ $category['name'] }}">
+                                            {{ $category['name'] }}
+                                        </button>
+                                    @endforeach
+                                </div>
                             </div>
-                            <!-- Xüsusi Günlər -->
-                            <div class="filter-section">
-                                <label for="occasions">Xüsusi Günlər</label>
-                                <select id="occasions" class="form-control">
-                                    <option value="all">Hamısı</option>
-                                    <option value="birthday">Ad günü</option>
-                                    <option value="wedding">Toy</option>
-                                    <option value="anniversary">İl dönümü</option>
-                                </select>
+
+                            <!-- Hazırlanma Müddəti -->
+                            <div class="filter-section mb-4">
+                                <label class="filter-label mb-2">Hazırlanma müddəti</label>
+                                <div class="filter-buttons">
+                                    @foreach($production_times as $production_time)
+                                        <button class="filter-btn"
+                                                data-filter="production_time"
+                                                data-value="{{ $production_time['name'] }}">
+                                            {{ $production_time['name'] }}
+                                        </button>
+                                    @endforeach
+                                </div>
                             </div>
+
                             <!-- Qiymət Aralığı -->
-                            <div class="filter-section">
-                                <label for="price-range">Qiymət Aralığı</label>
-                                <input type="range" id="price-range" class="form-control" min="0" max="1000" step="10">
-                                <span id="price-range-label">₼ 0 - ₼ 1000</span>
-                            </div>
-                            <!-- İstehsal Müddəti -->
-                            <div class="filter-section">
-                                <label for="production-time">İstehsal Müddəti</label>
-                                <select id="production-time" class="form-control">
-                                    <option value="all">Hamısı</option>
-                                    <option value="1">1 gün</option>
-                                    <option value="3">3 gün</option>
-                                    <option value="7">7 gün</option>
-                                </select>
+                            <div class="filter-section mb-4">
+                                <label class="filter-label mb-2">Qiymət Aralığı</label>
+                                <div class="price-range-container">
+                                    <div class="price-inputs d-flex gap-2">
+                                        <input type="number"
+                                               class="form-control form-control-sm"
+                                               id="min-price"
+                                               placeholder="Min">
+                                        <input type="number"
+                                               class="form-control form-control-sm"
+                                               id="max-price"
+                                               placeholder="Max">
+                                    </div>
+                                    <button class="filter-btn w-100 mt-2"
+                                            data-filter="price">
+                                        Tətbiq et
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,7 +118,11 @@
 
                         <div class="row">
                             @foreach ($chooseItems as $item)
-                                <div class="col-md-4 mb-4">
+                                <div class="col-md-4 mb-4 choose_items"
+                                     data-recipient="{{ $item->category }}"
+                                     data-production_time="{{ $item->production_time }}"
+                                     data-price="{{ $item->price }}">
+
                                     <div class="card text-center border-0" data-item-id="{{ $item->id }}">
                                         <div class="image-wrapper" style="position: relative;">
                                             <img
@@ -558,6 +577,81 @@
 
 @endsection
 
+<style>
+    .filter-head {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .filter-label {
+        font-size: 16px !important;
+        color: var(--text-gray) !important;
+    }
+
+    .form-control:focus {
+        outline: var(--primary-color) !important;
+        box-shadow: none !important;
+        border-color: var(--primary-color) !important;
+    }
+
+    .filters {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .filter-label {
+        color: #666;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 8px 16px;
+        border-radius: 10px !important;
+        font-size: 13px;
+        color: #666;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .filter-btn.active {
+        background: #a3907a;
+        color: white;
+        border-color: #a3907a;
+    }
+
+    .price-range-container {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .sort-container option {
+        color: var(--primary-color) !important;
+    }
+</style>
+
 <script>
     document.querySelectorAll('.choose-box-circle').forEach(circle => {
         circle.addEventListener('click', function (e) {
@@ -967,6 +1061,169 @@
         });
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.choose_items');
+        const searchBox = document.getElementById('search-box');
+        const sortSelect = document.getElementById('sort-boxes');
+
+        let activeFilters = {
+            category: null,
+            production_time: null,
+            price: {
+                min: null,
+                max: null
+            }
+        };
+
+        // Arama fonksiyonu
+        searchBox.addEventListener('input', function() {
+            applyFilters();
+        });
+
+        // Sıralama fonksiyonu
+        sortSelect.addEventListener('change', function() {
+            const itemsArray = Array.from(items);
+            const sortValue = this.value;
+
+            itemsArray.sort((a, b) => {
+                const getPrice = (element) => {
+                    return parseFloat(element.querySelector('.text-muted').textContent.replace('₼', '').trim());
+                };
+
+                const getName = (element) => {
+                    return element.querySelector('p').textContent.trim();
+                };
+
+                switch(sortValue) {
+                    case 'price_asc':
+                        return getPrice(a) - getPrice(b);
+                    case 'price_desc':
+                        return getPrice(b) - getPrice(a);
+                    case 'name_asc':
+                        return getName(a).localeCompare(getName(b));
+                    case 'name_desc':
+                        return getName(b).localeCompare(getName(a));
+                    default:
+                        return 0;
+                }
+            });
+
+            const container = items[0].parentElement;
+            itemsArray.forEach(item => container.appendChild(item));
+        });
+
+        // Filter butonları için event listener
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                // Toggle active class
+                if (filterType !== 'price') {
+                    if (activeFilters[filterType] === filterValue) {
+                        // Aynı butona tekrar tıklandıysa filtreyi kaldır
+                        activeFilters[filterType] = null;
+                        this.classList.remove('active');
+                    } else {
+                        // Diğer butonlardan active class'ı kaldır
+                        document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`)
+                            .forEach(btn => btn.classList.remove('active'));
+
+                        // Yeni filtre değerini ata ve butonu aktif yap
+                        activeFilters[filterType] = filterValue;
+                        this.classList.add('active');
+                    }
+                } else {
+                    // Fiyat filtresi için
+                    const minPrice = parseFloat(document.getElementById('min-price').value) || null;
+                    const maxPrice = parseFloat(document.getElementById('max-price').value) || null;
+
+                    activeFilters.price = {
+                        min: minPrice,
+                        max: maxPrice
+                    };
+                }
+
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            const searchTerm = searchBox.value.toLowerCase();
+
+            items.forEach(item => {
+                let shouldShow = true;
+
+                // Arama filtresi
+                const itemName = item.querySelector('p').textContent.toLowerCase();
+                const companyName = item.querySelector('h5').textContent.toLowerCase();
+                if (searchTerm && !itemName.includes(searchTerm) && !companyName.includes(searchTerm)) {
+                    shouldShow = false;
+                }
+
+                // Category filter
+                if (shouldShow && activeFilters.category !== null) {
+                    shouldShow = item.dataset.recipient === activeFilters.category;
+                }
+
+                // Price filter
+                if (shouldShow && (activeFilters.price.min !== null || activeFilters.price.max !== null)) {
+                    const priceText = item.querySelector('.text-muted').textContent;
+                    const price = parseFloat(priceText.replace('₼', '').trim());
+
+                    if (activeFilters.price.min !== null && price < activeFilters.price.min) {
+                        shouldShow = false;
+                    }
+                    if (activeFilters.price.max !== null && price > activeFilters.price.max) {
+                        shouldShow = false;
+                    }
+                }
+
+                // Production time filter
+                if (shouldShow && activeFilters.production_time !== null) {
+                    shouldShow = item.dataset.production_time === activeFilters.production_time;
+                }
+
+                // Update visibility
+                item.style.display = shouldShow ? '' : 'none';
+            });
+        }
+
+        // Reset filters button
+        const resetButton = document.createElement('button');
+        resetButton.textContent = 'Filtrleri Sıfırla';
+        resetButton.className = 'filter-btn mt-3 w-100 fs-6';
+        resetButton.addEventListener('click', function() {
+            activeFilters = {
+                category: null,
+                production_time: null,
+                price: {
+                    min: null,
+                    max: null
+                }
+            };
+
+            // Reset all active classes
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Reset price inputs
+            document.getElementById('min-price').value = '';
+            document.getElementById('max-price').value = '';
+
+            // Reset search box
+            searchBox.value = '';
+
+            // Reset sort select
+            sortSelect.value = 'default';
+
+            // Show all items
+            items.forEach(item => item.style.display = '');
+        });
+
+        // Add reset button to filters container
+        document.querySelector('.filters').appendChild(resetButton);
+    });
 </script>
 
 <style>

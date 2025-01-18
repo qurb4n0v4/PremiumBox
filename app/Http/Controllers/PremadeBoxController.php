@@ -17,7 +17,6 @@ class PremadeBoxController extends Controller
 
     public function index($id = null)
     {
-        $premadeBoxes = PremadeBox::all();
         $currentStep = self::STEP_CHOOSE_BOX;
 
         $premadeBoxDetail = $id ? PremadeBox::find($id) : null;
@@ -50,15 +49,23 @@ class PremadeBoxController extends Controller
                 return ['id' => $item, 'name' => $item];
             });
 
+        $production_times = PremadeBox::select('production_time')
+            ->distinct()
+            ->whereNotNull('production_time')
+            ->pluck('production_time')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
+
         $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
 
         return view('front.premade.choose_premade', compact(
-            'premadeBoxes',
             'premadeBoxDetail',
             'premadeBoxInsiding',
             'currentStep',
             'recipients',
             'occasions',
+            'production_times',
             'premadeBoxes'
         ));
     }
@@ -118,32 +125,5 @@ class PremadeBoxController extends Controller
     {
         $currentStep = self::STEP_CUSTOMIZE_BOX;
         return view('front.premade.done_premade', compact('currentStep'));
-    }
-
-    public function choosePremadeBox()
-    {
-        $recipients = PremadeBox::select('recipient')
-            ->distinct()
-            ->whereNotNull('recipient')
-            ->pluck('recipient')
-            ->map(function($item) {
-                return ['id' => $item, 'name' => $item];
-            });
-
-        $occasions = PremadeBox::select('occasion')
-            ->distinct()
-            ->whereNotNull('occasion')
-            ->pluck('occasion')
-            ->map(function($item) {
-                return ['id' => $item, 'name' => $item];
-            });
-
-        $premadeBoxes = PremadeBox::with(['details', 'insidings'])->get();
-
-        return view('front.premade.choose_premade', compact(
-            'recipients',
-            'occasions',
-            'premadeBoxes'
-        ));
     }
 }
