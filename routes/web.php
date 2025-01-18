@@ -84,5 +84,5 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 
