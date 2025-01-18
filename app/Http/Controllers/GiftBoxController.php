@@ -26,6 +26,22 @@ class GiftBoxController extends Controller
     {
         $currentStep = session('currentStep', 1);
 
+        $categories = ChooseItem::select('category')
+            ->distinct()
+            ->whereNotNull('category')
+            ->pluck('category')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
+
+        $production_times = ChooseItem::select('production_time')
+            ->distinct()
+            ->whereNotNull('production_time')
+            ->pluck('production_time')
+            ->map(function($item) {
+                return ['id' => $item, 'name' => $item];
+            });
+
         $chooseItems = ChooseItem::with([
             'chooseVariants' => function($query) {
                 $query->select([
@@ -62,7 +78,7 @@ class GiftBoxController extends Controller
 
         ])->get();
 
-        return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems'));
+        return view('front.build_a_box.choose_items', compact('currentStep', 'chooseItems', 'categories', 'production_times'));
     }
 
     public function chooseCard()
