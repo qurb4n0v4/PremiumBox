@@ -99,6 +99,23 @@ p, h4 {
     padding: 0 10px;
 }
 
+.boxes-nav-button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 15px !important;
+    height: 15px !important;
+}
+
+.boxes-nav-button i {
+    color: #898989;
+    font-size: 14px;
+}
+
+.boxes-nav-button:focus {
+    outline: none !important;
+}
+
 .boxes-nav-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -107,10 +124,6 @@ p, h4 {
 .boxes-nav-button:hover {
     color: black;
     background-color: transparent !important;
-}
-
-.boxes-nav-button {
-    z-index: 10;
 }
 
 .gift-box-img.active {
@@ -138,102 +151,51 @@ p, h4 {
     background-color: #8e7b6c;
 }
 
-/* Ana container için responsive ayarlar */
-.choose-boxes-page {
-    width: 100%;
-    padding: 2rem !important;
-}
-
-/* Textarea özel stilleri */
-.customizing-text-input-fonts {
-    width: 100%;
-    max-width: 400px;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    resize: none;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
-/* Ekstra Büyük Ekranlar */
-@media (min-width: 1400px) {
-    .choose-boxes-page {
-        max-width: 1300px !important;
+/* Large screens (992px and up) */
+@media (min-width: 992px) {
+    .cont {
+        width: 70% !important;
     }
 }
 
-/* Büyük Ekranlar */
-@media (max-width: 1200px) {
-    .choose-boxes-page {
-        max-width: 95% !important;
-    }
-
+/* Medium-large screens adjustments */
+@media (max-width: 1100px) {
     .container {
         min-width: auto !important;
-        padding: 0 15px;
+        width: 100% !important;
+        padding: 5px !important;
     }
 
-    .customizing-text-input-fonts {
-        max-width: 350px;
+    .cont {
+        width: 90% !important;
+        margin: 0 auto !important;
     }
-}
 
-/* Orta Boy Ekranlar */
-@media (max-width: 991px) {
     .choose-boxes-page {
-        padding: 1.5rem !important;
+        padding: 0 !important;
     }
 
-    .row {
-        margin: 0;
+    /* Box adjustments */
+    .box-item {
+        padding: 0 10px;
     }
 
-    .col-md-6 {
-        padding: 15px;
+    .gift-box-img {
+        width: 80px !important;
+        height: 80px !important;
     }
 
-    .customizing-text-input-fonts {
-        max-width: 100%;
-        height: 80px;
+    .boxes-slider-wrapper {
+        margin: 0 -10px;
     }
 
-    /* Qutu ve Kart seçim bölümleri */
-    .boxes-slider-container,
-    .slider-container {
-        overflow-x: auto;
-        padding: 0 5px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .box-item,
-    .card-item {
-        min-width: 150px;
-    }
-}
-
-/* Tablet Ekranlar */
-@media (max-width: 768px) {
-    .choose-boxes-page {
-        padding: 1rem !important;
-    }
-
-    /* Başlık ve açıklama metinleri */
-    .choose-boxes-header h3 {
-        font-size: 1.3rem;
-        line-height: 1.4;
-        margin-bottom: 10px !important;
-    }
-
-    .choose-boxes-header p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    /* Ürün listesi */
+    /* List group adjustments */
     .list-group-item {
-        padding: 0.75rem;
+        padding: 1rem 0.5rem;
+    }
+
+    .list-group-item .d-flex {
+        flex-direction: column !important;
     }
 
     .list-group-item img {
@@ -241,150 +203,259 @@ p, h4 {
         height: 60px;
     }
 
-    .customizing-text-input-fonts {
-        height: 70px;
-        font-size: 13px;
+    /* Variant buttons */
+    .variants-buttons {
+        justify-content: flex-start !important;
     }
 
-    /* Font seçim butonları */
-    .button-group-customizing-fonts {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .font-button-customizing-edit {
-        padding: 8px 15px;
-        font-size: 13px;
-    }
-}
-
-/* Küçük Tablet ve Büyük Mobil */
-@media (max-width: 576px) {
-    .choose-boxes-page {
-        padding: 0.75rem !important;
-    }
-
-    .customizing-text-input-fonts {
-        height: 60px;
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-
-    /* Ürün kartları */
-    .list-group-item {
-        margin-bottom: 0.5rem;
-        padding: 10px;
-    }
-
-    .list-group-item h6 {
-        font-size: 0.85rem;
-    }
-
-    .list-group-item p {
-        font-size: 0.75rem;
-    }
-
-    /* Form etiketleri */
-    label {
-        font-size: 0.85rem;
-        margin-bottom: 5px;
-    }
-
-    /* Butonlar */
-    .custom-btn {
-        width: 100%;
-        margin-top: 1rem;
-        padding: 8px 15px;
-    }
-
-    .custom-btn h5 {
+    .variant-button {
         font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
     }
 }
 
-/* Çok Küçük Mobil Ekranlar */
-@media (max-width: 375px) {
-    .choose-boxes-page {
-        padding: 0.5rem !important;
+@media (max-width: 1100px) and (min-width: 768px) {
+    #slider-container .row {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2x2 grid yapısını koru */
+        justify-content: center;
     }
 
+    .card-item {
+        width: 140px !important; /* Daha küçük genişlik */
+        height: 70px !important; /* Daha küçük yükseklik */
+        margin: 0 auto 30px !important; /* Margin düzenlendi */
+    }
+
+    .card-item img {
+        min-height: 120px !important;
+        object-fit: contain;
+    }
+
+    .nav-button {
+        top: 120px !important; /* Kartların ortasına hizala */
+        transform: translateY(0);
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-button.prev {
+        left: 0;
+    }
+
+    .nav-button.next {
+        right: 0;
+    }
+}
+
+/* Medium screens adjustments */
+@media (max-width: 991px) {
+    .gift-box-img {
+        width: 70px !important;
+        height: 70px !important;
+    }
+}
+
+/* Tablet screens */
+@media (max-width: 914px) and (min-width: 768px) {
     .customizing-text-input-fonts {
-        height: 50px;
-        font-size: 11px;
+        width: 80% !important;
+        min-height: 100px;
     }
 
     .button-group-customizing-fonts {
-        gap: 5px;
+        width: 80% !important;
+        display: flex;
+        gap: 10px;
     }
 
     .font-button-customizing-edit {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-
-    .list-group-item img {
-        width: 50px;
-        height: 50px;
-    }
-
-    /* Form elementleri */
-    input.form-control,
-    textarea.form-control {
-        font-size: 12px;
+        flex: 1;
         padding: 8px;
     }
 }
 
-/* Genel düzenlemeler */
-.text-theme-secondary {
-    word-wrap: break-word;
-}
+/* Mobile screens */
+@media (max-width: 767px) {
+    .boxes-slider-container {
+        min-height: 120px !important; /* Box'ların yüksekliğine göre ayarlayın */
+    }
 
-/* Slider navigasyon butonları */
-.boxes-nav-button,
-.nav-button {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+    .boxes-nav-button {
+        top: 60px !important; /* Box'ların ortasına gelecek şekilde ayarlayın */
+        transform: translateY(-50%);
+    }
 
-@media (max-width: 991px) {
-    .boxes-nav-button,
-    .nav-button {
-        width: 25px;
-        height: 25px;
+    .boxes-slider-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .box-item {
+        max-height: 130px;
+    }
+
+    .gift-box-img {
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .gift-box-card {
+        margin-bottom: 5px !important;
+    }
+
+    .gift-box-card .card-body {
+        max-height: 35px !important; /* Mobilde biraz daha küçük */
+    }
+
+    /* Card and form elements */
+    .slider-container {
+        padding: 0 1rem;
+    }
+
+    .card-item {
+        width: 100% !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100% !important;
+    }
+
+    /* Image upload */
+    .image-upload-label {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    /* Font customization */
+    .customizing-text-input-fonts {
+        width: 100% !important;
+        min-height: 90px;
+    }
+
+    .button-group-customizing-fonts {
+        width: 100% !important;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .font-button-customizing-edit {
+        flex: 1;
+        padding: 6px;
+        font-size: 14px;
     }
 }
 
-/* Hata mesajları */
-.error-message {
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    display: block;
-}
-
-/* Kart seçim alanı */
-.select-card {
-    transition: transform 0.2s;
-}
-
-.select-card:hover {
-    transform: scale(1.02);
-}
-
-/* Form grupları için ek düzenlemeler */
-.form-group {
-    margin-bottom: 15px;
-}
-
-@media (max-width: 480px) {
-    .form-group {
-        margin-bottom: 10px;
+/* Small mobile screens */
+@media (max-width: 575px) {
+    .boxes-slider-container {
+        min-height: 200px !important; /* 2x2 grid için daha fazla yükseklik */
     }
 
-    .form-control {
-        font-size: 13px;
+    .boxes-nav-button {
+        top: 100px !important; /* 2x2 grid'in ortasına gelecek şekilde */
+    }
+
+    .boxes-slider-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 5px !important;
+        padding: 0;
+    }
+
+    .box-item {
+        width: 100% !important;
+        padding: 2px;
+        margin: 0 !important;
+        max-height: 120px;
+    }
+
+    .gift-box-img {
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto;
+    }
+
+    .gift-box-card {
+        margin-bottom: 5px !important;
+    }
+
+    .gift-box-card .card-body {
+        max-height: 50px !important; /* En küçük ekranda daha da küçük */
+    }
+
+    .card.mb-4 {
+        margin-bottom: 5px !important;
+    }
+
+    .choose-box-text h3 {
+        font-size: 1.2rem;
+    }
+
+    .choose-box-text p {
+        font-size: 0.9rem;
+    }
+
+    .list-group-item .d-flex {
+        gap: 1rem !important;
+    }
+
+    .custom-btn {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .gift-box-img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    /* Font customization for smallest screens */
+    .button-group-customizing-fonts {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .font-button-customizing-edit {
+        width: 100%;
+        padding: 8px;
+        margin: 2px 0;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 540px) {
+    .customizing-text-input-fonts {
+        width: 100% !important;
+        min-height: 80px;
+    }
+
+    .button-group-customizing-fonts {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+}
+
+/* Utility classes */
+@media (max-width: 767px) {
+    .w-100-mobile {
+        width: 100% !important;
+    }
+
+    .text-center-mobile {
+        text-align: center !important;
+    }
+
+    .flex-column-mobile {
+        flex-direction: column !important;
     }
 }

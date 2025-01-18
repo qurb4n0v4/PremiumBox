@@ -15,7 +15,14 @@
                     Xüsusi gününüzü necə qeyd etməkdə sizə kömək edə biləcəyimizi bizə bildirin.
                 </p>
 
-                <form action="" method="POST">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <form action="{{ route('chat.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label chat-label">Ad</label>
@@ -24,13 +31,8 @@
 
                     <div class="mb-3">
                         <label for="gift_type" class="form-label chat-label">Hansı növ hədiyyə axtarırsınız?</label>
-                        <select id="gift_type" name="gift_type" class="form-select chat-select" required>
-                            <option value="Birthday">Doğum Günü</option>
-                            <option value="Anniversary">Yubiley</option>
-                            <option value="Corporate">Korporativ</option>
-                            <option value="Custom">Xüsusi</option>
-                            <option value="Custom">Yeni Il</option>
-                        </select>
+                        <input type="text" name="gift_type" id="gift_type" class="form-control chat-input" placeholder="" required>
+
                     </div>
 
                     <div class="mb-3">
@@ -56,7 +58,7 @@
         font-weight: normal;
     }
 
-    .form-control, .form-select {
+    .form-control{
         background-color: #f8f9fa;
         border-color: #a3907a;
     }
@@ -67,10 +69,6 @@
 
     .chat-input {
         color: #898989 !important;
-    }
-
-    .chat-select {
-        color: #a3907a !important;
     }
 
     .btn-whatsapp-send {
@@ -106,7 +104,7 @@
             flex-direction: column;
         }
 
-        .form-control, .form-select {
+        .form-control {
             font-size: 1rem;
         }
 
@@ -129,7 +127,7 @@
             font-size: 1.8rem;
         }
 
-        .form-control, .form-select {
+        .form-control {
             font-size: 1rem;
         }
 

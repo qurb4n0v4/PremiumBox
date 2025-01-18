@@ -43,7 +43,7 @@
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
             <p style="font-size: 14px; color: #898989">Hazır paketlərimizdən alış-veriş edin: Sizin üçün sürətli, əngəlsiz, göndərilməyə hazır hədiyyə qutuları.</p>
@@ -58,7 +58,7 @@
                 <div class="col-12 col-md-3">
                     <div class="filters">
                         <h5>Məhsulları Filtrləyin</h5>
-                        
+
                         <!-- Alıcı Filtresi -->
                         <div class="filter-section mb-4">
                             <label class="filter-label mb-2">Alıcı</label>
@@ -126,7 +126,7 @@
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
                             <div class="col-12 col-md-4 mb-4">
-                                <div class="card w-100 h-100 d-flex flex-column align-items-stretch" style="border-color: transparent; cursor: pointer;">
+                                <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
                                         <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
                                             <!-- Normal Image -->
@@ -153,7 +153,7 @@
                                             {{ $box->name }}
                                         </div>
                                     </div>
-                                        <p class="gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
+                                    <p class="gift-box-price">₼ {{ number_format($box->price, 2) }}</p>
                                     <div class="mt-1" style="text-align: center !important;">
                                         <!-- Səbətə Əlavə -->
                                         <button class="choose-box-choose-button" style="text-align: center" data-bs-toggle="modal" data-bs-target="#{{ $uniqueModalId }}">Səbətə Əlavə</button>
@@ -194,8 +194,8 @@
                                                             @endif
                                                         </div>
                                                     </div>
-{{--                                                    <button class="slider-prev">‹</button>--}}
-{{--                                                    <button class="slider-next">›</button>--}}
+                                                    {{--                                                    <button class="slider-prev">‹</button>--}}
+                                                    {{--                                                    <button class="slider-next">›</button>--}}
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Əvvəlki</span>
@@ -236,37 +236,37 @@
                                                     </div>
 
                                                     <!-- What's Inside -->
-                                                        <div class="accordion mb-4">
-                                                            <div class="accordion-header">
-                                                                <h2 class="mb-0 text-center">
-                                                                    <button type="button"
-                                                                            class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3"
-                                                                            onclick="toggleAccordion('collapse-inside-{{ $box->id }}')">
-                                                                        <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
-                                                                    </button>
-                                                                </h2>
-                                                            </div>
-                                                            <div id="collapse-inside-{{ $box->id }}" class="collapse-content">
-                                                                <div class="collapse-inner">
-                                                                    <div class="d-flex flex-column align-items-center pb-3">
-                                                                        <div style="max-width: 80vw !important;">
-                                                                            @foreach($box->insidings as $insiding)
-                                                                                <div class="d-flex align-items-center pb-3 gap-3">
-                                                                                    <img src="{{ $insiding->image }}"
-                                                                                         alt="{{ $insiding->name }}"
-                                                                                         style="width: 35px; height: 35px; object-fit: contain;">
-                                                                                    <div class="d-flex flex-column justify-content-start pl-3">
-                                                                                        <p class="font-butler text-theme-secondary text-capitalize mb-0">
-                                                                                            {{ $insiding->name }}
-                                                                                        </p>
-                                                                                    </div>
+                                                    <div class="accordion mb-4">
+                                                        <div class="accordion-header">
+                                                            <h2 class="mb-0 text-center">
+                                                                <button type="button"
+                                                                        class="pt-0 btn btn-header-link pl-md-0 text-theme h5 text-center collapse-button px-3"
+                                                                        onclick="toggleAccordion('collapse-inside-{{ $box->id }}')">
+                                                                    <span class="mr-1" style="color: #898989; font-size: 12px">What's Inside</span>
+                                                                </button>
+                                                            </h2>
+                                                        </div>
+                                                        <div id="collapse-inside-{{ $box->id }}" class="collapse-content">
+                                                            <div class="collapse-inner">
+                                                                <div class="d-flex flex-column align-items-center pb-3">
+                                                                    <div style="max-width: 80vw !important;">
+                                                                        @foreach($box->insidings as $insiding)
+                                                                            <div class="d-flex align-items-center pb-3 gap-3">
+                                                                                <img src="{{ $insiding->image }}"
+                                                                                     alt="{{ $insiding->name }}"
+                                                                                     style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                <div class="d-flex flex-column justify-content-start pl-3">
+                                                                                    <p class="font-butler text-theme-secondary text-capitalize mb-0">
+                                                                                        {{ $insiding->name }}
+                                                                                    </p>
                                                                                 </div>
-                                                                            @endforeach
-                                                                        </div>
+                                                                            </div>
+                                                                        @endforeach
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
 
                                                     <!-- Customize Button -->
                                                     <div>
@@ -354,128 +354,75 @@
         } else {
             content.style.height = '0px';
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const contents = document.querySelectorAll('.collapse-content');
+        contents.forEach(content => {
+            content.style.height = '0px';
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const boxes = document.querySelectorAll('.col-12.col-md-4');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                this.classList.add('active');
+
+                filterBoxes();
+            });
+        });
+
+        function filterBoxes() {
+            const activeFilters = {
+                recipient: getActiveFilter('recipient'),
+                occasion: getActiveFilter('occasion'),
+                price: getPriceFilter()
+            };
+
+            boxes.forEach(box => {
+                const shouldShow = checkFilters(box, activeFilters);
+                box.style.display = shouldShow ? 'block' : 'none';
+            });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const contents = document.querySelectorAll('.collapse-content');
-            contents.forEach(content => {
-                content.style.height = '0px';
-            });
-        });
-</script>
+        function getActiveFilter(filterType) {
+            const activeButton = document.querySelector(`.filter-btn[data-filter="${filterType}"].active`);
+            return activeButton ? activeButton.dataset.value : null;
+        }
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const boxes = document.querySelectorAll('.col-12.col-md-4');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const filterType = this.dataset.filter;
-            const filterValue = this.dataset.value;
-            
-            // Aynı filtre grubundaki diğer butonların active sınıfını kaldır
-            document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Tıklanan butona active sınıfını ekle
-            this.classList.add('active');
-            
-            // Filtreleme işlemini gerçekleştir
-            filterBoxes();
-        });
+        function getPriceFilter() {
+            const minPrice = document.getElementById('min-price').value;
+            const maxPrice = document.getElementById('max-price').value;
+            return {min: minPrice, max: maxPrice};
+        }
     });
-    
-    function filterBoxes() {
-        const activeFilters = {
-            recipient: getActiveFilter('recipient'),
-            occasion: getActiveFilter('occasion'),
-            price: getPriceFilter()
-        };
-        
-        boxes.forEach(box => {
-            const shouldShow = checkFilters(box, activeFilters);
-            box.style.display = shouldShow ? 'block' : 'none';
-        });
-    }
-    
-    function getActiveFilter(filterType) {
-        const activeButton = document.querySelector(`.filter-btn[data-filter="${filterType}"].active`);
-        return activeButton ? activeButton.dataset.value : null;
-    }
-    
-    function getPriceFilter() {
-        const minPrice = document.getElementById('min-price').value;
-        const maxPrice = document.getElementById('max-price').value;
-        return {min: minPrice, max: maxPrice};
-    }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    console.log('Bulunan filter butonları:', filterButtons.length);
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            console.log('Tıklanan buton:', this.dataset.filter, this.dataset.value);
-            const filterType = this.dataset.filter;
-            const filterValue = this.dataset.value;
-            
-            // Test için
-            console.log('Aktif filtreler:', {
-                type: filterType,
-                value: filterValue
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        console.log('Bulunan filter butonları:', filterButtons.length);
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                console.log('Tıklanan buton:', this.dataset.filter, this.dataset.value);
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                // Test için
+                console.log('Aktif filtreler:', {
+                    type: filterType,
+                    value: filterValue
+                });
             });
         });
     });
-});
 </script>
-
-<style>
-    .filters {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-    }
-
-    .filter-label {
-        color: #666;
-        font-weight: 500;
-        font-size: 14px;
-    }
-
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .filter-btn {
-        background: white;
-        border: 1px solid #ddd;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 13px;
-        color: #666;
-        transition: all 0.3s ease;
-    }
-
-    .filter-btn:hover {
-        background: #a3907a;
-        color: white;
-        border-color: #a3907a;
-    }
-
-    .filter-btn.active {
-        background: #a3907a;
-        color: white;
-        border-color: #a3907a;
-    }
-
-    .price-range-container {
-        background: white;
-        padding: 10px;
-        border-radius: 8px;
-    }
-</style>

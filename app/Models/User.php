@@ -23,6 +23,7 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $fillable = [
         'name',
+        'role',
         'email',
         'password',
         'phone',
@@ -59,11 +60,16 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         if ($panel->getId() === 'admin') {
-            if($this->role !== 'admin'){
-                return false;
-            }
+            // Admin sadece admin paneline erişebilir
+            return $this->role === 'admin';
         }
-        return true;
+
+        if ($panel->getId() === 'user') {
+            // User sadece user paneline erişebilir
+            return $this->role === 'user';
+        }
+
+        return false; // Her iki panel dışında erişim engellenir
     }
 
 

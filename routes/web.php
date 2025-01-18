@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BoxCustomizationController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SessionController;
 use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
@@ -78,5 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 });
 
+
+Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 

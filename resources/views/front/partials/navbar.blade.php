@@ -46,7 +46,7 @@
                         <div class="dropdown-btn">Haqqımızda <i class="fa-solid fa-caret-down" style="margin-left: 5px; font-size: 12px;"></i></div>
                         <div class="about-dropdown-content">
                             <a href="{{ route('about_us') }}">Haqqımızda</a>
-                            <a href="{{ route('contact_us') }}">Əlaqə</a>
+                            <a href="{{ route('contact_us') }}">Təklifləriniz</a>
                             <a href="{{ route('faq') }}">Tez-tez Verilən Suallar</a>
                             <a href="{{ route('privacy_policy') }}">Məxfilik Siyasəti</a>
                         </div>

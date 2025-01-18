@@ -6,9 +6,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const items = row.querySelectorAll('.col-6');
     const itemCount = items.length;
-    const itemsPerView = 4;
+    let itemsPerView = getItemsPerView();
     let currentPosition = 0;
     let isAnimating = false;
+
+    // Responsive items per view
+    function getItemsPerView() {
+        return window.innerWidth <= 767 ? 2 : 4;
+    }
+
+    // Update on window resize
+    window.addEventListener('resize', function() {
+        itemsPerView = getItemsPerView();
+        updateSliderView();
+    });
 
     updateSliderView();
 
@@ -27,25 +38,22 @@ document.addEventListener('DOMContentLoaded', function () {
     function slideItems(direction) {
         isAnimating = true;
 
-        const start = currentPosition;
         if (direction === 'next') {
-            currentPosition += itemsPerView;
+            currentPosition = Math.min(currentPosition + itemsPerView, itemCount - itemsPerView);
         } else if (direction === 'prev') {
-            currentPosition -= itemsPerView;
+            currentPosition = Math.max(currentPosition - itemsPerView, 0);
         }
 
-        // Yeni elementləri animasiya ilə göstər
         updateSliderView(() => {
-            isAnimating = false; // Animasiya tamamlandıqda aktivliyi yenilə
+            isAnimating = false;
         });
     }
 
     function updateSliderView(callback) {
-        // Bütün elementləri gizlət
         items.forEach((item, index) => {
             if (index >= currentPosition && index < currentPosition + itemsPerView) {
                 item.style.display = 'block';
-                item.style.opacity = '0'; // Şəffaflıq
+                item.style.opacity = '0';
                 setTimeout(() => {
                     item.style.transition = 'opacity 0.5s';
                     item.style.opacity = '1';
@@ -55,13 +63,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Düymə vəziyyətlərini yenilə
+        // Update button visibility
         prevBtn.style.display = currentPosition === 0 ? 'none' : 'block';
         nextBtn.style.display = currentPosition + itemsPerView >= itemCount ? 'none' : 'block';
 
         if (callback) callback();
     }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     const cardItems = document.querySelectorAll('.card-item img');
     const selectedCardContainer = document.getElementById('selected-card-container');

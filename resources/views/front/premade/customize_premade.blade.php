@@ -48,16 +48,16 @@
             <p style="color: #898989; text-align: center !important;">Zəhmət olmasa əvvəlcə bir qutu seçin.</p>
         </div>
     @else
-        <div class="container my-5 p-5 choose-boxes-page" style="background-color: #ffffff; max-width: 1150px!important; border-radius: 20px">
+        <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc;">
             <div class="choose-boxes-header text-center" style="line-height: 0.5">
                 <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutunuzu fərdiləşdirin</h3>
                 <p style="font-size: 14px; color: #898989; text-align: center !important;">Qutunu, Kartı seçin və Məhsulları Fərdiləşdirin.</p>
                 <p style="color: #a3907a; font-size: 14px; font-weight: 600; text-align: center !important;">Sifarişi tamamlamaq üçün seçdiyiniz qutunun içərisindəkilərə nəzər yetirin!</p>
             </div>
 
-            <div class="container mt-5" style="min-width: 1050px">
+            <div class="container mt-5" style="min-width: 1050px;">
                 <div id="accordion">
-                    <div class="mt-5 w-100" style="border-radius: 20px; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+                    <div class="cont mt-5 mx-auto w-100" style="border-radius: 20px; border: 1px solid #ccc;">
                         <!-- Heading və Collapse bölməsi -->
                         <div class="border-theme-secondary pb-3" style="border-bottom-left-radius: 0rem; border-bottom-right-radius: 0rem; border-bottom-width: 0px !important;">
                             <h2 class="mb-0 d-flex flex-row pt-2">
@@ -86,13 +86,20 @@
                                 <div class="col-md-6">
                                     <p data-v-11909900="" class="font-avenir-black text-theme-secondary mt-4 ps-3 text-left" style="color: #898989; font-size: 14px; font-weight: 600">Qutu Seçin! <span class="text-danger">*</span></p>
                                     <div class="boxes-slider-container">
-                                        <div class="d-flex flex-column px-3 position-relative">
+                                        @if(count($giftBoxes) > 4)
+                                            <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
+                                                    style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                        @endif
+
+                                        <div class="d-flex flex-column position-relative">
                                             <div id="boxes-slider-container">
-                                                <div class="row boxes-slider-wrapper ps-1">
+                                                <div class="row boxes-slider-wrapper px-1">
                                                     @if(count($giftBoxes) > 0)
                                                         @foreach ($giftBoxes as $index => $giftBox)
                                                             <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
-                                                                <div class="card mb-4 text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
+                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
                                                                     <img src="{{ asset('storage/' . $giftBox['image']) }}"
                                                                          class="card-img-top mx-auto gift-box-img"
                                                                          alt="{{ $giftBox['title'] }}"
@@ -108,23 +115,19 @@
                                                         <p>No Gift Boxes found.</p>
                                                     @endif
                                                 </div>
-
-                                                @if(count($giftBoxes) > 4)
-                                                    <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
-                                                            style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
-                                                        <i class="fas fa-chevron-left"></i>
-                                                    </button>
-                                                    <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
-                                                            style="right: -2px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
-                                                        <i class="fas fa-chevron-right"></i>
-                                                    </button>
-                                                @endif
                                             </div>
                                         </div>
+
+                                        @if(count($giftBoxes) > 4)
+                                            <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
+                                                    style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        @endif
                                     </div>
 
                                     <!-- Customize it! -->
-                                    <div class="ps-3">
+                                    <div class="px-3 pt-4">
                                         <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left" style="color: #898989; font-size: 14px;">Qutu üzərinə yazı yazın <span class="text-danger">*</span></p>
                                         <textarea class="customizing-text-input-fonts" required></textarea>
                                         <span class="text-danger error-message" style="display: none;">Bu sahə tələb olunur</span>
@@ -189,7 +192,7 @@
                                     <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>
 
                                     <!-- Form -->
-                                    <div class="ps-3 pb-3 w-100 d-flex flex-column">
+                                    <div class="px-3 pb-3 w-100 d-flex flex-column">
                                         <!-- "To" Field -->
                                         <div class="form-group d-flex flex-column flex-wrap flex-md-nowrap">
                                             <label for="to-field" class="px-0 pt-2 mr-2 text-theme-secondary">Kimə <span class="text-danger">*</span></label>
