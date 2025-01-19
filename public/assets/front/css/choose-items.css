@@ -274,6 +274,177 @@
     opacity: 0.9;
 }
 
+.filter-head {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.filter-label {
+    font-size: 16px !important;
+    color: var(--text-gray) !important;
+}
+
+.form-control:focus {
+    outline: var(--primary-color) !important;
+    box-shadow: none !important;
+    border-color: var(--primary-color) !important;
+}
+
+.filters {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.filter-label {
+    color: #666;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 10px !important;
+    font-size: 13px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: #a3907a;
+    color: white;
+    border-color: #a3907a;
+}
+
+.filter-btn.active {
+    background: #a3907a;
+    color: white;
+    border-color: #a3907a;
+}
+
+.price-range-container {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.sort-container option {
+    color: var(--primary-color) !important;
+}
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+}
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop {
+    display: none !important;
+}
+
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+}
+/* Add these styles to your existing CSS */
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+    background-image: none !important;
+    padding-right: 0.75rem !important;
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.upload-container.is-invalid {
+    border: 2px solid #dc3545 !important;
+}
+
+.invalid-feedback {
+    display: none;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+}
+
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+.custom-upload-box.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+/* New styles for variant validation */
+.variants-buttons.invalid {
+    border-color: #dc3545 !important;
+}
+
+.variant-button {
+    transition: all 0.3s ease;
+}
+
+.variant-button.active {
+    border-color: #a3907a !important;
+    background-color: #a3907a !important;
+    color: white !important;
+}
+
+.upload-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.upload-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.custom-upload-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #9da4aa;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.upload-icon {
+    font-size: 40px;
+    color: #6C757D;
+    font-weight: 300;
+    position: absolute;
+}
 
 @media (max-width: 991px) {
     .modal-dialog {

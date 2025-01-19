@@ -85,4 +85,7 @@ Route::middleware('auth')->group(function () {
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+Route::post('/add-item', [GiftBoxController::class, 'addItemToBox'])->name('add.item');
+Route::get('/view-items', [GiftBoxController::class, 'viewBoxItems'])->name('view.items');
+
 
