@@ -1,37 +1,55 @@
 @extends('front.layouts.app')
 
 @section('title', 'Səbət')
+@extends('front.layouts.app')
+
+@section('title', 'Səbət')
 @section('content')
     <div class="container my-5 cart-container">
         <div class="row">
             <div class="col-md-8 d-flex flex-column justify-content-center">
                 <h2 class="mb-4 cart-header-title" style="color: #a3907a;">Cart</h2>
 
-                <!-- Cart Item -->
-                <div class="cart-card cart-item mb-4 shadow-sm">
-                    <div class="cart-card-body">
-                        <div class="d-flex justify-content-between align-items-center cart-item-header">
-                            <h5 class="cart-item-title mb-0" style="color: #a3907a;">BOX &amp; TALE CNY 2025 - BLOSSOM GIFT SET | JH</h5>
-                            <span class="fw-bold cart-item-price" style="color: #a3907a;">Rp 348.000</span>
-                        </div>
-                        <hr>
-                        <div class="row cart-item-details">
-                            <div class="col-12 col-md-4">
-                                <img src="path-to-image.jpg" class="img-fluid rounded cart-item-image" alt="Gift Set">
-                            </div>
-                            <div class="col-12 col-md-8">
-                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Bag:</strong> BOX &amp; TALE CNY 2025 - CNY TOTE BAG</p>
-                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Card:</strong> Year of The Snake</p>
-                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Message:</strong> To: JH, From: UH</p>
-                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Box Contents:</strong> BOX &amp; TALE CNY 2025 - Blossom Gift Set, Year of The Snake</p>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end mt-3 cart-item-actions">
-                            <button class="btn btn-sm cart-delete-btn">Delete Box</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Cart Item -->
+                @auth
+                    @if($userCards->isEmpty())
+                        <p class="text-muted">Sepet boş</p>
+                    @else
+                        @foreach($userCards as $userCard)
+                            @if($userCard->status == 'pending')
+                                <!-- Cart Item -->
+                                <div class="cart-card cart-item mb-4 shadow-sm">
+                                    <div class="cart-card-body">
+                                        <div class="d-flex justify-content-between align-items-center cart-item-header">
+                                            <h5 class="cart-item-title mb-0" style="color: #a3907a;">
+                                                {{ $userCard->giftBox->name }}
+                                            </h5>
+                                            <span class="fw-bold cart-item-price" style="color: #a3907a;">
+                                                Rp {{ number_format($userCard->giftBox->price, 0, ',', '.') }}
+                                            </span>
+                                        </div>
+                                        <hr>
+                                        <div class="row cart-item-details">
+                                            <div class="col-12 col-md-4">
+                                                <img src="{{ asset('storage/' . $userCard->giftBox->image) }}" class="img-fluid rounded cart-item-image" alt="{{ $userCard->giftBox->name }}">
+                                            </div>
+                                            <div class="col-12 col-md-8">
+                                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Bag:</strong> {{ $userCard->box_customization_text }}</p>
+                                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Card:</strong> {{ $userCard->card->name }}</p>
+                                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Message:</strong> To: {{ $userCard->recipient_name }}, From: {{ $userCard->sender_name }}</p>
+                                                <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Box Contents:</strong> {{ $userCard->box_customization_text }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3 cart-item-actions">
+                                            <button class="btn btn-sm cart-delete-btn">Delete Box</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+                @else
+                    <p class="text-muted">Sepet boş</p>
+                @endauth
             </div>
         </div>
     </div>

@@ -1,38 +1,45 @@
 @extends('front.user.profile')
 
 @section('profile-content')
-    <div class="container orders-container py-4">
-        <div class="row align-items-center mb-4">
-            <div class="col-8 col-md-10">
-                <h5 class="mb-0">Sifarişlərim</h5>
-            </div>
-        </div>
-
-        <div class="row orders-body">
+    <div class="container my-5 orders-container">
+        <div class="row">
             <div class="col-12">
-                <div class="cart-card cart-item mb-4 shadow-sm">
-                    <div class="cart-card-body">
-                        <div class="d-flex justify-content-between align-items-center cart-item-header">
-                            <h5 class="cart-item-title mb-0" style="color: #a3907a;">BOX &amp; TALE CNY 2025 - BLOSSOM GIFT SET</h5>
-                            <span class="fw-bold cart-item-price" style="color: #a3907a;">Rp 348.000</span>
-                        </div>
-                        <hr>
-                        <div class="row cart-item-details">
-                            <div class="col-12 col-md-4">
-                                <img src="path-to-image.jpg" class="img-fluid rounded cart-item-image" alt="Gift Set">
+                <h2 class="mb-4 orders-header-title" style="color: #a3907a;">Sifarişlərim</h2>
+
+                @if($orders->isEmpty())
+                    <p class="text-muted">Sifariş yoxdur</p>
+                @else
+                    @foreach($orders as $order)
+                        <!-- Order Item -->
+                        <div class="cart-card cart-item mb-4 shadow-sm">
+                            <div class="cart-card-body">
+                                <div class="d-flex justify-content-between align-items-center cart-item-header">
+                                    <h5 class="cart-item-title mb-0" style="color: #a3907a;">
+                                        {{ $order->giftBox->name }}
+                                    </h5>
+                                    <span class="fw-bold cart-item-price" style="color: #a3907a;">
+                                        Rp {{ number_format($order->giftBox->price, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row cart-item-details">
+                                    <div class="col-12 col-md-4">
+                                        <img src="{{ asset('storage/' . $order->giftBox->image) }}" class="img-fluid rounded cart-item-image" alt="{{ $order->giftBox->name }}">
+                                    </div>
+                                    <div class="col-12 col-md-8">
+                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Bag:</strong> {{ $order->bag->name }}</p>
+                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Card:</strong> {{ $order->card->name }}</p>
+                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Message:</strong> To: {{ $order->recipient_name }}, From: {{ $order->sender_name }}</p>
+                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Box Contents:</strong> {{ $order->box_contents }}</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-3 cart-item-actions">
+                                    <span class="text-muted">Order Status: <strong style="color: #a3907a;">{{ ucfirst($order->status) }}</strong></span>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-8">
-                                <p class="mb-2 cart-item-info"><strong>Bag:</strong> BOX &amp; TALE CNY 2025 - CNY TOTE BAG</p>
-                                <p class="mb-2 cart-item-info"><strong>Card:</strong> Year of The Snake</p>
-                                <p class="mb-2 cart-item-info"><strong>Message:</strong> To: JH, From: UH</p>
-                                <p class="mb-2 cart-item-info"><strong>Box Contents:</strong> BOX &amp; TALE CNY 2025 - Blossom Gift Set, Year of The Snake</p>
-                            </div>
                         </div>
-{{--                        <div class="d-flex justify-content-end mt-3 cart-item-actions">--}}
-{{--                            <button class="btn btn-sm cart-delete-btn">Cancel Order</button>--}}
-{{--                        </div>--}}
-                    </div>
-                </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

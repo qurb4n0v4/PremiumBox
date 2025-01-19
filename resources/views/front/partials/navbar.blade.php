@@ -27,7 +27,7 @@
 
                             </div>
                         </li>
-                        <li><a href="#" class="navbar-cart">Səbət</a></li>
+                        <li><a href="{{ route('cart.index') }}" class="navbar-cart">Səbət</a></li>
                     @else
                         <li><a href="#" class="login-navbar">Daxil ol</a></li>
                         <li><a href="#" class="register-navbar">Qeydiyyat</a></li>
@@ -127,4 +127,5 @@
                 console.error('Logout error:', error);
             });
     });
+
 </script>
