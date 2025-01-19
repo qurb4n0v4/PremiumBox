@@ -574,11 +574,80 @@
         </div>
         @include('front.build_a_box.selected-items-summary')
 
+
+        <script>
+            function addItemToBox(chooseItemId) {
+                fetch('/add-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify({
+                        choose_item_id: chooseItemId
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            console.log('Box Volume:', data.boxVolume);
+                            console.log('Current Volume:', data.currentVolume);
+                            console.log('Item Volume:', data.itemVolume);
+                            console.log('Remaining Volume:', data.remainingVolume);
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => console.error('Xəta baş verdi:', error));
+            }
+        </script>
     </div>
 
 @endsection
 
 <style>
+    /* Ümumi progress bar stili */
+    .progress {
+        width: 100%;
+        height: 30px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+        height: 100%;
+        background-color: #007bff;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+        transition: width 0.3s ease;
+    }
+
+    /* Tam dolduğu zaman xüsusi stil */
+    .progress-bar.full {
+        background-color: #28a745; /* Yaşıl rəng */
+        color: white;
+        font-weight: bold;
+        animation: pulse 1s infinite; /* Effekt üçün */
+    }
+
+    /* Dolduğunu vurğulamaq üçün animasiya */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(40, 167, 69, 0.9);
+        }
+        100% {
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        }
+    }
+
     .filter-head {
         color: var(--primary-color);
         font-weight: 600;
@@ -652,6 +721,8 @@
         color: var(--primary-color) !important;
     }
 </style>
+
+<script src="{{ asset('assets/js/test.js') }}"></script>
 
 <script>
     document.querySelectorAll('.choose-box-circle').forEach(circle => {
@@ -769,7 +840,14 @@
 
                 // Get the modal element
                 const modal = this.closest('.modal');
-                const itemId = modal.id.split('_')[1]; // Extract item ID from modal ID
+                const itemId = modal.id.split('_')[1];
+
+                // Control the size
+                const canAdd = await handleItemAddition(itemId);
+
+                if (!canAdd) {
+                    return; // Stop add items if oversize
+                }
 
                 // Get all customization data
                 const customText = modal.querySelector('.custom-text')?.value;

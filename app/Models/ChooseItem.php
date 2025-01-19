@@ -45,4 +45,8 @@ class ChooseItem extends Model
         return $this->hasOne(CustomProductDetail::class);
     }
 
+    public function getItemVolumeAttribute()
+    {
+        return $this->length * $this->width * $this->height;
+    }
 }
