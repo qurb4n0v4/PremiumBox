@@ -9,6 +9,10 @@
         </div>
     @endif
 
+    @php
+        $hideFooter = true;
+    @endphp
+
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
@@ -35,7 +39,7 @@
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%; margin-bottom: 90px!important;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Uyğun Kartı Seçin</h3>
             <p style="font-size: 14px; color: #898989">Komandamız bir sıra xüsusi tədbirlər üçün eksklüziv kart dizaynlarını hazırlayıb.</p>
@@ -108,7 +112,7 @@
                                                     <label for="leave-empty-{{ $card->id }}" style="margin: 0 0 0 8px; color: #212529; font-size: 14px; white-space: nowrap;">Mesaj hissəni boş burax</label>
                                                 </div>
                                             </div>
-                                            <button type="button" id="save-card-{{ $card->id }}" class="btn btn-primary save-card" style="font-size: 14px; width: 100% !important; height: 35px; line-height: 15px; padding: 10px; background-color: #a3907a; border: none; border-radius: 15px; margin-bottom: 10px;">Qutuya əlavə et</button>
+                                            <button type="button" id="save-card-selection save-card-{{ $card->id }}" class="btn btn-primary save-card save-card-selection"  data-card-id="{{ $card->id }}" style="font-size: 14px; width: 100% !important; height: 35px; line-height: 15px; padding: 10px; background-color: #a3907a; border: none; border-radius: 15px; margin-bottom: 10px;">Qutuya əlavə et</button>
                                             <button type="button" class="preview-toggle" style="background: none; border: none; color: #a3907a; width: 100%; text-align: center; font-size: 14px; cursor: pointer;">Baxış</button>
                                         </form>
                                     </div>
@@ -120,9 +124,9 @@
             @endforeach
         </div>
         @include('front.build_a_box.selected-items-summary')
+        <button class="complete-order-button" onclick="window.location.href='{{ route('order.complete') }}'">Sifarişi tamamla</button>
 
     </div>
-@endsection
 
 <style>
     .modal-backdrop {
@@ -289,7 +293,6 @@
                 };
 
                 console.log('Card data:', cardData);
-                alert('Kart uğurla əlavə edildi!');
 
                 const bootstrapModal = bootstrap.Modal.getInstance(modal);
                 if (bootstrapModal) {
@@ -303,19 +306,97 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const allFields = document.querySelectorAll('.required-field');
-        const stepFourLink = document.querySelector('.choose-box-step:nth-child(4) a');
-        const isComplete = Array.from(allFields).every(field => field.value.trim() !== '');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle Save Card button clicks
+        document.querySelectorAll('.save-card-selection').forEach(button => {
+            button.addEventListener('click', async function(e) {
+                e.preventDefault();
 
-        if (isComplete) {
-            stepFourLink.style.pointerEvents = 'auto';
-            stepFourLink.style.opacity = '1';
-        } else {
-            stepFourLink.style.pointerEvents = 'none';
-            stepFourLink.style.opacity = '0.5';
+                const modal = this.closest('.modal');
+                const cardId = this.getAttribute('data-card-id');
+
+                // Get form inputs
+                const recipientInput = modal.querySelector('[id^="recipient-name"]');
+                const senderInput = modal.querySelector('[id^="sender-name"]');
+                const contentInput = modal.querySelector('[id^="card-content"]');
+                const leaveEmptyCheckbox = modal.querySelector('[id^="leave-empty"]');
+
+                // Validation
+                let isValid = true;
+
+                if (!recipientInput.value.trim()) {
+                    recipientInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    recipientInput.classList.remove('is-invalid');
+                }
+
+                if (!senderInput.value.trim()) {
+                    senderInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    senderInput.classList.remove('is-invalid');
+                }
+
+                if (!leaveEmptyCheckbox.checked && !contentInput.value.trim()) {
+                    contentInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    contentInput.classList.remove('is-invalid');
+                }
+
+                if (!isValid) return;
+
+                // Create form data
+                const formData = new FormData();
+                formData.append('card_id', cardId);
+                formData.append('recipient_name', recipientInput.value.trim());
+                formData.append('sender_name', senderInput.value.trim());
+                formData.append('card_message', leaveEmptyCheckbox.checked ? '' : contentInput.value.trim());
+
+                try {
+                    const response = await fetch('/save-card-selection', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Close the modal
+                        bootstrap.Modal.getInstance(modal).hide();
+
+                        // Show success message
+                        alert("Kart uğurla əlavə edildi!");
+
+                        // Reload the page to update summary
+                        window.location.reload();
+
+                        // Get the next step route if needed
+                        const nextStepRoute = button.getAttribute('data-next-step');
+                        if (nextStepRoute) {
+                            window.location.href = nextStepRoute;
+                        }
+                    } else {
+                        handleError(result.message || 'Xəta baş verdi');
+                    }
+                } catch (error) {
+                    handleError(error);
+                }
+            });
+        });
+
+        // Error handling function
+        function handleError(error) {
+            console.error('Xəta baş verdi:', error);
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
         }
     });
+
 </script>
 
-
+@endsection

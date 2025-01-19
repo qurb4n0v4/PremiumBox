@@ -1,4 +1,4 @@
-<footer class="bg-white py-5">
+<footer  @if($hideFooter ?? false) style="display: none;" @endif class="bg-white py-5">
     <div class="container py-2">
         <div class="row justify-content-between align-items-start">
             <!-- Əlaqə və Sosial Media Bölməsi -->

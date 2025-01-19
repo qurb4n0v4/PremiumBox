@@ -56,6 +56,14 @@ Route::prefix('session')->group(function () {
     Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('remove.selection');
 });
 Route::post('/remove-selection', [App\Http\Controllers\SessionController::class, 'removeSelection'])->name('remove.selection');
+Route::post('/save-card-selection', [SessionController::class, 'saveCardSelection']);
+Route::post('/upload-images', [SessionController::class, 'handleFileUpload']);
+Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('save.to.database');
+Route::get('/session/check-box', function () {
+    return response()->json([
+        'has_box' => session()->has('selected_box'),
+    ]);
+});
 
 
 Route::get('/chat', function () {
@@ -84,8 +92,5 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-
-Route::post('/add-item', [GiftBoxController::class, 'addItemToBox'])->name('add.item');
-Route::get('/view-items', [GiftBoxController::class, 'viewBoxItems'])->name('view.items');
-
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 

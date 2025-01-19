@@ -1,223 +1,162 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <head>
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <div id="selectionsSummary" class="selected-items-summary">
-            @if(Session::has('selected_box'))
-                @php $box = Session::get('selected_box'); @endphp
-                <div class="selected-box">
-                    <h4>Seçilmiş Qutu</h4>
-                    <div class="item-details">
-                        <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
-                        <img src="{{ $box['box_image'] }}" alt="Box Image">
-                        <div class="details">
-                            <h5>{{ $box['box_name'] }}</h5>
-                            <p>Fərdiləşdirmə: {{ $box['customization_text'] }}</p>
-                            <p>Qiymət: ₼{{ $box['box_price'] }}</p>
-                        </div>
-                    </div>
+    <div id="selectionsSummary" class="selected-items-summary"">
+        @if(Session::has('selected_box'))
+            @php $box = Session::get('selected_box'); @endphp
+            <div class="selected-box">
+                <div class="item-details">
+                    <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
+                    <img src="{{ asset('storage/' .  $box['box_image']) }}" alt="Box Image" class="item-image">
                 </div>
-            @endif
-
-                @if(Session::has('selected_item'))
-                    @php $items = Session::get('selected_item'); @endphp
-                    <div class="selected-item">
-                        <h4>Seçilmiş Əşyalar</h4>
-                        @if(is_array($items) && count($items) > 0)
-                            @foreach($items as $index => $item)
-                                <div class="item-details">
-                                    <button class="remove-btn" onclick="removeSelection('item', {{ $index }})">&times;</button>
-                                    <img src="{{ asset('storage/' . $item['item_image']) }}" alt="Item Image" class="main-item-image">
-                                    <div class="details">
-                                        <h5>{{ $item['item_name'] }}</h5>
-
-                                        {{-- Show selected variant if exists --}}
-                                        @if(isset($item['selected_variant']) && $item['selected_variant'])
-                                            <p class="variant-info">
-                                                <span class="info-label">Variant:</span>
-                                                {{ $item['selected_variant'] }}
-                                            </p>
-                                        @endif
-
-                                        {{-- Show custom text if exists --}}
-                                        @if(isset($item['user_text']) && $item['user_text'])
-                                            <p class="text-info">
-                                                <span class="info-label">Mətn:</span>
-                                                {{ $item['user_text'] }}
-                                            </p>
-                                        @endif
-
-                                        {{-- Show uploaded images if exist --}}
-                                        @if(isset($item['uploaded_images']) && !empty($item['uploaded_images']))
-                                            <div class="uploaded-images">
-                                                <p class="info-label">Yüklənmiş şəkillər:</p>
-                                                <div class="image-thumbnails">
-                                                    @foreach($item['uploaded_images'] as $image)
-                                                        <img src="{{ asset('storage/' . $image) }}" alt="Uploaded image" class="thumbnail">
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-
-                                        <p class="price">Qiymət: ₼{{ number_format($item['item_price'], 2) }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <p>Heç bir əşya seçilməyib.</p>
-                        @endif
-                    </div>
-
-                    <style>
-                        .selected-item {
-                            padding: 15px;
-                            background: #fff;
-                            border-radius: 8px;
-                            margin-top: 20px;
-                        }
-
-                        .item-details {
-                            position: relative;
-                            display: flex;
-                            align-items: start;
-                            padding: 15px;
-                            border: 1px solid #eee;
-                            border-radius: 8px;
-                            margin-bottom: 10px;
-                        }
-
-                        .main-item-image {
-                            width: 100px;
-                            height: 100px;
-                            object-fit: cover;
-                            border-radius: 6px;
-                            margin-right: 15px;
-                        }
-
-                        .details {
-                            flex-grow: 1;
-                        }
-
-                        .info-label {
-                            font-weight: 600;
-                            color: #666;
-                            margin-right: 5px;
-                        }
-
-                        .uploaded-images {
-                            margin-top: 10px;
-                        }
-
-                        .image-thumbnails {
-                            display: flex;
-                            gap: 10px;
-                            margin-top: 5px;
-                            flex-wrap: wrap;
-                        }
-
-                        .thumbnail {
-                            width: 50px;
-                            height: 50px;
-                            object-fit: cover;
-                            border-radius: 4px;
-                            border: 1px solid #eee;
-                        }
-
-                        .remove-btn {
-                            position: absolute;
-                            top: 10px;
-                            right: 10px;
-                            background: none;
-                            border: none;
-                            font-size: 20px;
-                            color: #666;
-                            cursor: pointer;
-                            padding: 0 5px;
-                        }
-
-                        .remove-btn:hover {
-                            color: #dc3545;
-                        }
-
-                        .variant-info, .text-info, .price {
-                            margin: 5px 0;
-                            font-size: 14px;
-                        }
-
-                        h5 {
-                            margin: 0 0 10px 0;
-                            color: #333;
-                        }
-                    </style>
-                @endif
-
-            @if(Session::has('selected_card'))
-                @php $card = Session::get('selected_card'); @endphp
-                <div class="selected-card">
-                    <h4>Seçilmiş Kart</h4>
-                    <div class="item-details">
-                        <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
-                        <img src="{{ $card['card_image'] }}" alt="Card Image">
-                        <div class="details">
-                            <h5>{{ $card['card_name'] }}</h5>
-                            <p>Kimə: {{ $card['recipient_name'] }}</p>
-                            <p>Kimdən: {{ $card['sender_name'] }}</p>
-                            <p>Qiymət: ₼{{ $card['card_price'] }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="total-price">
-                @php
-                    $totalPrice = 0;
-                    if(Session::has('selected_box')) {
-                        $totalPrice += Session::get('selected_box')['box_price'];
-                    }
-                    if(Session::has('selected_item')) {
-                        $items = Session::get('selected_item');
-                        foreach($items as $item) {
-                            $totalPrice += $item['item_price'];
-                        }
-                    }
-                    if(Session::has('selected_card')) {
-                        $totalPrice += Session::get('selected_card')['card_price'];
-                    }
-                @endphp
-                <h4>Ümumi Məbləğ: ₼{{ number_format($totalPrice, 2) }}</h4>
             </div>
+        @endif
+
+        @if(Session::has('selected_item'))
+            @php $items = Session::get('selected_item'); @endphp
+            <div class="selected-items">
+                @foreach($items as $index => $item)
+                    <div class="item-details">
+                        <button class="remove-btn" onclick="removeSelection('item', {{ $index }})">&times;</button>
+                        <img src="{{ asset('storage/' . $item['item_image']) }}" alt="Item Image" class="item-image">
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        @if(Session::has('selected_card'))
+            @php $card = Session::get('selected_card'); @endphp
+            <div class="selected-card">
+                <div class="item-details">
+                    <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
+                    <img src="{{ asset('storage/' . $card['card_image']) }}" alt="Card Image" class="item-image">
+                </div>
+            </div>
+        @endif
+
+        <div class="total-price">
+            @php
+                $totalPrice = 0;
+                if(Session::has('selected_box')) {
+                    $totalPrice += Session::get('selected_box')['box_price'];
+                }
+                if(Session::has('selected_item')) {
+                    $items = Session::get('selected_item');
+                    foreach($items as $item) {
+                        $totalPrice += $item['item_price'];
+                    }
+                }
+                if(Session::has('selected_card')) {
+                    $totalPrice += Session::get('selected_card')['card_price'];
+                }
+            @endphp
+            <h4 style="font-size: 14px">Ümumi Məbləğ:</h4>
+            <span>₼{{ number_format($totalPrice, 2) }}</span>
         </div>
+    </div>
 
     <style>
+        .selected-items-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            width: 70%;
+            max-width: 1200px;
+            border: 1px solid #898989;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+        }
+
         .item-details {
             position: relative;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        .item-image {
+            width: 60px;  /* Kiçik ölçüdə şəkillər */
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
         }
 
         .remove-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ff4444;
-            color: white;
+            top: 0;
+            right: 0;
+            background: none;
             border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            line-height: 24px;
-            text-align: center;
+            font-size: 18px;
+            color: #ffffff;
             cursor: pointer;
-            font-size: 16px;
-            padding: 0;
+            padding: 0 5px;
+            font-weight: bold;
         }
 
         .remove-btn:hover {
-            background: #cc0000;
+            color: #dc3545;
+        }
+
+        .total-price {
+            color: #a3907a;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-left: auto;
+        }
+
+        .total-price h4 {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .selected-items-summary {
+                width: 100%; /* Kiçik ekranlarda tam genişlik */
+                left: 0;
+                transform: none; /* Tam genişlikdə mərkəzləşdirməyə ehtiyac yoxdur */
+                padding: 10px; /* Kiçik ekranlarda padding daha az olsun */
+            }
+
+            .item-details {
+                flex: 1 0 48%; /* Hər bir itemın yan yana düzülməsi üçün daha geniş sahə */
+                margin-right: 10px;
+            }
+
+            .item-image {
+                width: 50px;  /* Kiçik ekranlarda şəkil ölçüsünü daha da kiçilt */
+                height: 50px;
+            }
+
+            .total-price {
+                font-size: 14px;
+                align-items: flex-start; /* Ekran kiçik olduqda, qiymət bölməsini yuxarıya çəkir */
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item-image {
+                width: 40px;  /* Daha da kiçik ekranlar üçün şəkil ölçüsünü azaldır */
+                height: 40px;
+            }
+
+            .total-price {
+                font-size: 12px; /* Daha kiçik ekranlarda font ölçüsünü azaldır */
+            }
         }
     </style>
+
 
     <script>
         function removeSelection(type, index = null) {

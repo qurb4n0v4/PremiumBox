@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+
+
 // FAQ
 document.querySelectorAll('.question').forEach(question => {
     question.addEventListener('click', () => {

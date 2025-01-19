@@ -3,6 +3,10 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 
+    @php
+        $hideFooter = true;
+    @endphp
+
     <div class="choose-box-line"></div>
 
     <!-- Steps Progress Bar -->
@@ -24,7 +28,7 @@
 
     <!-- Main Content Container -->
     <div class="container my-5 p-5 choose-boxes-page"
-         style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+         style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%; margin-bottom: 90px!important;">
 
         <!-- Header Section -->
         <div class="choose-boxes-header text-center" style="line-height: 0.3">

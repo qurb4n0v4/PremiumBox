@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 @section('content')
+    @php
+        $hideFooter = true;
+    @endphp
+
     <div class="choose-box-line"></div>
 
     <div class="choose-box-steps-container">
@@ -30,7 +34,7 @@
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%; margin-bottom: 90px!important;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Məhsulları seçin</h3>
             <p style="font-size: 14px; color: #898989">Sizin üçün ən yaxşı məhsulları seçdik.</p>
@@ -106,7 +110,7 @@
                             </div>
                             <div class="sort-container">
                                 <select id="sort-boxes" class="form-control">
-                                    <option value="default">Sırala: Varsayılan</option>
+                                    <option value="default" style="color: #a3907a">Sırala: Varsayılan</option>
                                     <option value="price_asc">Qiymət: Artan</option>
                                     <option value="price_desc">Qiymət: Azalan</option>
                                     <option value="name_asc">Ad: A-dan Z-yə</option>
@@ -534,10 +538,7 @@
                                                                             </div>
                                                                         @endif
 
-                                                                    <button class="choose-box-choose-button"
-                                                                            onclick="window.location.href='{{ route('choose.step', $currentStep + 1) }}'"
-                                                                    >
-                                                                        Qutuya əlavə et</button>
+                                                                    <button class="choose-variant-button">Qutuya əlavə et</button>
                                                                 @endforeach
                                                             @endif
                                                         </div>
@@ -732,6 +733,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+
         // Check text length and hide show more button if not needed
         document.querySelectorAll('.variant-paragraph').forEach(container => {
             const fullText = container.getAttribute('data-full-text');
@@ -761,6 +763,74 @@
             showMoreBtn.textContent = 'Show less';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+
+        // Handle Choose Variant button clicks
+        document.querySelectorAll('.choose-variant-button').forEach(button => {
+            button.addEventListener('click', async function(e) {
+                e.preventDefault();
+
+                const modal = this.closest('.modal');
+                const itemId = modal.id.split('-')[1]; // Get item ID from modal-{id}
+
+                // Get variant and text data
+                const selectedVariant = modal.querySelector('.variant-button.active');
+                const customText = modal.querySelector('.custom-text')?.value;
+
+                // Create form data
+                const formData = new FormData();
+                formData.append('choose_item_id', itemId);
+                formData.append('selected_variant', selectedVariant?.textContent.trim() || null);
+                formData.append('variant_price', selectedVariant?.dataset.price || null);
+                formData.append('user_text', customText || null);
+
+                try {
+                    const response = await fetch('/session/save-item', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Close the modal
+                        bootstrap.Modal.getInstance(modal).hide();
+
+                        // Show success message
+                        alert("Məhsul uğurla əlavə edildi!");
+
+                        window.location.reload();
+
+
+                        // Get the next step route from the button's original onclick attribute
+                        const nextStepRoute = button.getAttribute('onclick')
+                            ?.replace("window.location.href='", "")
+                            ?.replace("'", "");
+
+                        if (nextStepRoute) {
+                            window.location.href = nextStepRoute;
+                        }
+                    } else {
+                        handleError(result.message || 'Xəta baş verdi');
+                    }
+                } catch (error) {
+                    handleError(error);
+                }
+            });
+        });
+
+        // Error handling function
+        function handleError(error) {
+            console.error('Xəta baş verdi:', error);
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         // Add this inside your DOMContentLoaded event listener
@@ -876,6 +946,7 @@
 
                         if (response.success) {
                             alert("Məhsul uğurla əlavə edildi!");
+                            window.location.reload();
                         } else {
                             handleError(response.message);
                         }
@@ -1302,6 +1373,8 @@
         // Add reset button to filters container
         document.querySelector('.filters').appendChild(resetButton);
     });
+
+
 </script>
 
 <style>
