@@ -46,6 +46,19 @@ class SessionController extends Controller
     public function saveItemSelection(Request $request)
     {
         try {
+//             Önce hacim kontrolü yap
+            $volumeCheck = $this->checkBoxVolume($request);
+            $volumeResponse = json_decode($volumeCheck->getContent(), true);
+
+//             Hacim kontrolü başarısızsa, hata mesajını gönder
+            if (!$volumeResponse['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error_code' => 'TOO_LARGE', // Hacim hatası kodu
+                    'message' => 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.'
+                ]);
+            }
+
             $item = ChooseItem::findOrFail($request->choose_item_id);
 
             $itemData = [
