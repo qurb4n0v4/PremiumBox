@@ -3,34 +3,26 @@
 @section('profile-content')
     <div class="container my-5 orders-container">
         <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4 orders-header-title" style="color: #a3907a;">Sifarişlərim</h2>
+            <div class="col-md-8 mx-auto">
+                <h2 class="mb-4 orders-header-title">Sifarişlərim</h2>
 
                 @if($orders->isEmpty())
-                    <p class="text-muted">Sifariş yoxdur</p>
+                    <p class="cart-empty-text">Sifariş yoxdur.</p>
                 @else
                     @foreach($orders as $order)
-                        <!-- Order Item -->
-                        <div class="cart-card cart-item mb-4 shadow-sm">
+                        <div class="cart-card mb-4">
+                            <h4 class="cart-item-header">Sifariş Məlumatı</h4>
                             <div class="cart-card-body">
-                                <div class="d-flex justify-content-between align-items-center cart-item-header">
-                                    <h5 class="cart-item-title mb-0" style="color: #a3907a;">
-                                        {{ $order->giftBox->name }}
-                                    </h5>
-                                    <span class="fw-bold cart-item-price" style="color: #a3907a;">
-                                        Rp {{ number_format($order->giftBox->price, 0, ',', '.') }}
-                                    </span>
-                                </div>
-                                <hr>
-                                <div class="row cart-item-details">
-                                    <div class="col-12 col-md-4">
-                                        <img src="{{ asset('storage/' . $order->giftBox->image) }}" class="img-fluid rounded cart-item-image" alt="{{ $order->giftBox->name }}">
+                                <div class="row align-items-center">
+                                    <div class="col-3">
+                                        <img src="{{ asset('storage/' . $order->giftBox->image) }}" alt="Gift Box Image" class="cart-item-image">
                                     </div>
-                                    <div class="col-12 col-md-8">
-                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Bag:</strong> {{ $order->bag->name }}</p>
-                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Card:</strong> {{ $order->card->name }}</p>
-                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Message:</strong> To: {{ $order->recipient_name }}, From: {{ $order->sender_name }}</p>
-                                        <p class="mb-2 cart-item-info"><strong style="color: #a3907a;">Box Contents:</strong> {{ $order->box_contents }}</p>
+                                    <div class="col-9">
+                                        <h5 class="cart-item-title">{{ $order->giftBox->name }}</h5>
+                                        <p class="cart-item-info">Card: {{ $order->card->name }}</p>
+                                        <p class="cart-item-info">Message: To: {{ $order->recipient_name }}, From: {{ $order->sender_name }}</p>
+                                        <p class="cart-item-info">Box Contents: {{ $order->box_contents }}</p>
+                                        <p class="cart-item-price">Qiymət: ₼{{ number_format($order->giftBox->price, 2) }}</p>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end mt-3 cart-item-actions">
@@ -47,14 +39,15 @@
 
 <style>
     .orders-container {
-        background-color: #fff;
-        border-radius: 10px;
+        background-color: #ffffff;
+        border-radius: 8px;
         padding: 20px;
     }
 
-    h5 {
-        font-size: 20px;
-        color: #a3907a !important;
+    .orders-header-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #343a40;
     }
 
     .cart-card {
@@ -69,7 +62,9 @@
     }
 
     .cart-item-header {
-        font-size: 1rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #495057;
     }
 
     .cart-item-title {
@@ -81,10 +76,6 @@
         font-size: 1.25rem;
         font-weight: bold;
         color: #007bff;
-    }
-
-    .cart-item-details {
-        margin-top: 15px;
     }
 
     .cart-item-image {
@@ -99,8 +90,15 @@
         margin-bottom: 10px;
     }
 
+    .cart-empty-text {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #6c757d;
+        text-align: center;
+    }
+
     @media (max-width: 768px) {
-        h5 {
+        .orders-header-title {
             font-size: 1.5rem;
         }
 

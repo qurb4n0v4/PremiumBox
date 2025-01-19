@@ -30,8 +30,13 @@ class UserProfileController extends Controller
 
     public function showOrders()
     {
-        $user = auth()->user();
-        return view('front.user.orders', compact('user'));
+        $userId = auth()->id(); // Giriş yapmış kullanıcının ID'sini al
+        $orders = \App\Models\Order::where('user_id', $userId)
+            ->with(['giftBox', 'bag', 'card']) // İlişkileri yükle
+            ->get();
+
+        // View'e orders değişkeniyle gönder
+        return view('front.user.orders', compact('orders'));
     }
 
     public function showCoupons()
