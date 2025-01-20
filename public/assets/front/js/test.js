@@ -115,12 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const modal = this.closest('.modal');
             const itemId = modal.id.split('_')[1];
 
-            // Control the size
-            const canAdd = await handleItemAddition(itemId);
-
-            if (!canAdd) {
-                return; // Stop add items if oversize
-            }
 
             // Get all customization data
             const customText = modal.querySelector('.custom-text')?.value;

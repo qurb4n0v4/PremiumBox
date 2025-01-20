@@ -189,7 +189,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>
+{{--                                    <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>--}}
 
                                     <!-- Form -->
                                     <div class="px-3 pb-3 w-100 d-flex flex-column">

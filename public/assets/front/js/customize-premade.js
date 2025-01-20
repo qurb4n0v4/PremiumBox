@@ -425,22 +425,22 @@ function validateForm() {
 });
 
     // Kart seçimi için event listener
-    document.querySelectorAll('.select-card').forEach(card => {
-    card.addEventListener('click', function() {
-    // Hata mesajını gizle
-    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
-    if (errorMsg && errorMsg.classList.contains('error-message')) {
-    errorMsg.style.display = 'none';
-}
-});
-});
+//     document.querySelectorAll('.select-card').forEach(card => {
+//     card.addEventListener('click', function() {
+//     // Hata mesajını gizle
+//     const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+//     if (errorMsg && errorMsg.classList.contains('error-message')) {
+//     errorMsg.style.display = 'none';
+// }
+// });
+// });
 
     // Reset slider için event listener
-    document.getElementById('reset-slider')?.addEventListener('click', function() {
-    // Kart seçimi sıfırlandığında hata mesajını göster
-    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
-    if (errorMsg && errorMsg.classList.contains('error-message')) {
-    errorMsg.style.display = 'block';
-}
-});
+//     document.getElementById('reset-slider')?.addEventListener('click', function() {
+//     // Kart seçimi sıfırlandığında hata mesajını göster
+//     const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+//     if (errorMsg && errorMsg.classList.contains('error-message')) {
+//     errorMsg.style.display = 'block';
+// }
+// });
 });
