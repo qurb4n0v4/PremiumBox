@@ -24,6 +24,7 @@ class ChooseItem extends Model
         'length',
     ];
 
+    protected $appends = ['itemVolume'];
 
     public function customProductDetail(): HasOne
     {
@@ -45,4 +46,8 @@ class ChooseItem extends Model
         return $this->hasOne(CustomProductDetail::class);
     }
 
+    public function getItemVolumeAttribute()
+    {
+        return $this->length * $this->width * $this->height;
+    }
 }

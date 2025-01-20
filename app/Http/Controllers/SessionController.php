@@ -6,6 +6,7 @@ use App\Models\GiftBox;
 use App\Models\ChooseItem;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use App\Models\BoxCategory;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -45,6 +46,19 @@ class SessionController extends Controller
     public function saveItemSelection(Request $request)
     {
         try {
+//             Önce hacim kontrolü yap
+            $volumeCheck = $this->checkBoxVolume($request);
+            $volumeResponse = json_decode($volumeCheck->getContent(), true);
+
+//             Hacim kontrolü başarısızsa, hata mesajını gönder
+            if (!$volumeResponse['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error_code' => 'TOO_LARGE', // Hacim hatası kodu
+                    'message' => 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.'
+                ]);
+            }
+
             $item = ChooseItem::findOrFail($request->choose_item_id);
 
             $itemData = [
@@ -57,27 +71,19 @@ class SessionController extends Controller
                 'uploaded_images' => []
             ];
 
-            // Handle file uploads if they exist
             if ($request->hasFile('uploaded_images')) {
                 foreach ($request->file('uploaded_images') as $image) {
-                    // Store the image and get the path
                     $path = $image->store('custom-uploads', 'public');
                     $itemData['uploaded_images'][] = $path;
                 }
             }
 
-            // Get existing items from session
             $existingItems = Session::get('selected_item', []);
-
-            // Ensure it's an array
             if (!is_array($existingItems)) {
                 $existingItems = [];
             }
 
-            // Add new item data
             $existingItems[] = $itemData;
-
-            // Update session
             Session::put('selected_item', $existingItems);
 
             return response()->json([
@@ -92,8 +98,93 @@ class SessionController extends Controller
         }
     }
 
+    private function checkBoxVolume(Request $request)
+    {
+        try {
+            Log::info('Request details:', [
+                'request' => $request->all(),
+                'session' => Session::all()
+            ]);
 
+            $selectedBox = Session::get('selected_box');
+            if (!$selectedBox) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lütfen önce bir kutu seçin.'
+                ]);
+            }
 
+            $box = BoxCategory::find($selectedBox['box_id']);
+            if (!$box) {
+                Log::error('Box not found', ['box_id' => $selectedBox['box_id']]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kutu bulunamadı.'
+                ]);
+            }
+
+            $boxVolume = $box->boxVolume;
+            $selectedItems = Session::get('selected_item', []);
+
+            $currentTotalVolume = 0;
+            foreach ($selectedItems as $item) {
+                $chooseItem = ChooseItem::find($item['item_id']);
+                if ($chooseItem) {
+                    $currentTotalVolume += $chooseItem->itemVolume;
+                }
+            }
+
+            $newItem = ChooseItem::find($request->choose_item_id);
+            if (!$newItem) {
+                Log::error('Item not found', ['item_id' => $request->choose_item_id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ürün bulunamadı.'
+                ]);
+            }
+
+            $newItemVolume = $newItem->itemVolume;
+            $totalVolumeAfterAdd = $currentTotalVolume + $newItemVolume;
+
+            Log::info('Volume calculations', [
+                'box_volume' => $boxVolume,
+                'current_total_volume' => $currentTotalVolume,
+                'new_item_volume' => $newItemVolume,
+                'total_after_add' => $totalVolumeAfterAdd
+            ]);
+
+            if ($totalVolumeAfterAdd > $boxVolume) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bu ürün kutuya sığmayacak kadar büyük. Lütfen daha küçük bir ürün seçin veya başka bir kutu seçin.',
+                    'current_volume' => $currentTotalVolume,
+                    'box_volume' => $boxVolume,
+                    'new_item_volume' => $newItemVolume
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ürün kutuya eklenebilir.',
+                'current_volume' => $currentTotalVolume,
+                'box_volume' => $boxVolume,
+                'new_item_volume' => $newItemVolume,
+                'remaining_volume' => $boxVolume - $totalVolumeAfterAdd
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Detailed error in checkBoxVolume', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Hata oluştu: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function saveCardSelection(Request $request)
     {
@@ -144,15 +235,17 @@ class SessionController extends Controller
         $totalPrice = 0;
 
         if ($selections['box']) {
-            $totalPrice += $selections['box']['box_price'];
+            $totalPrice += $selections['box']['box_price'] ?? 0;
         }
 
         if ($selections['item']) {
-            $totalPrice += $selections['item']['item_price'];
+            foreach ($selections['item'] as $item) {
+                $totalPrice += $item['item_price'] ?? 0;
+            }
         }
 
         if ($selections['card']) {
-            $totalPrice += $selections['card']['card_price'];
+            $totalPrice += $selections['card']['card_price'] ?? 0;
         }
 
         $selections['total_price'] = $totalPrice;
@@ -353,7 +446,4 @@ class SessionController extends Controller
             ], 500);
         }
     }
-
-
-
 }

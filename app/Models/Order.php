@@ -5,48 +5,42 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCardForBuildABox extends Model
+class Order extends Model
 {
     use HasFactory;
-
-    protected $table = 'user_card_for_build_a_box';
 
     protected $fillable = [
         'user_id',
         'gift_box_id',
-        'box_customization_text',
-        'selected_font',
+        'bag_id',
         'card_id',
         'recipient_name',
         'sender_name',
-        'card_message',
+        'box_contents',
         'status',
     ];
 
-
-    // İlişkili modellər
+    // Kullanıcı ilişkisi
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Hediye Kutusu ilişkisi
     public function giftBox()
     {
         return $this->belongsTo(GiftBox::class);
     }
 
+    // Çanta ilişkisi
+    public function bag()
+    {
+        return $this->belongsTo(Bag::class);
+    }
+
+    // Kart ilişkisi
     public function card()
     {
         return $this->belongsTo(Card::class);
-    }
-
-    public function items()
-    {
-        return $this->hasMany(UserBuildABoxCardItem::class, 'user_card_id');
-    }
-
-    public function cardImages()
-    {
-        return $this->hasMany(BuildABoxCardImage::class);
     }
 }

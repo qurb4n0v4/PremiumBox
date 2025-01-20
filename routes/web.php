@@ -39,6 +39,7 @@ Route::get('/choose_a_box', [GiftBoxController::class, 'index'])->name('choose_a
 Route::get('/choose_premade_box', [PremadeBoxController::class, 'index'])->name('choose_premade_box');
 Route::get('/customize_premade_box/{id?}', [PremadeBoxController::class, 'show'])->name('customize_premade_box');
 Route::get('/customize_premade_box/{id}', [CardController::class, 'index']);
+Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
 Route::get('/done_premade', [PremadeBoxController::class, 'done'])->name('done_premade');
 
 Route::get('/choose-items', [GiftBoxController::class, 'chooseItems'])->name('choose.items');
@@ -76,7 +77,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/front/user/profile', [UserProfileController::class, 'index'])->name('profile');
 Route::get('/front/user/profile/details', [UserProfileController::class, 'showProfile'])->name('profile-details');
-Route::get('/front/user/orders', [UserProfileController::class, 'showOrders'])->name('orders');
+Route::get('/front/user/orders', [UserProfileController::class, 'showOrders'])->name('orders')->middleware('auth');
 Route::get('/front/user/coupons', [UserProfileController::class, 'showCoupons'])->name('coupons');
 Route::put('/front/user/profile/update', [UserProfileController::class, 'updateProfile'])->name('profile-update');
 Route::get('/front/user/profile/edit', [UserProfileController::class, 'editProfile'])->name('profile-edit');
@@ -94,3 +95,30 @@ Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 
+Route::prefix('box')->group(function () {
+    // Qutu seçimini saxla
+    Route::post('/save-box-selection', [SessionController::class, 'saveBoxSelection'])->name('box.saveBoxSelection');
+
+    Route::post('/check-box-volume', [SessionController::class, 'checkBoxVolume']);
+
+    // Məhsul seçimini saxla
+    Route::post('/save-item-selection', [SessionController::class, 'saveItemSelection'])->name('box.saveItemSelection');
+
+    // Kart seçimini saxla
+    Route::post('/save-card-selection', [SessionController::class, 'saveCardSelection'])->name('box.saveCardSelection');
+
+    // Seçilmiş məlumatları al
+    Route::get('/selections', [SessionController::class, 'getSelections'])->name('box.getSelections');
+
+    // Seçimi sil
+    Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('box.removeSelection');
+
+    // Bütün seçimləri sil
+    Route::post('/clear-selections', [SessionController::class, 'clearSelections'])->name('box.clearSelections');
+
+    // Cari addımı al
+    Route::get('/current-step', [SessionController::class, 'getCurrentStep'])->name('box.getCurrentStep');
+
+    // Seçilmiş məlumatları bazaya saxla
+    Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('box.saveToDatabase');
+});
