@@ -1,0 +1,1354 @@
+[33mcommit 8d8132c96508ebf0422d3a78ff768f7e6168eeee[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mgulnur[m[33m, [m[1;31morigin/ays[m[33m)[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 23:42:31 2025 +0400
+
+    Some little changes.
+
+[33mcommit 4575bf97a27a37b4a227f57db059681b50f69d26[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 23:36:46 2025 +0400
+
+    CheckBoxVolume is ready.
+
+[33mcommit 68e229b0f7da91b2dda9c1c48c915f3ffb85b1a8[m
+Merge: 71141ec3 0fde1ee8
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 22:08:27 2025 +0400
+
+    Merge with hagi branch.
+
+[33mcommit 71141ec34281e0e1892391d78587b3b2eaa321df[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 22:01:48 2025 +0400
+
+    Try to checkVolume in choose items blade.
+
+[33mcommit 0fde1ee8d24ff4ab85476da845e7eaf46b5a5128[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/hagi[m[33m)[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 15:05:05 2025 +0400
+
+    cartorders settings edited
+
+[33mcommit cfed9acc7cf8a04bce6577efd11413a61993889d[m
+Merge: 409215fb 751db9d0
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 15:03:30 2025 +0400
+
+    Merge branch 'ays' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit 409215fbe302293df440a888cb4c6d8cd83fd229[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 14:00:02 2025 +0400
+
+    orders and cart changed
+
+[33mcommit 751db9d0afec919d5c2ae6c631908f1339794097[m
+Merge: 3726c17e 5e5bc451
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 13:12:59 2025 +0400
+
+    Conflict solved.
+
+[33mcommit 3726c17e793169a7f9004a4974ec45bbdcd3aefe[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 19 13:11:09 2025 +0400
+
+    Value added to models. Giftbox controller edited. Some routes added.
+
+[33mcommit 5e5bc4519db762e95d0b18edd0d39804914c305e[m[33m ([m[1;31morigin/gulnur[m[33m)[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 19 12:43:44 2025 +0400
+
+    Card blade
+
+[33mcommit d8c1ce780b2f081ac44616c47d5a700ddc84bc4d[m
+Merge: 6ea8d01a a3800116
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 19 12:38:55 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit a380011665e408430e3e0514b055a285c8505eab[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 03:51:28 2025 +0400
+
+    orders and cart changed
+
+[33mcommit 6ea8d01a14126afbe00a3967b1a29b1f90f55a39[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 19 03:05:17 2025 +0400
+
+    Seelected items fixed
+
+[33mcommit 9bed9bae06620a9494b2cad56e65b0e905c3da5e[m
+Merge: 54020895 fd945928
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 01:50:50 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit 1ae7960aa78d79143a905a364591f3e21c83a22a[m
+Merge: fd945928 54020895
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 19 01:38:37 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit fd945928cf1684005ebe39a93d737381d5b40ff9[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 19 01:38:06 2025 +0400
+
+    Adding card
+
+[33mcommit 54020895a3a0cdd9603031589292e5886c68743e[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 01:12:15 2025 +0400
+
+    orders blade written
+
+[33mcommit 0c63c7b1b5c664631198579bed179639719664aa[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sun Jan 19 01:08:06 2025 +0400
+
+    cart blade created
+
+[33mcommit d99a92d47368157941de063a5f09d1ee21889bd9[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 18 20:40:35 2025 +0400
+
+    Some little edits.
+
+[33mcommit ec026561203cda44cfe88e8081b1de5460dfdf11[m
+Merge: 2a5d427a b2b8e24b
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Jan 18 19:14:46 2025 +0400
+
+    Merge branch 'ays' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 2a5d427a2d567da96f0e5c7936b985a2e8e71748[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Jan 18 19:13:51 2025 +0400
+
+    Add to box and Custom product buttons for adding session
+
+[33mcommit b2b8e24baf3cb73659ae64316ebbd36c29e7c04c[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 18 19:08:31 2025 +0400
+
+    Choose items filter edited css added.
+
+[33mcommit 285e6f5ea190f49b4d947f0eeda76ffa75e5af31[m
+Merge: d872994f 6317344a
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 18 15:54:03 2025 +0400
+
+    Merge with gulnur branch.
+
+[33mcommit d872994f76e7ca2a017988658f51ae07b330e48e[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 18 15:52:58 2025 +0400
+
+    Filter css modified. Added production time on filter. Controller edited.
+
+[33mcommit 903d87aeeffabe27e88ec9c252709c53b1d262a4[m
+Merge: ddeb837c 58b71459
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Jan 18 13:41:39 2025 +0400
+
+    Merge branch 'ays' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit ddeb837ccd5b9d3b8072b70d578706f6c445e046[m
+Merge: 6317344a 63ce32be
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Jan 18 13:41:30 2025 +0400
+
+    After merging with hagi
+
+[33mcommit 6317344acf3d91cc55e1ffe4c39438e3550d71d9[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Jan 18 13:32:27 2025 +0400
+
+    Session Controller
+
+[33mcommit 58b71459f0529b571559e1403cc06c6a01fb939c[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 18 00:44:09 2025 +0400
+
+    Filter for choose pramde blade now works. Controller, blade, css edited.
+
+[33mcommit 63ce32beb7256c2917b5715fd0297643bf16ad11[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sat Jan 18 00:03:30 2025 +0400
+
+    some things edited
+
+[33mcommit 2c2994e84856107ea911b43b9e481cc3d2f8fa77[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 17 23:52:51 2025 +0400
+
+    user and address resources added
+
+[33mcommit 63311bde12e62d4b257f26d511b07527219f0cbc[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 17 15:22:25 2025 +0400
+
+    contact resources added
+
+[33mcommit 9a1b5db5b35252b9b28e9ff020457810c499b690[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 17 14:23:07 2025 +0400
+
+    chat resouces added
+
+[33mcommit e8207d2cb25f453c69d96fe292fc7446bc8910d3[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 17 11:30:11 2025 +0400
+
+    chat blade edited
+
+[33mcommit e6e69ea57796d23ccd046bf4051f16ba7270a07d[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Thu Jan 16 19:34:34 2025 +0400
+
+    Choose and customize premade blades modified for responsive and added to css file.
+
+[33mcommit 548ce1a6986e068d9bc3a38d83c1e6cf21f73918[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Thu Jan 16 00:08:53 2025 +0400
+
+    Choose premade blade responsive design completed. Some little css changed on customize blade css.
+
+[33mcommit 531e597b204bfec2b587228e17556a984861cd62[m
+Merge: c4ac6292 88a7f351
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Wed Jan 15 17:03:30 2025 +0400
+
+    Merge with gulnur branch.
+
+[33mcommit c5ab19d15f376ae5959ebab43e9882acb4e1e95f[m
+Merge: 88a7f351 c4ac6292
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 14 10:19:07 2025 +0400
+
+    Merge branch 'ays' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 88a7f35103bf4c7310827bf27ed4826639228b83[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 14 10:18:22 2025 +0400
+
+    User card migration
+
+[33mcommit c4ac6292c877d9f6c4631e52322e7e3c202ca962[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 14 03:02:10 2025 +0400
+
+    Filter bar changed on choose premade blade.
+
+[33mcommit 6902755b844f7cc987ab4a14af17526a431ba4b2[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 14 02:43:03 2025 +0400
+
+    PremadeBoxController modified. Customize and choose premade blades edited. Some css added.
+
+[33mcommit 7782102de0aa1baa58e8b62794c0f4b1d2127f64[m
+Merge: 284e07ef ac95dcdf
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 14 00:30:44 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit ac95dcdfd6a8acd0d2173b096932ebc58a0d8c9f[m
+Merge: dc9a99ef 42e2588e
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Tue Jan 14 00:22:26 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit dc9a99ef8ab4afdd6359fdcec37d885043c46bf1[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Tue Jan 14 00:09:14 2025 +0400
+
+    footer blade and chat blade changed
+
+[33mcommit 284e07ef0a8976cc0e0d24286dd16eda8a4a4cb9[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 23:49:42 2025 +0400
+
+    Last edites.
+
+[33mcommit f9aaad599447d73e814ea05b371d8d8bef44392a[m
+Merge: 263ceff8 42e2588e
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 23:27:56 2025 +0400
+
+    Conflict fixed.
+
+[33mcommit 263ceff80c65ceba3644020db386030f1e94b5dc[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 23:24:41 2025 +0400
+
+    Admin Seeder created. Choose premade blade changed.
+
+[33mcommit 42e2588ec14a3b4df0d6fdf74ac0d7fb7e162ff2[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 13 23:18:32 2025 +0400
+
+    choose a box
+
+[33mcommit 279ef8ee1f9d1cf044d36ba6f418586ca8b71be6[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 18:24:13 2025 +0400
+
+    Some little changes.
+
+[33mcommit ef98a9d5921c51473a981370af90cea7ea5b4ecd[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 18:19:47 2025 +0400
+
+    Steps at premade blades are edited with links. Done blade created.
+
+[33mcommit 3634b82d62c350583277266ce4f3e1a6d852d4d7[m
+Merge: 6542455c 9ff2be10
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 13 17:45:33 2025 +0400
+
+    Merge branch 'ays' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 9ff2be10c0bb8ab32b956e4934c914a9e5d61cb9[m
+Merge: cb438274 96986e67
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 13 11:47:04 2025 +0400
+
+    Merge with hagi.
+
+[33mcommit 6542455c30ec2a731cf05809cac32317bf841327[m
+Merge: cb438274 96986e67
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 13 03:37:07 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit cb438274bcc6e6cfd1e1e3ac5218974c32fbee60[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 13 02:54:02 2025 +0400
+
+    Card step is ready
+
+[33mcommit 2d395c9388019e13b1ad6dd7e85003fa22ff0dbf[m
+Merge: ba083c08 8998bb22
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 12 17:28:41 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into ays
+
+[33mcommit ba083c08229ff28b288d5996f5f1bb15faa97184[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 12 17:25:37 2025 +0400
+
+    Customize blade done with required fields and save button. Some changes on choose premade blade.
+
+[33mcommit 8998bb221e6d040cfab70ed22238c96e48e950aa[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 12 15:45:16 2025 +0400
+
+    Card step is loading
+
+[33mcommit efc69d76302e3a43360459ea8095bdc9a677aae2[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sun Jan 12 01:30:18 2025 +0400
+
+    Premade customize blade done. Errors solved.
+
+[33mcommit 671a391e2236efba126f7d925fcd407b1a38947e[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 11 17:20:57 2025 +0400
+
+    Insiding items edited in Premade customize blade.
+
+[33mcommit 88d874995d2dec50ee084be105a86556baf760f4[m
+Merge: 23aabacb 1069ef88
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Sat Jan 11 01:25:42 2025 +0400
+
+    First commit. Hi
+
+[33mcommit 1069ef88eeef105d35b6f7a348015b44d7a6b350[m[33m ([m[1;32mays[m[33m)[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 17:41:05 2025 +0400
+
+    Custom product modals are ready
+
+[33mcommit b5116cbe8624b175b804b582b2384bf9dda71378[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 15:09:56 2025 +0400
+
+    Images sizes
+
+[33mcommit 96986e67a0b4f6e510a25b6ee26279af474888a0[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 10 14:35:11 2025 +0400
+
+    role control
+
+[33mcommit 39e0b2740081733431c843a94c742a2389c41ff1[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 14:03:32 2025 +0400
+
+    Hover image
+
+[33mcommit d8e3917b93ada6ae9ef127c96532b3e957b0b531[m[33m ([m[1;31morigin/ayser[m[33m)[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 13:51:32 2025 +0400
+
+    Error fixed.
+
+[33mcommit 09068432c30d9aa9d542e4938094cd278f6eb28a[m
+Merge: d913a59a 4da9af43
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 13:27:06 2025 +0400
+
+    Conflict fixed.
+
+[33mcommit d913a59a4afa8bb9828e9982cb9ddc5089ddf2e8[m
+Merge: 79622edf 12a93cbc
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 13:22:45 2025 +0400
+
+    Some changes.
+
+[33mcommit 4da9af43c6c1d3c532731468639f6ad6ff899416[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 13:21:37 2025 +0400
+
+    Choose items custom product modal step 1 is completed
+
+[33mcommit 79622edf2833dd5e5c54eddd4a0ba4fa9ce350e8[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 13:18:39 2025 +0400
+
+    Trying to edit Premade box Controller.
+
+[33mcommit 12a93cbc303e96e9575f84475127c3f8d3a5381a[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 12:53:07 2025 +0400
+
+    Some changes on GiftBoxController
+
+[33mcommit f82556e819d24885eceb28262182c32b2323a96a[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 12:40:32 2025 +0400
+
+    Some little changes and edites. Problems fixed.
+
+[33mcommit d5281ad8c956a522fdf5b30f2897454417e157f7[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 12:27:02 2025 +0400
+
+    Customizing modal in choose items opens and closes corectly
+
+[33mcommit 63e125da55bd1e7c95e4c6e23b1fe1beee9970d7[m
+Merge: 56922818 ce4f10fd
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 12:11:37 2025 +0400
+
+    Conflict fixed.
+
+[33mcommit ce4f10fdbb0f1afc9f355774a2c1fb015e2ed42d[m
+Merge: 79bf75c7 41d9ad02
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 11:49:00 2025 +0400
+
+    After merging with ayser
+
+[33mcommit 56922818b7cb9318c0c0da5a0a74ef292d103012[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 11:45:44 2025 +0400
+
+    Choose items blade copied from github branch.
+
+[33mcommit 23aabacb537a9200464e07e0706a6c825beb4831[m
+Merge: 0fc8724a da63a5b0
+Author: Hagigat Aghazada <133520762+hagigataghazada@users.noreply.github.com>
+Date:   Fri Jan 10 10:57:07 2025 +0400
+
+    Merge pull request #5 from GulnurMirzayeva/hagi
+    
+    Hagi
+
+[33mcommit 79bf75c74687d17a2ad9a6493e7103e3aa4a4d4f[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 10:48:32 2025 +0400
+
+    Custom product modal is started
+
+[33mcommit da63a5b0eaf3314546f462019ed54855930be6ac[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 10 10:23:40 2025 +0400
+
+    Some changes have been made to the style.css file.
+
+[33mcommit acfff802cad0fcb16fb93d1736c5cc6aeff7fc10[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 10 10:11:40 2025 +0400
+
+    adresses blades style changed
+
+[33mcommit fa06daa104fca833c1b9183f81dffc46f9d51d56[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Fri Jan 10 02:21:36 2025 +0400
+
+    Some changes on Premade customize blade.
+
+[33mcommit c14621c18148b693af16141c8f2f15ef5cd64e8d[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 00:18:05 2025 +0400
+
+    Responsive design for choose variant modal is ready
+
+[33mcommit 651daa62b653738ee343b38f8f7dbc509bb5556b[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 10 00:08:55 2025 +0400
+
+    Choose variant modal is ready
+
+[33mcommit 295cf0bf0bae0ae0b314dee000ed954980637a6b[m
+Merge: 11fb3b81 e14c991a
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Jan 9 21:28:21 2025 +0400
+
+    After merging
+
+[33mcommit e14c991a8b1be9c62cc299702419667dd3b312d8[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 19:59:19 2025 +0400
+
+    edit-modal changed
+
+[33mcommit 11fb3b81e8cf3826cd8e3ce0e520f8666ff0f8b9[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Thu Jan 9 19:55:08 2025 +0400
+
+    Card model migration resource pages created. Customize premade blade modified.
+
+[33mcommit 77fd4a902d06d4f587bc0c7724add1421368c775[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Jan 9 19:53:11 2025 +0400
+
+    Choose variant modal
+
+[33mcommit 172ab27ea2ab6d28ea8f84c9f4c78ed480550223[m
+Merge: 9bef47a8 6ea3fdf4
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 19:16:30 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit 9bef47a8c96ddb8af1ad444e7988e2ac62814b94[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 19:15:34 2025 +0400
+
+    Hagi branch changes
+
+[33mcommit 582e2bcd4e4055a12d2543a76d089c4b25807ee4[m
+Merge: 58382156 f08cfe4f
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Jan 9 10:43:01 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 58382156f6775eac259c1bb716a4492e570edca1[m
+Merge: 6ea3fdf4 a411410d
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Jan 9 10:42:24 2025 +0400
+
+    Merge branch 'ayser' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 6ea3fdf4c6859b28487976dfb7b1f10b3d4ac7cc[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Jan 9 10:41:46 2025 +0400
+
+    Before fetching
+
+[33mcommit a411410d784072b580ea95b0b3539bbcef352fee[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Thu Jan 9 02:10:03 2025 +0400
+
+    Premade Box migrations updated. Premade Box Customize resource page created.
+
+[33mcommit f08cfe4f45b373b4cd406a94b0d5304351f102b1[m
+Merge: 1f4403c4 b46b37ae
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 00:57:27 2025 +0400
+
+    Merge branch 'ayser' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit 1f4403c4682d4bc8b07545c47d43d5855feba2f0[m
+Merge: 2b051a4e 57cfa717
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 00:53:30 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into hagi
+
+[33mcommit 2b051a4e3caaf2a1f23684ca90d9ee1c5c135948[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Jan 9 00:47:52 2025 +0400
+
+    address add, edit, delete processes is done
+
+[33mcommit b46b37aeec99711d89c322af93bead1b208a64aa[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Wed Jan 8 22:47:17 2025 +0400
+
+    PremadeBoxInsiding resource page, model migration created.
+
+[33mcommit 57cfa71766f80faedd4ced3c39d53cd98f265b39[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Jan 8 16:58:12 2025 +0400
+
+    Choose variants model, migration and resource page are ready
+
+[33mcommit 6cfd828696ac55c56ae41e6d5388621159210071[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Jan 8 15:46:44 2025 +0400
+
+    Custom product migration, model and resource page are ready
+
+[33mcommit 03b7e92d79205a0926f4be9fea236fb24cd47d1f[m
+Merge: 4b3ff64f 55b50832
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Jan 8 10:51:46 2025 +0400
+
+    Merge branch 'ayser' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 4b3ff64f4139efa50db40bde77c487058399a874[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Jan 8 10:51:34 2025 +0400
+
+    Before pulling
+
+[33mcommit 55b50832ffb7a7ef6b08b580d4ddfabe82511f7f[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Wed Jan 8 01:44:54 2025 +0400
+
+    Modal in PremadeBox blade edited.
+
+[33mcommit e2ca6422ca37a78292e882429a7a6fbf2cc4e96e[m
+Merge: f7262031 8ecf6adb
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 7 22:03:28 2025 +0400
+
+    Conflict fixed.
+
+[33mcommit f726203125dcc3d79786f530b481d12523694391[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 7 21:59:08 2025 +0400
+
+    Customize Premade blade created. Choose premade blade modified.
+
+[33mcommit 8ecf6adb0e85d42cf28a476861d4f98182a0dd5b[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 21:45:55 2025 +0400
+
+    Choose items first view is ready
+
+[33mcommit 9d330a061f28b4ce5eb333eb6ddb0bc86fc8a5bb[m
+Merge: edc9398d 68006c63
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 17:43:44 2025 +0400
+
+    After merging
+
+[33mcommit edc9398dae2046a588a5c61e0edf56f237c6dc00[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 17:38:30 2025 +0400
+
+    After merging
+
+[33mcommit 68006c63c231c1a6728f9644ac041cf059a680fd[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Tue Jan 7 17:18:54 2025 +0400
+
+    Login Register problem fixed
+
+[33mcommit 81c75a210c5938149cf6709c623bb50065e44090[m
+Merge: c346d53a d89bdc75
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 16:29:24 2025 +0400
+
+    Merge branch 'ayser' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit d89bdc75b1bb571c869d73deee1c053219dfdb7c[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 7 16:26:42 2025 +0400
+
+    Some changes on PremadeBoxController. And modal at Choose Premade blade edited.
+
+[33mcommit c346d53a5f4d861e435d0bee000311260ff6a636[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 16:21:18 2025 +0400
+
+    Choose items are started
+
+[33mcommit ebbf0e99e4ad2cbf2fcfe3d5b38d054d1fe4b89f[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 14:11:05 2025 +0400
+
+    After pulling with hagi
+
+[33mcommit bad0cde8f022d19933348d160e7ea34b536d3dd7[m
+Merge: c6fbd27d 56044ae4
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 14:01:23 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit c6fbd27da93551f40252c7998418f408cc924535[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 14:01:03 2025 +0400
+
+    Customize modal in choose a box is ready
+
+[33mcommit 45eb7da162bd6e8d73e63642583711e6fcfd0a34[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 12:39:09 2025 +0400
+
+    Customization modal
+
+[33mcommit 56044ae437ae83d8f96b62a6b52a01dcc96d4def[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Tue Jan 7 12:21:14 2025 +0400
+
+    settings changed
+
+[33mcommit dfcc3219ceb65e4e0ac533cbd08b1b20611f2fa4[m
+Merge: ab5a8df8 444cbc74
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 11:43:31 2025 +0400
+
+    Merge branch 'ayser' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit ab5a8df8abf0597fa6172481c3fb53609ae3ae86[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 11:43:22 2025 +0400
+
+    Customizing modal
+
+[33mcommit 444cbc7456d58683b261b8f25df106e14cd9d16d[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Tue Jan 7 11:35:10 2025 +0400
+
+    Choose Premade blade updated.
+
+[33mcommit dd67d2bd38ce0e370d6f294babf1305ae492d5b3[m
+Merge: 4ec2e39e 0d0c1693
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 10:24:55 2025 +0400
+
+    After merging with ayser
+
+[33mcommit 4ec2e39ed2110651c271c3261373989d41a921d6[m
+Merge: 4a87851e ccd1e0b8
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 10:10:13 2025 +0400
+
+    After merging with hagi
+
+[33mcommit 4a87851ec0d15e541eb1608e20965eb5affb7409[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Jan 7 10:03:35 2025 +0400
+
+    Before pulling
+
+[33mcommit 060a457b1a225d74957f5903e7cef7c2f2fb1403[m
+Merge: 0d0c1693 ce2d7b53
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 6 22:58:04 2025 +0400
+
+    Merge branch 'gulnur' of https://github.com/GulnurMirzayeva/GiftBox into ayser
+
+[33mcommit 0d0c169363d9f8c6f815bdf472ef5554b2c1e662[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 6 22:57:47 2025 +0400
+
+    PremadeBoxDetailResource created. Model, Controller and migrations added.
+
+[33mcommit ccd1e0b8d19c25324cbd51b2ea885933cfa972a6[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Jan 6 20:27:18 2025 +0400
+
+    profile navbar style changed
+
+[33mcommit ce2d7b53a0097405112306f6c281c7b0b2b7354f[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 6 17:12:47 2025 +0400
+
+    Changes on the modal related to customizing for choose a box
+
+[33mcommit c126eeb6008e18b95b9967298d74a99c3555803e[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Jan 6 16:59:29 2025 +0400
+
+    edit and update profile
+
+[33mcommit 3b3f1f299f7a33fdea0e94909d5913a137d4f893[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 6 16:49:40 2025 +0400
+
+    Two modals are ready on choose a box
+
+[33mcommit 41d9ad02d2c31a6e21531ba513d15e661758b98f[m
+Merge: 86a2de1e e8f1d6e0
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 6 16:37:47 2025 +0400
+
+    Your commit message here
+
+[33mcommit fb80a6fed48729f113b20f3309550d8fa721df65[m
+Author: qurb4n0v4 <ayser_qurbanova@mail.ru>
+Date:   Mon Jan 6 16:35:31 2025 +0400
+
+    Filament created for Premade. PremadeBox Controller, Model and migrations added.
+
+[33mcommit 86a2de1e0c88815ab82995773823e0eef5c110b9[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Jan 6 16:29:30 2025 +0400
+
+    Two modals on choose a box is ready
+
+[33mcommit e8f1d6e0b287d5572b24124b3edd9655bfdb60d9[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Jan 6 12:53:02 2025 +0400
+
+    login and register modal style edited
+
+[33mcommit 91288218261aedcdd9aca4fd42a0aa0a4887229d[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Jan 6 12:15:51 2025 +0400
+
+    user login, register, profile created
+
+[33mcommit b20afe6104f8780ceefe399d4ce4072d8f3dd38d[m
+Merge: affb89e6 0fc8724a
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Jan 5 20:06:00 2025 +0400
+
+    Merge branch 'main' of https://github.com/GulnurMirzayeva/GiftBox into ayser
+
+[33mcommit 0fc8724aa3e5ed0946161a141b76f08189ed7d53[m
+Merge: 77cf2e64 ccd7b1fa
+Author: Hagigat Aghazada <133520762+hagigataghazada@users.noreply.github.com>
+Date:   Sat Jan 4 17:34:00 2025 +0400
+
+    Merge pull request #3 from GulnurMirzayeva/hagi
+    
+    Hagi
+
+[33mcommit affb89e67e75e7354040ab6276d4277bde76baca[m
+Merge: 825d75f0 2faa8b25
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 3 22:17:12 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 825d75f08402b3b08f09c21d55f8a3ecf4ff8cb6[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 3 22:17:08 2025 +0400
+
+    Save changes to .env file
+
+[33mcommit 2faa8b25767c992d7eb1294fc259db8e416eb8d5[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Jan 3 21:29:59 2025 +0400
+
+    user login, register, dashboard created
+
+[33mcommit c35963931827b9c5035014f4151f81b1d3e59a3a[m
+Merge: d9fd24af 77cf2e64
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 3 15:34:22 2025 +0400
+
+    Merge branch 'main' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit d9fd24af7f9fb65d39f822171f8f9215766d7460[m
+Merge: 041a22c4 ccd7b1fa
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Jan 3 15:34:05 2025 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit ccd7b1fad6c1d8b8d5bb3abac16d5c7a25d26bac[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 17:17:23 2024 +0400
+
+    translation is done
+
+[33mcommit acc72bb6f9622f37be880418ec4da3733c05f3b8[m
+Merge: 398dab2a 293498ab
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 15:57:10 2024 +0400
+
+    gulnur branch merged with hagi branch
+
+[33mcommit 77cf2e64feef63c2ce5fed02063eb532999278d4[m
+Merge: baaf5452 398dab2a
+Author: Hagigat Aghazada <133520762+hagigataghazada@users.noreply.github.com>
+Date:   Mon Dec 30 15:54:05 2024 +0400
+
+    Merge pull request #2 from GulnurMirzayeva/hagi
+    
+    Hagi
+
+[33mcommit 398dab2a1ffd611a79fe4d4630c82c90142f791d[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 15:53:27 2024 +0400
+
+    navbar is done
+
+[33mcommit 041a22c49135cfa8091e96ac93851b050403c81f[m
+Merge: 293498ab 5e550d1b
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 30 15:46:44 2024 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 293498ab146ee75919a1003f6e2a6a7a85987ce3[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 30 15:46:25 2024 +0400
+
+    Pop up Customize
+
+[33mcommit 5e550d1bd33dfa819716fe9fa816bda454a08342[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 14:24:27 2024 +0400
+
+    contact page is done
+
+[33mcommit de8614d66a4f187089c262c1351805d20009dedc[m
+Merge: 4576ed6b a340bbe6
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 13:50:27 2024 +0400
+
+    concluded
+
+[33mcommit baaf5452aa23fe78db530d765e167972bfe20f14[m
+Merge: c0c5fd77 4576ed6b
+Author: Hagigat Aghazada <133520762+hagigataghazada@users.noreply.github.com>
+Date:   Mon Dec 30 13:46:59 2024 +0400
+
+    Merge pull request #1 from GulnurMirzayeva/hagi
+    
+    Hagi
+
+[33mcommit 119a18ead9d893b7fa8023cf5e90f9256f64e150[m
+Merge: 2a8ac8c0 4576ed6b
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 30 10:20:52 2024 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 4576ed6b2e1c45899c16dc12e7859ecce12ffc86[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 30 00:34:11 2024 +0400
+
+    conflict solved
+
+[33mcommit 2a8ac8c05874f7831a67805d21621dda676bab2f[m
+Merge: a340bbe6 38c75f1d
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 29 12:04:07 2024 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit a340bbe60eeb06d52ad46501dece4f1511939895[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 29 12:03:45 2024 +0400
+
+    Customize for choose a box
+
+[33mcommit 38c75f1db557a7e044c57fa51b2dd42230a90f0d[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sat Dec 28 02:02:18 2024 +0400
+
+    contact page edited
+
+[33mcommit cbdd02b76be720b23c32561e7ba0659510f6172d[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Sat Dec 28 01:54:22 2024 +0400
+
+    about us page edited
+
+[33mcommit 27caf3c6acc58c3e7c0eee0aed69aa0039d5c44e[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 25 14:07:15 2024 +0400
+
+    Responsive design for pop-up for gift box detail is ready
+
+[33mcommit 4074c0f0948de21731e395986346834a4b0cdf95[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 25 14:00:10 2024 +0400
+
+    Pop-up for the gift box detail is ready
+
+[33mcommit a7fd719602a4302839a87cf7074e213c0d3e29dc[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Dec 24 12:52:27 2024 +0400
+
+    Pop-up for choose a box blade is started to code and lasting..
+
+[33mcommit 818f58554d8e3715e7da9fe726be60c651f28b61[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Tue Dec 24 00:07:37 2024 +0400
+
+    chat blade and chat button added
+
+[33mcommit 905b98846609d28cc51072847744f4b3b70397ba[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 23 17:49:12 2024 +0400
+
+    Choose Box step is started and first appearnce is ready with backend integration
+
+[33mcommit 00d9b7fc44abf511e9a546a6005abdb03c2d61e1[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 23 11:29:57 2024 +0400
+
+    Pop up for home page is ready, responsive and backend integration
+
+[33mcommit 0638d57c23716fc2b08f69ba687a503b25bb5d80[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 20 13:25:34 2024 +0400
+
+    Admin Panel images
+
+[33mcommit 029c50da5785d9438a6ab2e047a7055c5fd71821[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 20 12:44:28 2024 +0400
+
+    Pop-up for home is ready and integrated with backend
+
+[33mcommit 9420207fc4c9db86c2d9703a349019b933c08aeb[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 19 17:28:53 2024 +0400
+
+    Gifts images blade codes and integrated with backend
+
+[33mcommit 34f3d0816e218f0648580e44c9162b0eab15a09e[m
+Merge: 151f44f5 5965fac1
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 19 16:16:01 2024 +0400
+
+    Conflict solving after merge
+
+[33mcommit 5965fac154f64821c15916374ce32a5f18676446[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Dec 19 16:10:37 2024 +0400
+
+    giftsImages blade edited
+
+[33mcommit 151f44f55e0ae065a58ae60259fe6bed3ac2bfd0[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 19 15:47:08 2024 +0400
+
+    CSS
+
+[33mcommit 1197d56dff86043eda7f49b108ec9dad61c983f0[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 19 15:43:53 2024 +0400
+
+    Social Media integrated with backend
+
+[33mcommit 3f387cb365dfa3ba98658733b357995679b29df2[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 19 13:17:40 2024 +0400
+
+    Blog read more page is ready, integrated with backend, responsive desing is ready
+
+[33mcommit a563cab4e7b3cb0efbe43bd6fab34db1540524a1[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 18 17:49:32 2024 +0400
+
+    Blog read more is in the integrating process with backend
+
+[33mcommit 052a9d1ae809858b10c707f676cb71fddab9280d[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 18 16:17:00 2024 +0400
+
+    Blog read more page is loading
+
+[33mcommit 8035feb1447d3ce3467d026e6f8c48d1c6c41ffb[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 18 14:58:12 2024 +0400
+
+    CSS for Blogs
+
+[33mcommit 0f19b2ab32a3387ebc9904240a0f92b59a578c1e[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 18 12:15:06 2024 +0400
+
+    Corporate gifts details pop-up is ready
+
+[33mcommit 346acc1cbf48b8ab16ad0fd43245b9bb2927ff18[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 18 10:26:15 2024 +0400
+
+    Check changes
+
+[33mcommit df3c79ee3aecd83018c23661bf2b3e2abf3caebd[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Dec 17 15:34:24 2024 +0400
+
+    Corporate gifts; pop-up action is loading..
+
+[33mcommit 07a9b7a1e86d79e8cd03f56930d1d7894eb0e06b[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Dec 17 13:32:42 2024 +0400
+
+    Blogs integrated with backend
+
+[33mcommit e2a9bbbc568598615e16e5047319f482778f1572[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Dec 17 13:13:44 2024 +0400
+
+    Corporate gifts integrated with backend
+
+[33mcommit 2c42a97e090819151ecae4a20fc92bd94a0b81e0[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 16 16:20:23 2024 +0400
+
+    blog style edited
+
+[33mcommit 47a7bf8057416e220fcb89149aef0b36b0874833[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 16 13:43:00 2024 +0400
+
+    blogs page created and css added
+
+[33mcommit e2edbd37785d2182437ad4880c0b6a0abddfb7cf[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Mon Dec 16 12:58:54 2024 +0400
+
+    corporate-gifts blade edited and its css added style.css
+
+[33mcommit 5914b3e1b3e29a14e916718e4325742c35b65b3c[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 15 22:21:06 2024 +0400
+
+    Partners integrated with backend
+
+[33mcommit ec6f47d107ee4a890ce3910c4c6219dcf44b8366[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 15 22:07:46 2024 +0400
+
+    BoxIntroducing integrated with backend
+
+[33mcommit 0b18b83898a796b99792b169ea5ab80edf466832[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 15 21:12:45 2024 +0400
+
+    Slider images integrated to backEnd
+
+[33mcommit d7241ab43e8746c8aedd7fdc69dee6d3286e11bc[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 13 16:01:15 2024 +0400
+
+    Conflict between buttons
+
+[33mcommit 116e1f8c54055d472d84fd60e075d70aa1332df3[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 13 15:56:19 2024 +0400
+
+    Privacy policy page integrate with back
+
+[33mcommit bcc04ea56075e7aa832a66529454fade95803d65[m
+Merge: de44c85c af7821e7
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 13 12:02:41 2024 +0400
+
+    Merge branch 'hagi' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit de44c85c93dfe09c34171ead399f0ba21dfa12ca[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 13 12:01:55 2024 +0400
+
+    FAQ page is ready based on database
+
+[33mcommit af7821e7b0743b437e113c88638e01fd22ecc682[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Dec 13 12:01:22 2024 +0400
+
+    style.css edited, conflict solved
+
+[33mcommit b95d666f413c8f200cc760357f6909a96e63a133[m
+Merge: df748a33 6362a932
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Dec 13 11:58:55 2024 +0400
+
+    Resolved merge conflicts
+
+[33mcommit df748a3318e7816810ac1ad695956ec2fcde2e5b[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Dec 13 11:50:46 2024 +0400
+
+    social media posts style edited
+
+[33mcommit 8209ed2e81dff38d91d51606bab7e74a1e81ceff[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Dec 13 11:43:22 2024 +0400
+
+    Partners blade, socialmediaposts blade edited
+
+[33mcommit 6362a9327412893423922a349679064377a8f0c1[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Fri Dec 13 11:39:34 2024 +0400
+
+    Navbar is ready for home and other page because of background and position
+
+[33mcommit 978ccf7457616c8eca3b3e1ceecd66d8cd300ed9[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Thu Dec 12 22:12:04 2024 +0400
+
+    FAQ page from database
+
+[33mcommit 495df90941c5046811d6ae9394dc6b0fef4c5dd9[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Wed Dec 11 22:10:35 2024 +0400
+
+    Admin Panel
+
+[33mcommit 23e1904b19ea8e978d6313f66cd00efb045f554e[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Dec 2 10:34:28 2024 +0400
+
+    Admin Panel
+
+[33mcommit bf5c1dc6f8ad0cbbe3b90d4ea37fb01463425493[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 1 20:59:36 2024 +0400
+
+    Admin table is recognized
+
+[33mcommit 8e6388b1e6a0bbd26a4f29cfbaf7da41b1496c34[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 1 01:14:59 2024 +0400
+
+    Admin register form
+
+[33mcommit 0ce17c519e05ba4e64091fd7f8384c2b309748e5[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Dec 1 00:49:35 2024 +0400
+
+    Admin Profile
+
+[33mcommit 6bd1578fb54e549f8b1e0881e9599ce964ced27c[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sat Nov 30 23:07:58 2024 +0400
+
+    Admin Panel is integrated
+
+[33mcommit 06239534cdb76d9ad2dfc3678b76d10564de4647[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Nov 29 23:20:54 2024 +0400
+
+    style.css edited
+
+[33mcommit 3fcab12074560835134265c4fb071249a30e67fc[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Fri Nov 29 23:03:45 2024 +0400
+
+    boxes introducing blade added  and style.css edited
+
+[33mcommit 2cc8cbe317b223b1a1a6004bdf5ea43230efcdb6[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Nov 28 16:24:13 2024 +0400
+
+    indicators added
+
+[33mcommit a9320bf0cc4a62725ae211a84947be333f622549[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Nov 28 15:39:24 2024 +0400
+
+    images added and changed in slider
+
+[33mcommit 9ce5a6208f0c8c414c08bcc56439778ae2852c51[m
+Author: hagigataghazada <agazade.heqiqet@gmail.com>
+Date:   Thu Nov 28 15:22:16 2024 +0400
+
+    slider added to home page, some changes added navbar
+
+[33mcommit 7ae6bac7dd3d1ba91e9c1085be1bb959fcdada5b[m[33m ([m[1;31morigin/ilkin[m[33m)[m
+Author: ilkin3333 <ihumbetov09@gmail.com>
+Date:   Tue Nov 19 13:46:58 2024 +0400
+
+    faq, contact, privacy created
+
+[33mcommit 00233c62d6532ec485cc1e5dfc21a216b987d3d3[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Nov 19 03:27:47 2024 +0400
+
+    Footer
+
+[33mcommit 78d1d279e3e079e77b1db4f9b2ada538693ea1c0[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Nov 19 01:47:02 2024 +0400
+
+    Navbar is ready
+
+[33mcommit e6f684c832488f08534d7c47d62673e822cb70b1[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Tue Nov 19 00:17:59 2024 +0400
+
+    image path
+
+[33mcommit a36480e2d19a477e51ef7c6b6be18e04c18de155[m
+Merge: 89e83e8b 90b6c7ea
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Nov 18 23:55:49 2024 +0400
+
+    rge branch 'ilkin' of https://github.com/GulnurMirzayeva/GiftBox into gulnur
+
+[33mcommit 90b6c7ea90b7037d752d01b26a1c03447fe29ff0[m
+Author: ilkin3333 <ihumbetov09@gmail.com>
+Date:   Mon Nov 18 23:54:35 2024 +0400
+
+    css problems solved at about_us blade
+
+[33mcommit 37f70424ebe2a401f8acbaff53b1fc5df7ad9b85[m
+Author: ilkin3333 <ihumbetov09@gmail.com>
+Date:   Mon Nov 18 23:47:34 2024 +0400
+
+    about_us created
+
+[33mcommit 89e83e8b7fc8cae3c0f0b16f336afb58e085ac46[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Mon Nov 18 23:38:04 2024 +0400
+
+    Commit
+
+[33mcommit bdc4027e5abee4ffa1692cf8ebdf09db50f91177[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Nov 17 19:51:45 2024 +0400
+
+    About us controllers and routes
+
+[33mcommit e81d954c60a16c480ce868deba8ddde59b10bff5[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Nov 17 19:38:37 2024 +0400
+
+    Home
+
+[33mcommit c0c5fd77fd055195c9046dfbd5f0743014cd709b[m[33m ([m[1;32mmain[m[33m, [m[1;32milkin[m[33m)[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Nov 17 14:44:54 2024 +0400
+
+    App blade
+
+[33mcommit 1722373fe10fb1ad5cf6267ced2bb1b23ae95ff7[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Nov 17 14:39:18 2024 +0400
+
+    App balde
+
+[33mcommit d009c55d8878c97dad3a3d92fc6f3f729023bab6[m[33m ([m[1;32mhagi[m[33m)[m
+Author: GulnurMirzayeva <gmirzyeva1@gmail.ru>
+Date:   Sun Nov 17 13:33:10 2024 +0400
+
+    Creating project
