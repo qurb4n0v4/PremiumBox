@@ -17,15 +17,21 @@ const ERROR_MESSAGES = {
 
 // Check if box is selected
 async function checkBoxSelected() {
-    const response = await fetch('/check-box-selected', {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    });
+    try {
+        const response = await fetch('/check-box-selected', {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
 
-    const data = await response.json();
-    return data.boxSelected;
+        const data = await response.json();
+        console.log('Box selected response:', data); // Debug için log ekleyelim
+        return data.boxSelected;
+    } catch (error) {
+        console.error('Error checking box selected:', error);
+        return false;
+    }
 }
 
 // Enhanced error handling function
@@ -721,24 +727,26 @@ async function saveItemSelection(itemId, variantPrice = null, selectedVariant = 
 
 async function handleAddToBox(itemId, variantPrice = null, selectedVariant = null, userText = null) {
     const isBoxSelected = await checkBoxSelected();
+    console.log('Is box selected:', isBoxSelected); // Debug için log
     if (!isBoxSelected) {
         await handleError(null, ERROR_MESSAGES.NO_BOX_SELECTED);
         return false;
-    }else {
-        const volumeCheck = await checkBoxVolume(itemId);
-        if (!volumeCheck.success) {
-            await handleError(null, ERROR_MESSAGES.BOX_TOO_SMALL);
-            return false;
-        }
-
-        const saveData = await saveItemSelection(itemId, variantPrice, selectedVariant, userText);
-        if (saveData.success) {
-            await showSuccess();
-            location.reload();
-        } else {
-            await handleError(saveData.message);
-        }
     }
+
+    const volumeCheck = await checkBoxVolume(itemId);
+    if (!volumeCheck.success) {
+        await handleError(null, ERROR_MESSAGES.BOX_TOO_SMALL);
+        return false;
+    }
+
+    const saveData = await saveItemSelection(itemId, variantPrice, selectedVariant, userText);
+    if (saveData.success) {
+        await showSuccess();
+        location.reload();
+    } else {
+        await handleError(saveData.message);
+    }
+
 }
 
 function setupEventListeners() {
