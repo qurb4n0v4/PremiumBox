@@ -1,3 +1,54 @@
+// Helper function for showing SweetAlert messages
+async function showAlert(options) {
+    return await Swal.fire({
+        ...options,
+        confirmButtonColor: '#167c07',
+        cancelButtonColor: '#d33'
+    });
+}
+
+// Error messages object
+const ERROR_MESSAGES = {
+    NO_BOX_SELECTED: 'Zəhmət olmasa əvvəlcə qutu seçin!',
+    BOX_TOO_SMALL: 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.',
+    SERVER_ERROR: 'Server xətası baş verdi. Zəhmət olmasa daha sonra yenidən cəhd edin.',
+    GENERAL_ERROR: 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.'
+};
+
+// Check if box is selected
+async function checkBoxSelected() {
+    const response = await fetch('/check-box-selected', {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
+
+    const data = await response.json();
+    return data.boxSelected;
+}
+
+// Enhanced error handling function
+async function handleError(error, specificMessage = null) {
+    const message = specificMessage || ERROR_MESSAGES.GENERAL_ERROR;
+    await showAlert({
+        icon: 'error',
+        title: 'Xəta!',
+        text: message
+    });
+}
+
+// Success message function
+async function showSuccess(message = 'Məhsul uğurla əlavə edildi!') {
+    await showAlert({
+        icon: 'success',
+        title: 'Uğurlu!',
+        text: message,
+        showConfirmButton: false,
+        timer: 1500
+    });
+}
+
 document.querySelectorAll('.choose-box-circle').forEach(circle => {
     circle.addEventListener('click', function (e) {
         const step = this.textContent.trim();
@@ -74,12 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (result.success) {
                     // Close the modal
                     bootstrap.Modal.getInstance(modal).hide();
-
-                    // Show success message
-                    alert("Məhsul uğurla əlavə edildi!");
-
+                    await showSuccess("Məhsul uğurla əlavə edildi!");
                     window.location.reload();
-
 
                     // Get the next step route from the button's original onclick attribute
                     const nextStepRoute = button.getAttribute('onclick')
@@ -97,12 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Error handling function
-    function handleError(error) {
-        console.error('Xəta baş verdi:', error);
-        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-    }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -146,11 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.success) {
                     // Close the modal
                     bootstrap.Modal.getInstance(modal).hide();
-
-                    // Show success message
-                    alert("Məhsul uğurla əlavə edildi!");
-
-                    // Optional: Refresh the page or update UI
+                    await showSuccess("Məhsul uğurla əlavə edildi!");
                     window.location.reload();
                 } else {
                     handleError(response.message);
@@ -214,23 +251,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Uğurlu!',
-                            text: 'Məhsul uğurla əlavə edildi!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.reload();
-                        });
+                        await showSuccess('Məhsul uğurla əlavə edildi!');
+                        window.location.reload();
                     } else if (response.error_code === "TOO_LARGE") {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Xəta!',
-                            text: 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.'
-                        });
+                        await showError('Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.');
                     } else {
-                        handleError(response.message);
+                        await showError(response.message);
                     }
                 } catch (error) {
                     handleError(error);
@@ -256,13 +282,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return await response.json();
     }
-
-// Xətaların idarə olunması
-    function handleError(error) {
-        console.error('Xəta baş verdi:', error);
-        alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-    }
-
 
     // Function to reset modal state
     function resetModalState() {
@@ -658,20 +677,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Ümumi funksiyalar və event handler'lar(Check Box and item volume)
 async function checkBoxVolume(itemId) {
-    const response = await fetch('/check-box-volume', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        },
-        body: JSON.stringify({ item_id: itemId }),
-    });
+    try {
+        const response = await fetch('/check-box-volume', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ item_id: itemId })
+        });
 
-    if (!response.ok) {
-        throw new Error(`Volume check failed. Status: ${response.status}`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return await response.json();
+    } catch (error) {
+        console.error('Check box volume error:', error);
+        throw error;
     }
-
-    return await response.json();
 }
 
 async function saveItemSelection(itemId, variantPrice = null, selectedVariant = null, userText = null) {
@@ -698,18 +720,24 @@ async function saveItemSelection(itemId, variantPrice = null, selectedVariant = 
 }
 
 async function handleAddToBox(itemId, variantPrice = null, selectedVariant = null, userText = null) {
-    const volumeData = await checkBoxVolume(itemId);
+    const isBoxSelected = await checkBoxSelected();
+    if (!isBoxSelected) {
+        await handleError(null, ERROR_MESSAGES.NO_BOX_SELECTED);
+        return false;
+    }
 
-    if (!volumeData.success) {
+    const volumeCheck = await checkBoxVolume(itemId);
+    if (!volumeCheck.success) {
+        await handleError(null, ERROR_MESSAGES.BOX_TOO_SMALL);
         return false;
     }
 
     const saveData = await saveItemSelection(itemId, variantPrice, selectedVariant, userText);
-
     if (saveData.success) {
-        location.reload(); // Qutu əlavə edildikdən sonra səhifəni yenilə
+        await showSuccess();
+        location.reload();
     } else {
-        alert(saveData.message);
+        await handleError(saveData.message);
     }
 
 }
