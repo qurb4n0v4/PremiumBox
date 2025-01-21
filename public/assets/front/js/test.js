@@ -214,10 +214,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     if (response.success) {
-                        alert("Məhsul uğurla əlavə edildi!");
-                        window.location.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Uğurlu!',
+                            text: 'Məhsul uğurla əlavə edildi!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     } else if (response.error_code === "TOO_LARGE") {
-                        alert("Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Xəta!',
+                            text: 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.'
+                        });
                     } else {
                         handleError(response.message);
                     }

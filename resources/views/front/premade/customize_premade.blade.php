@@ -142,7 +142,7 @@
                                     </div>
 
                                     <!-- Choose Card! -->
-                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin! <span class="text-danger">*</span></p>
+                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin!</p>
                                     <div class="slider-container">
                                         <div class="d-flex row px-3">
                                             <div id="slider-container">
@@ -226,7 +226,7 @@
                                                 <li class="list-group-item rounded" style="border-radius: 20px; border: 1px solid #ccc;">
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
-                                                            <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
+                                                            <img src="{{ asset('storage/' . $insiding['image']) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
                                                             <div>
                                                                 <h6 class="mb-0">{{ $insiding->name }}</h6>
                                                                 <p class="mb-0" style="font-size: 14px; color: #898989;">{{ $insiding->description }}</p>

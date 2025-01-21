@@ -49,7 +49,6 @@ class PremadeBoxInsidingResource extends Resource
                             ->directory('premade-box-insidings')
                             ->visibility('public')  // bunu ekleyelim
                             ->imagePreviewHeight('100')
-                            ->directory('product-image')
                             ->imageResizeMode('cover')
                             ->imageCropAspectRatio('16:9')
                             ->imageResizeTargetWidth('1920')
