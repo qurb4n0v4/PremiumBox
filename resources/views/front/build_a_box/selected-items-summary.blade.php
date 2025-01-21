@@ -71,9 +71,8 @@
             position: fixed;
             bottom: 0;
             left: 50%;
-            height: 50px;
             transform: translateX(-50%);
-            z-index: 9999;
+            z-index: 1000;
         }
 
         .item-details {
