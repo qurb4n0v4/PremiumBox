@@ -724,22 +724,21 @@ async function handleAddToBox(itemId, variantPrice = null, selectedVariant = nul
     if (!isBoxSelected) {
         await handleError(null, ERROR_MESSAGES.NO_BOX_SELECTED);
         return false;
-    }
+    }else {
+        const volumeCheck = await checkBoxVolume(itemId);
+        if (!volumeCheck.success) {
+            await handleError(null, ERROR_MESSAGES.BOX_TOO_SMALL);
+            return false;
+        }
 
-    const volumeCheck = await checkBoxVolume(itemId);
-    if (!volumeCheck.success) {
-        await handleError(null, ERROR_MESSAGES.BOX_TOO_SMALL);
-        return false;
+        const saveData = await saveItemSelection(itemId, variantPrice, selectedVariant, userText);
+        if (saveData.success) {
+            await showSuccess();
+            location.reload();
+        } else {
+            await handleError(saveData.message);
+        }
     }
-
-    const saveData = await saveItemSelection(itemId, variantPrice, selectedVariant, userText);
-    if (saveData.success) {
-        await showSuccess();
-        location.reload();
-    } else {
-        await handleError(saveData.message);
-    }
-
 }
 
 function setupEventListeners() {
