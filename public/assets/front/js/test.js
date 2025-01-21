@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
             uploadedFiles.forEach((file, index) => {
                 formData.append(`uploaded_images[${index}]`, file);
             });
+            console.log('Uploaded Files:', uploadedFiles);
+
 
             try {
                 const response = await saveCustomItemSelection(formData);

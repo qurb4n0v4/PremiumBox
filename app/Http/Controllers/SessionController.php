@@ -86,6 +86,9 @@ class SessionController extends Controller
             $existingItems[] = $itemData;
             Session::put('selected_item', $existingItems);
 
+            Log::info(Session::get('selected_item'));
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Məhsul məlumatları saxlanıldı'
@@ -380,44 +383,32 @@ class SessionController extends Controller
                     $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
 
                     // Şəkilləri emal et
-                    if ($request->hasFile('uploaded_images')) {
-                        $files = $request->file('uploaded_images');
-                        foreach ($files as $index => $file) {
+                    // Session-dan gələn şəkilləri emal et
+                    if (!empty($item['uploaded_images'])) {
+                        foreach ($item['uploaded_images'] as $index => $imagePath) {
                             try {
-                                // Faylı oxu və kontenti al
-                                $imageContent = file_get_contents($file->getRealPath());
-
-                                Log::info('Processing image file:', [
-                                    'original_name' => $file->getClientOriginalName(),
-                                    'size' => $file->getSize(),
-                                    'mime' => $file->getMimeType()
+                                // Insert the image into the database
+                                DB::table('build_a_box_item_images')->insert([
+                                    'user_build_a_box_card_item_id' => $itemId,
+                                    'choose_item_id' => $item['item_id'],
+                                    'image' => $imagePath,
+                                    'order' => $index,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
                                 ]);
 
-                                if ($imageContent) {
-                                    $inserted = DB::table('build_a_box_item_images')->insert([
-                                        'user_build_a_box_card_item_id' => $itemId,
-                                        'choose_item_id' => $item['item_id'],
-                                        'image' => $imageContent,
-                                        'order' => $index,
-                                        'created_at' => now(),
-                                        'updated_at' => now()
-                                    ]);
+                                Log::info('Image stored and inserted:', ['image_path' => $imagePath]);
 
-                                    Log::info('Image insert result:', [
-                                        'success' => $inserted,
-                                        'item_id' => $item['item_id'],
-                                        'image_index' => $index
-                                    ]);
-                                }
                             } catch (\Exception $e) {
                                 Log::error('Item image processing error:', [
                                     'error' => $e->getMessage(),
                                     'item_id' => $item['item_id'],
-                                    'file_name' => $file->getClientOriginalName()
+                                    'image_path' => $imagePath
                                 ]);
                             }
                         }
-                    } else {
+                    }
+                    else {
                         Log::info('No uploaded images found for item:', [
                             'item_id' => $item['item_id']
                         ]);
