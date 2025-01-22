@@ -36,7 +36,7 @@ class PremadeBoxDetailResource extends Resource
                     ->image()
                     ->multiple()
                     ->disk('public')
-                    ->directory('premade-box-details/images')
+                    ->directory('premade-box-details')
                     ->nullable(),
 
                 Forms\Components\Textarea::make('paragraph')
