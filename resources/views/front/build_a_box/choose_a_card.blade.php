@@ -2,6 +2,7 @@
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-a-cart.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+{{--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
 @section('content')
     @if (session('error'))
         <div class="alert alert-danger">
@@ -306,118 +307,11 @@
         });
     });
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     // Handle Save Card button clicks
-    //     document.querySelectorAll('.save-card-selection').forEach(button => {
-    //         button.addEventListener('click', async function(e) {
-    //             e.preventDefault();
-    //
-    //             const modal = this.closest('.modal');
-    //             const cardId = this.getAttribute('data-card-id');
-    //
-    //             // Get form inputs
-    //             const recipientInput = modal.querySelector('[id^="recipient-name"]');
-    //             const senderInput = modal.querySelector('[id^="sender-name"]');
-    //             const contentInput = modal.querySelector('[id^="card-content"]');
-    //             const leaveEmptyCheckbox = modal.querySelector('[id^="leave-empty"]');
-    //
-    //             // Validation
-    //             let isValid = true;
-    //
-    //             if (!recipientInput.value.trim()) {
-    //                 recipientInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 recipientInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!senderInput.value.trim()) {
-    //                 senderInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 senderInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!leaveEmptyCheckbox.checked && !contentInput.value.trim()) {
-    //                 contentInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 contentInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!isValid) return;
-    //
-    //             // Create form data
-    //             const formData = new FormData();
-    //             formData.append('card_id', cardId);
-    //             formData.append('recipient_name', recipientInput.value.trim());
-    //             formData.append('sender_name', senderInput.value.trim());
-    //             formData.append('card_message', leaveEmptyCheckbox.checked ? '' : contentInput.value.trim());
-    //
-    //             try {
-    //                 const response = await fetch('/save-card-selection', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //                         'X-Requested-With': 'XMLHttpRequest'
-    //                     },
-    //                     body: formData
-    //                 });
-    //
-    //                 const result = await response.json();
-    //
-    //                 if (result.success) {
-    //                     // Close the modal
-    //                     bootstrap.Modal.getInstance(modal).hide();
-    //
-    //                     // Show success message
-    //                     alert("Kart uğurla əlavə edildi!");
-    //
-    //                     // Reload the page to update summary
-    //                     window.location.reload();
-    //
-    //                     // Get the next step route if needed
-    //                     const nextStepRoute = button.getAttribute('data-next-step');
-    //                     if (nextStepRoute) {
-    //                         window.location.href = nextStepRoute;
-    //                     }
-    //                 } else {
-    //                     handleError(result.message || 'Xəta baş verdi');
-    //                 }
-    //             } catch (error) {
-    //                 handleError(error);
-    //             }
-    //         });
-    //     });
-    //
-    //     // Error handling function
-    //     function handleError(error) {
-    //         console.error('Xəta baş verdi:', error);
-    //         alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-    //     }
-    // });
-
-
     document.addEventListener('DOMContentLoaded', function() {
         // Handle Save Card button clicks
         document.querySelectorAll('.save-card-selection').forEach(button => {
             button.addEventListener('click', async function(e) {
                 e.preventDefault();
-
-                // Check if user is logged in
-                const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
-
-                if (!isLoggedIn) {
-                    Swal.fire({
-                        title: 'Giriş tələb olunur',
-                        text: 'Davam etmək üçün hesabınıza daxil olmalısınız',
-                        icon: 'warning',
-                        confirmButtonText: 'Daxil ol'
-                    }).then(() => {
-                        window.location.href = '/';
-                    });
-                    return;
-                }
 
                 const modal = this.closest('.modal');
                 const cardId = this.getAttribute('data-card-id');
@@ -430,11 +324,9 @@
 
                 // Validation
                 let isValid = true;
-                let errorMessages = [];
 
                 if (!recipientInput.value.trim()) {
                     recipientInput.classList.add('is-invalid');
-                    errorMessages.push('Alıcının adı tələb olunur');
                     isValid = false;
                 } else {
                     recipientInput.classList.remove('is-invalid');
@@ -442,7 +334,6 @@
 
                 if (!senderInput.value.trim()) {
                     senderInput.classList.add('is-invalid');
-                    errorMessages.push('Göndərənin adı tələb olunur');
                     isValid = false;
                 } else {
                     senderInput.classList.remove('is-invalid');
@@ -450,21 +341,12 @@
 
                 if (!leaveEmptyCheckbox.checked && !contentInput.value.trim()) {
                     contentInput.classList.add('is-invalid');
-                    errorMessages.push('Kart mesajı tələb olunur');
                     isValid = false;
                 } else {
                     contentInput.classList.remove('is-invalid');
                 }
 
-                if (!isValid) {
-                    Swal.fire({
-                        title: 'Diqqət!',
-                        html: errorMessages.join('<br>'),
-                        icon: 'error',
-                        confirmButtonText: 'Bağla'
-                    });
-                    return;
-                }
+                if (!isValid) return;
 
                 // Create form data
                 const formData = new FormData();
@@ -474,15 +356,6 @@
                 formData.append('card_message', leaveEmptyCheckbox.checked ? '' : contentInput.value.trim());
 
                 try {
-                    // Show loading state
-                    Swal.fire({
-                        title: 'Zəhmət olmasa gözləyin...',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
                     const response = await fetch('/save-card-selection', {
                         method: 'POST',
                         headers: {
@@ -499,22 +372,18 @@
                         bootstrap.Modal.getInstance(modal).hide();
 
                         // Show success message
-                        Swal.fire({
-                            title: 'Uğurlu!',
-                            text: 'Kart uğurla əlavə edildi!',
-                            icon: 'success',
-                            confirmButtonText: 'Tamam'
-                        }).then(() => {
-                            // Get the next step route if needed
-                            const nextStepRoute = button.getAttribute('data-next-step');
-                            if (nextStepRoute) {
-                                window.location.href = nextStepRoute;
-                            } else {
-                                window.location.reload();
-                            }
-                        });
+                        alert("Kart uğurla əlavə edildi!");
+
+                        // Reload the page to update summary
+                        window.location.reload();
+
+                        // Get the next step route if needed
+                        const nextStepRoute = button.getAttribute('data-next-step');
+                        if (nextStepRoute) {
+                            window.location.href = nextStepRoute;
+                        }
                     } else {
-                        throw new Error(result.message || 'Xəta baş verdi');
+                        handleError(result.message || 'Xəta baş verdi');
                     }
                 } catch (error) {
                     handleError(error);
@@ -522,29 +391,161 @@
             });
         });
 
-        // Error handling function with specific messages
+        // Error handling function
         function handleError(error) {
             console.error('Xəta baş verdi:', error);
-
-            let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';
-
-            // Custom error messages based on error type
-            if (error.message.includes('network')) {
-                errorMessage = 'İnternet bağlantısı xətası. Bağlantınızı yoxlayın və yenidən cəhd edin.';
-            } else if (error.message.includes('timeout')) {
-                errorMessage = 'Sorğu vaxtı bitdi. Zəhmət olmasa yenidən cəhd edin.';
-            } else if (error.message.includes('permission')) {
-                errorMessage = 'İcazə xətası. Bu əməliyyatı yerinə yetirmək üçün lazımi icazələriniz yoxdur.';
-            }
-
-            Swal.fire({
-                title: 'Xəta!',
-                text: errorMessage,
-                icon: 'error',
-                confirmButtonText: 'Bağla'
-            });
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
         }
     });
+
+
+    {{--document.addEventListener('DOMContentLoaded', function() {--}}
+    {{--    // Handle Save Card button clicks--}}
+    {{--    document.querySelectorAll('.save-card-selection').forEach(button => {--}}
+    {{--        button.addEventListener('click', async function(e) {--}}
+    {{--            e.preventDefault();--}}
+
+    {{--            // Check if user is logged in--}}
+    {{--            const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};--}}
+
+    {{--            if (!isLoggedIn) {--}}
+    {{--                Swal.fire({--}}
+    {{--                    title: 'Giriş tələb olunur',--}}
+    {{--                    text: 'Davam etmək üçün hesabınıza daxil olmalısınız',--}}
+    {{--                    icon: 'warning',--}}
+    {{--                    confirmButtonText: 'Daxil ol'--}}
+    {{--                }).then(() => {--}}
+    {{--                    window.location.href = '/';--}}
+    {{--                });--}}
+    {{--                return;--}}
+    {{--            }--}}
+
+    {{--            const modal = this.closest('.modal');--}}
+    {{--            const cardId = this.getAttribute('data-card-id');--}}
+
+    {{--            // Get form inputs--}}
+    {{--            const recipientInput = modal.querySelector('[id^="recipient-name"]');--}}
+    {{--            const senderInput = modal.querySelector('[id^="sender-name"]');--}}
+    {{--            const contentInput = modal.querySelector('[id^="card-content"]');--}}
+    {{--            const leaveEmptyCheckbox = modal.querySelector('[id^="leave-empty"]');--}}
+
+    {{--            // Validation--}}
+    {{--            let isValid = true;--}}
+    {{--            let errorMessages = [];--}}
+
+    {{--            if (!recipientInput.value.trim()) {--}}
+    {{--                recipientInput.classList.add('is-invalid');--}}
+    {{--                errorMessages.push('Alıcının adı tələb olunur');--}}
+    {{--                isValid = false;--}}
+    {{--            } else {--}}
+    {{--                recipientInput.classList.remove('is-invalid');--}}
+    {{--            }--}}
+
+    {{--            if (!senderInput.value.trim()) {--}}
+    {{--                senderInput.classList.add('is-invalid');--}}
+    {{--                errorMessages.push('Göndərənin adı tələb olunur');--}}
+    {{--                isValid = false;--}}
+    {{--            } else {--}}
+    {{--                senderInput.classList.remove('is-invalid');--}}
+    {{--            }--}}
+
+    {{--            if (!leaveEmptyCheckbox.checked && !contentInput.value.trim()) {--}}
+    {{--                contentInput.classList.add('is-invalid');--}}
+    {{--                errorMessages.push('Kart mesajı tələb olunur');--}}
+    {{--                isValid = false;--}}
+    {{--            } else {--}}
+    {{--                contentInput.classList.remove('is-invalid');--}}
+    {{--            }--}}
+
+    {{--            if (!isValid) {--}}
+    {{--                Swal.fire({--}}
+    {{--                    title: 'Diqqət!',--}}
+    {{--                    html: errorMessages.join('<br>'),--}}
+    {{--                    icon: 'error',--}}
+    {{--                    confirmButtonText: 'Bağla'--}}
+    {{--                });--}}
+    {{--                return;--}}
+    {{--            }--}}
+
+    {{--            // Create form data--}}
+    {{--            const formData = new FormData();--}}
+    {{--            formData.append('card_id', cardId);--}}
+    {{--            formData.append('recipient_name', recipientInput.value.trim());--}}
+    {{--            formData.append('sender_name', senderInput.value.trim());--}}
+    {{--            formData.append('card_message', leaveEmptyCheckbox.checked ? '' : contentInput.value.trim());--}}
+
+    {{--            try {--}}
+    {{--                // Show loading state--}}
+    {{--                Swal.fire({--}}
+    {{--                    title: 'Zəhmət olmasa gözləyin...',--}}
+    {{--                    allowOutsideClick: false,--}}
+    {{--                    didOpen: () => {--}}
+    {{--                        Swal.showLoading();--}}
+    {{--                    }--}}
+    {{--                });--}}
+
+    {{--                const response = await fetch('/save-card-selection', {--}}
+    {{--                    method: 'POST',--}}
+    {{--                    headers: {--}}
+    {{--                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),--}}
+    {{--                        'X-Requested-With': 'XMLHttpRequest'--}}
+    {{--                    },--}}
+    {{--                    body: formData--}}
+    {{--                });--}}
+
+    {{--                const result = await response.json();--}}
+
+    {{--                if (result.success) {--}}
+    {{--                    // Close the modal--}}
+    {{--                    bootstrap.Modal.getInstance(modal).hide();--}}
+
+    {{--                    // Show success message--}}
+    {{--                    Swal.fire({--}}
+    {{--                        title: 'Uğurlu!',--}}
+    {{--                        text: 'Kart uğurla əlavə edildi!',--}}
+    {{--                        icon: 'success',--}}
+    {{--                        confirmButtonText: 'Tamam'--}}
+    {{--                    }).then(() => {--}}
+    {{--                        // Get the next step route if needed--}}
+    {{--                        const nextStepRoute = button.getAttribute('data-next-step');--}}
+    {{--                        if (nextStepRoute) {--}}
+    {{--                            window.location.href = nextStepRoute;--}}
+    {{--                        } else {--}}
+    {{--                            window.location.reload();--}}
+    {{--                        }--}}
+    {{--                    });--}}
+    {{--                } else {--}}
+    {{--                    throw new Error(result.message || 'Xəta baş verdi');--}}
+    {{--                }--}}
+    {{--            } catch (error) {--}}
+    {{--                handleError(error);--}}
+    {{--            }--}}
+    {{--        });--}}
+    {{--    });--}}
+
+    {{--    // Error handling function with specific messages--}}
+    {{--    function handleError(error) {--}}
+    {{--        console.error('Xəta baş verdi:', error);--}}
+
+    {{--        let errorMessage = 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.';--}}
+
+    {{--        // Custom error messages based on error type--}}
+    {{--        if (error.message.includes('network')) {--}}
+    {{--            errorMessage = 'İnternet bağlantısı xətası. Bağlantınızı yoxlayın və yenidən cəhd edin.';--}}
+    {{--        } else if (error.message.includes('timeout')) {--}}
+    {{--            errorMessage = 'Sorğu vaxtı bitdi. Zəhmət olmasa yenidən cəhd edin.';--}}
+    {{--        } else if (error.message.includes('permission')) {--}}
+    {{--            errorMessage = 'İcazə xətası. Bu əməliyyatı yerinə yetirmək üçün lazımi icazələriniz yoxdur.';--}}
+    {{--        }--}}
+
+    {{--        Swal.fire({--}}
+    {{--            title: 'Xəta!',--}}
+    {{--            text: errorMessage,--}}
+    {{--            icon: 'error',--}}
+    {{--            confirmButtonText: 'Bağla'--}}
+    {{--        });--}}
+    {{--    }--}}
+    {{--});--}}
 </script>
 
 @endsection
