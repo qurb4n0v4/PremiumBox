@@ -267,26 +267,33 @@
                                                                     <p class="text-theme mt-2 mb-1" style="font-size: 0.9rem;">
                                                                         Şəklinizi yükləyin <span class="text-danger">*</span>
                                                                     </p>
-                                                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                                                        <label for="image-upload-input-{{ $insiding->id }}"
-                                                                               class="d-flex justify-content-center align-items-center image-upload-label"
-                                                                               style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
-                                                                            <span id="image-preview-{{ $insiding->id }}" style="font-size: 24px; font-weight: bold;">+</span>
-                                                                            <img id="image-preview-img-{{ $insiding->id }}" src="" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
-                                                                        </label>
-                                                                        <input id="image-upload-input-{{ $insiding->id }}"
-                                                                               accept="image/*,.heic"
-                                                                               type="file"
-                                                                               class="d-none dynamic-image-upload"
-                                                                               data-insiding-id="{{ $insiding->id }}"
-                                                                               required
-                                                                               onchange="previewImage(event, {{ $insiding->id }})">
+                                                                    <div class="d-flex flex-row flex-wrap gap-3">
+                                                                        @for($i = 0; $i < $insiding->max_image_count; $i++)
+                                                                            <div class="image-upload-container">
+                                                                                <label for="image-upload-input-{{ $insiding->id }}-{{ $i }}"
+                                                                                       class="d-flex justify-content-center align-items-center image-upload-label"
+                                                                                       style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
+                                                                                    <span id="image-preview-{{ $insiding->id }}-{{ $i }}" style="font-size: 24px; font-weight: bold;">+</span>
+                                                                                    <img id="image-preview-img-{{ $insiding->id }}-{{ $i }}"
+                                                                                         src=""
+                                                                                         alt="Uploaded Image"
+                                                                                         style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
+                                                                                </label>
+                                                                                <input id="image-upload-input-{{ $insiding->id }}-{{ $i }}"
+                                                                                       accept="image/*,.heic"
+                                                                                       type="file"
+                                                                                       class="d-none dynamic-image-upload"
+                                                                                       data-insiding-id="{{ $insiding->id }}"
+                                                                                       data-upload-index="{{ $i }}"
+                                                                                       @if($i === 0) required @endif
+                                                                                       onchange="previewImage(event, '{{ $insiding->id }}-{{ $i }}')">
+                                                                            </div>
+                                                                        @endfor
                                                                     </div>
                                                                     <span class="text-danger error-message" style="display: none;">Şəkil yüklənməlidir</span>
                                                                 </div>
                                                             </div>
                                                         @endif
-
                                                     </div>
                                                     {{-- Variants section --}}
                                                     @if($insiding->allow_variant_selection)
