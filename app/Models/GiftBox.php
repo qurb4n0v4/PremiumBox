@@ -33,13 +33,4 @@ class GiftBox extends Model
     {
         return $this->hasMany(PremadeBoxCustomize::class, 'gift_boxes_id');
     }
-
-    public function getVolumeAttribute()
-    {
-        $category = $this->category;
-        if ($category) {
-            return $category->width * $category->height * $category->length;
-        }
-        return 0;
-    }
 }

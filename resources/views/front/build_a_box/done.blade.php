@@ -52,7 +52,7 @@
                         <h4>Seçilmiş Qutu</h4>
                         <div class="item-details">
                             <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
-                            <img src="{{ $box['box_image'] }}" alt="Box Image">
+                            <img src="{{ asset('storage/' . $box['box_image']) }}" alt="Box Image">
                             <div class="details">
                                 <h5>{{ $box['box_name'] }}</h5>
                                 <p>Fərdiləşdirmə: {{ $box['customization_text'] }}</p>
@@ -200,7 +200,7 @@
                         <h4>Seçilmiş Kart</h4>
                         <div class="item-details">
                             <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
-                            <img src="{{ asset('storage/' . $card['card_image']) }}" alt="Card Image" style="width: 50px; height: 60px">
+                            <img src="{{ asset('storage/' . $card['card_image']) }}" alt="Card Image">
                             <div class="details">
                                 <h5>{{ $card['card_name'] }}</h5>
                                 <p>Kimə: {{ $card['recipient_name'] }}</p>
@@ -451,4 +451,246 @@
             });
         });
     </script>
+
+    <style>
+        /* Title Section Responsive Fixes */
+        .choose-boxes-header {
+            text-align: center;
+            padding: 2rem 1rem;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .choose-boxes-header h3 {
+            color: #a3907a;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.4;
+            padding: 0 15px;
+        }
+
+        .choose-boxes-header p {
+            color: #898989;
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+            margin-bottom: 0.8rem;
+            padding: 0 15px;
+            line-height: 1.5;
+        }
+
+        /* Text Alignment and Spacing Fixes */
+        .details {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 15px;
+            text-align: left;
+        }
+
+        /* User Uploaded Images Size Fix - Square Shape */
+        .uploaded-images {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .image-thumbnails {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            justify-content: flex-start;
+        }
+
+        .thumbnail {
+            width: 60px;  /* Fixed width for square shape */
+            height: 60px; /* Same as width for square shape */
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #eee;
+        }
+
+        /* Main Item Image Size Adjustments - Square Shape */
+        .item-details img,
+        .main-item-image,
+        .selected-box img{
+            width: 120px;  /* Fixed width for square shape */
+            height: 120px; /* Same as width for square shape */
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Add to Cart Button Responsive Styles */
+        .complete-order-button-on-basket {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            width: clamp(200px, 40%, 300px);
+            padding: clamp(0.8rem, 1.5vw, 1rem) !important;
+            border-radius: 10px;
+            background-color: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            margin: 30px auto 0;
+            display: block;
+        }
+
+        .complete-order-button-on-basket:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            opacity: 0.9;
+        }
+
+        /* Responsive Breakpoints Refinements */
+        @media screen and (max-width: 768px) {
+            .choose-boxes-header {
+                padding: 1.5rem 0.8rem;
+            }
+
+            .choose-boxes-header h3 {
+                font-size: 1.3rem;
+                line-height: 1.3;
+                margin-bottom: 0.8rem;
+            }
+
+            .choose-boxes-header p {
+                font-size: 0.85rem;
+                line-height: 1.4;
+                padding: 0 10px;
+            }
+
+            .item-details {
+                flex-direction: row;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .details {
+                padding: 0 10px;
+            }
+
+            .thumbnail {
+                width: 50px;  /* Slightly smaller on tablets */
+                height: 50px;
+            }
+
+            .complete-order-button-on-basket {
+                width: clamp(200px, 60%, 300px);
+            }
+        }
+
+        /* Previous styles remain the same until @media queries */
+
+        @media screen and (max-width: 576px) {
+            .choose-boxes-header {
+                padding: 1rem 0.5rem;
+            }
+
+            .item-details {
+                flex-direction: column;
+            }
+
+            .item-details img,
+            .main-item-image,
+            .selected-card img{
+                width: 100%;
+                height: 200px;
+                margin-bottom: 1rem;
+            }
+
+            .details {
+                width: 100%;
+                padding: 0 8px;
+            }
+
+            .thumbnail {
+                width: 40px;
+                height: 40px;
+            }
+
+            .image-thumbnails {
+                gap: 0.5rem;
+                justify-content: flex-start;
+            }
+
+            .complete-order-button-on-basket {
+                width: 90%;
+                font-size: 0.9rem;
+                padding: 0.8rem !important;
+            }
+        }
+
+        /* New styles for extra small devices */
+        @media screen and (max-width: 390px) {
+            .item-details {
+                padding: 0.8rem;
+            }
+
+            .item-details img,
+            .main-item-image,
+            .selected-card img{
+                width: 100%;
+                height: 160px;
+            }
+
+            .details {
+                padding: 0 5px;
+            }
+
+            /* Adjust uploaded images container */
+            .uploaded-images {
+                width: 86%;
+                margin-top: 0.8rem;
+            }
+
+            .image-thumbnails {
+                gap: 4px;
+                justify-content: flex-start;
+                padding: 0;
+            }
+
+            .thumbnail {
+                width: 35px;  /* Smaller fixed size */
+                height: 35px;
+                flex-shrink: 0;
+            }
+
+            /* Improve text spacing */
+            .details h5 {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .details p {
+                font-size: 0.8rem;
+                margin-bottom: 0.4rem;
+            }
+
+            /* Adjust container padding */
+            .container.my-5.p-5.choose-boxes-page {
+                padding: 0.8rem !important;
+                width: 95% !important;
+            }
+
+            /* Header adjustments */
+            .choose-boxes-header h3 {
+                font-size: 1.1rem;
+                padding: 0 8px;
+            }
+
+            .choose-boxes-header p {
+                font-size: 0.8rem;
+                padding: 0 8px;
+            }
+        }
+
+        /* Container Width Control */
+        .container.my-5.p-5.choose-boxes-page {
+            padding: clamp(1rem, 3vw, 3rem) !important;
+            margin: 0 auto;
+            width: 90% !important;
+            max-width: 1000px !important;
+        }
+    </style>
 @endsection

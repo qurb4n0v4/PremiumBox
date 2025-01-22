@@ -24,6 +24,7 @@ class ChooseItem extends Model
         'length',
     ];
 
+    protected $appends = ['itemVolume'];
 
     public function customProductDetail(): HasOne
     {
