@@ -99,18 +99,21 @@
                                                     @if(count($giftBoxes) > 0)
                                                         @foreach ($giftBoxes as $index => $giftBox)
                                                             <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
-                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
+                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;"
+                                                                     onclick="this.classList.toggle('focused')">
                                                                     <img src="{{ asset('storage/' . $giftBox['image']) }}"
                                                                          class="card-img-top mx-auto gift-box-img"
                                                                          alt="{{ $giftBox['title'] }}"
-                                                                         data-box-id="{{ $index }}"
-                                                                         style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
+                                                                         data-box-id="{{ $giftBox['id'] }}"
+                                                                    style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
                                                                     <div class="card-body p-0">
-                                                                        <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
+                                                                        <p class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         @endforeach
+
+
                                                     @else
                                                         <p>No Gift Boxes found.</p>
                                                     @endif
@@ -172,7 +175,7 @@
                                             </div>
 
                                             <!-- Seçilən kartın göstərilməsi -->
-                                            <div id="selected-card-container" style="display: none; margin-top: 20px">
+                                            <div id="selected-card-container" data-card-id="{{ $card->id }}" style="display: none; margin-top: 20px">
                                                 <div class="text-center">
                                                     <img
                                                         id="selected-card-image"
@@ -223,7 +226,7 @@
                                     <div class="container">
                                         <ul class="list-group gap-2">
                                             @foreach($insidings as $insiding)
-                                                <li class="list-group-item rounded" style="border-radius: 20px; border: 1px solid #ccc;">
+                                                <li class="list-group-item rounded" data-insiding-id="{{ $insiding->id }}" style="border-radius: 20px; border: 1px solid #ccc;">
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
                                                             <img src="{{ asset('storage/' . $insiding['image']) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
@@ -327,7 +330,7 @@
                 <div class="w-100 mt-4 d-flex flex-row justify-content-end">
                     <button class="custom-btn"
                             type="button"
-                            onclick="window.location.href='{{ route('done_premade') }}'"
+{{--                            onclick="window.location.href='{{ route('done_premade') }}'"--}}
                     >
                         <h5 class="mb-0 font-avenir-medium">Səbətə əlavə edin</h5>
                     </button>
@@ -335,6 +338,204 @@
             </div>
         </div>
     @endif
+
+    <script>
+        // Forma məlumatlarını yoxlamaq və göndərmək üçün əsas funksiya
+        // Form submission handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.querySelector('.custom-btn');
+
+            submitButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+
+                let isValid = true;
+                const formData = new FormData();
+                const errorMessages = [];
+
+                // 1. Box Selection Validation
+                const focusedBox = document.querySelector('.gift-box-card.focused');
+                if (!focusedBox) {
+                    errorMessages.push('Qutu seçilməlidir');
+                    isValid = false;
+                } else {
+                    const boxImg = focusedBox.querySelector('.gift-box-img');
+                    if (boxImg) {
+                        formData.append('box_id', boxImg.dataset.boxId); // data-box-id düzgün istifadə olundu
+                    } else {
+                        errorMessages.push('Qutu şəkli tapılmadı');
+                        isValid = false;
+                    }
+                }
+
+
+
+                // 2. Premade Box ID
+                const premadeBoxId = '{{ $premadeBoxDetail->id }}'; // Make sure this is available in your blade
+                formData.append('premade_box_id', premadeBoxId);
+
+                // 3. Box Text and Font Validation
+                const boxText = document.querySelector('.customizing-text-input-fonts').value.trim();
+                const selectedFont = document.querySelector('.font-button-customizing-edit.active');
+
+                if (!boxText) {
+                    errorMessages.push('Qutu yazısı daxil edilməlidir');
+                    isValid = false;
+                }
+                if (!selectedFont) {
+                    errorMessages.push('Font seçilməlidir');
+                    isValid = false;
+                }
+
+                formData.append('box_text', boxText);
+                formData.append('selected_font', selectedFont ? selectedFont.dataset.font : '');
+
+                // 4. Card Details Validation
+                const selectedCard = document.querySelector('#selected-card-container');
+                if (selectedCard && !selectedCard.style.display.includes('none')) {
+                    const toField = document.querySelector('#to-field').value.trim();
+                    const fromField = document.querySelector('#from-field').value.trim();
+                    const messageField = document.querySelector('#message-field').value.trim();
+                    const cardId = selectedCard.dataset.cardId;
+
+                    if (!toField || !fromField || !messageField) {
+                        errorMessages.push('Kart məlumatları tam doldurulmalıdir');
+                        isValid = false;
+                    }
+
+                    formData.append('to_name', toField);
+                    formData.append('from_name', fromField);
+                    formData.append('card_message', messageField);
+                    formData.append('card_id', cardId);
+                }
+
+                // 5. Insiding Items Validation
+                const insidingItems = [];
+                const insidingPromises = [];
+
+                document.querySelectorAll('.list-group-item').forEach((item) => {
+                    const itemId = item.dataset.insidingId;
+                    const itemData = {
+                        insiding_id: itemId,
+                        custom_text: null,
+                        selected_variant: null,
+                        uploaded_image: null
+                    };
+
+                    // Variant validation
+                    const variantSection = item.querySelector('.variants-buttons');
+                    if (variantSection) {
+                        const selectedVariant = variantSection.querySelector('.variant-button.active');
+                        if (!selectedVariant && variantSection.hasAttribute('required')) {
+                            errorMessages.push('Bütün variantlar seçilməlidir');
+                            isValid = false;
+                        } else if (selectedVariant) {
+                            itemData.selected_variant = {
+                                index: selectedVariant.dataset.index,
+                                name: selectedVariant.textContent.trim()
+                            };
+                        }
+                    }
+
+                    // Text validation
+                    const textArea = item.querySelector('.dynamic-textarea');
+                    if (textArea) {
+                        const text = textArea.value.trim();
+                        if (!text && textArea.hasAttribute('required')) {
+                            errorMessages.push('Bütün mətn sahələri doldurulmalıdır');
+                            isValid = false;
+                        }
+                        itemData.custom_text = text;
+                    }
+
+                    // Image validation
+                    const imageUpload = item.querySelector('.dynamic-image-upload');
+                    if (imageUpload && imageUpload.files.length > 0) {
+                        const promise = new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                itemData.uploaded_image = e.target.result;
+                                resolve();
+                            };
+                            reader.readAsDataURL(imageUpload.files[0]);
+                        });
+                        insidingPromises.push(promise);
+                    } else if (imageUpload && imageUpload.hasAttribute('required')) {
+                        errorMessages.push('Bütün şəkillər yüklənməlidir');
+                        isValid = false;
+                    }
+
+                    insidingItems.push(itemData);
+                });
+
+                if (!isValid) {
+                    errorMessages.forEach(message => showError(message));
+                    return;
+                }
+
+                // Wait for all image processing to complete
+                try {
+                    await Promise.all(insidingPromises);
+                    formData.append('insiding_items', JSON.stringify(insidingItems));
+
+                    // CSRF token
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
+                    formData.append('_token', token);
+
+                    // Disable submit button
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = 'Gözləyin...';
+
+                    // Send request
+                    const response = await fetch('/premade/store', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        showSuccess('Məlumatlar uğurla yadda saxlanıldı');
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url || '/done-premade';
+                        }, 1500);
+                    } else {
+                        throw new Error(data.message || 'Xəta baş verdi');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError(error.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Səbətə əlavə edin';
+                }
+            });
+        });
+
+        // Success message display function
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-4';
+            successDiv.style.zIndex = '9999';
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
+
+            setTimeout(() => successDiv.remove(), 3000);
+        }
+
+        // Error message display function
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-4';
+            errorDiv.style.zIndex = '9999';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => errorDiv.remove(), 3000);
+        }
+    </script>
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -342,4 +543,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script src={{ asset('assets/front/js/customize-premade.js') }}></script>
+
+
 

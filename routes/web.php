@@ -122,3 +122,6 @@ Route::prefix('box')->group(function () {
     // Seçilmiş məlumatları bazaya saxla
     Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('box.saveToDatabase');
 });
+
+
+Route::post('/premade/store', [PremadeBoxController::class, 'store'])->name('premade.store');
