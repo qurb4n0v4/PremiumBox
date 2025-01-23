@@ -172,26 +172,33 @@ class PremadeBoxController extends Controller
 
             // Qutu içindəki əşyaların məlumatlarının saxlanması
             $insidings = json_decode($request->insiding_items, true);
-            foreach ($insidings as $item) {
-                $imagePath = null;
 
-                // Şəkil varsa, onu saxla
-                if (isset($item['uploaded_image']) && $item['uploaded_image']) {
-                    // Base64 şəklini fayla çevir və saxla
-                    $image = $item['uploaded_image'];
-                    $imagePath = $this->saveBase64Image($image, 'insiding_images');
+            foreach ($insidings as $item) {
+                $uploadedImages = [];
+
+                if (isset($item['uploaded_image']) && is_array($item['uploaded_image'])) {
+                    foreach ($item['uploaded_image'] as $base64Image) {
+                        $imagePath = $this->saveBase64Image($base64Image, 'insiding_images');
+                        if ($imagePath) {
+                            $uploadedImages[] = $imagePath;
+                        }
+                    }
                 }
 
                 // `selected_variant` massivini JSON formatında saxla
-                $selectedVariant = isset($item['selected_variant']) ? json_encode($item['selected_variant']) : null;
+                $selectedVariant = isset($item['selected_variant'])
+                    ? json_encode($item['selected_variant'])
+                    : null;
 
                 // Veritabanına daxil et
-                UserPremadeBoxItem::create([
+                $boxItem = UserPremadeBoxItem::create([
                     'user_card_for_premade_box_id' => $userCard->id,
                     'insiding_id' => $item['insiding_id'],
-                    'selected_variant' => $selectedVariant,  // JSON formatında saxlanır
+                    'selected_variant' => $selectedVariant,
                     'custom_text' => $item['custom_text'] ?? null,
-                    'uploaded_image' => $imagePath
+                    'uploaded_images' => count($uploadedImages) > 0
+                        ? json_encode($uploadedImages)
+                        : null
                 ]);
             }
 
@@ -215,22 +222,50 @@ class PremadeBoxController extends Controller
     private function saveBase64Image($base64Image, $folder)
     {
         try {
-            // Base64 formatından datanı çıxarırıq
+            \Log::info('Full Base64 Input Length: ' . strlen($base64Image));
+            \Log::info('Base64 Start: ' . substr($base64Image, 0, 50) . '...');
+
+            // Base64 stringinin düzgün formatda olub-olmadığını yoxlayın
+            if (strpos($base64Image, 'data:') !== 0) {
+                \Log::error('Invalid base64 image format');
+                return null;
+            }
+
             $image_parts = explode(";base64,", $base64Image);
-            $image_type_aux = explode("image/", $image_parts[0]);
+
+            \Log::info('Image Parts Count: ' . count($image_parts));
+            if (count($image_parts) !== 2) {
+                \Log::error('Incorrect base64 image parts');
+                return null;
+            }
+
+            // Düzəliş: image type çıxarılması
+            $image_type_aux = explode("/", str_replace('data:', '', $image_parts[0]));
+
+            \Log::info('Image Type Aux: ' . json_encode($image_type_aux));
+            if (count($image_type_aux) !== 2) {
+                \Log::error('Incorrect image type');
+                return null;
+            }
+
             $image_type = $image_type_aux[1];
             $image_base64 = base64_decode($image_parts[1]);
 
-            // Fayl adını yaradırıq
-            $filename = uniqid() . '.' . $image_type;
+            if ($image_base64 === false) {
+                \Log::error('Base64 decode failed');
+                return null;
+            }
 
-            // Faylı storage-də saxlayırıq
+            $filename = uniqid() . '.' . $image_type;
             $path = $folder . '/' . $filename;
+
             Storage::disk('public')->put($path, $image_base64);
+
+            \Log::info('Şəkil saxlanıldı: ' . $path);
 
             return $path;
         } catch (\Exception $e) {
-            \Log::error('Image save error: ' . $e->getMessage());
+            \Log::error('Şəkil saxlama xətası: ' . $e->getMessage());
             return null;
         }
     }

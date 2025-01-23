@@ -417,9 +417,8 @@
 
                 // 5. Insiding Items Validation
                 const insidingItems = [];
-                const insidingPromises = [];
 
-                document.querySelectorAll('.list-group-item').forEach((item) => {
+                for (const item of document.querySelectorAll('.list-group-item')) {
                     const itemId = item.dataset.insidingId;
                     const itemData = {
                         insiding_id: itemId,
@@ -455,33 +454,38 @@
                     }
 
                     // Image validation
-                    const imageUpload = item.querySelector('.dynamic-image-upload');
-                    if (imageUpload && imageUpload.files.length > 0) {
-                        const promise = new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                itemData.uploaded_image = e.target.result;
-                                resolve();
-                            };
-                            reader.readAsDataURL(imageUpload.files[0]);
-                        });
-                        insidingPromises.push(promise);
-                    } else if (imageUpload && imageUpload.hasAttribute('required')) {
-                        errorMessages.push('Bütün şəkillər yüklənməlidir');
-                        isValid = false;
+                    const imageUploads = item.querySelectorAll('.dynamic-image-upload');
+                    const uploadedImages = [];
+
+                    for (const imageUpload of imageUploads) {
+                        if (imageUpload.files.length > 0) {
+                            const base64Image = await new Promise((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onload = (e) => resolve(e.target.result);
+                                reader.onerror = reject;
+                                reader.readAsDataURL(imageUpload.files[0]);
+                            });
+                            uploadedImages.push(base64Image);
+                        } else if (imageUpload.hasAttribute('required')) {
+                            errorMessages.push('Bütün şəkillər yüklənməlidir');
+                            isValid = false;
+                            break;
+                        }
+                    }
+
+                    if (uploadedImages.length > 0) {
+                        itemData.uploaded_image = uploadedImages;
                     }
 
                     insidingItems.push(itemData);
-                });
+                }
 
                 if (!isValid) {
                     errorMessages.forEach(message => showError(message));
                     return;
                 }
 
-                // Wait for all image processing to complete
                 try {
-                    await Promise.all(insidingPromises);
                     formData.append('insiding_items', JSON.stringify(insidingItems));
 
                     // CSRF token
@@ -518,9 +522,6 @@
                     submitButton.disabled = false;
                     submitButton.innerHTML = 'Səbətə əlavə edin';
                 }
-            });
-        });
-
         // Success message display function
         function showSuccess(message) {
             const successDiv = document.createElement('div');
