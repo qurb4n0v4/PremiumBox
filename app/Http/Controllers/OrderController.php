@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\UserCardForBuildABox;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function showOrders()
+    public function index()
     {
-        // Kullanıcının siparişlerini al
-        $userId = auth()->id(); // Giriş yapmış kullanıcının ID'si
-        $orders = Order::where('user_id', $userId)->with('giftBox', 'bag', 'card')->get();
+        // Sadece tamamlanmış siparişleri çek
+        $orders = UserCardForBuildABox::with('userBuildABoxCardItems.chooseItem')
+            ->where('user_id', auth()->id())
+            ->where('status', 'done') // Tamamlanmış siparişler
+            ->get();
 
-        // View'e gönder
         return view('front.user.orders', compact('orders'));
     }
 }
