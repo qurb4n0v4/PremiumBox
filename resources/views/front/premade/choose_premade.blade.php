@@ -148,7 +148,7 @@
                     <div class="row">
                         @foreach ($premadeBoxes as $box)
                             @php
-                                $boxDetail = $box->details;
+                                $boxDetail = $box->details->first();
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
@@ -160,12 +160,12 @@
 
                                 <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
-                                        <div class="text-center position-relative image-container {{ $box->hover_image ? 'has-hover-image' : '' }}" style="height: 200px; width: 200px; overflow: hidden;">
+                                        <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
                                             <!-- Normal Image -->
                                             <img
                                                 src="{{ asset('storage/' . $box->normal_image) }}"
                                                 alt="{{ $box->name }}"
-                                                class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover normal-image"
+                                                class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
                                             >
 
                                             <!-- Hover Image -->
@@ -173,7 +173,7 @@
                                                 <img
                                                     src="{{ asset('storage/' . $box->hover_image) }}"
                                                     alt="{{ $box->name }}"
-                                                    class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover hover-image"
+                                                    class="card-img-top rounded-top rounded-bottom d-block w-100 h-100 object-fit-cover"
                                                 >
                                             @endif
                                         </div>
@@ -205,16 +205,14 @@
 
                                                     <div class="carousel slider" id="{{ $uniqueCarouselId }}" data-bs-ride="carousel">
                                                         <div class="carousel-inner">
-                                                            @if($premadeBoxDetail && !empty($premadeBoxDetail->images))
+                                                            @if($boxDetail && !empty($boxDetail->images))
                                                                 @php
-                                                                    $images = is_string($premadeBoxDetail->images)
-                                                                    ? json_decode($premadeBoxDetail->images, true)
-                                                                    : $premadeBoxDetail->images;
+                                                                    $images = is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images;
                                                                 @endphp
                                                                 @foreach($images as $key => $image)
                                                                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                                                                         <div style="height: 340px; width: 360px; overflow: hidden;">
-                                                                            <img src="{{ asset('storage/premade-box-details/' . $image) }}"
+                                                                            <img src="{{ asset('storage/' . $image) }}"
                                                                                  class="slider-item d-block w-100 h-100 object-fit-cover"
                                                                                  alt="Box Image">
                                                                         </div>
@@ -222,7 +220,7 @@
                                                                 @endforeach
                                                             @else
                                                                 <div class="carousel-item">
-                                                                    <div style="height: 340px; width: 360px;">
+                                                                    <div style="height: 340px; width: 360px; overflow: hidden;">
                                                                         <img src="{{ asset('storage/' . $box->normal_image) }}"
                                                                              class="slider-item d-block w-100 h-100 object-fit-cover"
                                                                              alt="Box Image">
@@ -334,30 +332,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Carousel initialization
-        const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
-        carousels.forEach(carousel => new bootstrap.Carousel(carousel));
+    document.querySelectorAll('.slider-container').forEach(container => {
+        const slider = container.querySelector('.slider');
+        const items = container.querySelectorAll('.slider-item');
+        const prevButton = container.querySelector('.slider-prev');
+        const nextButton = container.querySelector('.slider-next');
 
-        // Modal handling
-        document.addEventListener('click', function (event) {
-            // Open modal
-            if (event.target.hasAttribute('data-modal-target')) {
-                const modalId = event.target.getAttribute('data-modal-target');
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.style.display = 'flex';
-                    document.documentElement.classList.add('modal-opened');
-                    document.body.classList.add('modal-opened');
-                }
-            }
+        let currentIndex = 0;
 
-            // Close modal when clicking outside
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.documentElement.classList.remove('modal-opened');
-                document.body.classList.remove('modal-opened');
-            }
+        const updateSlider = () => {
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        };
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+            updateSlider();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+            updateSlider();
         });
     });
 
