@@ -59,7 +59,7 @@ Route::prefix('session')->group(function () {
     Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('remove.selection');
 });
 Route::post('/remove-selection', [App\Http\Controllers\SessionController::class, 'removeSelection'])->name('remove.selection');
-Route::post('/save-card-selection', [SessionController::class, 'saveCardSelection']);
+Route::post('/save-card-selection', [SessionController::class, 'saveCardSelection'])->middleware('auth');
 Route::post('/upload-images', [SessionController::class, 'handleFileUpload']);
 Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('save.to.database');
 Route::get('/session/check-box', function () {

@@ -7,18 +7,10 @@ async function showAlert(options) {
     });
 }
 
-// Error messages object
-const ERROR_MESSAGES = {
-    NO_BOX_SELECTED: 'Zəhmət olmasa əvvəlcə qutu seçin!',
-    BOX_TOO_SMALL: 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.',
-    SERVER_ERROR: 'Server xətası baş verdi. Zəhmət olmasa daha sonra yenidən cəhd edin.',
-    GENERAL_ERROR: 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.'
-};
-
 // Check if box is selected
 async function checkBoxSelected() {
     try {
-        const response = await fetch('/check-box-selected', {
+        const response = await fetch('/session/check-box', {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -27,7 +19,7 @@ async function checkBoxSelected() {
 
         const data = await response.json();
         console.log('Box selected response:', data); // Debug için log ekleyelim
-        return data.boxSelected;
+        return data.has_box; // Burada 'has_box' kullanılıyor
     } catch (error) {
         console.error('Error checking box selected:', error);
         return false;
@@ -36,7 +28,7 @@ async function checkBoxSelected() {
 
 // Enhanced error handling function
 async function handleError(error, specificMessage = null) {
-    const message = specificMessage || ERROR_MESSAGES.GENERAL_ERROR;
+    const message = specificMessage;
     await showAlert({
         icon: 'error',
         title: 'Xəta!',
@@ -52,6 +44,16 @@ async function showSuccess(message = 'Məhsul uğurla əlavə edildi!') {
         text: message,
         showConfirmButton: false,
         timer: 1500
+    });
+}
+
+// Error alert function
+async function showError(message) {
+    await showAlert({
+        icon: 'error',
+        title: 'Xəta!',
+        text: message,
+        showConfirmButton: true
     });
 }
 
@@ -95,8 +97,6 @@ function toggleText(elementId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
-
     // Handle Choose Variant button clicks
     document.querySelectorAll('.choose-variant-button').forEach(button => {
         button.addEventListener('click', async function(e) {
@@ -117,6 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('user_text', customText || null);
 
             try {
+                // Show loading state
+                Swal.fire({
+                    title: 'Zəhmət olmasa gözləyin...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 const response = await fetch('/session/save-item', {
                     method: 'POST',
                     headers: {
@@ -142,8 +151,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (nextStepRoute) {
                         window.location.href = nextStepRoute;
                     }
+                } else if (result.error_code === 'NO_BOX_SELECTED') {
+                    await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
+                } else if (result.error_code === 'TOO_LARGE') {
+                    await showError('Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.');
                 } else {
-                    handleError(result.message || 'Xəta baş verdi');
+                    await showError(result.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
                 }
             } catch (error) {
                 handleError(error);
@@ -188,6 +201,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             try {
+                // Show loading state
+                Swal.fire({
+                    title: 'Zəhmət olmasa gözləyin...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 const response = await saveCustomItemSelection(formData);
 
                 if (response.success) {
@@ -195,8 +217,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     bootstrap.Modal.getInstance(modal).hide();
                     await showSuccess("Məhsul uğurla əlavə edildi!");
                     window.location.reload();
+                } else if (response.error_code === 'NO_BOX_SELECTED') {
+                    await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
+                } else if (response.error_code === 'TOO_LARGE') {
+                    await showError('Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.');
                 } else {
-                    handleError(response.message);
+                    await showError(response.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
                 }
             } catch (error) {
                 handleError(error);
@@ -247,6 +273,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const itemPrice = cardElement.querySelector('.text-muted').innerText.replace('₼', '').trim();
 
                 try {
+                    // Show loading state
+                    Swal.fire({
+                        title: 'Zəhmət olmasa gözləyin...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
                     const response = await saveItemSelection({
                         choose_item_id: itemId,
                         item_name: itemName,
@@ -259,10 +294,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (response.success) {
                         await showSuccess('Məhsul uğurla əlavə edildi!');
                         window.location.reload();
-                    } else if (response.error_code === "TOO_LARGE") {
+                    } else if (response.error_code === 'NO_BOX_SELECTED') {
+                        await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
+                    } else if (response.error_code === 'TOO_LARGE') {
                         await showError('Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.');
                     } else {
-                        await showError(response.message);
+                        await showError(response.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
                     }
                 } catch (error) {
                     handleError(error);

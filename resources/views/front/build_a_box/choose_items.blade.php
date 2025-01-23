@@ -385,7 +385,7 @@
                                                                 @endif
 
 
-                                                                <button class="choose-box-choose-button mt-1">Qutuya əlavə et</button>
+                                                                <button class="modal-add-button choose-box-choose-button mt-1">Qutuya əlavə et</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -499,7 +499,7 @@
                                                                             </div>
                                                                         @endif
 
-                                                                    <button class="choose-variant-button">Qutuya əlavə et</button>
+                                                                    <button class="modal-add-button choose-variant-button">Qutuya əlavə et</button>
                                                                 @endforeach
                                                             @endif
                                                         </div>

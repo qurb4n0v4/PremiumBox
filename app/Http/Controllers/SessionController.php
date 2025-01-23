@@ -50,6 +50,16 @@ class SessionController extends Controller
             $volumeCheck = $this->checkBoxVolume($request);
             $volumeResponse = json_decode($volumeCheck->getContent(), true);
 
+            // Kutunun seçilip seçilmediğini kontrol et
+            $selectedBox = Session::get('selected_box');
+            if (!$selectedBox && (!$request->has('selected_box') || empty($request->input('selected_box')))) {
+                return response()->json([
+                    'success' => false,
+                    'error_code' => 'NO_BOX_SELECTED',
+                    'message' => 'Zəhmət olmasa əvvəlcə qutu seçin!'
+                ]);
+            }
+
 //             Hacim kontrolü başarısızsa, hata mesajını gönder
             if (!$volumeResponse['success']) {
                 return response()->json([
