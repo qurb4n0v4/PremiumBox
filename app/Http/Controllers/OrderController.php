@@ -13,7 +13,7 @@ class OrderController extends Controller
         // Sadece tamamlanmış siparişleri çek
         $orders = UserCardForBuildABox::with('userBuildABoxCardItems.chooseItem')
             ->where('user_id', auth()->id())
-            ->where('status', 'done') // Tamamlanmış siparişler
+            ->where('status', 'completed') // Tamamlanmış siparişler
             ->get();
 
         return view('front.user.orders', compact('orders'));
