@@ -32,12 +32,12 @@ class UserCardForBuildABox extends Model
 
     public function giftBox()
     {
-        return $this->belongsTo(GiftBox::class);
+        return $this->belongsTo(GiftBox::class, 'gift_box_id');
     }
 
     public function card()
     {
-        return $this->belongsTo(Card::class);
+        return $this->belongsTo(Card::class, 'card_id');
     }
 
     public function items()
@@ -48,5 +48,13 @@ class UserCardForBuildABox extends Model
     public function cardImages()
     {
         return $this->hasMany(BuildABoxCardImage::class);
+    }
+    public function cardItems()
+    {
+        return $this->hasMany(UserBuildABoxCardItem::class, 'user_card_id');
+    }
+    public function userBuildABoxCardItems()
+    {
+        return $this->hasMany(UserBuildABoxCardItem::class, 'user_card_id');
     }
 }

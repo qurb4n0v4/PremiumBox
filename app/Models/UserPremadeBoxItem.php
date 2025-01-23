@@ -11,7 +11,11 @@ class UserPremadeBoxItem extends Model
         'insiding_id',
         'selected_variant',
         'custom_text',
-        'uploaded_image'
+        'uploaded_images'
+    ];
+
+    protected $casts = [
+        'uploaded_images' => 'array', // JSON formatını avtomatik array kimi istifadə etmək üçün
     ];
 
     public function userCardForPremadeBox()

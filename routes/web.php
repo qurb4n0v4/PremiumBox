@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BoxCustomizationController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SessionController;
 use Filament\Facades\Filament;
 use App\Http\Controllers\PremadeBoxController;
@@ -77,7 +79,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/front/user/profile', [UserProfileController::class, 'index'])->name('profile');
 Route::get('/front/user/profile/details', [UserProfileController::class, 'showProfile'])->name('profile-details');
-Route::get('/front/user/orders', [UserProfileController::class, 'showOrders'])->name('orders')->middleware('auth');
+//Route::get('/front/user/orders', [UserProfileController::class, 'showOrders'])->name('orders')->middleware('auth');
 Route::get('/front/user/coupons', [UserProfileController::class, 'showCoupons'])->name('coupons');
 Route::put('/front/user/profile/update', [UserProfileController::class, 'updateProfile'])->name('profile-update');
 Route::get('/front/user/profile/edit', [UserProfileController::class, 'editProfile'])->name('profile-edit');
@@ -90,10 +92,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout'); // Siparişi Tamamla
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index'); // Siparişleri Göster
+});
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::prefix('box')->group(function () {
     // Qutu seçimini saxla

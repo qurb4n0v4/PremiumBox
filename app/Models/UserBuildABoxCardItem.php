@@ -26,7 +26,7 @@ class UserBuildABoxCardItem extends Model
 
     public function chooseItem()
     {
-        return $this->belongsTo(ChooseItem::class);
+        return $this->belongsTo(ChooseItem::class, 'choose_item_id');
     }
 
     public function images()
