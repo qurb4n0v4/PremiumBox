@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BoxCustomizationController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SessionController;
@@ -93,7 +94,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
+Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::prefix('box')->group(function () {
     // Qutu seçimini saxla

@@ -28,17 +28,6 @@ class UserBuildABoxCardItem extends Model
     {
         return $this->belongsTo(ChooseItem::class, 'choose_item_id');
     }
-//    public function chooseItems()
-//    {
-//        return $this->hasManyThrough(
-//            ChooseItem::class,
-//            UserBuildABoxCardItem::class,
-//            'user_card_id',    // Foreign key on UserBuildABoxCardItem table
-//            'id',              // Foreign key on ChooseItem table
-//            'id',              // Local key on UserCardForBuildABox table
-//            'choose_item_id'   // Local key on UserBuildABoxCardItem table
-//        );
-//    }
 
     public function images()
     {
