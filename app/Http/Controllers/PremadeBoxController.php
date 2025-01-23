@@ -94,22 +94,28 @@ class PremadeBoxController extends Controller
             $premadeBoxDetail = PremadeBox::with('details')->findOrFail($id);
             $cards = Card::all();
             $insidings = PremadeBoxInsiding::where('premade_boxes_id', $id)->get();
+//            dd($insidings);
+
 
             $boxes = PremadeBoxCustomize::where('premade_boxes_id', $id)
                 ->pluck('boxes')
                 ->first();
 
             $giftBoxes = [];
-            if ($boxes && is_array($boxes)) {
-                foreach ($boxes as $box) {
-                    if (isset($box['gift_boxes_id'])) {
-                        $giftBox = GiftBox::find($box['gift_boxes_id']);
-                        if ($giftBox) {
-                            $giftBoxes[] = [
-                                'id' => $giftBox->id,
-                                'title' => $giftBox->title,
-                                'image' => asset($giftBox->image),
-                            ];
+            if ($boxes) {
+                $boxes = is_array($boxes) ? $boxes : json_decode($boxes, true);
+
+                if (is_array($boxes)) {
+                    foreach ($boxes as $box) {
+                        if (isset($box['gift_boxes_id'])) {
+                            $giftBox = GiftBox::find($box['gift_boxes_id']);
+                            if ($giftBox) {
+                                $giftBoxes[] = [
+                                    'id' => $giftBox->id,
+                                    'title' => $giftBox->title,
+                                    'image' => $giftBox->image ? asset('storage/' . $giftBox->image) : asset('images/default.png'),
+                                ];
+                            }
                         }
                     }
                 }

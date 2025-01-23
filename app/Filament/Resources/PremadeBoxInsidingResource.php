@@ -41,21 +41,11 @@ class PremadeBoxInsidingResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-                        Forms\Components\FileUpload::make('images')
+                        Forms\Components\FileUpload::make('image')
                             ->label('Məhsul Şəkli')
                             ->image()
                             ->required()
-                            ->disk('public')
-                            ->directory('premade-box-insidings')
-                            ->visibility('public')  // bunu ekleyelim
-                            ->imagePreviewHeight('100')
-                            ->imageResizeMode('cover')
-                            ->imageCropAspectRatio('16:9')
-                            ->imageResizeTargetWidth('1920')
-                            ->imageResizeTargetHeight('1080')
-                            ->rules(['required', 'image', 'max:2048'])
-                            ->storeFileNamesIn('image')
-                            ->columnSpanFull(),
+                            ->directory('premade-box-insidings'),
 
                         Forms\Components\TextInput::make('quantity')
                             ->label('Say')
@@ -143,7 +133,12 @@ class PremadeBoxInsidingResource extends Resource
                     ->label('Premade Box Name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable(),
-                Tables\Columns\ImageColumn::make('image')->sortable(),
+                Tables\Columns\TextColumn::make('image')
+                    ->label('Məhsul Şəkli')
+                    ->formatStateUsing(function ($state) {
+                        return '<img src="' . asset('storage/' . $state) . '" alt="Məhsul Şəkli" style="width: 100px; height: auto;" />';
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('quantity')->sortable(),
                 Tables\Columns\BooleanColumn::make('allow_image_upload')->sortable(),
                 Tables\Columns\TextColumn::make('image_upload_title')->default(fn ($record) => $record->image_upload_title ?? 'No title'),

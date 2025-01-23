@@ -88,32 +88,30 @@
                                     <div class="boxes-slider-container">
                                         @if(count($giftBoxes) > 4)
                                             <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
-                                                    style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
+                                                    style="left: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
                                                 <i class="fas fa-chevron-left"></i>
                                             </button>
                                         @endif
 
                                         <div class="d-flex flex-column position-relative">
-                                            <div id="boxes-slider-container">
-                                                <div class="row boxes-slider-wrapper px-1">
+                                            <div id="boxes-slider-container w-100">
+                                                <div class="row boxes-slider-wrapper px-3">
                                                     @if(count($giftBoxes) > 0)
                                                         @foreach ($giftBoxes as $index => $giftBox)
                                                             <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
                                                                 <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;"
                                                                      onclick="this.classList.toggle('focused')">
-                                                                    <img src="{{ asset('storage/' . $giftBox['image']) }}"
+                                                                    <img src="{{ $giftBox['image'] }}"
                                                                          class="card-img-top mx-auto gift-box-img"
                                                                          alt="{{ $giftBox['title'] }}"
                                                                          data-box-id="{{ $giftBox['id'] }}"
-                                                                    style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
+                                                                         style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
                                                                     <div class="card-body p-0">
                                                                         <p class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         @endforeach
-
-
                                                     @else
                                                         <p>No Gift Boxes found.</p>
                                                     @endif
@@ -123,7 +121,7 @@
 
                                         @if(count($giftBoxes) > 4)
                                             <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
-                                                    style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                    style="right: -3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
                                                 <i class="fas fa-chevron-right"></i>
                                             </button>
                                         @endif
@@ -184,7 +182,6 @@
                                                         class="rounded img-fluid w-100 mb-3 fixed-size-image">
                                                     <h4 id="selected-card-name" style="text-align: center !important;"></h4>
                                                     <p id="selected-card-price" style="font-size: 18px; text-align: center !important;"></p>
-{{--                                                    <span id="reset-slider" style="cursor: pointer; font-size:14px; text-decoration: underline;">(Kartı Dəyişdir)</span>--}}
                                                     <button class="choose-box-choose-button" style="max-width: 250px" id="reset-slider">
                                                         Kartı dəyişdir
                                                     </button>
@@ -229,7 +226,11 @@
                                                 <li class="list-group-item rounded" data-insiding-id="{{ $insiding->id }}" style="border-radius: 20px; border: 1px solid #ccc;">
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
-                                                            <img src="{{ asset('storage/' . $insiding['image']) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
+                                                            @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
+                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: contain;">
+                                                            @else
+                                                                <p>Şəkil yoxdur.</p>
+                                                            @endif
                                                             <div>
                                                                 <h6 class="mb-0">{{ $insiding->name }}</h6>
                                                                 <p class="mb-0" style="font-size: 14px; color: #898989;">{{ $insiding->description }}</p>

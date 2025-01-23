@@ -286,9 +286,11 @@
                                                                     <div style="max-width: 80vw !important;">
                                                                         @foreach($box->insidings as $insiding)
                                                                             <div class="d-flex align-items-center pb-3 gap-3">
-                                                                                <img src="{{ $insiding->image }}"
-                                                                                     alt="{{ $insiding->name }}"
-                                                                                     style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
+                                                                                    <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 35px; height: 35px; object-fit: cover;">
+                                                                                @else
+                                                                                    <p>Şəkil yoxdur.</p>
+                                                                                @endif
                                                                                 <div class="d-flex flex-column justify-content-start pl-3">
                                                                                     <p class="font-butler text-theme-secondary text-capitalize mb-0">
                                                                                         {{ $insiding->name }}

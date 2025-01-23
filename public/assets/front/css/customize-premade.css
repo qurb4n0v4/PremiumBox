@@ -91,12 +91,14 @@ p, h4 {
 .boxes-slider-wrapper {
     display: flex;
     transition: transform 0.3s ease-in-out;
+    justify-content: flex-start; /* Ortalamayı veya sola hizalamayı sağlar */
 }
 
 .box-item {
     transition: all 0.3s ease-in-out;
     flex: 0 0 25%;
-    padding: 0 10px;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .boxes-nav-button {
@@ -108,7 +110,7 @@ p, h4 {
 }
 
 .boxes-nav-button i {
-    color: #898989;
+    color: #000;
     font-size: 14px;
 }
 
@@ -128,6 +130,11 @@ p, h4 {
 
 .gift-box-img.active {
     border: 2px solid red;
+}
+
+.gift-box-card {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .custom-btn {
