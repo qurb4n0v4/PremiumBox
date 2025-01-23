@@ -148,7 +148,7 @@
                     <div class="row">
                         @foreach ($premadeBoxes as $box)
                             @php
-                                $boxDetail = $box->details;
+                                $boxDetail = $box->details->first();
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
@@ -205,8 +205,11 @@
 
                                                     <div class="carousel slider" id="{{ $uniqueCarouselId }}" data-bs-ride="carousel">
                                                         <div class="carousel-inner">
-                                                            @if($premadeBoxDetail && !empty($premadeBoxDetail->images))
-                                                                @foreach($premadeBoxDetail->images as $key => $image)
+                                                            @if($boxDetail && !empty($boxDetail->images))
+                                                                @php
+                                                                    $images = is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images;
+                                                                @endphp
+                                                                @foreach($images as $key => $image)
                                                                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                                                                         <div style="height: 340px; width: 360px; overflow: hidden;">
                                                                             <img src="{{ asset('storage/' . $image) }}"
@@ -216,7 +219,7 @@
                                                                     </div>
                                                                 @endforeach
                                                             @else
-                                                                <div class="carousel-item active">
+                                                                <div class="carousel-item">
                                                                     <div style="height: 340px; width: 360px; overflow: hidden;">
                                                                         <img src="{{ asset('storage/' . $box->normal_image) }}"
                                                                              class="slider-item d-block w-100 h-100 object-fit-cover"

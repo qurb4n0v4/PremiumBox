@@ -55,17 +55,20 @@
 
 .normal-image {
     opacity: 1; /* Varsayılan resim görünür */
+    transition: opacity 0.3s ease;
 }
 
 .hover-image {
     opacity: 0; /* Hover resim başlangıçta görünmez */
+    transition: opacity 0.3s ease;
 }
 
-.image-container:hover .normal-image {
+/* Sadece hover image varsa hover efekti uygula */
+.image-container.has-hover-image:hover .normal-image {
     opacity: 0; /* Hover sırasında normal resmi gizle */
 }
 
-.image-container:hover .hover-image {
+.image-container.has-hover-image:hover .hover-image {
     opacity: 1; /* Hover sırasında hover resmini göster */
 }
 
