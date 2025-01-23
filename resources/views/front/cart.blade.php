@@ -42,6 +42,13 @@
                     @empty
                         <p class="cart-empty-text">Səbət boşdur.</p>
                     @endforelse
+                        <!-- Siparişi Tamamla Formu -->
+                        @if ($userCards->count() > 0)
+                            <form action="{{ route('cart.checkout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Sifarişi Tamamla</button>
+                            </form>
+                        @endif
                 @else
                     <p class="cart-empty-text">Səbət boşdur. Xahiş edirik, giriş edin.</p>
                 @endauth

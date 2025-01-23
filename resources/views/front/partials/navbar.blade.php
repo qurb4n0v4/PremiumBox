@@ -16,7 +16,7 @@
                             <a href="#" class="dropdown-btn user-name-navbar">{{ Auth::user()->name }}</a>
                             <div class="user-dropdown-content">
                                 <a href="{{ route('profile-details') }}">Profilim</a>
-                                <a href="{{ route('orders') }}">Sifarişlərim</a>
+                                <a href="{{ route('orders.index') }}">Sifarişlərim</a>
                                 <a href="{{ route('coupons') }}">Kuponlarım</a>
                                 <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                                     @csrf

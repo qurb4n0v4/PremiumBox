@@ -20,4 +20,17 @@ class CartController extends Controller
         // Verileri görünüm dosyasına gönder
         return view('front.cart', compact('userCards'));
     }
+    public function checkout(Request $request)
+    {
+        $userCards = UserCardForBuildABox::with('userBuildABoxCardItems.chooseItem')
+            ->where('user_id', auth()->id())
+            ->get();
+
+        foreach ($userCards as $userCard) {
+            $userCard->status = 'done'; // Durum güncellemesi
+            $userCard->save();
+        }
+
+        return redirect()->route('orders.index')->with('success', 'Səbətiniz uğurla sifariş edildi.');
+    }
 }
