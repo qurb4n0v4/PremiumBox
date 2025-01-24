@@ -141,138 +141,63 @@ class PremadeBoxController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'box_id' => 'required|exists:gift_boxes,id',
-            'premade_box_id' => 'required|exists:premade_boxes,id',
-            'box_text' => 'required|string|max:255',
-            'selected_font' => 'required|string',
-            'to_name' => 'required_with:card_id|string|max:255',
-            'from_name' => 'required_with:card_id|string|max:255',
-            'card_message' => 'required_with:card_id|string',
-        ]);
-
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
-            // Əsas sifariş məlumatlarının yaradılması
-            $userCard = UserCardForPremadeBox::create([
-                'user_id' => auth()->id(),
-                'premade_box_id' => $request->premade_box_id,
-                'gift_box_id' => $request->box_id, // buradakı dəyərin düzgün olub olmadığını yoxlayın
-                'box_text' => $request->box_text,
-                'selected_font' => $request->selected_font,
+            // Create user card for premade box
+            $userCardForPremadeBox = UserCardForPremadeBox::create([
+                'user_id' => auth()->id() ?? null,
+                'premade_box_id' => $request->input('gift_box_id'),
+                'gift_box_id' => $request->input('gift_box_id'),
+                'box_text' => $request->input('box_text'),
+                'selected_font' => $request->input('selected_font'),
                 'status' => 'pending'
             ]);
 
+            // Create card details
+            UserCardDetail::create([
+                'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
+                'card_id' => $request->input('card_id'),
+                'to_name' => $request->input('to_name'),
+                'from_name' => $request->input('from_name'),
+                'message' => $request->input('message')
+            ]);
 
-            // Kart məlumatlarının saxlanması (əgər varsa)
-            if ($request->has('card_id')) {
-                UserCardDetail::create([
-                    'user_card_for_premade_box_id' => $userCard->id,
-                    'card_id' => $request->card_id,
-                    'to_name' => $request->to_name,
-                    'from_name' => $request->from_name,
-                    'message' => $request->card_message
+            // Process inside items
+            $insidings = PremadeBoxInsiding::all();
+            foreach ($insidings as $insiding) {
+                // Prepare data for this insiding
+                $customText = $request->input("custom_text_{$insiding->id}") ??
+                    $request->input("dynamic_textarea_$insiding->id");
+
+                $selectedVariant = $request->input("variant_{$insiding->id}") ??
+                    $request->input("selected_variant_$insiding->id");
+
+                $userPremadeBoxItem = UserPremadeBoxItem::create([
+                    'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
+                    'insiding_id' => $insiding->id,
+                    'custom_text' => $customText,
+                    'selected_variant' => $selectedVariant
                 ]);
-            }
 
-            // Qutu içindəki əşyaların məlumatlarının saxlanması
-            $insidings = json_decode($request->insiding_items, true);
+                // Handle image uploads
+                if ($request->hasFile("image_{$insiding->id}_0")) {
+                    $image = $request->file("image_{$insiding->id}_0");
+                    $imagePath = $image->store('premade_box_images', 'public');
 
-            foreach ($insidings as $item) {
-                $uploadedImages = [];
-
-                if (isset($item['uploaded_image']) && is_array($item['uploaded_image'])) {
-                    foreach ($item['uploaded_image'] as $base64Image) {
-                        $imagePath = $this->saveBase64Image($base64Image, 'insiding_images');
-                        if ($imagePath) {
-                            $uploadedImages[] = $imagePath;
-                        }
-                    }
+                    $userPremadeBoxItem->update([
+                        'image_path' => $imagePath
+                    ]);
                 }
-
-                // `selected_variant` massivini JSON formatında saxla
-                $selectedVariant = isset($item['selected_variant'])
-                    ? json_encode($item['selected_variant'])
-                    : null;
-
-                // Veritabanına daxil et
-                $boxItem = UserPremadeBoxItem::create([
-                    'user_card_for_premade_box_id' => $userCard->id,
-                    'insiding_id' => $item['insiding_id'],
-                    'selected_variant' => $selectedVariant,
-                    'custom_text' => $item['custom_text'] ?? null,
-                    'uploaded_images' => count($uploadedImages) > 0
-                        ? json_encode($uploadedImages)
-                        : null
-                ]);
             }
 
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'message' => 'Məlumatlar uğurla yadda saxlanıldı',
-                'redirect_url' => route('done_premade')
-            ]);
-
+            return response()->json(['message' => 'Premade box created successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Premade box customization error: ' . $e->getMessage());
             return response()->json([
-                'success' => false,
-                'message' => 'Xəta baş verdi: ' . $e->getMessage()
+                'error' => 'Məhsul əlavə edilərkən xəta baş verdi',
+                'details' => $e->getMessage()
             ], 500);
-        }
-    }
-
-    private function saveBase64Image($base64Image, $folder)
-    {
-        try {
-            \Log::info('Full Base64 Input Length: ' . strlen($base64Image));
-            \Log::info('Base64 Start: ' . substr($base64Image, 0, 50) . '...');
-
-            // Base64 stringinin düzgün formatda olub-olmadığını yoxlayın
-            if (strpos($base64Image, 'data:') !== 0) {
-                \Log::error('Invalid base64 image format');
-                return null;
-            }
-
-            $image_parts = explode(";base64,", $base64Image);
-
-            \Log::info('Image Parts Count: ' . count($image_parts));
-            if (count($image_parts) !== 2) {
-                \Log::error('Incorrect base64 image parts');
-                return null;
-            }
-
-            // Düzəliş: image type çıxarılması
-            $image_type_aux = explode("/", str_replace('data:', '', $image_parts[0]));
-
-            \Log::info('Image Type Aux: ' . json_encode($image_type_aux));
-            if (count($image_type_aux) !== 2) {
-                \Log::error('Incorrect image type');
-                return null;
-            }
-
-            $image_type = $image_type_aux[1];
-            $image_base64 = base64_decode($image_parts[1]);
-
-            if ($image_base64 === false) {
-                \Log::error('Base64 decode failed');
-                return null;
-            }
-
-            $filename = uniqid() . '.' . $image_type;
-            $path = $folder . '/' . $filename;
-
-            Storage::disk('public')->put($path, $image_base64);
-
-            \Log::info('Şəkil saxlanıldı: ' . $path);
-
-            return $path;
-        } catch (\Exception $e) {
-            \Log::error('Şəkil saxlama xətası: ' . $e->getMessage());
-            return null;
         }
     }
 }

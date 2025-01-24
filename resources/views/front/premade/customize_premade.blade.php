@@ -336,220 +336,226 @@
                     </div>
                 </div>
                 <div class="w-100 mt-4 d-flex flex-row justify-content-end">
-                    <button class="custom-btn"
-                            type="button"
-{{--                            onclick="window.location.href='{{ route('done_premade') }}'"--}}
-                    >
+                    <button class="custom-btn" id="addToCartButton" type="button">
                         <h5 class="mb-0 font-avenir-medium">Səbətə əlavə edin</h5>
                     </button>
+
                 </div>
             </div>
         </div>
     @endif
 
+
+    <style>
+        .is-invalid {
+            border: 2px solid red;
+        }
+    </style>
+
     <script>
-        // Forma məlumatlarını yoxlamaq və göndərmək üçün əsas funksiya
-        // Form submission handling
         document.addEventListener('DOMContentLoaded', function() {
-            const submitButton = document.querySelector('.custom-btn');
+            const addToCartButton = document.getElementById('addToCartButton');
 
-            submitButton.addEventListener('click', async function(e) {
-                e.preventDefault();
+            addToCartButton.addEventListener('click', function(event) {
+                event.preventDefault();
 
-                let isValid = true;
-                const formData = new FormData();
-                const errorMessages = [];
-
-                // 1. Box Selection Validation
-                const focusedBox = document.querySelector('.gift-box-card.focused');
-                if (!focusedBox) {
-                    errorMessages.push('Qutu seçilməlidir');
-                    isValid = false;
-                } else {
-                    const boxImg = focusedBox.querySelector('.gift-box-img');
-                    if (boxImg) {
-                        formData.append('box_id', boxImg.dataset.boxId); // data-box-id düzgün istifadə olundu
-                    } else {
-                        errorMessages.push('Qutu şəkli tapılmadı');
-                        isValid = false;
-                    }
+                // Validate Gift Box Selection
+                const selectedGiftBox = document.querySelector('.gift-box-card.focused');
+                if (!selectedGiftBox) {
+                    showValidationError('Zəhmət olmasa bir qutu seçin');
+                    return;
                 }
+                const giftBoxId = selectedGiftBox.querySelector('.gift-box-img').getAttribute('data-box-id');
 
-
-
-                // 2. Premade Box ID
-                const premadeBoxId = '{{ $premadeBoxDetail->id }}'; // Make sure this is available in your blade
-                formData.append('premade_box_id', premadeBoxId);
-
-                // 3. Box Text and Font Validation
-                const boxText = document.querySelector('.customizing-text-input-fonts').value.trim();
-                const selectedFont = document.querySelector('.font-button-customizing-edit.active');
-
-                if (!boxText) {
-                    errorMessages.push('Qutu yazısı daxil edilməlidir');
-                    isValid = false;
-                }
-                if (!selectedFont) {
-                    errorMessages.push('Font seçilməlidir');
-                    isValid = false;
-                }
-
-                formData.append('box_text', boxText);
-                formData.append('selected_font', selectedFont ? selectedFont.dataset.font : '');
-
-                // 4. Card Details Validation
-                const selectedCard = document.querySelector('#selected-card-container');
-                if (selectedCard && !selectedCard.style.display.includes('none')) {
-                    const toField = document.querySelector('#to-field').value.trim();
-                    const fromField = document.querySelector('#from-field').value.trim();
-                    const messageField = document.querySelector('#message-field').value.trim();
-                    const cardId = selectedCard.dataset.cardId;
-
-                    if (!toField || !fromField || !messageField) {
-                        errorMessages.push('Kart məlumatları tam doldurulmalıdir');
-                        isValid = false;
-                    }
-
-                    formData.append('to_name', toField);
-                    formData.append('from_name', fromField);
-                    formData.append('card_message', messageField);
-                    formData.append('card_id', cardId);
-                }
-
-                // 5. Insiding Items Validation
-                const insidingItems = [];
-
-                for (const item of document.querySelectorAll('.list-group-item')) {
-                    const itemId = item.dataset.insidingId;
-                    const itemData = {
-                        insiding_id: itemId,
-                        custom_text: null,
-                        selected_variant: null,
-                        uploaded_image: null
-                    };
-
-                    // Variant validation
-                    const variantSection = item.querySelector('.variants-buttons');
-                    if (variantSection) {
-                        const selectedVariant = variantSection.querySelector('.variant-button.active');
-                        if (!selectedVariant && variantSection.hasAttribute('required')) {
-                            errorMessages.push('Bütün variantlar seçilməlidir');
-                            isValid = false;
-                        } else if (selectedVariant) {
-                            itemData.selected_variant = {
-                                index: selectedVariant.dataset.index,
-                                name: selectedVariant.textContent.trim()
-                            };
-                        }
-                    }
-
-                    // Text validation
-                    const textArea = item.querySelector('.dynamic-textarea');
-                    if (textArea) {
-                        const text = textArea.value.trim();
-                        if (!text && textArea.hasAttribute('required')) {
-                            errorMessages.push('Bütün mətn sahələri doldurulmalıdır');
-                            isValid = false;
-                        }
-                        itemData.custom_text = text;
-                    }
-
-                    // Image validation
-                    const imageUploads = item.querySelectorAll('.dynamic-image-upload');
-                    const uploadedImages = [];
-
-                    for (const imageUpload of imageUploads) {
-                        if (imageUpload.files.length > 0) {
-                            const base64Image = await new Promise((resolve, reject) => {
-                                const reader = new FileReader();
-                                reader.onload = (e) => resolve(e.target.result);
-                                reader.onerror = reject;
-                                reader.readAsDataURL(imageUpload.files[0]);
-                            });
-                            uploadedImages.push(base64Image);
-                        } else if (imageUpload.hasAttribute('required')) {
-                            errorMessages.push('Bütün şəkillər yüklənməlidir');
-                            isValid = false;
-                            break;
-                        }
-                    }
-
-                    if (uploadedImages.length > 0) {
-                        itemData.uploaded_image = uploadedImages;
-                    }
-
-                    insidingItems.push(itemData);
-                }
-
-                if (!isValid) {
-                    errorMessages.forEach(message => showError(message));
+                // Validate Customization Text
+                const customizationText = document.querySelector('.customizing-text-input-fonts').value.trim();
+                if (!customizationText) {
+                    showValidationError('Qutu üzərinə yazı yazın');
                     return;
                 }
 
-                try {
-                    formData.append('insiding_items', JSON.stringify(insidingItems));
-
-                    // CSRF token
-                    const token = document.querySelector('meta[name="csrf-token"]').content;
-                    formData.append('_token', token);
-
-                    // Disable submit button
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = 'Gözləyin...';
-
-                    // Send request
-                    const response = await fetch('/premade/store', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json'
-                        }
-                    });
-
-                    const data = await response.json();
-
-                    if (data.success) {
-                        showSuccess('Məlumatlar uğurla yadda saxlanıldı');
-                        setTimeout(() => {
-                            window.location.href = data.redirect_url || '/done-premade';
-                        }, 1500);
-                    } else {
-                        throw new Error(data.message || 'Xəta baş verdi');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    showError(error.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Səbətə əlavə edin';
+                // Validate Font Selection
+                const selectedFont = document.querySelector('.font-button-customizing-edit.active');
+                if (!selectedFont) {
+                    showValidationError('Font seçin');
+                    return;
                 }
-        // Success message display function
-        function showSuccess(message) {
-            const successDiv = document.createElement('div');
-            successDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-4';
-            successDiv.style.zIndex = '9999';
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
+                const fontName = selectedFont.getAttribute('data-font');
 
-            setTimeout(() => successDiv.remove(), 3000);
+                // Validate Card Selection
+                const selectedCard = document.getElementById('selected-card-container');
+                if (!selectedCard || selectedCard.style.display === 'none') {
+                    showValidationError('Kart seçin');
+                    return;
+                }
+                const cardId = selectedCard.getAttribute('data-card-id');
+
+                // Validate To Field
+                const toField = document.getElementById('to-field').value.trim();
+                if (!toField) {
+                    showValidationError('Alıcı adını daxil edin');
+                    return;
+                }
+
+                // Validate From Field
+                const fromField = document.getElementById('from-field').value.trim();
+                if (!fromField) {
+                    showValidationError('Adınızı daxil edin');
+                    return;
+                }
+
+                // Validate Message Field
+                const messageField = document.getElementById('message-field').value.trim();
+                if (!messageField) {
+                    showValidationError('Mesaj daxil edin');
+                    return;
+                }
+
+                // Validate Inside Items
+                const insidings = document.querySelectorAll('.list-group-item');
+                for (let insiding of insidings) {
+                    // Text Validation
+                    if (insiding.querySelector('.dynamic-textarea')) {
+                        const dynamicText = insiding.querySelector('.dynamic-textarea').value.trim();
+                        if (!dynamicText) {
+                            showValidationError(`${insiding.querySelector('h6').textContent} üçün mesaj daxil edin`);
+                            return;
+                        }
+                    }
+
+                    // Image Upload Validation
+                    const requiredImageUpload = insiding.querySelector('.dynamic-image-upload[required]');
+                    if (requiredImageUpload) {
+                        if (!requiredImageUpload.files.length) {
+                            Swal.fire({
+                                title: 'Diqqət!',
+                                text: `${insiding.querySelector('h6').textContent} üçün şəkil seçin`,
+                                icon: 'warning',
+                                confirmButtonText: 'Bağla'
+                            });
+                            return;
+                        }
+                    }
+
+                    // Variant Selection Validation
+                    const variantsContainer = insiding.querySelector('.variants-buttons');
+                    if (variantsContainer) {
+                        const selectedVariant = variantsContainer.querySelector('.variant-button.active');
+                        if (!selectedVariant) {
+                            showValidationError(`${insiding.querySelector('.variant-title')?.textContent || 'Variant'} seçin`);
+                            return;
+                        }
+                    }
+                }
+
+                // Prepare FormData for AJAX submission
+                const formData = new FormData();
+                formData.append('gift_box_id', giftBoxId);
+                formData.append('box_text', customizationText);
+                formData.append('selected_font', fontName);
+                formData.append('card_id', cardId);
+                formData.append('to_name', toField);
+                formData.append('from_name', fromField);
+                formData.append('message', messageField);
+
+                // Add images
+                document.querySelectorAll('.dynamic-image-upload').forEach(input => {
+                    if (input.files[0]) {
+                        formData.append(`image_${input.getAttribute('data-insiding-id')}_${input.getAttribute('data-upload-index')}`, input.files[0]);
+                    }
+                });
+
+                // AJAX submission
+                fetch('/premade/store', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            title: 'Uğurlu!',
+                            text: 'Məhsul səbətə əlavə olundu',
+                            icon: 'success',
+                            confirmButtonText: 'Bağla'
+                        }).then(() => {
+                            window.location.reload(); // Optional: reload page or redirect
+                        });
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Xəta!',
+                            text: 'Məhsul əlavə edilərkən xəta baş verdi: ' + error.message,
+                            icon: 'error',
+                            confirmButtonText: 'Bağla'
+                        });
+                        console.error('Error:', error);
+                    });
+            });
+
+            function showValidationError(message) {
+                Swal.fire({
+                    title: 'Diqqət!',
+                    text: message,
+                    icon: 'warning',
+                    confirmButtonText: 'Bağla'
+                });
+            }
+        });
+
+        // Helper functions for dynamic interactions
+        function previewImage(event, identificator) {
+            const input = event.target;
+            const preview = document.getElementById(`image-preview-img-${identificator}`);
+            const previewSpan = document.getElementById(`image-preview-${identificator}`);
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    previewSpan.style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
-        // Error message display function
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-4';
-            errorDiv.style.zIndex = '9999';
-            errorDiv.textContent = message;
-            document.body.appendChild(errorDiv);
+        function changeVariantActive(button, insidigId) {
+            const variantsContainer = document.querySelector(`.variants-buttons[data-insiding-id="${insidigId}"]`);
+            variantsContainer.querySelectorAll('.variant-button').forEach(btn => {
+                btn.classList.remove('active', 'btn-primary');
+                btn.classList.add('btn-outline-secondary');
+            });
 
-            setTimeout(() => errorDiv.remove(), 3000);
+            button.classList.remove('btn-outline-secondary');
+            button.classList.add('active', 'btn-primary');
         }
+
+        // Font selection toggle
+        document.querySelectorAll('.font-button-customizing-edit').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.font-button-customizing-edit').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
     </script>
+
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+document.write('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>');
+document.write('<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" rel="stylesheet">');
 
 <script src={{ asset('assets/front/js/customize-premade.js') }}></script>
 

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        // 1. Əsas sifarişin məlumatları
+        // 1. `user_card_for_premade_boxes` table
         Schema::create('user_card_for_premade_boxes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('gift_box_id')->constrained('gift_boxes')->onDelete('cascade');
             $table->string('box_text');
             $table->string('selected_font');
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'rejected', 'accepted'])->default('pending');
             $table->timestamps();
         });
 
-        // 2. Kart məlumatları
+        // 2. `user_card_details` table
         Schema::create('user_card_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_card_for_premade_box_id')
@@ -36,24 +36,36 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 3. Qutu içindəki əşyaların fərdiləşdirilməsi
+        // 3. `user_premade_box_items` table
         Schema::create('user_premade_box_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_card_for_premade_box_id')
                 ->constrained('user_card_for_premade_boxes')
                 ->onDelete('cascade');
             $table->foreignId('insiding_id')
-                ->constrained('premade_box_insidings')  // insidings əvəzinə premade_box_insidings
+                ->constrained('premade_box_insidings')
                 ->onDelete('cascade');
             $table->string('selected_variant')->nullable();
             $table->text('custom_text')->nullable();
-            $table->string('uploaded_image')->nullable();
+            $table->timestamps();
+        });
+
+        // 4. `user_premade_box_item_images` table
+        Schema::create('user_premade_box_item_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_premade_box_item_id')
+                ->constrained('user_premade_box_items')
+                ->onDelete('cascade');
+            $table->string('image_path');
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }
 
     public function down()
     {
+        // Tabloları tərs sırayla silirik
+        Schema::dropIfExists('user_premade_box_item_images');
         Schema::dropIfExists('user_premade_box_items');
         Schema::dropIfExists('user_card_details');
         Schema::dropIfExists('user_card_for_premade_boxes');
