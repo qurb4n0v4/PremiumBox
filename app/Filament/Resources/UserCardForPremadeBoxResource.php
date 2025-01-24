@@ -61,12 +61,16 @@ class UserCardForPremadeBoxResource extends Resource
                 TextColumn::make('premadeBox.name')
                     ->label('Premade Box Name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
+
 
                 TextColumn::make('giftBox.title')
                     ->label('Gift Box Title')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
+
 
                 // Kolonlar disabled olmalı, formdaki gibi sadece status değiştirilebilir
                 TextColumn::make('box_text')
@@ -96,7 +100,9 @@ class UserCardForPremadeBoxResource extends Resource
                 TextColumn::make('userCardDetails.card.name')
                     ->label('Card Name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
+
 
                 TextColumn::make('userCardDetails.to_name')
                     ->label('To Name')
@@ -106,12 +112,21 @@ class UserCardForPremadeBoxResource extends Resource
                 TextColumn::make('userCardDetails.from_name')
                     ->label('From Name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
+
 
                 TextColumn::make('userCardDetails.message')
                     ->label('Message')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->disabled(),
+
+                TextColumn::make('images.image_path')
+                    ->label('Image Path')
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(),
 
                 // Status'ü BadgeColumn ile renkli hale getiriyoruz
                 BadgeColumn::make('status')
@@ -131,6 +146,7 @@ class UserCardForPremadeBoxResource extends Resource
                     ->action(function ($record) {
                         // Burada status değişim işlemi yapılacak
                     })
+
             ])
             ->bulkActions([]);
     }

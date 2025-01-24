@@ -42,4 +42,8 @@ class UserCardForPremadeBox extends Model
     {
         return $this->belongsTo(GiftBox::class, 'gift_box_id');
     }
+    public function images()
+    {
+        return $this->hasMany(UserPremadeBoxItemImage::class, 'user_premade_box_item_id');
+    }
 }
