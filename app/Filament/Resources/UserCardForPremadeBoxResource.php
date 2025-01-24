@@ -131,7 +131,7 @@ class UserCardForPremadeBoxResource extends Resource
                     ->action(function ($record) {
                         // Burada status değişim işlemi yapılacak
                     })
-                    ->icon('heroicon-o-refresh')
+
             ])
             ->bulkActions([]);
     }
