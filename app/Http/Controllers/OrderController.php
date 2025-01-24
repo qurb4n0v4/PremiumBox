@@ -10,10 +10,15 @@ class OrderController extends Controller
 {
     public function index()
     {
-        // Sadece tamamlanmış siparişleri çek
-        $orders = UserCardForBuildABox::with('userBuildABoxCardItems.chooseItem')
+        // Only fetch orders with "completed" or "rejected" status
+        $orders = UserCardForBuildABox::with([
+            'userBuildABoxCardItems.chooseItem',
+            'giftBox',
+            'card',
+            'userBuildABoxCardItems.images'
+        ])
             ->where('user_id', auth()->id())
-            ->where('status', 'completed') // Tamamlanmış siparişler
+            ->whereIn('status', ['completed', 'rejected']) // Filter for 'completed' or 'rejected' status
             ->get();
 
         return view('front.user.orders', compact('orders'));

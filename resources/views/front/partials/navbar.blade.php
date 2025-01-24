@@ -17,7 +17,7 @@
                             <div class="user-dropdown-content">
                                 <a href="{{ route('profile-details') }}">Profilim</a>
                                 <a href="{{ route('orders.index') }}">Sifarişlərim</a>
-                                <a href="{{ route('coupons') }}">Kuponlarım</a>
+{{--                                <a href="{{ route('coupons') }}">Kuponlarım</a>--}}
                                 <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                                     @csrf
                                     @method('POST')
