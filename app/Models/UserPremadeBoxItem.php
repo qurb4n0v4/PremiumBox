@@ -27,4 +27,11 @@ class UserPremadeBoxItem extends Model
     {
         return $this->belongsTo(Insiding::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(UserPremadeBoxItemImage::class);
+    }
+
+
 }
