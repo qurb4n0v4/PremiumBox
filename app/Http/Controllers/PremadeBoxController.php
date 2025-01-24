@@ -173,9 +173,14 @@ class PremadeBoxController extends Controller
                 $userPremadeBoxItem = UserPremadeBoxItem::create([
                     'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
                     'insiding_id' => $insiding->id,
-                    'custom_text' => $customText,
-                    'selected_variant' => $selectedVariant
+                    'custom_text' => $request->input("dynamic_textarea_{$insiding->id}"),
+                    'selected_variant' => $request->input("variant_{$insiding->id}")
                 ]);
+
+                \Log::info('Checking files for insiding ' . $insiding->id, [
+                    'files' => $request->allFiles()
+                ]);
+
 
                 // Handle multiple image uploads
                 $imageInputName = "image_{$insiding->id}";
