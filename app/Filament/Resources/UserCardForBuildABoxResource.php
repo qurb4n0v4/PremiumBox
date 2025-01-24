@@ -67,6 +67,16 @@ class UserCardForBuildABoxResource extends Resource
                     ->columns(1)
                     ->label('Images')
                     ->disabled(),
+
+                Forms\Components\TextInput::make('chooseItem.name')
+                    ->label('Item Name')
+                    ->disabled(),
+                Forms\Components\Textarea::make('selected_variants')
+                    ->label('Selected Variants')
+                    ->disabled(),
+                Forms\Components\Textarea::make('user_text')
+                    ->label('User Text')
+                    ->disabled(),
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'Pending',
@@ -100,18 +110,15 @@ class UserCardForBuildABoxResource extends Resource
                     ->label('Card Message'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status'),
-                // Images from build_a_box_item_images table
                 Tables\Columns\ImageColumn::make('userBuildABoxCardItems.images.image')
                     ->label('Item Image')
                     ->disk('public'),
-
-                // Choose item details from user_build_a_box_card_items
-                Tables\Columns\TextColumn::make('chooseItems.name')
-                    ->label('Item Name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('selected_variants')
-                    ->label('Selected Variants'),
-                Tables\Columns\TextColumn::make('user_text')
+                Tables\Columns\TextColumn::make('userBuildABoxCardItems.chooseItem.name')
+                    ->label('Item Name'),
+                Tables\Columns\TextColumn::make('userBuildABoxCardItems.selected_variants')
+                    ->label('Selected Variants')
+                    ->formatStateUsing(fn($state) => is_array($state) ? implode(', ', $state) : $state),
+                Tables\Columns\TextColumn::make('userBuildABoxCardItems.user_text')
                     ->label('User Text'),
             ])
             ->filters([

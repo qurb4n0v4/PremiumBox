@@ -15,7 +15,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-3">
                                         @if ($userCard->card && $userCard->card->image)
-                                            <img src="{{ asset('storage/' . $userCard->card->image) }}" alt="Box Image" class="cart-item-image">
+                                            <img src="{{ asset('storage/' . $userCard->card->image) }}" alt="Box Image"
+                                                 class="cart-item-image">
                                         @else
                                             <p>Şəkil mövcud deyil</p>
                                         @endif
@@ -29,12 +30,39 @@
                                         <ul class="cart-item-contents">
                                             @forelse($userCard->userBuildABoxCardItems as $item)
                                                 <li>
-                                                    {{ $item->chooseItem->name ?? 'Ad mövcud deyil' }} - Variant: {{ $item->selected_variants }} - Mətn: {{ $item->user_text }}
+                                                    {{ $item->chooseItem->name ?? 'Ad mövcud deyil' }} -
+                                                    Variant:
+                                                    @php
+                                                        $variants = json_decode($item->selected_variants, true);
+                                                    @endphp
+                                                    @if($variants && is_array($variants))
+                                                        @foreach($variants as $key => $value)
+                                                            {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last), @endif
+                                                        @endforeach
+                                                    @else
+                                                        Variant məlumatı mövcud deyil.
+                                                    @endif
+                                                    - Mətn: {{ $item->user_text }}
                                                 </li>
                                             @empty
                                                 <li>Seçilmiş əşyalar mövcud deyil.</li>
                                             @endforelse
                                         </ul>
+
+                                        <!-- Sipariş durumu -->
+                                        <p class="cart-item-status">
+                                            <strong style="color: #a3907a;">Status:</strong>
+                                            <span class="badge
+                                                @if ($userCard->status == 'pending')
+                                                    badge-warning
+                                                @elseif ($userCard->status == 'completed')
+                                                    badge-success
+                                                @else
+                                                    badge-secondary
+                                                @endif">
+                                                {{ ucfirst($userCard->status) }}
+                                            </span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -42,13 +70,15 @@
                     @empty
                         <p class="cart-empty-text">Səbət boşdur.</p>
                     @endforelse
-                        <!-- Siparişi Tamamla Formu -->
-                        @if ($userCards->count() > 0)
-                            <form action="{{ route('cart.checkout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">Sifarişi Tamamla</button>
-                            </form>
-                        @endif
+                    <!-- Siparişi Tamamla Formu -->
+                    @if ($userCards->count() > 0)
+                        <form action="{{ route('cart.checkout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-cart-done">
+                                <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
+                            </button>
+                        </form>
+                    @endif
                 @else
                     <p class="cart-empty-text">Səbət boşdur. Xahiş edirik, giriş edin.</p>
                 @endauth
@@ -111,6 +141,27 @@
         color: #898989;
         text-align: center;
         margin-top: 20px;
+    }
+
+    .cart-item-status {
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+    .cart-item-status .badge {
+        color: #ffffff;
+        background-color: #898989; /* Default status color */
+    }
+
+    .cart-item-status .badge-success {
+        background-color: #a3907a; /* Completed status color */
+    }
+
+    .cart-item-status .badge-warning {
+        background-color: #898989; /* Pending status color */
+    }
+
+    .cart-item-status .badge-secondary {
+        background-color: #898989; /* Default/Other status color */
     }
 
     @media (max-width: 768px) {

@@ -50,4 +50,12 @@ class ChooseItem extends Model
     {
         return $this->length * $this->width * $this->height;
     }
+    public function userBuildABoxCardItems()
+    {
+        return $this->hasMany(UserBuildABoxCardItem::class);
+    }
+    public function buildABoxItemImages()
+    {
+        return $this->hasMany(BuildABoxItemImage::class);
+    }
 }
