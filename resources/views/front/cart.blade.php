@@ -37,7 +37,9 @@
                                                     @endphp
                                                     @if($variants && is_array($variants))
                                                         @foreach($variants as $key => $value)
-                                                            {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last), @endif
+                                                            {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last)
+                                                                ,
+                                                            @endif
                                                         @endforeach
                                                     @else
                                                         Variant məlumatı mövcud deyil.
@@ -53,16 +55,24 @@
                                         <p class="cart-item-status">
                                             <strong style="color: #a3907a;">Status:</strong>
                                             <span class="badge
-                                                @if ($userCard->status == 'pending')
-                                                    badge-warning
-                                                @elseif ($userCard->status == 'completed')
-                                                    badge-success
-                                                @else
-                                                    badge-secondary
-                                                @endif">
-                                                {{ ucfirst($userCard->status) }}
-                                            </span>
+                                @if ($userCard->status == 'pending')
+                                    badge-warning
+                                @elseif ($userCard->status == 'completed')
+                                    badge-success
+                                @else
+                                    badge-secondary
+                                @endif">
+                                {{ ucfirst($userCard->status) }}
+                            </span>
                                         </p>
+
+                                        <!-- Silme Butonu -->
+                                        <form action="{{ route('cart.destroy', $userCard->id) }}" method="POST"
+                                              class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -72,16 +82,12 @@
                     @endforelse
                     <!-- Siparişi Tamamla Formu -->
                     @if ($userCards->count() > 0)
-                        <form action="{{ route('cart.checkout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-cart-done">
-                                <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
-                            </button>
-                        </form>
+                        <button type="submit" class="btn btn-cart-done">
+                            <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
+                        </button>
                     @endif
-                @else
-                    <p class="cart-empty-text">Səbət boşdur. Xahiş edirik, giriş edin.</p>
                 @endauth
+
             </div>
         </div>
     </div>
@@ -147,6 +153,7 @@
         margin-top: 10px;
         font-size: 1rem;
     }
+
     .cart-item-status .badge {
         color: #ffffff;
         background-color: #898989; /* Default status color */
@@ -162,6 +169,16 @@
 
     .cart-item-status .badge-secondary {
         background-color: #898989; /* Default/Other status color */
+    }
+
+    .btn-cart-done {
+        color: #a3907a !important;
+        background-color: #ffffff !important;
+        border: 1px solid #a3907a !important;
+    }
+    .btn-cart-delete {
+        color: #ffffff !important;
+        background-color: #a3907a !important;
     }
 
     @media (max-width: 768px) {

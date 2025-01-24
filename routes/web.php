@@ -94,14 +94,19 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::post('/checkout', [CartController::class, 'checkout'])->name('cart.checkout'); // Siparişi Tamamla
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index'); // Siparişleri Göster
 });
 
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart.index');
 
+Route::middleware('auth')->group(function () {
+    // Sepet sayfası
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+    // Siparişi silme işlemi
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+});
 Route::prefix('box')->group(function () {
     // Qutu seçimini saxla
     Route::post('/save-box-selection', [SessionController::class, 'saveBoxSelection'])->name('box.saveBoxSelection');
