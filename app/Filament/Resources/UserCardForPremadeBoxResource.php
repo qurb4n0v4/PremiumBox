@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserCardForPremadeBoxResource\Pages;
-use App\Filament\Resources\UserCardForPremadeBoxResource\RelationManagers;
 use App\Models\UserCardForPremadeBox;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,8 +10,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserCardForPremadeBoxResource extends Resource
 {
@@ -31,12 +27,12 @@ class UserCardForPremadeBoxResource extends Resource
             ->schema([
                 Forms\Components\Select::make('premade_box_id')
                     ->label('Premade Box Name')
-                    ->relationship('premadeBox', 'name') // Relationship'i tanımlıyoruz
+                    ->relationship('premadeBox', 'name')
                     ->disabled(),
 
                 Forms\Components\Select::make('gift_box_id')
                     ->label('Gift Box Title')
-                    ->relationship('giftBox', 'title') // Relationship'i tanımlıyoruz
+                    ->relationship('giftBox', 'title')
                     ->disabled(),
 
                 Forms\Components\Textarea::make('box_text')
@@ -72,6 +68,7 @@ class UserCardForPremadeBoxResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                // Kolonlar disabled olmalı, formdaki gibi sadece status değiştirilebilir
                 TextColumn::make('box_text')
                     ->label('Box Text')
                     ->disabled(),
@@ -80,24 +77,69 @@ class UserCardForPremadeBoxResource extends Resource
                     ->label('Selected Font')
                     ->disabled(),
 
+                // Items kısmındaki bilgileri kullanıcıya gösterebiliriz
+                TextColumn::make('items.insiding.name')
+                    ->label('Insiding Name')
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(),
+
+                TextColumn::make('items.selected_variant')
+                    ->label('Selected Variant')
+                    ->disabled(),
+
+                TextColumn::make('items.custom_text')
+                    ->label('Custom Text')
+                    ->disabled(),
+
+                // userCardDetails ilişkisini almak için doğru yolu kullanıyoruz
+                TextColumn::make('userCardDetails.card.name')
+                    ->label('Card Name')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('userCardDetails.to_name')
+                    ->label('To Name')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('userCardDetails.from_name')
+                    ->label('From Name')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('userCardDetails.message')
+                    ->label('Message')
+                    ->sortable()
+                    ->searchable(),
+
+                // Status'ü BadgeColumn ile renkli hale getiriyoruz
                 BadgeColumn::make('status')
                     ->label('Status')
                     ->colors([
-                        'primary' => fn ($state): bool => $state === 'pending',
-                        'danger' => fn ($state): bool => $state === 'rejected',
-                        'success' => fn ($state): bool => $state === 'accepted',
+                        'primary' => fn($state): bool => $state === 'pending',
+                        'danger' => fn($state): bool => $state === 'rejected',
+                        'success' => fn($state): bool => $state === 'accepted',
                     ])
-                    ->formatStateUsing(fn ($state): string => ucfirst($state)),
+                    ->formatStateUsing(fn($state): string => ucfirst($state)),
             ])
             ->filters([])
-            ->actions([])
+            ->actions([
+                // Sadece status değiştirilebilir olacak, diğer kolonlara dokunulamayacak
+                Tables\Actions\Action::make('changeStatus')
+                    ->label('Change Status')
+                    ->action(function ($record) {
+                        // Burada status değişim işlemi yapılacak
+                    })
+                    ->icon('heroicon-o-refresh')
+            ])
             ->bulkActions([]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            // İlişkiler burada tanımlanabilir
         ];
     }
 

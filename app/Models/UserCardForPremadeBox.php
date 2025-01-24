@@ -22,12 +22,16 @@ class UserCardForPremadeBox extends Model
 
     public function premadeBox()
     {
-        return $this->belongsTo(PremadeBox::class);
+        return $this->belongsTo(PremadeBox::class, 'premade_box_id');
     }
 
-    public function cardDetails()
+    public function userCardDetails()
     {
-        return $this->hasOne(UserCardDetail::class);
+        return $this->hasMany(UserCardDetail::class);
+    }
+    public function items()
+    {
+        return $this->hasMany(UserPremadeBoxItem::class, 'user_card_for_premade_box_id');
     }
 
     public function premadeBoxItems()
@@ -36,6 +40,6 @@ class UserCardForPremadeBox extends Model
     }
     public function giftBox()
     {
-        return $this->belongsTo(GiftBox::class);
+        return $this->belongsTo(GiftBox::class, 'gift_box_id');
     }
 }

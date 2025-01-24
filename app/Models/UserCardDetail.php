@@ -21,6 +21,6 @@ class UserCardDetail extends Model
 
     public function card()
     {
-        return $this->belongsTo(Card::class);
+        return $this->belongsTo(Card::class, 'card_id');
     }
 }
