@@ -338,21 +338,13 @@ class SessionController extends Controller
             DB::beginTransaction();
 
             $userId = auth()->id();
-
-            // Session məlumatlarını al
             $box = Session::get('selected_box');
             $items = Session::get('selected_item', []);
             $card = Session::get('selected_card');
 
-            // Debug üçün session məlumatlarını log et
-            Log::info('Session data:', [
-                'box' => $box,
-                'items' => $items,
-                'card' => $card,
-                'files' => $request->hasFile('uploaded_images') ? 'Has files' : 'No files'
-            ]);
+            // Remove duplicate items
+            $uniqueItems = array_map('unserialize', array_unique(array_map('serialize', $items)));
 
-            // Əsas yazını əlavə et
             $mainData = [
                 'user_id' => $userId,
                 'gift_box_id' => $box['box_id'] ?? null,
@@ -369,18 +361,14 @@ class SessionController extends Controller
 
             $mainRecordId = DB::table('user_card_for_build_a_box')->insertGetId($mainData);
 
-            // Items və şəkilləri saxla
-            if (!empty($items)) {
-                foreach ($items as $item) {
-                    // Selected variants'ı JSON formatına çevir
-                    $selectedVariants = null;
-                    if (isset($item['selected_variant'])) {
-                        $selectedVariants = is_array($item['selected_variant'])
+            if (!empty($uniqueItems)) {
+                foreach ($uniqueItems as $item) {
+                    $selectedVariants = isset($item['selected_variant'])
+                        ? (is_array($item['selected_variant'])
                             ? json_encode($item['selected_variant'])
-                            : json_encode([$item['selected_variant']]);
-                    }
+                            : json_encode([$item['selected_variant']]))
+                        : null;
 
-                    // Item məlumatlarını əlavə et
                     $itemData = [
                         'user_card_id' => $mainRecordId,
                         'choose_item_id' => $item['item_id'],
@@ -392,36 +380,17 @@ class SessionController extends Controller
 
                     $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
 
-                    // Şəkilləri emal et
-                    // Session-dan gələn şəkilləri emal et
                     if (!empty($item['uploaded_images'])) {
                         foreach ($item['uploaded_images'] as $index => $imagePath) {
-                            try {
-                                // Insert the image into the database
-                                DB::table('build_a_box_item_images')->insert([
-                                    'user_build_a_box_card_item_id' => $itemId,
-                                    'choose_item_id' => $item['item_id'],
-                                    'image' => $imagePath,
-                                    'order' => $index,
-                                    'created_at' => now(),
-                                    'updated_at' => now()
-                                ]);
-
-                                Log::info('Image stored and inserted:', ['image_path' => $imagePath]);
-
-                            } catch (\Exception $e) {
-                                Log::error('Item image processing error:', [
-                                    'error' => $e->getMessage(),
-                                    'item_id' => $item['item_id'],
-                                    'image_path' => $imagePath
-                                ]);
-                            }
+                            DB::table('build_a_box_item_images')->insert([
+                                'user_build_a_box_card_item_id' => $itemId,
+                                'choose_item_id' => $item['item_id'],
+                                'image' => $imagePath,
+                                'order' => $index,
+                                'created_at' => now(),
+                                'updated_at' => now()
+                            ]);
                         }
-                    }
-                    else {
-                        Log::info('No uploaded images found for item:', [
-                            'item_id' => $item['item_id']
-                        ]);
                     }
                 }
             }
@@ -447,4 +416,5 @@ class SessionController extends Controller
             ], 500);
         }
     }
+
 }
