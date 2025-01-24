@@ -11,7 +11,8 @@ class UserCardForPremadeBox extends Model
         'premade_box_id',
         'gift_box_id',
         'box_text',
-        'selected_font'
+        'selected_font',
+        'status'
     ];
 
     public function user()
@@ -32,5 +33,9 @@ class UserCardForPremadeBox extends Model
     public function boxItems()
     {
         return $this->hasMany(UserPremadeBoxItem::class);
+    }
+    public function giftBox()
+    {
+        return $this->belongsTo(GiftBox::class);
     }
 }
