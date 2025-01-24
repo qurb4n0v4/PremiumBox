@@ -12,6 +12,7 @@ use App\Models\UserPremadeBoxItem;
 use Illuminate\Support\Facades\DB;  // Burada DB class-ını daxil edirik
 use Illuminate\Http\Request;
 use App\Models\UserCardForPremadeBox;
+use App\Models\UserPremadeBoxItemImage;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -166,11 +167,8 @@ class PremadeBoxController extends Controller
             $insidings = PremadeBoxInsiding::all();
             foreach ($insidings as $insiding) {
                 // Prepare data for this insiding
-                $customText = $request->input("custom_text_{$insiding->id}") ??
-                    $request->input("dynamic_textarea_$insiding->id");
-
-                $selectedVariant = $request->input("variant_{$insiding->id}") ??
-                    $request->input("selected_variant_$insiding->id");
+                $customText = $request->input("dynamic_textarea_{$insiding->id}");
+                $selectedVariant = $request->input("variant_{$insiding->id}");
 
                 $userPremadeBoxItem = UserPremadeBoxItem::create([
                     'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
@@ -179,14 +177,25 @@ class PremadeBoxController extends Controller
                     'selected_variant' => $selectedVariant
                 ]);
 
-                // Handle image uploads
-                if ($request->hasFile("image_{$insiding->id}_0")) {
-                    $image = $request->file("image_{$insiding->id}_0");
-                    $imagePath = $image->store('premade_box_images', 'public');
+                // Handle multiple image uploads
+                $imageInputName = "image_{$insiding->id}";
+                if ($request->hasFile($imageInputName)) {
+                    $images = $request->file($imageInputName);
 
-                    $userPremadeBoxItem->update([
-                        'image_path' => $imagePath
-                    ]);
+                    // Ensure $images is always an array
+                    if (!is_array($images)) {
+                        $images = [$images];
+                    }
+
+                    foreach ($images as $index => $image) {
+                        $imagePath = $image->store('premade_box_images', 'public');
+
+                        UserPremadeBoxItemImage::create([
+                            'user_premade_box_item_id' => $userPremadeBoxItem->id,
+                            'image_path' => $imagePath,
+                            'order' => $index
+                        ]);
+                    }
                 }
             }
 
@@ -200,4 +209,5 @@ class PremadeBoxController extends Controller
             ], 500);
         }
     }
+
 }

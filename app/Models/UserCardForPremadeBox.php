@@ -30,7 +30,7 @@ class UserCardForPremadeBox extends Model
         return $this->hasOne(UserCardDetail::class);
     }
 
-    public function boxItems()
+    public function premadeBoxItems()
     {
         return $this->hasMany(UserPremadeBoxItem::class);
     }

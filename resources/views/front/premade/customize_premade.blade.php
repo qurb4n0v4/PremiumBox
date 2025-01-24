@@ -7,6 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" rel="stylesheet">
 
 @section('content')
     <div class="choose-box-line"></div>
@@ -280,14 +281,15 @@
                                                                                          alt="Uploaded Image"
                                                                                          style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
                                                                                 </label>
-                                                                                <input id="image-upload-input-{{ $insiding->id }}-{{ $i }}"
-                                                                                       accept="image/*,.heic"
-                                                                                       type="file"
-                                                                                       class="d-none dynamic-image-upload"
-                                                                                       data-insiding-id="{{ $insiding->id }}"
-                                                                                       data-upload-index="{{ $i }}"
-                                                                                       @if($i === 0) required @endif
-                                                                                       onchange="previewImage(event, '{{ $insiding->id }}-{{ $i }}')">
+                                                                                <input
+                                                                                    id="image-upload-input-{{ $insiding->id }}-{{ $i }}"
+                                                                                    accept="image/*,.heic"
+                                                                                    type="file"
+                                                                                    class="d-none dynamic-image-upload"
+                                                                                    data-insiding-id="{{ $insiding->id }}"
+                                                                                    data-upload-index="{{ $i }}"
+                                                                                    @if($i === 0) required @endif
+                                                                                    onchange="previewImage(event, '{{ $insiding->id }}-{{ $i }}')">
                                                                             </div>
                                                                         @endfor
                                                                     </div>
@@ -316,10 +318,9 @@
                                                                 @foreach($variantData as $index => $variant)
                                                                     <button
                                                                         class="btn btn-outline-secondary m-1 variant-button"
-                                                                        data-price="{{ $variant['price'] ?? $insiding->price }}"
-                                                                        data-index="{{ $index }}"
-                                                                        onclick="changeVariantActive(this, {{ $insiding->id }})">
-                                                                        {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                        data-variant="{{ $variant['name'] ?? 'Unnamed Variant' }}"
+                                                                    onclick="changeVariantActive(this, {{ $insiding->id }})">
+                                                                    {{ $variant['name'] ?? 'Unnamed Variant' }}
                                                                     </button>
                                                                 @endforeach
                                                             </div>
@@ -458,11 +459,29 @@
                 formData.append('from_name', fromField);
                 formData.append('message', messageField);
 
-                // Add images
-                document.querySelectorAll('.dynamic-image-upload').forEach(input => {
-                    if (input.files[0]) {
-                        formData.append(`image_${input.getAttribute('data-insiding-id')}_${input.getAttribute('data-upload-index')}`, input.files[0]);
+
+                document.querySelectorAll('.list-group-item').forEach(insiding => {
+                    const insidigId = insiding.getAttribute('data-insiding-id');
+
+                    // Dynamic Text
+                    const dynamicTextarea = insiding.querySelector('.dynamic-textarea');
+                    if (dynamicTextarea) {
+                        formData.append(`dynamic_textarea_${insidigId}`, dynamicTextarea.value.trim());
                     }
+
+                    // Variant Selection
+                    const selectedVariant = insiding.querySelector('.variant-button.active');
+                    if (selectedVariant) {
+                        formData.append(`variant_${insidigId}`, selectedVariant.getAttribute('data-variant'));
+                    }
+
+                    // Image Uploads
+                    const imageInputs = insiding.querySelectorAll('.dynamic-image-upload');
+                    imageInputs.forEach((input, index) => {
+                        if (input.files[0]) {
+                            formData.append(`image_${insidigId}_${index}`, input.files[0]);
+                        }
+                    });
                 });
 
                 // AJAX submission
@@ -554,8 +573,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-document.write('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>');
-document.write('<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" rel="stylesheet">');
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
 
 <script src={{ asset('assets/front/js/customize-premade.js') }}></script>
 
