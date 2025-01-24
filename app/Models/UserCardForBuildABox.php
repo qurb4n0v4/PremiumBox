@@ -45,9 +45,9 @@ class UserCardForBuildABox extends Model
         return $this->hasMany(UserBuildABoxCardItem::class, 'user_card_id');
     }
 
-    public function cardImages()
+    public function Images()
     {
-        return $this->hasMany(BuildABoxCardImage::class);
+        return $this->hasMany(BuildABoxCardImage::class, 'user_card_id', 'id');
     }
     public function cardItems()
     {

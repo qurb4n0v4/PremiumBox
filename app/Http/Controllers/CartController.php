@@ -27,7 +27,7 @@ class CartController extends Controller
             ->get();
 
         foreach ($userCards as $userCard) {
-            $userCard->status = 'done'; // Durum güncellemesi
+            $userCard->status = 'completed'; // Durum güncellemesi
             $userCard->save();
         }
 

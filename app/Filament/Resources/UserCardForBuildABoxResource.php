@@ -35,22 +35,27 @@ class UserCardForBuildABoxResource extends Resource
                     ->disabled(),
                 Forms\Components\TextInput::make('box_customization_text')
                     ->label('Box Customization Text')
-                    ->nullable(),
+                    ->nullable()
+                    ->disabled(),
                 Forms\Components\TextInput::make('selected_font')
                     ->label('Selected Font')
-                    ->nullable(),
+                    ->nullable()
+                    ->disabled(),
                 Forms\Components\TextInput::make('card.name')
                     ->label('Card Name')
                     ->disabled(),
                 Forms\Components\TextInput::make('recipient_name')
                     ->label('Recipient Name')
-                    ->nullable(),
+                    ->nullable()
+                    ->disabled(),
                 Forms\Components\TextInput::make('sender_name')
                     ->label('Sender Name')
-                    ->nullable(),
+                    ->nullable()
+                    ->disabled(),
                 Forms\Components\TextArea::make('card_message')
                     ->label('Card Message')
-                    ->nullable(),
+                    ->nullable()
+                    ->disabled(),
                 Forms\Components\Repeater::make('userBuildABoxCardItems.images')
                     ->relationship('images') // İlişkili modeli bağlayın
                     ->schema([
@@ -60,7 +65,8 @@ class UserCardForBuildABoxResource extends Resource
                             ->image(), // Görsel olarak tanımlayın
                     ])
                     ->columns(1)
-                    ->label('Images'),
+                    ->label('Images')
+                    ->disabled(),
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'Pending',
