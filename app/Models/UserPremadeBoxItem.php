@@ -25,7 +25,7 @@ class UserPremadeBoxItem extends Model
 
     public function insiding()
     {
-        return $this->belongsTo(Insiding::class);
+        return $this->belongsTo(PremadeBoxInsiding::class, 'insiding_id');
     }
 
     public function images()

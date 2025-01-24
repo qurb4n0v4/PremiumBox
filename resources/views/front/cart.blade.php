@@ -55,24 +55,31 @@
                                         <p class="cart-item-status">
                                             <strong style="color: #a3907a;">Status:</strong>
                                             <span class="badge
-                                @if ($userCard->status == 'pending')
-                                    badge-warning
-                                @elseif ($userCard->status == 'completed')
-                                    badge-success
-                                @else
-                                    badge-secondary
-                                @endif">
-                                {{ ucfirst($userCard->status) }}
+                            @if ($userCard->status == 'pending')
+                                badge-warning
+                            @elseif ($userCard->status == 'completed')
+                                badge-success
+                            @else
+                                badge-secondary
+                            @endif">
+                            {{ ucfirst($userCard->status) }}
                             </span>
                                         </p>
 
                                         <!-- Silme Butonu -->
-                                        <form action="{{ route('cart.destroy', $userCard->id) }}" method="POST"
-                                              class="d-inline">
+                                        <form action="{{ route('cart.destroy', $userCard->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
                                         </form>
+
+                                        <!-- Siparişi Tamamla Butonu -->
+
+                                        @if ($userCard->status == 'pending')
+                                            <button type="submit" class="btn btn-cart-done btn-sm">
+                                                <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -80,12 +87,6 @@
                     @empty
                         <p class="cart-empty-text">Səbət boşdur.</p>
                     @endforelse
-                    <!-- Siparişi Tamamla Formu -->
-                    @if ($userCards->count() > 0)
-                        <button type="submit" class="btn btn-cart-done">
-                            <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
-                        </button>
-                    @endif
                 @endauth
 
             </div>
