@@ -2,6 +2,7 @@
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-a-cart.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @section('content')
     @if (session('error'))
         <div class="alert alert-danger">
@@ -431,7 +432,54 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        {{--$('#save-button').on('click', function () {--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{ route('save.to.database') }}",--}}
+        {{--        method: "POST",--}}
+        {{--        data: {--}}
+        {{--            _token: "{{ csrf_token() }}",--}}
+        {{--        },--}}
+        {{--        success: function (response) {--}}
+        {{--            if (response.success) {--}}
+        {{--                alert(response.message);--}}
+        {{--            } else {--}}
+        {{--                alert("Xəta baş verdi: " + response.message);--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        error: function (xhr) {--}}
+        {{--            alert("Serverdə xəta baş verdi: " + xhr.responseJSON.message);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
+
+
         $('#save-button').on('click', function () {
+            // Check if user is logged in
+            const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
+
+            if (!isLoggedIn) {
+                Swal.fire({
+                    title: 'Giriş tələb olunur',
+                    text: 'Davam etmək üçün hesabınıza daxil olmalısınız',
+                    icon: 'warning',
+                    confirmButtonText: 'Daxil ol'
+                }).then(() => {
+                    window.location.href = '/';
+                });
+                return;
+            }
+
+            // Show loading alert
+            Swal.fire({
+                title: 'Əməliyyat yerinə yetirilir...',
+                text: 'Zəhmət olmasa gözləyin',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: "{{ route('save.to.database') }}",
                 method: "POST",
@@ -440,13 +488,46 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        alert(response.message);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Uğurlu əməliyyat',
+                            text: response.message || 'Məlumatlar uğurla yadda saxlanıldı'
+                        });
                     } else {
-                        alert("Xəta baş verdi: " + response.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Əməliyyat uğursuz oldu',
+                            text: response.message || 'Sistemdə xəta baş verdi'
+                        });
                     }
                 },
                 error: function (xhr) {
-                    alert("Serverdə xəta baş verdi: " + xhr.responseJSON.message);
+                    let errorMessage = 'Serverdə naməlum xəta baş verdi';
+
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.status) {
+                        switch (xhr.status) {
+                            case 401:
+                                errorMessage = 'İstifadəçi səlahiyyəti yoxdur';
+                                break;
+                            case 403:
+                                errorMessage = 'Bu əməliyyatı yerinə yetirmək üçün icazəniz yoxdur';
+                                break;
+                            case 404:
+                                errorMessage = 'Sorğu edilən resurs tapılmadı';
+                                break;
+                            case 500:
+                                errorMessage = 'Daxili server xətası baş verdi';
+                                break;
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Xəta',
+                        text: errorMessage
+                    });
                 }
             });
         });

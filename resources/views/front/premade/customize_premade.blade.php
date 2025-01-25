@@ -228,7 +228,7 @@
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
                                                             @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
-                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: contain;">
+                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: cover;">
                                                             @else
                                                                 <p>Şəkil yoxdur.</p>
                                                             @endif
