@@ -42,9 +42,9 @@
 
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
-            <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Sifarişiniz Tamamlandı!</h3>
-            <p style="font-size: 14px; color: #898989">Sifarişiniz uğurla qəbul edildi və komandamız tərəfindən emal olunacaq.</p>
-            <p style="color: #a3907a; font-size: 14px; font-weight: 600">Təşəkkür edirik! Əgər hər hansı bir əlavə dəstəyə ehtiyacınız varsa, bizimlə əlaqə saxlayın.</p>
+            <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Sifarişinizi səbətinizə əlavə edin.</h3>
+            <p style="font-size: 14px; color: #898989">Seçdiyiniz bütün məhsullar və məhsullar haqqında detaylı informasiya aşağıda qeyd olunmuşdur.</p>
+            <p style="color: #a3907a; font-size: 14px; font-weight: 600">Sifarişinizi səbətinizə əlavə etmək üçün sadəcə olaraq "Səbət əlavə et" butonuna klik etməyiniz kifayətdir.</p>
 
             <div id="selectionsSummary" class="selected-items-summary">
                 @if(Session::has('selected_box'))

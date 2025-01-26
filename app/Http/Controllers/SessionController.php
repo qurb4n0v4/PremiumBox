@@ -413,7 +413,7 @@ class SessionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Məlumatlar uğurla saxlanıldı'
+                'message' => 'Sifarişiniz səbətinizə əlavə edildi. Sifarişinizi tamamlamaq üçün səbətinizi ziyarət edin.'
             ]);
 
         } catch (\Exception $e) {
