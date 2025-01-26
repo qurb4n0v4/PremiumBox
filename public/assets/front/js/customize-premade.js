@@ -94,13 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Kart seçmə və aktivləşdirmə
     cardItems.forEach(card => {
         card.addEventListener('click', function () {
-            const cardId = this.closest('.card-item').dataset.id;
+            const cardItem = this.closest('.card-item');
+            const cardId = cardItem.dataset.id;
             const cardName = this.dataset.name;
             const cardPrice = this.dataset.price || "No Price";
 
             // Aktiv kartı göstər
             sliderContainer.style.display = 'none';
             selectedCardContainer.style.display = 'block';
+            selectedCardContainer.setAttribute('data-card-id', cardId);
 
             // Şəkil və məlumatları göstər
             selectedCardImage.src = this.src;
@@ -108,8 +110,12 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedCardPrice.textContent = cardPrice;
 
             // Aktiv sinifini əlavə et
-            cardItems.forEach(img => img.classList.remove('active-card'));
+            cardItems.forEach(img => {
+                img.classList.remove('active-card');
+                img.closest('.card-item').classList.remove('focused');
+            });
             this.classList.add('active-card');
+            cardItem.classList.add('focused');
         });
     });
 
@@ -117,12 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
     resetSlider.addEventListener('click', function () {
         sliderContainer.style.display = 'block';
         selectedCardContainer.style.display = 'none';
+        selectedCardContainer.removeAttribute('data-card-id');
 
         // Aktiv sinifi təmizlə
-        cardItems.forEach(img => img.classList.remove('active-card'));
+        cardItems.forEach(img => {
+            img.classList.remove('active-card');
+            img.closest('.card-item').classList.remove('focused');
+        });
     });
 });
-
 // JavaScript function to handle the variant change
 function changeVariantActive(button, insidingId) {
     const variantsContainer = document.querySelector(`[data-insiding-id="${insidingId}"]`);
