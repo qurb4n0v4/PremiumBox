@@ -152,7 +152,11 @@
                                             <div id="slider-container">
                                                 <div class="row">
                                                     @foreach($cards as $card)
-                                                        <div class="col-6 px-2 col-md-6 card-item m-auto" data-id="{{ $card->id }}" style="width: 220px; height: 90px; margin-bottom: 75px!important;">
+                                                        <div class="col-6 px-2 col-md-6 card-item m-auto"
+                                                             data-id="{{ $card->id }}"
+                                                             data-card-name="{{ $card->name }}"
+                                                             data-card-price="{{ '₼ ' . $card->price ?? '' }}"
+                                                             style="width: 220px; height: 90px; margin-bottom: 75px!important;">
                                                             <img
                                                                 alt="{{ $card->name }}"
                                                                 src="{{ asset('storage/' . $card->image) }}"
@@ -160,11 +164,12 @@
                                                                 style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                                 data-name="{{ $card->name }}"
                                                                 data-price="{{ '₼ ' . $card->price ?? '' }}"
+                                                                data-card-image="{{ asset('storage/' . $card->image) }}"
                                                             >
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Prev və Next düymələri -->
+
                                                 @if(count($cards) > 4)
                                                     <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
                                                         <i class="fas fa-chevron-left"></i>
@@ -175,24 +180,31 @@
                                                 @endif
                                             </div>
 
-                                            <!-- Seçilən kartın göstərilməsi -->
-                                            <div id="selected-card-container" data-card-id="{{ $card->id }}" style="display: none; margin-top: 20px">
+                                            <div id="selected-card-container"
+                                                 data-card-id=""
+                                                 data-card-name=""
+                                                 data-card-price=""
+                                                 data-card-image=""
+                                                 style="display: none; margin-top: 20px">
                                                 <div class="text-center">
                                                     <img
                                                         id="selected-card-image"
                                                         src=""
                                                         alt=""
-                                                        class="rounded img-fluid w-100 mb-3 fixed-size-image">
+                                                        class="rounded img-fluid w-100 mb-3 fixed-size-image"
+                                                        data-full-image=""
+                                                    >
                                                     <h4 id="selected-card-name" style="text-align: center !important;"></h4>
                                                     <p id="selected-card-price" style="font-size: 18px; text-align: center !important;"></p>
-                                                    <button class="choose-box-choose-button" style="max-width: 250px" id="reset-slider">
+                                                    <button class="choose-box-choose-button"
+                                                            style="max-width: 250px"
+                                                            id="reset-slider">
                                                         Kartı dəyişdir
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Form -->
                                     <div class="px-3 pb-3 w-100 d-flex flex-column">
                                         <!-- "To" Field -->
@@ -509,10 +521,14 @@
                     body: formData
                 })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
+                        // Parse the response regardless of status
+                        return response.json().then(data => {
+                            if (!response.ok) {
+                                // Throw an error with the backend's error message
+                                throw new Error(data.message || 'Network response was not ok');
+                            }
+                            return data;
+                        });
                     })
                     .then(data => {
                         Swal.fire({
@@ -525,12 +541,33 @@
                         });
                     })
                     .catch(error => {
-                        Swal.fire({
-                            title: 'Xəta!',
-                            text: 'Məhsul əlavə edilərkən xəta baş verdi: ' + error.message,
-                            icon: 'error',
-                            confirmButtonText: 'Bağla'
-                        });
+                        // Check for authentication-related errors
+                        const authenticationErrors = [
+                            'Authentication required',
+                            'User must be logged in',
+                            'Unauthenticated',
+                            'Unauthorized'
+                        ];
+
+                        const isAuthError = authenticationErrors.some(authError =>
+                            error.message.toLowerCase().includes(authError.toLowerCase())
+                        );
+
+                        if (isAuthError) {
+                            Swal.fire({
+                                title: 'Giriş tələb olunur',
+                                text: 'Məhsul əlavə etmək üçün zəhmət olmasa hesabınıza daxil olun',
+                                icon: 'warning',
+                                confirmButtonText: 'Bağla'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Xəta!',
+                                text: error.message || 'Məhsul əlavə edilərkən xəta baş verdi',
+                                icon: 'error',
+                                confirmButtonText: 'Bağla'
+                            });
+                        }
                         console.error('Error:', error);
                     });
             });
