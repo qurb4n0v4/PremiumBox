@@ -192,7 +192,6 @@
                                             </div>
                                         </div>
                                     </div>
-{{--                                    <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>--}}
 
                                     <!-- Form -->
                                     <div class="px-3 pb-3 w-100 d-flex flex-column">
@@ -468,13 +467,10 @@
                 // Prepare FormData for AJAX submission
                 const formData = new FormData();
 
-// Ensure premade_box_id is a valid numeric ID
                 formData.append('premade_box_id', premadeBoxId);
                 formData.append('gift_box_id', giftBoxId);
                 formData.append('box_text', customizationText);
                 formData.append('selected_font', fontName);
-
-// Structured card details
                 formData.append('card_details[card_id]', cardId);
                 formData.append('card_details[to_name]', toField);
                 formData.append('card_details[from_name]', fromField);
@@ -564,7 +560,6 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Redirect to the route if confirmed
                     window.location.href = '{{ route("choose_premade_box") }}';
                 }
             });
