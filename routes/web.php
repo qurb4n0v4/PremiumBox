@@ -136,4 +136,4 @@ Route::prefix('box')->group(function () {
 });
 
 
-Route::post('/premade/store', [PremadeBoxController::class, 'store'])->name('premade.store');
+Route::post('/api/v1/premade/store', [PremadeBoxController::class, 'store']);

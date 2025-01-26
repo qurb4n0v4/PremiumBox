@@ -142,77 +142,98 @@ class PremadeBoxController extends Controller
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
-            // Create user card for premade box
+            \Log::info('Premade Box Store Request', [
+                'data' => $request->all(),
+                'files' => $request->allFiles()
+            ]);
+
+            $validatedData = $request->validate([
+                'premade_box_id' => 'required|exists:premade_boxes,id',
+                'gift_box_id' => 'required|exists:gift_boxes,id',
+                'box_text' => 'required|string|max:255',
+                'selected_font' => 'required|string|max:50',
+                'card_details' => 'required|array',
+                'card_details.card_id' => 'nullable|exists:cards,id',
+                'card_details.to_name' => 'required|string|max:100',
+                'card_details.from_name' => 'required|string|max:100',
+                'card_details.message' => 'required|string|max:500',
+                'items' => 'required|array',
+                'items.*.insiding_id' => 'required|exists:premade_box_insidings,id',
+                'items.*.selected_variant' => 'nullable|string',
+                'items.*.custom_text' => 'nullable|string',
+                'items.*.images' => 'nullable|array',
+            ]);
+
+            $user = auth()->user();
+
             $userCardForPremadeBox = UserCardForPremadeBox::create([
-                'user_id' => auth()->id() ?? null,
-                'premade_box_id' => $request->input('gift_box_id'),
-                'gift_box_id' => $request->input('gift_box_id'),
-                'box_text' => $request->input('box_text'),
-                'selected_font' => $request->input('selected_font'),
-                'status' => 'pending'
+                'user_id' => $user->id,
+                'premade_box_id' => $validatedData['premade_box_id'],
+                'gift_box_id' => $validatedData['gift_box_id'],
+                'box_text' => $validatedData['box_text'],
+                'selected_font' => $validatedData['selected_font'],
+                'status' => 'pending',
             ]);
 
-            // Create card details
-            UserCardDetail::create([
-                'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
-                'card_id' => $request->input('card_id'),
-                'to_name' => $request->input('to_name'),
-                'from_name' => $request->input('from_name'),
-                'message' => $request->input('message')
+            // Create Card Details
+            $userCardForPremadeBox->userCardDetails()->create([
+                'card_id' => $validatedData['card_details']['card_id'] ?? null,
+                'to_name' => $validatedData['card_details']['to_name'],
+                'from_name' => $validatedData['card_details']['from_name'],
+                'message' => $validatedData['card_details']['message'],
             ]);
 
-            // Process inside items
-            $insidings = PremadeBoxInsiding::all();
-            foreach ($insidings as $insiding) {
-                // Prepare data for this insiding
-                $customText = $request->input("dynamic_textarea_{$insiding->id}");
-                $selectedVariant = $request->input("variant_{$insiding->id}");
-
-                $userPremadeBoxItem = UserPremadeBoxItem::create([
-                    'user_card_for_premade_box_id' => $userCardForPremadeBox->id,
-                    'insiding_id' => $insiding->id,
-                    'custom_text' => $request->input("dynamic_textarea_{$insiding->id}"),
-                    'selected_variant' => $request->input("variant_{$insiding->id}")
+            // Process Items
+            foreach ($validatedData['items'] as $item) {
+                $userPremadeBoxItem = $userCardForPremadeBox->items()->create([
+                    'insiding_id' => $item['insiding_id'],
+                    'selected_variant' => $item['selected_variant'] ?? null,
+                    'custom_text' => $item['custom_text'] ?? null,
                 ]);
 
-                \Log::info('Checking files for insiding ' . $insiding->id, [
-                    'files' => $request->allFiles()
-                ]);
+                // Handle Image Uploads
+                if (!empty($item['images'])) {
+                    foreach ($item['images'] as $index => $imageFile) {
+                        $imagePath = $imageFile->store('premade_box_items', 'public');
 
-
-                // Handle multiple image uploads
-                $imageInputName = "image_{$insiding->id}";
-                if ($request->hasFile($imageInputName)) {
-                    $images = $request->file($imageInputName);
-
-                    // Ensure $images is always an array
-                    if (!is_array($images)) {
-                        $images = [$images];
-                    }
-
-                    foreach ($images as $index => $image) {
-                        $imagePath = $image->store('premade_box_images', 'public');
-
-                        UserPremadeBoxItemImage::create([
-                            'user_premade_box_item_id' => $userPremadeBoxItem->id,
+                        $userPremadeBoxItem->images()->create([
                             'image_path' => $imagePath,
-                            'order' => $index
+                            'order' => $index,
                         ]);
                     }
                 }
             }
 
             DB::commit();
-            return response()->json(['message' => 'Premade box created successfully']);
-        } catch (\Exception $e) {
-            DB::rollBack();
+
             return response()->json([
-                'error' => 'Məhsul əlavə edilərkən xəta baş verdi',
-                'details' => $e->getMessage()
+                'message' => 'Premade box successfully created',
+                'data' => $userCardForPremadeBox->load('userCardDetails', 'items.images'),
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation Error', [
+                'errors' => $e->errors(),
+                'input' => $request->all()
+            ]);
+
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Premade Box Store Error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'message' => 'Error creating premade box',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
+
 
 }
