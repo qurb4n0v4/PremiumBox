@@ -74,7 +74,9 @@
                                 </button>
                                 <div class="d-flex justify-content-end mr-4 pt-3 pe-2">
                                     <div style="cursor: pointer;">
-                                        <a href="{{ route('choose_premade_box') }}" style="color: red" onclick="return confirm('Əvvəlki səhifəyə qayıdacaq. Əminsiniz?')"><i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i></a>
+                                        <a href="{{ route('choose_premade_box') }}" style="color: red" id="deleteLink">
+                                            <i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </h2>
@@ -523,7 +525,7 @@
                             icon: 'success',
                             confirmButtonText: 'Bağla'
                         }).then(() => {
-                            window.location.reload(); // Optional: reload page or redirect
+                            window.location.href = '{{ route("done_premade") }}';
                         });
                     })
                     .catch(error => {
@@ -545,6 +547,27 @@
                     confirmButtonText: 'Bağla'
                 });
             }
+        });
+
+
+        document.getElementById('deleteLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link action
+
+            // SweetAlert for confirmation
+            Swal.fire({
+                title: 'Əminsiniz?',
+                text: 'Əvvəlki səhifəyə qayıdacaq.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Bəli',
+                cancelButtonText: 'İmtina et',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the route if confirmed
+                    window.location.href = '{{ route("choose_premade_box") }}';
+                }
+            });
         });
     </script>
 
