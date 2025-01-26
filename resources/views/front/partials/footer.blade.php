@@ -6,11 +6,11 @@
                 <div class="d-flex flex-column">
                     <!-- Əlaqə Bölməsi -->
                     <div class="footer-contact mb-4">
-                        <p class="for-assistance text-secondary mb-2" style="font-size: 1rem;">Yardım üçün bizimlə aşağıdakı yollarla əlaqə saxlayın</p>
+                        <p class="for-assistance text-secondary mb-2" style="font-size: 1rem;">Hər hansı bir sualınız varsa, aşağıdakı yollarla bizimlə əlaqə saxlayın</p>
                         <div class="d-flex flex-column gap-2">
                             <a href="tel:+081311033691" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;">
                                 <i class="fab fa-whatsapp fs-4 me-2"></i>
-                                <span class="text-secondary">081311033691</span>
+                                <span class="text-secondary">+994 51 503 23 03</span>
                             </a>
                             <a href="mailto:contact@example.com" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;">
                                 <i class="far fa-envelope fs-4 me-2"></i>
@@ -21,7 +21,7 @@
 
                     <!-- Sosial Media Bölməsi -->
                     <div>
-                        <p class="text-secondary mb-2" style="font-size: 1rem;">Sosial mediamızı izləyin</p>
+                        <p class="text-secondary mb-2" style="font-size: 1rem;">Sosial media hesablarımız</p>
                         <div class="d-flex gap-3">
                             <a href="https://www.instagram.com/boxandtale" class="text-secondary" style="font-size: 1.5rem;">
                                 <i class="fab fa-instagram fs-4"></i>
