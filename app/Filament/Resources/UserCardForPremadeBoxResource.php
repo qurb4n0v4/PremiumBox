@@ -58,6 +58,12 @@ class UserCardForPremadeBoxResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('premadeBox.price')
+                    ->label('Premade Box Name')
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(),
+
                 TextColumn::make('premadeBox.name')
                     ->label('Premade Box Name')
                     ->sortable()
