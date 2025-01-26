@@ -309,10 +309,11 @@
                                                         <button
                                                             type="button"
                                                             class="choose-box-customize-button"
-                                                            onclick="window.location.href='{{ route('customize_premade_box', $box->id) }}'"
+                                                            onclick="window.location.href='{{ route('customize_premade_box', ['id' => $box->id]) }}'"
                                                         >
                                                             Tənzimləmək
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -561,4 +562,5 @@
         // Add reset button to filters container
         document.querySelector('.filters').appendChild(resetButton);
     });
+
 </script>

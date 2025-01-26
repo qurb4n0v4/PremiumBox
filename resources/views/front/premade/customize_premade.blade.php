@@ -74,7 +74,9 @@
                                 </button>
                                 <div class="d-flex justify-content-end mr-4 pt-3 pe-2">
                                     <div style="cursor: pointer;">
-                                        <a href="{{ route('choose_premade_box') }}" style="color: red" onclick="return confirm('Əvvəlki səhifəyə qayıdacaq. Əminsiniz?')"><i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i></a>
+                                        <a href="{{ route('choose_premade_box') }}" style="color: red" id="deleteLink">
+                                            <i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </h2>
@@ -190,7 +192,6 @@
                                             </div>
                                         </div>
                                     </div>
-{{--                                    <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>--}}
 
                                     <!-- Form -->
                                     <div class="px-3 pb-3 w-100 d-flex flex-column">
@@ -228,7 +229,7 @@
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
                                                             @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
-                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: contain;">
+                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: cover;">
                                                             @else
                                                                 <p>Şəkil yoxdur.</p>
                                                             @endif
@@ -357,6 +358,20 @@
         document.addEventListener('DOMContentLoaded', function() {
             const addToCartButton = document.getElementById('addToCartButton');
 
+            // URL Parametrini Çəkmək
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawId = window.location.pathname.split('/').pop();
+            console.log('Path ID:', rawId);
+
+            const premadeBoxId = parseInt(rawId, 10);
+            console.log('Parsed ID:', premadeBoxId);
+
+            if (isNaN(premadeBoxId)) {
+                console.error('Invalid Premade Box ID');
+                showValidationError('Premade Box ID is missing or invalid');
+                return;
+            }
+
             addToCartButton.addEventListener('click', function(event) {
                 event.preventDefault();
 
@@ -451,41 +466,42 @@
 
                 // Prepare FormData for AJAX submission
                 const formData = new FormData();
+
+                formData.append('premade_box_id', premadeBoxId);
                 formData.append('gift_box_id', giftBoxId);
                 formData.append('box_text', customizationText);
                 formData.append('selected_font', fontName);
-                formData.append('card_id', cardId);
-                formData.append('to_name', toField);
-                formData.append('from_name', fromField);
-                formData.append('message', messageField);
+                formData.append('card_details[card_id]', cardId);
+                formData.append('card_details[to_name]', toField);
+                formData.append('card_details[from_name]', fromField);
+                formData.append('card_details[message]', messageField);
 
-
-                document.querySelectorAll('.list-group-item').forEach(insiding => {
+// Structured items
+                document.querySelectorAll('.list-group-item').forEach((insiding, index) => {
                     const insidigId = insiding.getAttribute('data-insiding-id');
 
-                    // Dynamic Text
-                    const dynamicTextarea = insiding.querySelector('.dynamic-textarea');
-                    if (dynamicTextarea) {
-                        formData.append(`dynamic_textarea_${insidigId}`, dynamicTextarea.value.trim());
-                    }
+                    formData.append(`items[${index}][insiding_id]`, insidigId);
 
-                    // Variant Selection
                     const selectedVariant = insiding.querySelector('.variant-button.active');
                     if (selectedVariant) {
-                        formData.append(`variant_${insidigId}`, selectedVariant.getAttribute('data-variant'));
+                        formData.append(`items[${index}][selected_variant]`, selectedVariant.getAttribute('data-variant'));
                     }
 
-                    // Image Uploads
+                    const dynamicTextarea = insiding.querySelector('.dynamic-textarea');
+                    if (dynamicTextarea && dynamicTextarea.value.trim()) {
+                        formData.append(`items[${index}][custom_text]`, dynamicTextarea.value.trim());
+                    }
+
                     const imageInputs = insiding.querySelectorAll('.dynamic-image-upload');
-                    imageInputs.forEach((input, index) => {
+                    imageInputs.forEach((input, imageIndex) => {
                         if (input.files[0]) {
-                            formData.append(`image_${insidigId}_${index}`, input.files[0]);
+                            formData.append(`items[${index}][images][${imageIndex}]`, input.files[0]);
                         }
                     });
                 });
 
                 // AJAX submission
-                fetch('/premade/store', {
+                fetch('/api/v1/premade/store', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -505,7 +521,7 @@
                             icon: 'success',
                             confirmButtonText: 'Bağla'
                         }).then(() => {
-                            window.location.reload(); // Optional: reload page or redirect
+                            window.location.href = '{{ route("done_premade") }}';
                         });
                     })
                     .catch(error => {
@@ -529,41 +545,23 @@
             }
         });
 
-        // Helper functions for dynamic interactions
-        function previewImage(event, identificator) {
-            const input = event.target;
-            const preview = document.getElementById(`image-preview-img-${identificator}`);
-            const previewSpan = document.getElementById(`image-preview-${identificator}`);
 
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    previewSpan.style.display = 'none';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        document.getElementById('deleteLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link action
 
-        function changeVariantActive(button, insidigId) {
-            const variantsContainer = document.querySelector(`.variants-buttons[data-insiding-id="${insidigId}"]`);
-            variantsContainer.querySelectorAll('.variant-button').forEach(btn => {
-                btn.classList.remove('active', 'btn-primary');
-                btn.classList.add('btn-outline-secondary');
-            });
-
-            button.classList.remove('btn-outline-secondary');
-            button.classList.add('active', 'btn-primary');
-        }
-
-        // Font selection toggle
-        document.querySelectorAll('.font-button-customizing-edit').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.font-button-customizing-edit').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                this.classList.add('active');
+            // SweetAlert for confirmation
+            Swal.fire({
+                title: 'Əminsiniz?',
+                text: 'Əvvəlki səhifəyə qayıdacaq.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Bəli',
+                cancelButtonText: 'İmtina et',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ route("choose_premade_box") }}';
+                }
             });
         });
     </script>

@@ -44,6 +44,7 @@ class UserCardForPremadeBox extends Model
     }
     public function images()
     {
-        return $this->hasMany(UserPremadeBoxItemImage::class, 'user_premade_box_item_id');
+        return $this->hasManyThrough(UserPremadeBoxItemImage::class, UserPremadeBoxItem::class, 'user_card_for_premade_box_id', 'user_premade_box_item_id');
     }
+
 }

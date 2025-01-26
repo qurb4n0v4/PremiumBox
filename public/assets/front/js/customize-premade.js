@@ -124,27 +124,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // JavaScript function to handle the variant change
-function changeVariantActive(selectedIndex) {
-    // Get all variant buttons
-    let variantButtons = document.querySelectorAll('.variant-button');
+function changeVariantActive(button, insidingId) {
+    const variantsContainer = document.querySelector(`[data-insiding-id="${insidingId}"]`);
+    const variantButtons = variantsContainer.querySelectorAll('.variant-button');
 
-    // Remove 'active' class from all buttons
-    variantButtons.forEach(function (button) {
-        button.classList.remove('active');
+    // Remove 'active' class from all buttons and reset 'data-selected'
+    variantButtons.forEach((btn) => {
+        btn.classList.remove('active');
+        btn.removeAttribute('data-selected');
     });
 
-    // Add 'active' class to the selected button
-    variantButtons[selectedIndex].classList.add('active');
+    // Add 'active' class to the clicked button and mark it as selected
+    button.classList.add('active');
+    button.setAttribute('data-selected', 'true');
 }
-
-// Automatically activate the first variant when the page loads
-document.addEventListener("DOMContentLoaded", function () {
-    // Find the first button with the 'active' class and add it
-    let firstButton = document.querySelector('.variant-button');
-    if (firstButton) {
-        firstButton.classList.add('active');
-    }
-});
 
 function previewImage(event, id) {
     const input = event.target;
