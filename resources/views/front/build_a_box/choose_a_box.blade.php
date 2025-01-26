@@ -3,6 +3,8 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 
+
+
     @php
         $hideFooter = true;
     @endphp
@@ -49,7 +51,7 @@
                     <p>{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
                 </div>
 
-                <div class="row gy-4">
+                <div class="row">
                     @foreach($category->boxes as $box)
                         @php
                             $boxDetail = $box->details->first();
@@ -59,8 +61,8 @@
                         @endphp
 
                             <!-- Box Card -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="card gift-box-card h-100">
+                        <div class="col-md-3"> <!-- 4 columns on medium and larger screens -->
+                            <div class="gift-box-card">
                                 <img src="{{ asset('storage/' . $box->image) }}"
                                      alt="{{ $box->title }}"
                                      loading="lazy">
@@ -75,6 +77,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- First Modal - Box Details -->
                         <div class="modal" id="{{ $uniqueModalId1 }}">

@@ -21,6 +21,7 @@ class UserCardForBuildABox extends Model
         'sender_name',
         'card_message',
         'status',
+        'total_price', // Add this line
     ];
 
 

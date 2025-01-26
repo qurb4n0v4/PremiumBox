@@ -92,6 +92,8 @@ class UserCardForBuildABoxResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('total_price')
+                    ->label('Price'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('User Name'),
                 Tables\Columns\TextColumn::make('giftBox.title')
