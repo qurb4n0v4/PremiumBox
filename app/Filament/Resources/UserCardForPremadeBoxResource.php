@@ -155,12 +155,7 @@ class UserCardForPremadeBoxResource extends Resource
             ])
             ->filters([])
             ->actions([
-                // Sadece status değiştirilebilir olacak, diğer kolonlara dokunulamayacak
-                Tables\Actions\Action::make('changeStatus')
-                    ->label('Change Status')
-                    ->action(function ($record) {
-                        // Burada status değişim işlemi yapılacak
-                    })
+                //
 
             ])
             ->bulkActions([]);
