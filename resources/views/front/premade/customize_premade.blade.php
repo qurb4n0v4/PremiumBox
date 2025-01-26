@@ -509,10 +509,14 @@
                     body: formData
                 })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
+                        // Parse the response regardless of status
+                        return response.json().then(data => {
+                            if (!response.ok) {
+                                // Throw an error with the backend's error message
+                                throw new Error(data.message || 'Network response was not ok');
+                            }
+                            return data;
+                        });
                     })
                     .then(data => {
                         Swal.fire({
@@ -525,12 +529,33 @@
                         });
                     })
                     .catch(error => {
-                        Swal.fire({
-                            title: 'Xəta!',
-                            text: 'Məhsul əlavə edilərkən xəta baş verdi: ' + error.message,
-                            icon: 'error',
-                            confirmButtonText: 'Bağla'
-                        });
+                        // Check for authentication-related errors
+                        const authenticationErrors = [
+                            'Authentication required',
+                            'User must be logged in',
+                            'Unauthenticated',
+                            'Unauthorized'
+                        ];
+
+                        const isAuthError = authenticationErrors.some(authError =>
+                            error.message.toLowerCase().includes(authError.toLowerCase())
+                        );
+
+                        if (isAuthError) {
+                            Swal.fire({
+                                title: 'Giriş tələb olunur',
+                                text: 'Məhsul əlavə etmək üçün zəhmət olmasa hesabınıza daxil olun',
+                                icon: 'warning',
+                                confirmButtonText: 'Bağla'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Xəta!',
+                                text: error.message || 'Məhsul əlavə edilərkən xəta baş verdi',
+                                icon: 'error',
+                                confirmButtonText: 'Bağla'
+                            });
+                        }
                         console.error('Error:', error);
                     });
             });

@@ -142,12 +142,18 @@ class PremadeBoxController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
-            \Log::info('Premade Box Store Request', [
-                'data' => $request->all(),
-                'files' => $request->allFiles()
-            ]);
+            // User Authentication Check
+            $user = auth()->user();
+            if (!$user) {
+                return response()->json([
+                    'message' => 'Authentication required',
+                    'error' => 'User must be logged in to create a premade box'
+                ], 401);
+            }
 
+            // Comprehensive Validation
             $validatedData = $request->validate([
                 'premade_box_id' => 'required|exists:premade_boxes,id',
                 'gift_box_id' => 'required|exists:gift_boxes,id',
@@ -165,8 +171,13 @@ class PremadeBoxController extends Controller
                 'items.*.images' => 'nullable|array',
             ]);
 
-            $user = auth()->user();
+            // Log request details
+            \Log::info('Premade Box Store Request', [
+                'user_id' => $user->id,
+                'data' => $validatedData
+            ]);
 
+            // Create User Card for Premade Box
             $userCardForPremadeBox = UserCardForPremadeBox::create([
                 'user_id' => $user->id,
                 'premade_box_id' => $validatedData['premade_box_id'],
@@ -177,7 +188,7 @@ class PremadeBoxController extends Controller
             ]);
 
             // Create Card Details
-            $userCardForPremadeBox->userCardDetails()->create([
+            $userCardDetails = $userCardForPremadeBox->userCardDetails()->create([
                 'card_id' => $validatedData['card_details']['card_id'] ?? null,
                 'to_name' => $validatedData['card_details']['to_name'],
                 'from_name' => $validatedData['card_details']['from_name'],
@@ -185,18 +196,21 @@ class PremadeBoxController extends Controller
             ]);
 
             // Process Items
-            foreach ($validatedData['items'] as $item) {
+            foreach ($validatedData['items'] as $itemData) {
+                // Create Item
                 $userPremadeBoxItem = $userCardForPremadeBox->items()->create([
-                    'insiding_id' => $item['insiding_id'],
-                    'selected_variant' => $item['selected_variant'] ?? null,
-                    'custom_text' => $item['custom_text'] ?? null,
+                    'insiding_id' => $itemData['insiding_id'],
+                    'selected_variant' => $itemData['selected_variant'] ?? null,
+                    'custom_text' => $itemData['custom_text'] ?? null,
                 ]);
 
                 // Handle Image Uploads
-                if (!empty($item['images'])) {
-                    foreach ($item['images'] as $index => $imageFile) {
+                if (!empty($itemData['images'])) {
+                    foreach ($itemData['images'] as $index => $imageFile) {
+                        // Store image
                         $imagePath = $imageFile->store('upload_images', 'public');
 
+                        // Create image record
                         $userPremadeBoxItem->images()->create([
                             'image_path' => $imagePath,
                             'order' => $index,
@@ -205,14 +219,19 @@ class PremadeBoxController extends Controller
                 }
             }
 
+            // Commit transaction
             DB::commit();
 
+            // Return success response
             return response()->json([
                 'message' => 'Premade box successfully created',
                 'data' => $userCardForPremadeBox->load('userCardDetails', 'items.images'),
             ], 201);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
+            // Rollback transaction on validation error
+            DB::rollBack();
+
             \Log::error('Validation Error', [
                 'errors' => $e->errors(),
                 'input' => $request->all()
@@ -222,7 +241,11 @@ class PremadeBoxController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $e->errors()
             ], 422);
+
         } catch (\Exception $e) {
+            // Rollback transaction on any other error
+            DB::rollBack();
+
             \Log::error('Premade Box Store Error', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
@@ -234,6 +257,5 @@ class PremadeBoxController extends Controller
             ], 500);
         }
     }
-
 
 }
