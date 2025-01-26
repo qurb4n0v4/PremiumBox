@@ -405,21 +405,6 @@
             button.addEventListener('click', async function(e) {
                 e.preventDefault();
 
-                // Check if user is logged in
-                const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
-
-                if (!isLoggedIn) {
-                    Swal.fire({
-                        title: 'Giriş tələb olunur',
-                        text: 'Davam etmək üçün hesabınıza daxil olmalısınız',
-                        icon: 'warning',
-                        confirmButtonText: 'Daxil ol'
-                    }).then(() => {
-                        window.location.href = '/';
-                    });
-                    return;
-                }
-
                 const modal = this.closest('.modal');
                 const cardId = this.getAttribute('data-card-id');
 
