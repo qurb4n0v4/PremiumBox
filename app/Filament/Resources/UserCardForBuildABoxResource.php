@@ -17,9 +17,11 @@ class UserCardForBuildABoxResource extends Resource
 {
     protected static ?string $model = UserCardForBuildABox::class;
 
-    protected static ?string $navigationGroup = 'Orders';
+    protected static ?string $navigationGroup = 'Sifarişlər';
+    protected static ?string $navigationLabel = 'Qutu hazırlama sifarişləri';
 
-    protected static ?string $navigationLabel = 'Build A Box Orders';
+    protected static ?string $pluralModelLabel = 'Qutu hazırlama sifarişləri';
+    protected static ?string $modelLabel = 'Qutu hazırlama sifarişləri';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -93,27 +95,27 @@ class UserCardForBuildABoxResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('total_price')
-                    ->label('Price'),
+                    ->label('Qiymət'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('User Name'),
+                    ->label('İstifadəçi adı'),
                 Tables\Columns\TextColumn::make('giftBox.title')
-                    ->label('Gift Box Title'),
+                    ->label('Seçilmiş qutu'),
                 Tables\Columns\TextColumn::make('box_customization_text')
-                    ->label('Box Customization Text'),
+                    ->label('Qutu üzərindəki yazı'),
                 Tables\Columns\TextColumn::make('selected_font')
-                    ->label('Selected Font'),
+                    ->label('Seçilən yazı stili'),
                 Tables\Columns\TextColumn::make('card.name')
-                    ->label('Card Name'),
+                    ->label('Seçilmiş kart'),
                 Tables\Columns\TextColumn::make('recipient_name')
-                    ->label('Recipient Name'),
+                    ->label('Alıcı adı'),
                 Tables\Columns\TextColumn::make('sender_name')
-                    ->label('Sender Name'),
+                    ->label('Göndərən şəxsin adı'),
                 Tables\Columns\TextColumn::make('card_message')
-                    ->label('Card Message'),
-                Tables\Columns\TextColumn::make('status')
-                    ->label('Status'),
+                    ->label('Kart mesajı'),
+                Tables\Columns\TextColumn::make('userBuildABoxCardItems.chooseItem.name')
+                    ->label('Məhsul adı'),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.images.image')
-                    ->label('Image')
+                    ->label('Əlavə edilən şəkil')
                     ->formatStateUsing(function ($state) {
                         // Split the comma-separated image paths if multiple images are present
                         $imagePaths = explode(',', $state);
@@ -130,13 +132,13 @@ class UserCardForBuildABoxResource extends Resource
                         return $html;
                     })
                     ->html(),
-                Tables\Columns\TextColumn::make('userBuildABoxCardItems.chooseItem.name')
-                    ->label('Item Name'),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.selected_variants')
-                    ->label('Selected Variants')
+                    ->label('Seçilən variant')
                     ->formatStateUsing(fn($state) => is_array($state) ? implode(', ', $state) : $state),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.user_text')
-                    ->label('User Text'),
+                    ->label('Əlavə edilən mətn'),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status'),
             ])
             ->filters([
                 // Apply filters if needed

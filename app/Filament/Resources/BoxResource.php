@@ -17,9 +17,12 @@ class BoxResource extends Resource
     protected static ?string $model = Box::class;
     protected static ?string $navigationIcon = 'heroicon-o-gift-top';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
 
-    protected static ?string $navigationLabel = 'Gift Boxes';
+    protected static ?string $navigationLabel = 'Qutu məlumatları';
+
+    protected static ?string $pluralModelLabel = 'Qutu məlumatları';
+    protected static ?string $modelLabel = 'Qutu məlumatları';
 
     public static function form(Form $form): Form
     {
@@ -67,30 +70,30 @@ class BoxResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('image')
-                    ->label('Image')
+                    ->label('Şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
 
                 TextColumn::make('title_small')
-                    ->label('Small Title'),
+                    ->label('Birinci Başlıq'),
 
                 TextColumn::make('title_large')
-                    ->label('Large Title'),
+                    ->label('İkinci Başlıq'),
 
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label('Açıqlama')
                     ->limit(90),
 
                 TextColumn::make('button_text')
-                    ->label('Button Text'),
+                    ->label('Buton mətni'),
 
                 TextColumn::make('link')
                     ->label('Link'),
 
                 TextColumn::make('color')
-                    ->label('Background Color'),
+                    ->label('Arxa fon rəngi'),
             ]);
     }
 

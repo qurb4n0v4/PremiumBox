@@ -15,7 +15,11 @@ class BoxCategoryResource extends Resource
     protected static ?string $model = BoxCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
-    protected static ?string $navigationGroup = 'Gift Boxes Management';
+    protected static ?string $navigationGroup = 'Hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Qutu kateqoriyası';
+
+    protected static ?string $pluralModelLabel = 'Qutu kateqoriyası';
+    protected static ?string $modelLabel = 'Qutu kateqoriyası';
 
     public static function form(Form $form): Form
     {
@@ -41,10 +45,10 @@ class BoxCategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('name')->searchable(),
-            Tables\Columns\TextColumn::make('width')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('height')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('length')->sortable()->searchable(),
+            Tables\Columns\TextColumn::make('name')->searchable()->label('Kateqoriya adı'),
+            Tables\Columns\TextColumn::make('width')->searchable()->label('Qutu eni'),
+            Tables\Columns\TextColumn::make('height')->searchable()->label('Qutu hündürlüyü'),
+            Tables\Columns\TextColumn::make('length')->searchable()->label('Qutu uzunluğu'),
         ])
             ->filters([
             ])

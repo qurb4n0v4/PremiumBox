@@ -21,10 +21,11 @@ class ChooseItemResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationLabel = 'Choose Items';
+    protected static ?string $navigationGroup = 'Hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Sadə məhsullar';
 
-    protected static ?string $pluralLabel = 'Choose Items';
-    protected static ?string $navigationGroup = 'Gift Boxes Management';
+    protected static ?string $pluralModelLabel = 'Sadə məhsullar';
+    protected static ?string $modelLabel = 'Sadə məhsullar';
 
 
     public static function form(Form $form): Form
@@ -72,16 +73,16 @@ class ChooseItemResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('company_name')->sortable()->searchable(),
-                TextColumn::make('name')->sortable()->searchable(),
-                TextColumn::make('price')->sortable(),
-                TextColumn::make('button')->sortable(),
-                TextColumn::make('category')->sortable()->searchable(),
-                TextColumn::make('production_time')->sortable(),
-                TextColumn::make('width'),
-                TextColumn::make('height'),
-                TextColumn::make('length'),
-                TextColumn::make('created_at')->label('Created')->dateTime(),
+                TextColumn::make('company_name')->label('Satıcı adı')->searchable(),
+                TextColumn::make('name')->label('Məhsul adı')->searchable(),
+                TextColumn::make('price')->label('Qiymət'),
+                TextColumn::make('button')->label('Buton tipi'),
+                TextColumn::make('category')->label('Kateqoriya')->searchable(),
+                TextColumn::make('production_time')->label('İstehsal tarixi'),
+                TextColumn::make('width')->label('Məhsulun eni'),
+                TextColumn::make('height')->label('Məhsulun hündürlüyü'),
+                TextColumn::make('length')->label('Məhsulun uzunluğu'),
+                TextColumn::make('created_at')->label('Yaradıldı')->dateTime(),
             ])
             ->filters([
                 SelectFilter::make('button')

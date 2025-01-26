@@ -18,9 +18,11 @@ class CustomProductDetailResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationLabel = 'Custom Product Details';
+    protected static ?string $navigationGroup = 'Hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Tənzimləmələri olan məhsullar';
 
-    protected static ?string $navigationGroup = 'Gift Boxes Management';
+    protected static ?string $pluralModelLabel = 'Tənzimləmələri olan məhsullar';
+    protected static ?string $modelLabel = 'Tənzimləmələri olan məhsullar';
 
     public static function form(Form $form): Form
     {

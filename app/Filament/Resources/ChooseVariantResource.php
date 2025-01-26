@@ -18,10 +18,11 @@ class ChooseVariantResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationLabel = 'Choose Variants';
+    protected static ?string $navigationGroup = 'Hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Varinat seçimi olan məhsullar';
 
-    protected static ?string $navigationGroup = 'Gift Boxes Management';
-
+    protected static ?string $pluralModelLabel = 'Variant seçimi olan məhsullar';
+    protected static ?string $modelLabel = 'Variant seçimi olan məhsullar';
     public static function form(Form $form): Form
     {
         return $form
@@ -108,30 +109,30 @@ class ChooseVariantResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('chooseItem.name')
-                    ->label('Product')
+                    ->label('Məhsulun adı')
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('images')
-                    ->label('Images')
+                    ->label('Məhsul şəkili')
                     ->circular()
                     ->stacked()
                     ->limit(3),
 
                 Tables\Columns\BooleanColumn::make('available_same_day_delivery')
-                    ->label('Same Day Delivery'),
+                    ->label('Eyni gün çatdırılma'),
 
                 Tables\Columns\TextColumn::make('paragraph')
-                    ->label('Description')
+                    ->label('Açıqlama')
                     ->limit(50),
 
                 Tables\Columns\BooleanColumn::make('has_variants')
-                    ->label('Has Variants'),
+                    ->label('Variantlar'),
 
                 Tables\Columns\BooleanColumn::make('has_custom_text')
-                    ->label('Has Custom Text'),
+                    ->label('İstifadəçi mətni'),
 
                 Tables\Columns\TextColumn::make('text_field_placeholder')
-                    ->label('Text Field Placeholder')
+                    ->label('Mətn altyazısı')
                     ->limit(30),
             ])
             ->filters([])

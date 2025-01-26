@@ -17,12 +17,12 @@ class SlideResource extends Resource
     protected static ?string $model = Slide::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-film';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
 
-    protected static ?string $navigationLabel = 'Slides';
+    protected static ?string $navigationLabel = 'Slider';
 
-    protected static ?string $pluralModelLabel = 'Slides';
-    protected static ?string $modelLabel = 'Slide';
+    protected static ?string $pluralModelLabel = 'Slider';
+    protected static ?string $modelLabel = 'Slider';
 
     public static function form(Form $form): Form
     {
@@ -66,17 +66,17 @@ class SlideResource extends Resource
 
 
         TextColumn::make('title_small')
-                    ->label('Small Title'),
+                    ->label('Birinci başlıq'),
 
                 TextColumn::make('title_large')
-                    ->label('Large Title'),
+                    ->label('İkinci Başlıq'),
 
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label('Açıqlama')
                     ->limit(90),
 
                 TextColumn::make('button_text')
-                    ->label('Button Text'),
+                    ->label('Buton mətni'),
             ])
             ->filters([
             ])

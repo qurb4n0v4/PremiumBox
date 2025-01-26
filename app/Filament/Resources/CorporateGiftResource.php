@@ -18,9 +18,11 @@ class CorporateGiftResource extends Resource
     protected static ?string $model = CorporateGift::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
-    protected static ?string $navigationGroup = 'Content Management';
-    protected static ?string $label = 'Corporate Gift';
-    protected static ?string $pluralLabel = 'Corporate Gifts';
+
+    protected static ?string $navigationLabel = 'Korporativ hədiyyələr';
+
+    protected static ?string $pluralModelLabel = 'Korporativ hədiyyələr';
+    protected static ?string $modelLabel = 'Korporativ hədiyyələr';
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -58,19 +60,19 @@ class CorporateGiftResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('image')
-                    ->label('Image')
+                    ->label('Şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
                 TextColumn::make('title')
-                    ->label('Title')
+                    ->label('Başlıq')
                     ->searchable(),
                 TextColumn::make('paragraph')
-                    ->label('Paragraph')
+                    ->label('paraqraf')
                     ->searchable(),
                 TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Yaradıldı')
                     ->dateTime('M d, Y H:i'),
             ])
             ->filters([
