@@ -122,11 +122,26 @@ class UserCardForPremadeBoxResource extends Resource
                     ->searchable()
                     ->disabled(),
 
-                TextColumn::make('images.image_path')
-                    ->label('Image Path')
-                    ->sortable()
-                    ->searchable()
-                    ->disabled(),
+
+                Tables\Columns\TextColumn::make('images.image_path')
+                    ->label('Images')
+                    ->formatStateUsing(function ($state, $record) {
+                        $imagePaths = $record->images->pluck('image_path');
+
+                        if ($imagePaths->isEmpty()) {
+                            return 'No images available';
+                        }
+
+                        $html = '';
+                        foreach ($imagePaths as $image) {
+                            $imageUrl = asset('storage/' . $image);
+                            $html .= '<img src="' . $imageUrl . '" alt="Media" style="width: 100px; height: auto; margin-right: 10px;" />';
+                        }
+
+                        return $html;
+                    })
+                    ->html(),
+
 
                 // Status'ü BadgeColumn ile renkli hale getiriyoruz
                 BadgeColumn::make('status')

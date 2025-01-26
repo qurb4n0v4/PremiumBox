@@ -195,7 +195,7 @@ class PremadeBoxController extends Controller
                 // Handle Image Uploads
                 if (!empty($item['images'])) {
                     foreach ($item['images'] as $index => $imageFile) {
-                        $imagePath = $imageFile->store('premade_box_items', 'public');
+                        $imagePath = $imageFile->store('upload_images', 'public');
 
                         $userPremadeBoxItem->images()->create([
                             'image_path' => $imagePath,

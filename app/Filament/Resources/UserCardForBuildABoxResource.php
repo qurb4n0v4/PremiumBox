@@ -110,9 +110,24 @@ class UserCardForBuildABoxResource extends Resource
                     ->label('Card Message'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status'),
-                Tables\Columns\ImageColumn::make('userBuildABoxCardItems.images.image')
-                    ->label('Item Image')
-                    ->disk('public'),
+                Tables\Columns\TextColumn::make('userBuildABoxCardItems.images.image')
+                    ->label('Image')
+                    ->formatStateUsing(function ($state) {
+                        // Split the comma-separated image paths if multiple images are present
+                        $imagePaths = explode(',', $state);
+
+                        $html = '';
+                        foreach ($imagePaths as $image) {
+                            $image = trim($image); // Remove extra spaces if any
+                            $imageUrl = asset('storage/' . $image); // Generate the image URL
+
+                            // Append each image to the HTML output
+                            $html .= '<img src="' . $imageUrl . '" alt="Media" style="width: 100px; height: auto; margin-right: 10px;" />';
+                        }
+
+                        return $html;
+                    })
+                    ->html(),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.chooseItem.name')
                     ->label('Item Name'),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.selected_variants')
