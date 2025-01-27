@@ -533,7 +533,7 @@
                     .then(data => {
                         Swal.fire({
                             title: 'Uğurlu!',
-                            text: 'Məhsul səbətə əlavə olundu',
+                            text: 'Sifarişiniz səbətinizə əlavə edildi. Sifarişinizi tamamlamaq üçün səbətinizi ziyarət edin.',
                             icon: 'success',
                             confirmButtonText: 'Bağla'
                         }).then(() => {

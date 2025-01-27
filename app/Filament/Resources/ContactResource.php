@@ -17,9 +17,12 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static ?string $navigationLabel = 'Suggestions';
+    protected static ?string $navigationGroup = 'İstifadəçi təklifləri/istəkləri';
+    protected static ?string $navigationLabel = 'İstifadəçi təklifləri';
 
-    protected static ?string $navigationGroup = 'Contact/Messages';
+    protected static ?string $pluralModelLabel = 'İstifadəçi təklifləri';
+    protected static ?string $modelLabel = 'İstifadəçi təklifləri';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -46,10 +49,10 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->label('Email')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('message')->label('Message')->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('name')->label('İstifadəçi adı')->searchable(),
+                Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
+                Tables\Columns\TextColumn::make('message')->label('Mesaj')->searchable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Yaradıldı')->dateTime(),
             ])
             ->filters([
                 //

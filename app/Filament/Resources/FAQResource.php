@@ -17,8 +17,12 @@ class FAQResource extends Resource
 {
     protected static ?string $model = FAQ::class;
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Haqqımızda';
 
+    protected static ?string $navigationLabel = 'FAQ';
+
+    protected static ?string $pluralModelLabel = 'FAQ';
+    protected static ?string $modelLabel = 'FAQ';
 
     public static function form(Form $form): Form
     {
@@ -40,16 +44,15 @@ class FAQResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('question')
-                    ->searchable()
-                    ->label('Question'),
+                    ->label('Sual'),
 
                 Tables\Columns\TextColumn::make('answer')
                     ->limit(50)
-                    ->label('Answer'),
+                    ->label('Cavab'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->label('Created At'),
+                    ->label('Yaradıldı'),
             ])
             ->filters([
                 // Add filters if needed

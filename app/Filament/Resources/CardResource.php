@@ -16,9 +16,11 @@ class CardResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
 
-    protected static ?string $navigationLabel = 'Cards';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationLabel = 'Karts';
+
+    protected static ?string $pluralModelLabel = 'Karts';
+    protected static ?string $modelLabel = 'Karts';
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -52,7 +54,6 @@ class CardResource extends Resource
             Tables\Columns\ImageColumn::make('image')->label('Kartın Şəkli')->sortable(),
             Tables\Columns\TextColumn::make('price')
                 ->label('Kartın Qiyməti')
-                ->sortable()
                 ->formatStateUsing(fn ($state) => $state !== null ? number_format($state, 2) . ' ₺' : 'Qiymət verilməyib'),
             Tables\Columns\TextColumn::make('created_at')->label('Yaradılma Tarixi')->sortable(),
         ])

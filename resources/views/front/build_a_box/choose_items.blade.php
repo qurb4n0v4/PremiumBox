@@ -221,7 +221,7 @@
                                                                 @if($item->customProductDetails && $item->customProductDetails->description)
                                                                     <div class="variant-paragraph" id="preview-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
                                                                         <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
-                                                                        <span class="show-more-btn" onclick="toggleText('preview-description-{{ $item->id }}')">Show more</span>
+                                                                        <span class="show-more-btn" onclick="toggleText('preview-description-{{ $item->id }}')">Daha çox</span>
                                                                     </div>
                                                                 @endif
 
@@ -289,7 +289,7 @@
                                                                 @if($item->customProductDetails && $item->customProductDetails->description)
                                                                     <div class="variant-paragraph" id="customization-description-{{ $item->id }}" data-full-text="{{ $item->customProductDetails->description }}">
                                                                         <p class="content">{{ \Illuminate\Support\Str::limit($item->customProductDetails->description, 200, ' ...') }}</p>
-                                                                        <span class="show-more-btn" onclick="toggleText('customization-description-{{ $item->id }}')">Show more</span>
+                                                                        <span class="show-more-btn" onclick="toggleText('customization-description-{{ $item->id }}')">Daha çox</span>
                                                                     </div>
                                                                 @endif
 
@@ -484,7 +484,7 @@
                                                                         @if($chooseVariant->paragraph)
                                                                             <div class="variant-paragraph" id="paragraph-{{ $chooseVariant->id }}" data-full-text="{{ $chooseVariant->paragraph }}">
                                                                                 <p class="content">{{ \Illuminate\Support\Str::limit($chooseVariant->paragraph, 200, ' ...') }}</p>
-                                                                                <span class="show-more-btn" onclick="toggleText('paragraph-{{ $chooseVariant->id }}')">Show more</span>
+                                                                                <span class="show-more-btn" onclick="toggleText('paragraph-{{ $chooseVariant->id }}')">Daha çox</span>
                                                                             </div>
                                                                         @endif
 

@@ -1,5 +1,5 @@
 <section class="partners-section my-4">
-    <h2 class="partners-title text-center mb-4">Bizim Tərəfdaşlarımız</h2>
+    <h2 class="partners-title text-center mb-4">Tərəfdaşlarımız</h2>
     <div class="container">
         <div class="swiper-container">
             <div class="swiper-wrapper">

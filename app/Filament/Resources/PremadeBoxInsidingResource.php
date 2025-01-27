@@ -20,9 +20,12 @@ class PremadeBoxInsidingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
-    protected static ?string $navigationLabel = 'Premade Box Insidings';
 
-    protected static ?string $navigationGroup = 'Premade Gift Boxes';
+    protected static ?string $navigationGroup = 'Hazır hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Hazır qutu tərkibindəki məhsullar';
+
+    protected static ?string $pluralModelLabel = 'Hazır qutu tərkibindəki məhsullar';
+    protected static ?string $modelLabel = 'Hazır qutu tərkibindəki məhsullar';
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -130,22 +133,21 @@ class PremadeBoxInsidingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('premadeBox.name')
-                    ->label('Premade Box Name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')->sortable(),
+                    ->label('Hazır qutu adı'),
+                Tables\Columns\TextColumn::make('name')->label('Məhsul adı'),
                 Tables\Columns\TextColumn::make('image')
                     ->label('Məhsul Şəkli')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Məhsul Şəkli" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
-                Tables\Columns\TextColumn::make('quantity')->sortable(),
-                Tables\Columns\BooleanColumn::make('allow_image_upload')->sortable(),
-                Tables\Columns\TextColumn::make('image_upload_title')->default(fn ($record) => $record->image_upload_title ?? 'No title'),
-                Tables\Columns\TextColumn::make('max_image_count')->default(fn ($record) => $record->max_image_count ?? 0),
-                Tables\Columns\BooleanColumn::make('allow_text')->sortable(),
-                Tables\Columns\TextColumn::make('text_field_placeholder')->default(fn ($record) => $record->text_field_placeholder ?? 'No placeholder'),
-                Tables\Columns\BooleanColumn::make('allow_variant_selection')->sortable(),
+                Tables\Columns\TextColumn::make('quantity')->label('Məhsul sayı'),
+                Tables\Columns\BooleanColumn::make('allow_image_upload')->label('Şəkil yükləmə icazəsi'),
+                Tables\Columns\TextColumn::make('image_upload_title')->default(fn ($record) => $record->image_upload_title ?? 'No title')->label('Şəkil yükləmə mətni'),
+                Tables\Columns\TextColumn::make('max_image_count')->default(fn ($record) => $record->max_image_count ?? 0)->label('Maks şəkil sayı'),
+                Tables\Columns\BooleanColumn::make('allow_text')->label('Mətn icazəsi'),
+                Tables\Columns\TextColumn::make('text_field_placeholder')->default(fn ($record) => $record->text_field_placeholder ?? 'No placeholder')->label('Mətn altyazısı'),
+                Tables\Columns\BooleanColumn::make('allow_variant_selection')->label('Variant icazəsi'),
             ])
             ->filters([
                 //

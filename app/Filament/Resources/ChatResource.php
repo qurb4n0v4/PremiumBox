@@ -18,7 +18,11 @@ class ChatResource extends Resource
 {
     protected static ?string $model = Chat::class;
 
-    protected static ?string $navigationGroup = 'Contact/Messages';
+    protected static ?string $navigationGroup = 'İstifadəçi təklifləri/istəkləri';
+    protected static ?string $navigationLabel = 'İstifadəçi istəkləri';
+
+    protected static ?string $pluralModelLabel = 'İstifadəçi istəkləri';
+    protected static ?string $modelLabel = 'İstifadəçi istəkləri';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -48,12 +52,11 @@ class ChatResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->sortable()->searchable(),
-                TextColumn::make('gift_type')->sortable()->searchable(),
-                TextColumn::make('message')->limit(50),
+                TextColumn::make('name')->searchable()->label('İstifadəçi adı'),
+                TextColumn::make('gift_type')->searchable()->label('Hədiyyə növü'),
+                TextColumn::make('message')->limit(50)->label('Mesaj'),
                 TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->sortable()
+                    ->label('Yaradıldı')
                     ->searchable()
                     ->dateTime('d-m-Y H:i:s'),
             ])

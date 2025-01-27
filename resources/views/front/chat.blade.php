@@ -10,9 +10,9 @@
             </div>
 
             <div class="col-md-6">
-                <h1 class="fw-bold chat-title mb-4">Komandamızla Danışın</h1>
+                <h1 class="fw-bold chat-title mb-4">Dəstəyimiz Sizinlədir</h1>
                 <p class="text-muted mb-4">
-                    Xüsusi gününüzü necə qeyd etməkdə sizə kömək edə biləcəyimizi bizə bildirin.
+                    Xüsusi gününüzü unudulmaz etmək üçün fikirlərinizi bizimlə bölüşün.
                 </p>
 
                 @if(session('success'))

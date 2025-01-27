@@ -10,10 +10,10 @@
                 <img src="{{ 'assets/front/img/yellow.webp' }}" alt="GiftBox" class="about-us-image img-fluid">
             </div>
             <div class="col-lg-6">
-                <h1 class="about-us-title">GiftBox</h1>
-                <p class="about-us-subtitle">by GiftBox</p>
+                <h1 class="about-us-title">Premium Box</h1>
+                <p class="about-us-subtitle">by PremiumBox</p>
                 <p>
-                    GiftBox onlayn əsaslı hədiyyə satıcısıdır. Biz burada, müştərilərimizin xüsusi günlərini sevdikləri
+                    PremiumBox onlayn əsaslı hədiyyə satıcısıdır. Biz burada, müştərilərimizin xüsusi günlərini sevdikləri
                     ilə daha da gözəlləşdirmək üçün hədiyyə qutusu və onun içindəkiləri hazırlamağa kömək edirik.
                     Müştərilərimiz, hədiyyə qutularının içini bizim seçilmiş məhsul kolleksiyamızdan seçə bilərlər.
 
@@ -51,13 +51,13 @@
                     <span></span>
                 </div>
                 <div class="how-it-works-step">
-                    <p>2-5 Istehsal</p>
+                    <p>İstehsal gününü gözləyin</p>
                 </div>
                 <div class="how-it-works-arrow">
                     <span></span>
                 </div>
                 <div class="how-it-works-step">
-                    <p>Kuryer ilə Çatdırılacaq</p>
+                    <p>Kuryer ilə Çatdırılma</p>
                 </div>
             </div>
         </div>
@@ -70,20 +70,20 @@
                     <ul class="list-unstyled">
                         <li class="mb-3">
                             <h4 class="step-title">Öz Şəxsi Hədiyyənizi Yaradın</h4>
-                            <button class="btn  btn-shall-we">Qutu Yaradın</button>
+                            <a href="{{ route('choose_a_box') }}" style="text-decoration: none"><button class="btn  btn-shall-we">Qutu Yaradın</button></a>
                         </li>
                         <li class="mb-3">
                             <h4 class="step-title">Hazır Hədiyyə Paketlərini Alın</h4>
-                            <button class="btn  btn-shall-we">Hazır Qutu</button>
+                            <a href="{{ route('choose_premade_box') }}" style="text-decoration: none"><button class="btn  btn-shall-we">Hazır Qutu</button></a>
                         </li>
                         <li class="mb-3">
                             <h4 class="step-title">Korporativ Hədiyyələr və Xüsusi Layihələr</h4>
-                            <button class="btn  btn-shall-we">Korporativ Hədiyyələr</button>
+                            <a href="{{ route('corporate-gifts') }}" style="text-decoration: none"><button class="btn  btn-shall-we">Korporativ Hədiyyələr</button></a>
                         </li>
                     </ul>
                     <p class="mt-3 additional-info p-2">
-                        Əlavə məlumat üçün, <a href="#" class="text-decoration-none" style="color: #a3907a;">Bizimlə Əlaqə Saxlayın</a> və ya
-                        <a href="#" class="text-decoration-none" style="color: #a3907a;">GiftBox's FAQ</a> səhifəsinə baxın
+                        Əlavə məlumat üçün, <a href="{{ route('contact_us') }}" class="text-decoration-none" style="color: #a3907a;">Bizimlə Əlaqə Saxlayın</a> və ya
+                        <a href="{{ route('faq') }}" class="text-decoration-none" style="color: #a3907a;">PremiumBox's FAQ</a> səhifəsinə baxın
                     </p>
                     </p>
                 </div>

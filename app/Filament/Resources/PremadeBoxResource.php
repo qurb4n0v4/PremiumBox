@@ -16,11 +16,12 @@ class PremadeBoxResource extends Resource
     protected static ?string $model = PremadeBox::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationLabel = 'Premade Boxes';
-    protected static ?string $pluralLabel = 'Premade Boxes';
-    protected static ?string $singularLabel = 'Premade Box';
 
-    protected static ?string $navigationGroup = 'Premade Gift Boxes';
+    protected static ?string $navigationGroup = 'Hazır hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Hazır qutular';
+
+    protected static ?string $pluralModelLabel = 'Hazır qutular';
+    protected static ?string $modelLabel = 'Hazır qutular';
 
     public static function form(Form $form): Form
     {
@@ -70,11 +71,11 @@ class PremadeBoxResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('title')->searchable(),
-                Tables\Columns\TextColumn::make('price')->sortable(),
+                Tables\Columns\TextColumn::make('name')->searchable()->label('Adı'),
+                Tables\Columns\TextColumn::make('title')->searchable()->label('Başlıq'),
+                Tables\Columns\TextColumn::make('price')->label('Qiymət'),
                 Tables\Columns\TextColumn::make('normal_image')
-                    ->label('Normal Image')
+                    ->label('Şəkil')
                     ->formatStateUsing(function ($state) {
                         if (!$state) {
                             return '<img src="' . asset('storage/default-image.jpg') . '" alt="No Image Available" style="width: 100px; height: auto;" />';
@@ -83,7 +84,7 @@ class PremadeBoxResource extends Resource
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('hover_image')
-                    ->label('Hover Image')
+                    ->label('Digər şəkil')
                     ->formatStateUsing(function ($state) {
                         if (!$state) {
                             return '<img src="' . asset('storage/default-image.jpg') . '" alt="No Image Available" style="width: 100px; height: auto;" />';
@@ -91,10 +92,10 @@ class PremadeBoxResource extends Resource
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
-                Tables\Columns\TextColumn::make('recipient')->label('Recipient')->sortable(),
-                Tables\Columns\TextColumn::make('occasion')->label('Occasion')->sortable(),
-                Tables\Columns\TextColumn::make('production_time')->label('Production Time')->sortable(),
-                Tables\Columns\TextColumn::make('created_at')->label('Created At')->dateTime(),
+                Tables\Columns\TextColumn::make('recipient')->label('Alıcı'),
+                Tables\Columns\TextColumn::make('occasion')->label('Kateqoriya'),
+                Tables\Columns\TextColumn::make('production_time')->label('İstehsal tarixi'),
+                Tables\Columns\TextColumn::make('created_at')->label('Yaradıldı')->dateTime(),
             ])
             ->filters([]);
     }

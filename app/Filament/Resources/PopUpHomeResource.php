@@ -16,8 +16,12 @@ class PopUpHomeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-up-on-square-stack';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
 
+    protected static ?string $navigationLabel = 'Pop up';
+
+    protected static ?string $pluralModelLabel = 'Pop up';
+    protected static ?string $modelLabel = 'Pop up';
     public static function form(Form $form): Form
     {
         return $form
@@ -48,10 +52,10 @@ class PopUpHomeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title1')
-                    ->label('Title 1')
+                    ->label('Qutu hazırlama üçün başlıq')
                     ->formatStateUsing(fn ($state) => $state ?: '-'), // Boş dəyəri "-" kimi göstər
                 Tables\Columns\TextColumn::make('image1')
-                    ->label('Image 1')
+                    ->label('Qutu hazırlama üçün şəkil')
                     ->formatStateUsing(function ($state) {
                         return $state
                             ? '<img src="' . asset('storage/' . $state) . '" alt="Image 1" style="width: 100px; height: auto;" />'
@@ -59,10 +63,10 @@ class PopUpHomeResource extends Resource
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('title2')
-                    ->label('Title 2')
+                    ->label('Hazır qutu üçün başlıq')
                     ->formatStateUsing(fn ($state) => $state ?: '-'), // Boş dəyəri "-" kimi göstər
                 Tables\Columns\TextColumn::make('image2')
-                    ->label('Image 2')
+                    ->label('Hazır qutu üçün şəkil')
                     ->formatStateUsing(function ($state) {
                         return $state
                             ? '<img src="' . asset('storage/' . $state) . '" alt="Image 2" style="width: 100px; height: auto;" />'

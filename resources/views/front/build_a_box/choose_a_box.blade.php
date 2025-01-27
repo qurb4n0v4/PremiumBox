@@ -3,6 +3,8 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
 
+
+
     @php
         $hideFooter = true;
     @endphp
@@ -49,7 +51,7 @@
                     <p>{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
                 </div>
 
-                <div class="row gy-4">
+                <div class="row">
                     @foreach($category->boxes as $box)
                         @php
                             $boxDetail = $box->details->first();
@@ -59,8 +61,8 @@
                         @endphp
 
                             <!-- Box Card -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="card gift-box-card h-100">
+                        <div class="col-md-3"> <!-- 4 columns on medium and larger screens -->
+                            <div class="gift-box-card">
                                 <img src="{{ asset('storage/' . $box->image) }}"
                                      alt="{{ $box->title }}"
                                      loading="lazy">
@@ -75,6 +77,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- First Modal - Box Details -->
                         <div class="modal" id="{{ $uniqueModalId1 }}">
@@ -192,11 +195,11 @@
                                                     <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
 
                                                     <div>
-                                                        <p class="customizing-text-style-font" style="margin-top: 20px; color: #a3907a">Customize with Their Name or Writing</p>
+                                                        <p class="customizing-text-style-font" style="margin-top: 20px; color: #a3907a">Ad və ya Yazı ilə Şəxsi Fərdiləşdirmə</p>
                                                         <textarea class="customizing-text-input-fonts box-customize-text"
                                                                   data-box-id="{{ $box->id }}"
                                                                   required></textarea>
-                                                        <p class="customizing-text-style-font" style="margin-top: 10px; color: #a3907a">Choose The Font</p>
+                                                        <p class="customizing-text-style-font" style="margin-top: 10px; color: #a3907a">Yazı stilini seçin</p>
                                                         <div class="button-group-customizing-fonts" data-box-id="{{ $box->id }}">
                                                             <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
                                                             <button class="font-button-customizing-edit" data-font="Josefin Sans" style="font-family: Josefin Sans;">Font B</button>

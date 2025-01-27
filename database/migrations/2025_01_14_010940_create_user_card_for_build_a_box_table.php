@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('sender_name')->nullable();
             $table->text('card_message')->nullable();
 
+            $table->decimal('total_price', 10, 2)->nullable(); // Added total price column
+
             $table->enum('status', ['pending', 'rejected', 'completed'])->default('pending');
             $table->timestamps();
         });

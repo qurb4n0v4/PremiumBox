@@ -342,6 +342,18 @@ class SessionController extends Controller
             $items = Session::get('selected_item', []);
             $card = Session::get('selected_card');
 
+            // Calculate total price
+            $totalPrice = 0;
+            if ($box) {
+                $totalPrice += $box['box_price'] ?? 0;
+            }
+            foreach ($items as $item) {
+                $totalPrice += $item['item_price'] ?? 0;
+            }
+            if ($card) {
+                $totalPrice += $card['card_price'] ?? 0;
+            }
+
             // Remove duplicate items
             $uniqueItems = array_map('unserialize', array_unique(array_map('serialize', $items)));
 
@@ -354,6 +366,7 @@ class SessionController extends Controller
                 'recipient_name' => $card['recipient_name'] ?? null,
                 'sender_name' => $card['sender_name'] ?? null,
                 'card_message' => $card['card_message'] ?? null,
+                'total_price' => $totalPrice, // Add total price to main data
                 'status' => 'pending',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -400,7 +413,7 @@ class SessionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Məlumatlar uğurla saxlanıldı'
+                'message' => 'Sifarişiniz səbətinizə əlavə edildi. Sifarişinizi tamamlamaq üçün səbətinizi ziyarət edin.'
             ]);
 
         } catch (\Exception $e) {

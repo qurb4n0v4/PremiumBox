@@ -15,9 +15,11 @@ class UserCardForPremadeBoxResource extends Resource
 {
     protected static ?string $model = UserCardForPremadeBox::class;
 
-    protected static ?string $navigationGroup = 'Orders';
+    protected static ?string $navigationGroup = 'Sifarişlər';
+    protected static ?string $navigationLabel = 'Hazır qutu sifarişləri';
 
-    protected static ?string $navigationLabel = 'Premade Box Orders';
+    protected static ?string $pluralModelLabel = 'Hazır qutu sifarişləri';
+    protected static ?string $modelLabel = 'Hazır qutu sifarişləri';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,6 +27,9 @@ class UserCardForPremadeBoxResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('user.name')
+                    ->label('User Name')
+                    ->disabled(),
                 Forms\Components\Select::make('premade_box_id')
                     ->label('Premade Box Name')
                     ->relationship('premadeBox', 'name')
@@ -59,78 +64,41 @@ class UserCardForPremadeBoxResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('premadeBox.price')
-                    ->label('Premade Box Name')
-                    ->sortable()
+                    ->label('Qiymət')
                     ->searchable()
                     ->disabled(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('İstifadəçi adı'),
 
                 TextColumn::make('premadeBox.name')
-                    ->label('Premade Box Name')
-                    ->sortable()
+                    ->label('Hazır qutu adı')
                     ->searchable()
                     ->disabled(),
 
 
                 TextColumn::make('giftBox.title')
-                    ->label('Gift Box Title')
-                    ->sortable()
+                    ->label('Seçilmiş qutu')
                     ->searchable()
                     ->disabled(),
 
 
                 // Kolonlar disabled olmalı, formdaki gibi sadece status değiştirilebilir
                 TextColumn::make('box_text')
-                    ->label('Box Text')
+                    ->label('Qutu üzərindəki yazı')
                     ->disabled(),
 
                 TextColumn::make('selected_font')
-                    ->label('Selected Font')
+                    ->label('Seçilmiş yazı stili')
                     ->disabled(),
 
                 // Items kısmındaki bilgileri kullanıcıya gösterebiliriz
                 TextColumn::make('items.insiding.name')
-                    ->label('Insiding Name')
-                    ->sortable()
+                    ->label('Tərkibindəki məhsul adı')
                     ->searchable()
                     ->disabled(),
-
-                TextColumn::make('items.selected_variant')
-                    ->label('Selected Variant')
-                    ->disabled(),
-
-                TextColumn::make('items.custom_text')
-                    ->label('Custom Text')
-                    ->disabled(),
-
-                // userCardDetails ilişkisini almak için doğru yolu kullanıyoruz
-                TextColumn::make('userCardDetails.card.name')
-                    ->label('Card Name')
-                    ->sortable()
-                    ->searchable()
-                    ->disabled(),
-
-
-                TextColumn::make('userCardDetails.to_name')
-                    ->label('To Name')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('userCardDetails.from_name')
-                    ->label('From Name')
-                    ->sortable()
-                    ->searchable()
-                    ->disabled(),
-
-
-                TextColumn::make('userCardDetails.message')
-                    ->label('Message')
-                    ->sortable()
-                    ->searchable()
-                    ->disabled(),
-
 
                 Tables\Columns\TextColumn::make('images.image_path')
-                    ->label('Images')
+                    ->label('Məhsul şəkli')
                     ->formatStateUsing(function ($state, $record) {
                         $imagePaths = $record->images->pluck('image_path');
 
@@ -147,6 +115,37 @@ class UserCardForPremadeBoxResource extends Resource
                         return $html;
                     })
                     ->html(),
+
+
+                TextColumn::make('items.selected_variant')
+                    ->label('Seçilən variant')
+                    ->disabled(),
+
+                TextColumn::make('items.custom_text')
+                    ->label('Əlavə edilən mətn')
+                    ->disabled(),
+
+                // userCardDetails ilişkisini almak için doğru yolu kullanıyoruz
+                TextColumn::make('userCardDetails.card.name')
+                    ->label('Seçilmiş kart')
+                    ->searchable()
+                    ->disabled(),
+
+
+                TextColumn::make('userCardDetails.to_name')
+                    ->label('Alıcı adı')
+                    ->searchable(),
+
+                TextColumn::make('userCardDetails.from_name')
+                    ->label('Göndərən şəxsin adı')
+                    ->searchable()
+                    ->disabled(),
+
+
+                TextColumn::make('userCardDetails.message')
+                    ->label('Kart mesajı')
+                    ->searchable()
+                    ->disabled(),
 
 
                 // Status'ü BadgeColumn ile renkli hale getiriyoruz
