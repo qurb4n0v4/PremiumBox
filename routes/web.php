@@ -105,7 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
     // Siparişi silme işlemi
-    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::delete('/cart/{id}/{type}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 Route::prefix('box')->group(function () {
     // Qutu seçimini saxla

@@ -23,7 +23,7 @@ class CartController extends Controller
 
         // Premade box siparişlerini al
         $premadeBoxOrders = auth()->check()
-            ? UserCardForPremadeBox::with('giftBox')
+            ? UserCardForPremadeBox::with('giftBox', 'premadeBox.insidings',)
                 ->where('user_id', auth()->id())
                 ->where('status', 'pending') // Sadece 'pending' olanları al
                 ->get()
@@ -32,10 +32,17 @@ class CartController extends Controller
         // Verileri görünüm dosyasına gönder
         return view('front.cart', compact('userCards', 'premadeBoxOrders'));
     }
-    public function destroy($id)
+    public function destroy($id, $type)
     {
-        // Kullanıcıya ait kartı bul ve sil
-        $userCard = UserCardForBuildABox::where('user_id', auth()->id())->findOrFail($id);
+        if ($type === 'build-a-box') {
+            // Kullanıcıya ait build-a-box kartını bul ve sil
+            $userCard = UserCardForBuildABox::where('user_id', auth()->id())->findOrFail($id);
+        } elseif ($type === 'premade-box') {
+            // Kullanıcıya ait premade-box siparişini bul ve sil
+            $userCard = UserCardForPremadeBox::where('user_id', auth()->id())->findOrFail($id);
+        } else {
+            return redirect()->route('cart.index')->with('error', 'Geçersiz tür.');
+        }
 
         // Kartı sil
         $userCard->delete();

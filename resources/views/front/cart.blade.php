@@ -9,132 +9,115 @@
                 <h2 class="mb-4 cart-header-title">Səbət</h2>
 
                 @auth
-                    <!-- User Cards -->
-                    @forelse($userCards as $userCard)
-                        <div class="cart-card mb-4">
-                            <div class="cart-card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-3">
-                                        @if ($userCard->card && $userCard->card->image)
-                                            <img src="{{ asset('storage/' . $userCard->card->image) }}" alt="Box Image"
-                                                 class="cart-item-image">
-                                        @else
-                                            <p>Şəkil mövcud deyil</p>
-                                        @endif
-                                    </div>
-                                    <div class="col-9">
-                                        <h5 class="cart-item-title">{{ $userCard->card->name ?? 'Kart adı mövcud deyil' }}</h5>
-                                        <p class="cart-item-info">Kimdən: {{ $userCard->sender_name }}</p>
-                                        <p class="cart-item-info">Kimə: {{ $userCard->recipient_name }}</p>
-                                        <p class="cart-item-info">Mesaj: {{ $userCard->card_message }}</p>
-                                        <p class="cart-item-info"><strong>Box Contents:</strong></p>
-                                        <ul class="cart-item-contents">
-                                            @forelse($userCard->userBuildABoxCardItems as $item)
-                                                <li>
-                                                    {{ $item->chooseItem->name ?? 'Ad mövcud deyil' }} -
-                                                    Variant:
-                                                    @php
-                                                        $variants = json_decode($item->selected_variants, true);
-                                                    @endphp
-                                                    @if($variants && is_array($variants))
-                                                        @foreach($variants as $key => $value)
-                                                            {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last)
-                                                                ,
-                                                            @endif
-                                                        @endforeach
-                                                    @else
-                                                        Variant məlumatı mövcud deyil.
-                                                    @endif
-                                                    - Mətn: {{ $item->user_text }}
-                                                </li>
-                                            @empty
-                                                <li>Seçilmiş əşyalar mövcud deyil.</li>
-                                            @endforelse
-                                        </ul>
-
-                                        <!-- Sipariş durumu -->
-                                        <p class="cart-item-status">
-                                            <strong style="color: #a3907a;">Status:</strong>
-                                            <span class="badge
-                                                @if ($userCard->status == 'pending')
-                                                    badge-warning
-                                                @elseif ($userCard->status == 'completed')
-                                                    badge-success
-                                                @else
-                                                    badge-secondary
-                                                @endif">
-                                                {{ ucfirst($userCard->status) }}
-                                            </span>
-                                        </p>
-
-                                        <!-- Silme Butonu -->
-                                        <form action="{{ route('cart.destroy', $userCard->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
-                                        </form>
-
-                                        <!-- Siparişi Tamamla Butonu -->
-                                        @if ($userCard->status == 'pending')
-                                            <button type="submit" class="btn btn-cart-done btn-sm">
-                                                <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
-                                            </button>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
+                    @if($userCards->isEmpty() && $premadeBoxOrders->isEmpty())
                         <p class="cart-empty-text">Səbət boşdur.</p>
-                    @endforelse
-
-                    <!-- Premade Box Orders -->
-                    @forelse($premadeBoxOrders as $premadeBoxOrder)
-                        <div class="cart-card mb-4">
-                            <div class="cart-card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-3">
-                                        @if ($premadeBoxOrder->giftBox && $premadeBoxOrder->giftBox->image)
-                                            <img src="{{ asset('storage/' . $premadeBoxOrder->giftBox->image) }}" alt="Premade Box Image"
-                                                 class="cart-item-image">
-                                        @else
-                                            <p>Şəkil mövcud deyil</p>
-                                        @endif
-                                    </div>
-                                    <div class="col-9">
-                                        <h5 class="cart-item-title">{{ $premadeBoxOrder->giftBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
-                                        <p class="cart-item-info">
-                                            Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}
-                                        </p>
-                                        <p class="cart-item-status">
-                                            <strong style="color: #a3907a;">Status:</strong>
-                                            <span class="badge
-                                                @if ($premadeBoxOrder->status == 'pending')
-                                                    badge-warning
-                                                @elseif ($premadeBoxOrder->status == 'completed')
-                                                    badge-success
-                                                @else
-                                                    badge-secondary
-                                                @endif">
-                                                {{ ucfirst($premadeBoxOrder->status) }}
-                                            </span>
-                                        </p>
-
-                                        <!-- Silme Butonu -->
-                                        <form action="{{ route('cart.destroy', $premadeBoxOrder->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
-                                        </form>
+                    @else
+                        @foreach($userCards as $userCard)
+                            <div class="cart-card mb-4">
+                                <div class="cart-card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-3">
+                                            @if ($userCard->card && $userCard->card->image)
+                                                <img src="{{ asset('storage/' . $userCard->card->image) }}" alt="Qutu Şəkli" class="cart-item-image">
+                                            @else
+                                                <p>Şəkil mövcud deyil</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="cart-item-title">{{ $userCard->card->name ?? 'Kart adı mövcud deyil' }}</h5>
+                                            <p class="cart-item-info">Kimdən: {{ $userCard->sender_name }}</p>
+                                            <p class="cart-item-info">Kimə: {{ $userCard->recipient_name }}</p>
+                                            <p class="cart-item-info">Mesaj: {{ $userCard->card_message }}</p>
+                                            <p class="cart-item-info"><strong>Qiymət:</strong> ₼{{ number_format($userCard->total_price, 2) }}</p>
+                                            <p class="cart-item-info"><strong>Məhsullar:</strong></p>
+                                            <ul class="cart-item-contents">
+                                                @foreach($userCard->userBuildABoxCardItems as $item)
+                                                    <li>
+                                                        {{ $item->chooseItem->name ?? 'Ad mövcud deyil' }} - Variant:
+                                                        @php
+                                                            $variants = json_decode($item->selected_variants, true);
+                                                        @endphp
+                                                        @if($variants && is_array($variants))
+                                                            @foreach($variants as $key => $value)
+                                                                {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last), @endif
+                                                            @endforeach
+                                                        @else
+                                                            Variant məlumatı mövcud deyil.
+                                                        @endif
+                                                        - Mətn: {{ $item->user_text }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            <p class="cart-item-status">
+                                                <strong style="color: #a3907a;">Status:</strong>
+                                                <span class="badge badge-{{ $userCard->status == 'pending' ? 'warning' : ($userCard->status == 'completed' ? 'success' : 'secondary') }}">
+                                                    {{ ucfirst($userCard->status) }}
+                                                </span>
+                                            </p>
+                                            <form action="{{ route('cart.destroy', [$userCard->id, 'build-a-box']) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
+                                            </form>
+                                            @if ($userCard->status == 'pending')
+                                                <button type="button" class="btn btn-cart-done btn-sm">
+                                                    <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
+                                                </button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty
-                        <p class="cart-empty-text">Premade box siparişləriniz yoxdur.</p>
-                    @endforelse
-                @endauth
+                        @endforeach
 
+                        @foreach($premadeBoxOrders as $premadeBoxOrder)
+                            <div class="cart-card mb-4">
+                                <div class="cart-card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-3">
+                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->image)))
+                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}" alt="Hazır Qutu Şəkli" class="order-item-image">
+                                            @else
+                                                <p>Şəkil mövcud deyil</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="cart-item-title">{{ $premadeBoxOrder->premadeBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
+                                            @foreach ($premadeBoxOrder->userCardDetails as $userCardDetail)
+                                                <p class="cart-item-info"><strong>Kimdən:</strong> {{ $userCardDetail->from_name ?? 'Kimdən bilgisi yoxdur' }}</p>
+
+                                                <p class="cart-item-info"><strong>Kimə:</strong> {{ $userCardDetail->to_name ?? 'Kimə bilgisi yoxdur' }}</p>
+                                            @endforeach
+                                            <p class="cart-item-info">Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}</p>
+                                            <p class="cart-item-info"><strong>Məhsullar:</strong></p>
+                                            <ul class="cart-item-contents">
+                                                @foreach($premadeBoxOrder->premadeBox->insidings as $insiding)
+                                                    <li>{{ $insiding->name ?? 'İçerik adı mevcut değil' }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <p class="cart-item-status">
+                                                <strong style="color: #a3907a;">Status:</strong>
+                                                <span class="badge badge-{{ $premadeBoxOrder->status == 'pending' ? 'warning' : ($premadeBoxOrder->status == 'completed' ? 'success' : 'secondary') }}">
+                                                    {{ ucfirst($premadeBoxOrder->status) }}
+                                                </span>
+                                            </p>
+                                            <form action="{{ route('cart.destroy', [$premadeBoxOrder->id, 'premade-box']) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
+                                            </form>
+                                            @if ($premadeBoxOrder->status == 'pending')
+                                                <button type="button" class="btn btn-cart-done btn-sm">
+                                                    <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                @endauth
             </div>
         </div>
     </div>
@@ -203,7 +186,7 @@
 
     .cart-item-status .badge {
         color: #ffffff;
-        background-color: #898989; /* Default status color */
+        background-color: #a3907a !important; /* Default status color */
     }
 
     .cart-item-status .badge-success {
@@ -223,6 +206,7 @@
         background-color: #ffffff !important;
         border: 1px solid #a3907a !important;
     }
+
     .btn-cart-delete {
         color: #ffffff !important;
         background-color: #a3907a !important;

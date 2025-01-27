@@ -6,71 +6,72 @@
             <div class="col-md-8 mx-auto">
                 <h2 class="mb-4 orders-header-title">Sifarişlərim</h2>
 
-                @if($orders->isEmpty())
+                @if($orders->isEmpty() && $premadeBoxOrders->isEmpty())
                     <p class="orders-empty-text">Sifariş yoxdur.</p>
                 @else
                     @foreach($orders as $order)
                         <div class="order-card mb-4">
                             <div class="order-card-body">
                                 <div class="row align-items-center">
-                                    <!-- Gift Box Image -->
+                                    <!-- Hədiyyə Qutusu Şəkli -->
                                     <div class="col-4">
                                         @if ($order->giftBox && $order->giftBox->image)
                                             <img src="{{ asset('storage/' . $order->giftBox->image) }}"
-                                                 alt="Gift Box Image"
+                                                 alt="Hədiyyə Qutusu Şəkli"
                                                  class="order-item-image">
                                         @else
                                             <p>Şəkil mövcud deyil</p>
                                         @endif
                                     </div>
 
-                                    <!-- Gift Box Details -->
+                                    <!-- Hədiyyə Qutusu Təfərrüatları -->
                                     <div class="col-8">
                                         <h5 class="order-item-title">
                                             {{ $order->giftBox->title ?? 'Qutu adı mövcud deyil' }}
                                         </h5>
                                         <p class="order-item-info">
-                                            Card: {{ $order->card->name ?? 'Kart adı mövcud deyil' }}
+                                            Kart: {{ $order->card->name ?? 'Kart adı mövcud deyil' }}
                                         </p>
                                         <p class="order-item-info">
-                                            Message: To: {{ $order->recipient_name }}, From: {{ $order->sender_name }}
+                                            Kimə: {{ $order->recipient_name }},
+                                            Kimdən: {{ $order->sender_name }}
                                         </p>
-
-                                        <!-- Box Contents -->
-                                        <p class="order-item-info">Box Contents:</p>
+                                        <!-- Qutudakı Məhsullar -->
+                                        <p class="order-item-info" style="color: #a3907a;">Məhsullar:</p>
                                         @if($order->userBuildABoxCardItems && $order->userBuildABoxCardItems->isNotEmpty())
                                             <ul class="order-item-box-contents">
                                                 @foreach($order->userBuildABoxCardItems as $item)
                                                     <li class="order-item-box-content">
                                                         <div class="d-flex align-items-center">
-                                                            <!-- Item Image -->
+                                                            <!-- Məhsul Şəkli -->
                                                             @if ($item->chooseItem && $item->chooseItem->normal_image)
                                                                 <img
                                                                     src="{{ asset('storage/' . $item->chooseItem->normal_image) }}"
-                                                                    alt="Item Image"
+                                                                    alt="Məhsul Şəkli"
                                                                     class="box-content-image me-3">
                                                             @else
                                                                 <p>Şəkil mövcud deyil</p>
                                                             @endif
-                                                            <!-- Item Name -->
-                                                            <span>{{ $item->chooseItem->name ?? 'Item adı mövcud deyil' }}</span>
+                                                            <!-- Məhsul Adı -->
+                                                            <span>{{ $item->chooseItem->name ?? 'Məhsul adı mövcud deyil' }}</span>
                                                         </div>
                                                     </li>
                                                 @endforeach
                                             </ul>
                                         @else
-                                            <p>Box içeriği mövcud deyil</p>
+                                            <p>Qutu içeriği mövcud deyil</p>
                                         @endif
 
                                         <p class="order-item-price">
-                                            Qiymət: ₼{{ number_format($order->giftBox->price ?? 0, 2) }}
+                                            <strong style="color: #a3907a;">Qiymət:</strong>
+                                            ₼{{ number_format($order->total_price, 2) }}
                                         </p>
                                     </div>
                                 </div>
 
-                                <!-- Order Status -->
+                                <!-- Sifariş Statusu -->
                                 <div class="d-flex justify-content-end mt-3 order-item-actions">
-                                    <span class="text-muted">Order Status:
+                                    <span class="text-muted">Sifariş Statusu:
                                         <strong class="order-status">{{ ucfirst($order->status) }}</strong>
                                     </span>
                                 </div>
@@ -82,32 +83,52 @@
                             <div class="order-card mb-4">
                                 <div class="order-card-body">
                                     <div class="row align-items-center">
-                                        <div class="col-3">
-                                            @if ($premadeBoxOrder->giftBox && $premadeBoxOrder->giftBox->image)
-                                                <img src="{{ asset('storage/' . $premadeBoxOrder->giftBox->image) }}"
-                                                     alt="Premade Box Image"
-                                                     class="order-item-image">
+                                        <!-- Hazır Qutu Şəkli -->
+                                        <div class="col-4">
+                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->image)))
+                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}" alt="Hazır Qutu Şəkli" class="order-item-image">
                                             @else
                                                 <p>Şəkil mövcud deyil</p>
                                             @endif
                                         </div>
-                                        <div class="col-9">
-                                            <h5 class="order-item-title">{{ $premadeBoxOrder->giftBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
-                                            <p class="order-item-info">
-                                                Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}
+
+                                        <!-- Hazır Qutu Təfərrüatları -->
+                                        <div class="col-8">
+                                            <h5 class="order-item-title">
+                                                {{ $premadeBoxOrder->premadeBox->name ?? 'Hazır Qutu adı mövcud deyil' }}
+                                            </h5>
+                                            @foreach ($premadeBoxOrder->userCardDetails as $userCardDetail)
+                                                <p class="order-item-info" style="color: #898989;">
+                                                    Kimə: {{ $userCardDetail->to_name ?? 'Kime bilgisi yox' }},
+                                                    Kimdən: {{ $userCardDetail->from_name ?? 'Kim tarafından bilgisi yox' }}
+                                                </p>
+                                            @endforeach
+                                            <p class="order-item-info" style="color: #a3907a;">Məhsullar:</p>
+                                            <ul class="cart-item-contents" style="color: #898989;">
+                                                @forelse($premadeBoxOrder->premadeBox->insidings as $insiding)
+                                                    <li>{{ $insiding->name ?? 'İçerik adı mevcut değil' }}</li>
+                                                @empty
+                                                    <li>İçerik bilgisi mevcut değil.</li>
+                                                @endforelse
+                                            </ul>
+                                            <p class="order-item-price">
+                                                <strong style="color: #a3907a;">Qiymət:</strong>
+                                                ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}
                                             </p>
-                                            <div class="d-flex justify-content-end mt-3 order-item-actions">
-                                                 <span class="text-muted">Order Status:
-                                                    <strong class="order-status">{{ ucfirst($premadeBoxOrder->status) }}</strong>
-                                                </span>
-                                            </div>
                                         </div>
+                                    </div>
+
+                                    <!-- Sifariş Statusu -->
+                                    <div class="d-flex justify-content-end mt-3 order-item-actions">
+                                        <span class="text-muted">Sifariş Statusu:
+                                            <strong class="order-status">{{ ucfirst($premadeBoxOrder->status) }}</strong>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         @endif
                     @empty
-                        <p class="orders-empty-text">Premade box siparişləriniz yoxdur.</p>
+{{--                        <p class="orders-empty-text">Hazır qutu sifarişləriniz yoxdur.</p>--}}
                     @endforelse
                 @endif
             </div>
@@ -125,14 +146,14 @@
     .orders-header-title {
         font-size: 1.75rem;
         font-weight: bold;
-        color: #a3907a; /* Changed to #a3907a */
+        color: #a3907a;
         text-align: center;
         margin-bottom: 20px;
     }
 
     .order-card {
         background-color: #ffffff;
-        border: 1px solid #a3907a; /* Changed to #a3907a */
+        border: 1px solid #a3907a;
         border-radius: 8px;
         overflow: hidden;
         margin-bottom: 20px;
@@ -145,29 +166,29 @@
     .order-item-title {
         font-size: 1.1rem;
         font-weight: bold;
-        color: #a3907a; /* Changed to #a3907a */
+        color: #a3907a;
     }
 
     .order-item-info {
         font-size: 0.95rem;
-        color: #898989; /* Changed to #898989 */
+        color: #898989;
         margin: 5px 0;
     }
 
     .order-item-price {
         font-size: 1rem;
-        color: #898989; /* Changed to #898989 */
+        color: #898989;
         margin-top: 10px;
     }
 
     .order-item-actions {
         font-size: 0.9rem;
-        color: #898989; /* Changed to #898989 */
+        color: #898989;
     }
 
     .order-status {
         font-weight: bold;
-        color: #a3907a; /* Changed to #a3907a */
+        color: #a3907a;
     }
 
     .order-item-box-contents {
@@ -192,17 +213,12 @@
 
     .orders-empty-text {
         font-size: 1.25rem;
-        color: #898989; /* Changed to #898989 */
+        color: #898989;
         text-align: center;
         margin-top: 20px;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
-        .orders-header-title {
-            font-size: 1.5rem;
-        }
-
         .order-item-title {
             font-size: 1rem;
         }
