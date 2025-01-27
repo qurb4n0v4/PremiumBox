@@ -15,6 +15,8 @@ class UserCardForPremadeBox extends Model
         'status'
     ];
 
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -40,7 +42,7 @@ class UserCardForPremadeBox extends Model
     }
     public function giftBox()
     {
-        return $this->belongsTo(GiftBox::class, 'gift_box_id');
+        return $this->belongsTo(GiftBox::class, 'gift_box_id', 'id');
     }
     public function images()
     {

@@ -94,8 +94,8 @@
                                         <div class="col-9">
                                             <h5 class="order-item-title">{{ $premadeBoxOrder->giftBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
                                             <p class="order-item-info">
-                                                Fiyat: {{ $premadeBoxOrder->giftBox->price ?? 'Fiyat mövcud deyil' }}
-                                                AZN</p>
+                                                Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}
+                                            </p>
                                             <div class="d-flex justify-content-end mt-3 order-item-actions">
                                                  <span class="text-muted">Order Status:
                                                     <strong class="order-status">{{ ucfirst($premadeBoxOrder->status) }}</strong>

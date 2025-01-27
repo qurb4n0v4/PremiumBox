@@ -103,7 +103,9 @@
                                     </div>
                                     <div class="col-9">
                                         <h5 class="cart-item-title">{{ $premadeBoxOrder->giftBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
-                                        <p class="cart-item-info">Fiyat: {{ $premadeBoxOrder->giftBox->price ?? 'Fiyat mövcud deyil' }} AZN</p>
+                                        <p class="cart-item-info">
+                                            Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}
+                                        </p>
                                         <p class="cart-item-status">
                                             <strong style="color: #a3907a;">Status:</strong>
                                             <span class="badge
