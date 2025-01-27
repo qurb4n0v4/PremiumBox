@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\UserCardForBuildABox;
+use App\Models\UserCardForPremadeBox;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        // Only fetch orders with "completed" or "rejected" status
+        // UserCardForBuildABox siparişlerini al
         $orders = UserCardForBuildABox::with([
             'userBuildABoxCardItems.chooseItem',
             'giftBox',
@@ -18,9 +19,17 @@ class OrderController extends Controller
             'userBuildABoxCardItems.images'
         ])
             ->where('user_id', auth()->id())
-            ->whereIn('status', ['completed', 'rejected']) // Filter for 'completed' or 'rejected' status
+            ->whereIn('status', ['completed', 'rejected'])
             ->get();
 
-        return view('front.user.orders', compact('orders'));
+        // Premade box siparişlerini al
+        $premadeBoxOrders = auth()->check()
+            ? UserCardForPremadeBox::with('giftBox')
+                ->where('user_id', auth()->id())
+                ->whereIn('status', ['accepted', 'rejected'])
+                ->get()
+            : collect(); // Kullanıcı yoksa boş bir koleksiyon döner
+
+        return view('front.user.orders', compact('orders', 'premadeBoxOrders'));
     }
 }

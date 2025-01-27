@@ -43,4 +43,8 @@ class Order extends Model
     {
         return $this->belongsTo(Card::class);
     }
+    public function premadeBox()
+    {
+        return $this->belongsTo(PremadeBox::class, 'premade_box_id'); // Order ile PremadeBox arasındaki ilişki
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserCardForBuildABox;
+use App\Models\UserCardForPremadeBox;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -12,16 +13,24 @@ class CartController extends Controller
         // Kullanıcı giriş yapmışsa ve sadece "pending" statüsündeki userCards verilerini al
         $userCards = auth()->check()
             ? UserCardForBuildABox::with([
-                'card',                   // Kart bilgisi ilişkisi
-                'userBuildABoxCardItems.chooseItem' // Kullanıcının seçtiği eşyalar ve item bilgisi
+                'card',
+                'userBuildABoxCardItems.chooseItem'
             ])
-                ->where('user_id', auth()->id()) // Kullanıcıya özel kartlar
-                ->where('status', 'pending')     // Sadece "pending" olanları getir
+                ->where('user_id', auth()->id())
+                ->where('status', 'pending')
+                ->get()
+            : collect(); // Kullanıcı yoksa boş bir koleksiyon döner
+
+        // Premade box siparişlerini al
+        $premadeBoxOrders = auth()->check()
+            ? UserCardForPremadeBox::with('giftBox')
+                ->where('user_id', auth()->id())
+                ->where('status', 'pending') // Sadece 'pending' olanları al
                 ->get()
             : collect(); // Kullanıcı yoksa boş bir koleksiyon döner
 
         // Verileri görünüm dosyasına gönder
-        return view('front.cart', compact('userCards'));
+        return view('front.cart', compact('userCards', 'premadeBoxOrders'));
     }
     public function destroy($id)
     {
