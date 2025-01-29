@@ -307,97 +307,6 @@
         });
     });
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     // Handle Save Card button clicks
-    //     document.querySelectorAll('.save-card-selection').forEach(button => {
-    //         button.addEventListener('click', async function(e) {
-    //             e.preventDefault();
-    //
-    //             const modal = this.closest('.modal');
-    //             const cardId = this.getAttribute('data-card-id');
-    //
-    //             // Get form inputs
-    //             const recipientInput = modal.querySelector('[id^="recipient-name"]');
-    //             const senderInput = modal.querySelector('[id^="sender-name"]');
-    //             const contentInput = modal.querySelector('[id^="card-content"]');
-    //             const leaveEmptyCheckbox = modal.querySelector('[id^="leave-empty"]');
-    //
-    //             // Validation
-    //             let isValid = true;
-    //
-    //             if (!recipientInput.value.trim()) {
-    //                 recipientInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 recipientInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!senderInput.value.trim()) {
-    //                 senderInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 senderInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!leaveEmptyCheckbox.checked && !contentInput.value.trim()) {
-    //                 contentInput.classList.add('is-invalid');
-    //                 isValid = false;
-    //             } else {
-    //                 contentInput.classList.remove('is-invalid');
-    //             }
-    //
-    //             if (!isValid) return;
-    //
-    //             // Create form data
-    //             const formData = new FormData();
-    //             formData.append('card_id', cardId);
-    //             formData.append('recipient_name', recipientInput.value.trim());
-    //             formData.append('sender_name', senderInput.value.trim());
-    //             formData.append('card_message', leaveEmptyCheckbox.checked ? '' : contentInput.value.trim());
-    //
-    //             try {
-    //                 const response = await fetch('/save-card-selection', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //                         'X-Requested-With': 'XMLHttpRequest'
-    //                     },
-    //                     body: formData
-    //                 });
-    //
-    //                 const result = await response.json();
-    //
-    //                 if (result.success) {
-    //                     // Close the modal
-    //                     bootstrap.Modal.getInstance(modal).hide();
-    //
-    //                     // Show success message
-    //                     alert("Kart uğurla əlavə edildi!");
-    //
-    //                     // Reload the page to update summary
-    //                     window.location.reload();
-    //
-    //                     // Get the next step route if needed
-    //                     const nextStepRoute = button.getAttribute('data-next-step');
-    //                     if (nextStepRoute) {
-    //                         window.location.href = nextStepRoute;
-    //                     }
-    //                 } else {
-    //                     handleError(result.message || 'Xəta baş verdi');
-    //                 }
-    //             } catch (error) {
-    //                 handleError(error);
-    //             }
-    //         });
-    //     });
-    //
-    //     // Error handling function
-    //     function handleError(error) {
-    //         console.error('Xəta baş verdi:', error);
-    //         alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-    //     }
-    // });
-
 
     document.addEventListener('DOMContentLoaded', function() {
         // Handle Save Card button clicks
@@ -534,3 +443,94 @@
 </script>
 
 @endsection
+
+<style>
+    @media (max-width: 992px) {
+        .choose-boxes-header {
+            padding: 0 15px;
+        }
+
+        .choose-boxes-header p {
+            line-height: 1.4 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .choose-boxes-page {
+            width: 90% !important;
+            padding: 3rem 2rem !important;
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+            justify-content: center;
+        }
+
+        .col-md-3 {
+            padding: 0 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .choose-boxes-header h3 {
+            font-size: 24px;
+            margin-bottom: 20px !important;
+        }
+
+        .choose-boxes-header p {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .choose-boxes-page {
+            width: 95% !important;
+            padding: 2rem 1.5rem !important;
+        }
+
+        .row {
+            margin: 0 -10px;
+        }
+
+        .col-md-3 {
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .choose-boxes-header h3 {
+            font-size: 22px;
+        }
+
+        .choose-boxes-header p {
+            font-size: 12px !important;
+            padding: 0 10px;
+        }
+
+        .choose-boxes-page {
+            width: 100% !important;
+            padding: 1.5rem 1rem !important;
+        }
+
+        .row {
+            margin: 0 -8px;
+        }
+
+        .col-md-3 {
+            padding: 0 8px;
+        }
+
+    }
+
+    @media (max-width: 768px) {
+        .complete-order-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+        }
+    }
+
+</style>
