@@ -38,10 +38,10 @@
             <div class="col-md-4 col-12 mb-4">
                 <nav class="row">
                     <div class="col-6">
-                        <a href="/build-a-box" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Bir Qutu Yaradın</a>
-                        <a href="/premade" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Hazır Qutular</a>
-                        <a href="/corporate" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Korporativ Hədiyyələr</a>
-                        <a href="/blog" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Bloq</a>
+                        <a href="{{ route('choose_a_box') }}" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Bir Qutu Yaradın</a>
+                        <a href="{{ route('choose_premade_box') }}" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Hazır Qutular</a>
+                        <a href="{{ route('corporate-gifts') }}" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Korporativ Hədiyyələr</a>
+                        <a href="{{ route('blogs') }}" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Bloq</a>
                     </div>
                     <div class="col-6">
                         <a href="{{ route('about_us') }}" class="text-secondary text-decoration-none d-block mb-2" style="font-size: 1rem;">Haqqımızda</a>
