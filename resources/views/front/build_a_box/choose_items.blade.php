@@ -540,53 +540,7 @@
 <script src="{{ asset('assets/front/js/test.js') }}"></script>
 
 <style>
-    @media (max-width: 768px) {
-        .choose-box-steps-container {
-            width: 50%;
-            display: flex;
-            justify-content: center;
-
-        }
-
-        .choose-box-step {
-            margin-top: 20px;
-            padding: 0 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: left;
-        }
-
-        .choose-box-circle {
-            flex-shrink: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .choose-box-text {
-            flex: 1;
-            width: auto;
-        }
-
-        .choose-box-text h3 {
-            font-size: var(--font-size-small);
-            margin-bottom: 3px;
-        }
-
-        .choose-box-text p {
-            font-size: var(--font-size-small);
-            line-height: 1.2;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .choose-box-step {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 992px) {
+        @media (max-width: 992px) {
         .choose-boxes-header {
             padding: 0 15px;
         }

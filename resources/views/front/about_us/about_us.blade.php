@@ -98,10 +98,14 @@
 
 <style>
     .custom-about-container {
-        max-width: 1200px !important;
-        margin: 0 auto;
+        width: 100%;
+        max-width: 1200px; /* Maksimum genişlik */
+        margin: 0 auto; /* Mərkəzləşdirmək üçün */
         padding: 0 15px;
+        display: block; /* Mobil versiyada daha uyğun olacaq */
     }
+
+
 
     .section-about-us,
     .how-it-works-section,
@@ -252,6 +256,14 @@
         border-radius: 8px;
         object-fit: cover;
     }
+    @media (max-width: 768px) {
+        .custom-about-container {
+            width: 100%;
+            padding: 0 10px; /* Kiçik ekranlar üçün daha kiçik iç boşluq */
+            margin: 0 auto;
+        }
+    }
+
 
 </style>
 

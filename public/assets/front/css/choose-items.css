@@ -620,14 +620,78 @@ body.modal-open {
     position: absolute;
 }
 
-@media (max-width: 991px) {
+/* Keep all existing CSS and add these responsive styles at the end */
+
+@media (max-width: 1024px) {
+    /* Modal Styles */
     .modal-dialog {
         max-width: 90% !important;
-        margin: 1rem auto;
+        margin: 1.5rem auto;
+    }
+
+    .variant-image-section {
+        max-width: 350px;
+        height: 350px;
+    }
+
+    .variant-info-section {
+        padding: 15px;
+    }
+
+    /* Choose Box Steps */
+    .choose-box-steps-container {
+        width: 95%;
+        padding: var(--spacing-medium);
+    }
+
+    .choose-box-step {
+        margin-top: -30px;
+    }
+
+    .choose-box-text h3 {
+        font-size: var(--font-size-small);
+    }
+
+    .choose-box-text p {
+        font-size: 9px;
+    }
+
+    /* Filter Section */
+    .filters {
+        padding: 15px;
+    }
+
+    .filter-buttons {
+        gap: 6px;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    /* Product Cards */
+    .image-wrapper {
+        width: 170px;
+        height: 180px !important;
+    }
+
+    .card h5 {
+        font-size: var(--font-size-small);
+    }
+
+    .card p {
+        font-size: var(--font-size-medium);
     }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
+    /* Modal Styles */
+    .modal-dialog {
+        max-width: 95% !important;
+        margin: 1rem auto;
+    }
+
     .modal-body {
         flex-direction: column;
     }
@@ -647,24 +711,188 @@ body.modal-open {
     .variant-info-content {
         padding: 0 15px;
     }
-}
 
-@media (max-width: 375px) {
-    .variant-image-section {
-        height: 250px;
+    /* Choose Box Steps */
+    .choose-box-line {
+        width: 90%;
+        margin: var(--spacing-large) auto;
+        margin-bottom: 50px;
     }
 
+    .choose-box-steps-container {
+        width: 100%;
+        padding: var(--spacing-small);
+    }
+
+    .choose-box-step {
+        margin-top: -25px;
+    }
+
+    .choose-box-circle {
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
+    }
+
+    /* Filter Section */
+    .filter-column {
+        margin-bottom: 20px;
+    }
+
+    .filters {
+        padding: 10px;
+    }
+
+    .filter-head {
+        font-size: var(--font-size-medium);
+    }
+
+    .filter-label {
+        font-size: var(--font-size-small) !important;
+    }
+
+    /* Product Cards */
+    .image-wrapper {
+        width: 160px;
+        height: 170px !important;
+    }
+
+    /* Form Elements */
+    .custom-text {
+        font-size: 13px;
+    }
+
+    .custom-text::placeholder {
+        font-size: 12px;
+    }
+
+    /* Variants */
     .variants-buttons {
+        justify-content: center;
         gap: 5px;
+    }
+
+    .variant-button {
+        font-size: 11px !important;
+        padding: 3px 10px !important;
+    }
+
+    .variant-title {
+        font-size: 14px;
+    }
+
+    .variant-paragraph {
+        font-size: 13px;
+    }
+
+    /* Upload Section */
+    .custom-upload-box {
+        width: 50px;
+        height: 50px;
+    }
+
+    .upload-icon {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Modal Styles */
+    .variant-image-section {
+        height: 250px;
     }
 
     .variant-button {
         min-width: calc(50% - 10px);
         margin: 2px !important;
     }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    /* Choose Box Steps */
+    .choose-box-steps-container {
+        flex-wrap: wrap;
+    }
+
+    .choose-box-step {
+        width: 50%;
+        margin-top: -20px;
+        margin-bottom: 15px;
+    }
+
+    /* Product Cards */
+    .image-wrapper {
+        width: 150px;
+        height: 160px !important;
+    }
+
+    /* Form Elements */
+    .price-range-container {
+        padding: 8px;
+    }
+
+    .price-inputs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* Company Info */
+    .company-name {
+        font-size: 13px;
+    }
+
+    .item-name {
+        font-size: 18px;
+    }
+
+    .price-display {
+        font-size: 18px !important;
+    }
+
+    .delivery-info p {
+        font-size: 11px;
+    }
 }
 
+@media (max-width: 480px) {
+    /* Choose Box Steps */
+    .choose-box-circle {
+        width: 18px;
+        height: 18px;
+        font-size: 8px;
+    }
 
+    .choose-box-text h3 {
+        font-size: 8px;
+    }
 
+    .choose-box-text p {
+        font-size: 7px;
+    }
+
+    /* Product Cards */
+    .image-wrapper {
+        width: 140px;
+        height: 150px !important;
+    }
+
+    /* Variant Buttons */
+    .variant-button {
+        font-size: 10px !important;
+        padding: 3px 8px !important;
+    }
+
+    /* Upload Section */
+    .custom-upload-box {
+        width: 45px;
+        height: 45px;
+    }
+
+    .upload-icon {
+        font-size: 25px;
+    }
+}
 
 

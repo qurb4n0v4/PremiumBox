@@ -26,11 +26,35 @@
         .social-media-posts .custom-gift {
             font-size: 28px;
         }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Mərkəzə hizalama */
+            gap: 15px; /* Şəkillər və videolar arasında boşluq */
+        }
+
+        .gallery-item {
+            display: flex;
+            justify-content: center; /* İçindəki şəkil və videonu mərkəzə gətirir */
+            align-items: center;
+            width: 100%; /* Tam eni tutsun */
+        }
+
+        .gallery-media {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
     }
 
     @media (max-width: 768px) {
         .social-media-posts .custom-gift {
             font-size: 24px;
+        }
+
+        .gallery {
+            gap: 10px;
         }
     }
 
@@ -39,5 +63,19 @@
             font-size: 20px;
             line-height: 1.4;
         }
+
+        .gallery {
+            flex-direction: column; /* Kiçik ekranlarda alt-alta düşsün */
+            align-items: center; /* Tam mərkəzlənsin */
+        }
+
+        .gallery-item {
+            width: 100%; /* Tam eni tutsun */
+        }
+
+        .gallery-media {
+            max-width: 90%; /* Ekranın 90%-ni tutsun, sağ-sol balanslı olsun */
+        }
     }
+
 </style>
