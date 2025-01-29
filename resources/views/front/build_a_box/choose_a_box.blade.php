@@ -48,7 +48,7 @@
             @foreach($nonEmptyCategories as $category)
                 <div class="category-name-boxsize">
                     <h4>{{ $category->name }}</h4>
-                    <p>{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
+                    <p style="margin-bottom: 20px">{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
                 </div>
 
                 <div class="row">
@@ -480,5 +480,116 @@
     .customizing-text-input-fonts.is-invalid:focus {
         border-color: #dc3545 !important;
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    }
+
+    @media (max-width: 992px) {
+        .choose-boxes-header {
+            padding: 0 15px;
+        }
+
+        .choose-boxes-header p {
+            line-height: 1.4 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .choose-boxes-page {
+            width: 90% !important;
+            padding: 3rem 2rem !important;
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+            justify-content: center;
+        }
+
+        .col-md-3 {
+            padding: 0 15px;
+        }
+
+        .gift-box-card {
+            margin: 0 auto;
+            max-width: 280px;
+        }
+
+        .gift-box-content {
+            padding: 15px 10px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .choose-boxes-header h3 {
+            font-size: 24px;
+            margin-bottom: 20px !important;
+        }
+
+        .choose-boxes-header p {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .choose-boxes-page {
+            width: 95% !important;
+            padding: 2rem 1.5rem !important;
+        }
+
+        .row {
+            margin: 0 -10px;
+        }
+
+        .col-md-3 {
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .gift-box-content {
+            padding: 12px 8px !important;
+        }
+
+        .gift-box-title {
+            margin-bottom: 5px !important;
+        }
+
+        .gift-box-name {
+            margin-bottom: 5px !important;
+        }
+
+        .gift-box-price {
+            margin-bottom: 10px !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .choose-boxes-header h3 {
+            font-size: 22px;
+        }
+
+        .choose-boxes-header p {
+            font-size: 12px !important;
+            padding: 0 10px;
+        }
+
+        .choose-boxes-page {
+            width: 100% !important;
+            padding: 1.5rem 1rem !important;
+        }
+
+        .row {
+            margin: 0 -8px;
+        }
+
+        .col-md-3 {
+            padding: 0 8px;
+        }
+
+        .gift-box-card {
+            max-width: 260px;
+        }
+
+        .gift-box-content {
+            padding: 10px 8px !important;
+        }
     }
 </style>

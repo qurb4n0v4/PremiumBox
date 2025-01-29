@@ -20,3 +20,24 @@
         </div>
     </div>
 </section>
+
+<style>
+    @media (max-width: 992px) {
+        .social-media-posts .custom-gift {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .social-media-posts .custom-gift {
+            font-size: 24px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .social-media-posts .custom-gift {
+            font-size: 20px;
+            line-height: 1.4;
+        }
+    }
+</style>

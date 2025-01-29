@@ -538,3 +538,130 @@
 @endsection
 
 <script src="{{ asset('assets/front/js/test.js') }}"></script>
+
+<style>
+    @media (max-width: 768px) {
+        .choose-box-steps-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .choose-box-step {
+            margin-top: 20px;
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+
+        .choose-box-circle {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .choose-box-text {
+            flex: 1;
+            width: auto;
+        }
+
+        .choose-box-text h3 {
+            font-size: var(--font-size-small);
+            margin-bottom: 3px;
+        }
+
+        .choose-box-text p {
+            font-size: var(--font-size-small);
+            line-height: 1.2;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .choose-box-step {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .choose-boxes-header {
+            padding: 0 15px;
+        }
+
+        .choose-boxes-header p {
+            line-height: 1.4 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .choose-boxes-page {
+            width: 90% !important;
+            padding: 3rem 2rem !important;
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+            justify-content: center;
+        }
+
+        .col-md-3 {
+            padding: 0 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .choose-boxes-header h3 {
+            font-size: 24px;
+            margin-bottom: 20px !important;
+        }
+
+        .choose-boxes-header p {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .choose-boxes-page {
+            width: 95% !important;
+            padding: 2rem 1.5rem !important;
+        }
+
+        .row {
+            margin: 0 -10px;
+        }
+
+        .col-md-3 {
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .choose-boxes-header h3 {
+            font-size: 22px;
+        }
+
+        .choose-boxes-header p {
+            font-size: 12px !important;
+            padding: 0 10px;
+        }
+
+        .choose-boxes-page {
+            width: 100% !important;
+            padding: 1.5rem 1rem !important;
+        }
+
+        .row {
+            margin: 0 -8px;
+        }
+
+        .col-md-3 {
+            padding: 0 8px;
+        }
+    }
+
+</style>
