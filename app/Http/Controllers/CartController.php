@@ -32,6 +32,7 @@ class CartController extends Controller
         // Verileri görünüm dosyasına gönder
         return view('front.cart', compact('userCards', 'premadeBoxOrders'));
     }
+
     public function destroy($id, $type)
     {
         if ($type === 'build-a-box') {

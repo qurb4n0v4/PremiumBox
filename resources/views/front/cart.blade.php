@@ -18,7 +18,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-3">
                                             @if ($userCard->card && $userCard->card->image)
-                                                <img src="{{ asset('storage/' . $userCard->card->image) }}" alt="Qutu Şəkli" class="cart-item-image">
+                                                <img src="{{ asset('storage/' . $userCard->card->image) }}"
+                                                     alt="Qutu Şəkli" class="cart-item-image">
                                             @else
                                                 <p>Şəkil mövcud deyil</p>
                                             @endif
@@ -28,7 +29,8 @@
                                             <p class="cart-item-info">Kimdən: {{ $userCard->sender_name }}</p>
                                             <p class="cart-item-info">Kimə: {{ $userCard->recipient_name }}</p>
                                             <p class="cart-item-info">Mesaj: {{ $userCard->card_message }}</p>
-                                            <p class="cart-item-info"><strong>Qiymət:</strong> ₼{{ number_format($userCard->total_price, 2) }}</p>
+                                            <p class="cart-item-info"><strong>Qiymət:</strong>
+                                                ₼{{ number_format($userCard->total_price, 2) }}</p>
                                             <p class="cart-item-info"><strong>Məhsullar:</strong></p>
                                             <ul class="cart-item-contents">
                                                 @foreach($userCard->userBuildABoxCardItems as $item)
@@ -39,7 +41,9 @@
                                                         @endphp
                                                         @if($variants && is_array($variants))
                                                             @foreach($variants as $key => $value)
-                                                                {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last), @endif
+                                                                {{ ucfirst($key) }}: {{ $value }}@if(!$loop->last)
+                                                                    ,
+                                                                @endif
                                                             @endforeach
                                                         @else
                                                             Variant məlumatı mövcud deyil.
@@ -50,19 +54,23 @@
                                             </ul>
                                             <p class="cart-item-status">
                                                 <strong style="color: #a3907a;">Status:</strong>
-                                                <span class="badge badge-{{ $userCard->status == 'pending' ? 'warning' : ($userCard->status == 'completed' ? 'success' : 'secondary') }}">
+                                                <span
+                                                        class="badge badge-{{ $userCard->status == 'pending' ? 'warning' : ($userCard->status == 'completed' ? 'success' : 'secondary') }}">
                                                     {{ ucfirst($userCard->status) }}
                                                 </span>
                                             </p>
-                                            <form action="{{ route('cart.destroy', [$userCard->id, 'build-a-box']) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('cart.destroy', [$userCard->id, 'build-a-box']) }}"
+                                                  method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
+                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil
+                                                </button>
                                             </form>
                                             @if ($userCard->status == 'pending')
-                                                <button type="button" class="btn btn-cart-done btn-sm">
-                                                    <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
-                                                </button>
+                                                <a href="{{ generateWhatsAppLink('994515032303', 'Qutu Yarat Sifarişi: Kart Adı: ' . ($userCard->card->name ?? 'Bilinmir') . ' Göndərən: ' . $userCard->sender_name . ' Alan: ' . $userCard->recipient_name . ' Mesaj: ' . $userCard->card_message . ' Qiymət: ₼' . number_format($userCard->total_price, 2), auth()->user()) }}"
+                                                   target="_blank" class="btn btn-cart-done btn-sm">
+                                                    <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
+                                                </a>
                                             @endif
                                         </div>
                                     </div>
@@ -76,7 +84,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-3">
                                             @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->image)))
-                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}" alt="Hazır Qutu Şəkli" class="order-item-image">
+                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}"
+                                                     alt="Hazır Qutu Şəkli" class="order-item-image">
                                             @else
                                                 <p>Şəkil mövcud deyil</p>
                                             @endif
@@ -84,11 +93,16 @@
                                         <div class="col-9">
                                             <h5 class="cart-item-title">{{ $premadeBoxOrder->premadeBox->name ?? 'Premade Box adı mövcud deyil' }}</h5>
                                             @foreach ($premadeBoxOrder->userCardDetails as $userCardDetail)
-                                                <p class="cart-item-info"><strong>Kimdən:</strong> {{ $userCardDetail->from_name ?? 'Kimdən bilgisi yoxdur' }}</p>
+                                                <p class="cart-item-info">
+                                                    <strong>Kimdən:</strong> {{ $userCardDetail->from_name ?? 'Kimdən bilgisi yoxdur' }}
+                                                </p>
 
-                                                <p class="cart-item-info"><strong>Kimə:</strong> {{ $userCardDetail->to_name ?? 'Kimə bilgisi yoxdur' }}</p>
+                                                <p class="cart-item-info">
+                                                    <strong>Kimə:</strong> {{ $userCardDetail->to_name ?? 'Kimə bilgisi yoxdur' }}
+                                                </p>
                                             @endforeach
-                                            <p class="cart-item-info">Qiymət: ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}</p>
+                                            <p class="cart-item-info">Qiymət:
+                                                ₼{{ number_format($premadeBoxOrder->premadeBox->price ?? 0, 2) }}</p>
                                             <p class="cart-item-info"><strong>Məhsullar:</strong></p>
                                             <ul class="cart-item-contents">
                                                 @foreach($premadeBoxOrder->premadeBox->insidings as $insiding)
@@ -97,19 +111,24 @@
                                             </ul>
                                             <p class="cart-item-status">
                                                 <strong style="color: #a3907a;">Status:</strong>
-                                                <span class="badge badge-{{ $premadeBoxOrder->status == 'pending' ? 'warning' : ($premadeBoxOrder->status == 'completed' ? 'success' : 'secondary') }}">
+                                                <span
+                                                        class="badge badge-{{ $premadeBoxOrder->status == 'pending' ? 'warning' : ($premadeBoxOrder->status == 'completed' ? 'success' : 'secondary') }}">
                                                     {{ ucfirst($premadeBoxOrder->status) }}
                                                 </span>
                                             </p>
-                                            <form action="{{ route('cart.destroy', [$premadeBoxOrder->id, 'premade-box']) }}" method="POST" class="d-inline">
+                                            <form
+                                                    action="{{ route('cart.destroy', [$premadeBoxOrder->id, 'premade-box']) }}"
+                                                    method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil</button>
+                                                <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil
+                                                </button>
                                             </form>
                                             @if ($premadeBoxOrder->status == 'pending')
-                                                <button type="button" class="btn btn-cart-done btn-sm">
-                                                    <i class="fa-brands fa-whatsapp"></i> Siparişi Tamamla
-                                                </button>
+                                                <a href="{{ generateWhatsAppLink('994515032303', 'Hazır Qutu Sifarişi: Qutu Adı: ' . ($premadeBoxOrder->premadeBox->name ?? 'Bilinmir') . ' Göndərən: ' . ($premadeBoxOrder->userCardDetails->first()->from_name ?? 'Bilinmir') . ' Alan: ' . ($premadeBoxOrder->userCardDetails->first()->to_name ?? 'Bilinmir') . ' Qiymət: ₼' . number_format($premadeBoxOrder->premadeBox->price ?? 0, 2), auth()->user()) }}"
+                                                   target="_blank" class="btn btn-cart-done btn-sm">
+                                                    <i class="fa-brands fa-whatsapp"></i> Sifarişi Tamamla
+                                                </a>
                                             @endif
                                         </div>
                                     </div>
