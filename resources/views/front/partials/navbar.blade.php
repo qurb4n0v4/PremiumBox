@@ -1,7 +1,7 @@
 <div class="navbar">
     <div class="container-navbar">
         <div class="logo-side-navbar">
-            <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Şəkli"></a>
+            <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/premiumbox.jpeg') }}" alt="Logo Şəkli"></a>
         </div>
         <div class="menu-button">
             <span></span>

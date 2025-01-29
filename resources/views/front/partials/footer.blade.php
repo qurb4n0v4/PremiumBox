@@ -6,29 +6,29 @@
                 <div class="d-flex flex-column">
                     <!-- Əlaqə Bölməsi -->
                     <div class="footer-contact mb-4">
-                        <p class="for-assistance text-secondary mb-2" style="font-size: 1rem;">Hər hansı bir sualınız varsa, aşağıdakı yollarla bizimlə əlaqə saxlayın</p>
+                        <p class="for-assistance text-secondary mb-2" style="font-size: 1rem;">Hər hansı bir sualınız varsa, bizimlə əlaqə saxlayın</p>
                         <div class="d-flex flex-column gap-2">
-                            <a href="tel:+081311033691" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;">
+                            <a href="https://wa.me/994515032303" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;" target="_blank">
                                 <i class="fab fa-whatsapp fs-4 me-2"></i>
                                 <span class="text-secondary">+994 51 503 23 03</span>
                             </a>
-                            <a href="mailto:contact@example.com" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;">
-                                <i class="far fa-envelope fs-4 me-2"></i>
-                                <span class="text-secondary">contact@example.com</span>
-                            </a>
+{{--                            <a href="mailto:contact@example.com" class="text-decoration-none d-flex align-items-center" style="font-size: 1rem;">--}}
+{{--                                <i class="far fa-envelope fs-4 me-2"></i>--}}
+{{--                                <span class="text-secondary">contact@example.com</span>--}}
+{{--                            </a>--}}
                         </div>
                     </div>
 
                     <!-- Sosial Media Bölməsi -->
                     <div>
-                        <p class="text-secondary mb-2" style="font-size: 1rem;">Sosial media hesablarımız</p>
+                        <p class="text-secondary mb-2" style="font-size: 1rem;">Sosial media</p>
                         <div class="d-flex gap-3">
-                            <a href="https://www.instagram.com/boxandtale" class="text-secondary" style="font-size: 1.5rem;">
+                            <a href="https://www.instagram.com/Premiumb0x.az" class="text-secondary" style="font-size: 1.5rem;" target="_blank">
                                 <i class="fab fa-instagram fs-4"></i>
                             </a>
-                            <a href="https://www.facebook.com/Box-and-Tale-824210911112610" class="text-secondary" style="font-size: 1.5rem;">
-                                <i class="fab fa-facebook fs-4"></i>
-                            </a>
+{{--                            <a href="https://www.facebook.com/Box-and-Tale-824210911112610" class="text-secondary" style="font-size: 1.5rem;">--}}
+{{--                                <i class="fab fa-facebook fs-4"></i>--}}
+{{--                            </a>--}}
                         </div>
                     </div>
                 </div>
@@ -55,8 +55,12 @@
             <!-- Logo Bölməsi -->
             <div class="col-md-4 col-12 text-center">
                 <div>
-                    <img src={{'assets/front/img/giftbox.jpg'}} class="img-fluid" style="max-width: 100px" alt="Box and Tale - Logo">
-                    <p class="mt-2 small" style="color: #a3907a; font-size: 0.9rem;">tərəfindən <strong>Saythub.az</strong></p>
+                    <a href="https://saythub.az" target="_blank">
+                        <img src="{{ asset('assets/front/img/saythub.png') }}" class="img-fluid" style="max-width: 100px" alt="saythub.az">
+                    </a>
+                    <p class="mt-2 small" style="color: #a3907a; font-size: 0.9rem;">
+                        tərəfindən <a href="https://saythub.az" target="_blank" style="color: inherit; text-decoration: none;"><strong>Saythub.az</strong></a>
+                    </p>
                 </div>
             </div>
         </div>
