@@ -56,10 +56,10 @@
             <div class="col-md-4 col-12 text-center">
                 <div>
                     <a href="https://saythub.az" target="_blank">
-                        <img src="{{ asset('assets/front/img/saythub.png') }}" class="img-fluid" style="max-width: 100px" alt="saythub.az">
+                        <img src="{{ asset('assets/front/img/saythub.png') }}" class="img-fluid" style="max-width: 70px" alt="saythub.az">
                     </a>
                     <p class="mt-2 small" style="color: #a3907a; font-size: 0.9rem;">
-                        tərəfindən <a href="https://saythub.az" target="_blank" style="color: inherit; text-decoration: none;"><strong>Saythub.az</strong></a>
+                        <strong>Saythub.az</strong> <a href="https://saythub.az" target="_blank" style="color: inherit; text-decoration: none;">tərəfindən</a>
                     </p>
                 </div>
             </div>
