@@ -331,66 +331,6 @@ body.home .menu-button span {
 /*Images Slider ends*/
 
 
-/*Boxes introducing starts*/
-.gift-box-section {
-    padding: 40px;
-}
-
-.gift-box-section .row {
-    padding: 0 15px;
-    margin: 0;
-}
-
-.gift-box-section .text-content {
-    padding-left: 50px;
-    text-align: left;
-}
-
-.gift-box-section h4 {
-    padding-left: 40px;
-    font-size: 18px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    width: 400px;
-}
-
-.gift-box-section p {
-    padding-left: 40px;
-    width: 500px;
-}
-
-.gift-box-section a {
-    margin-left: 40px;
-    border-radius: 50px;
-}
-
-.gift-box-section h1 {
-    padding-left: 40px;
-    font-size: 36px;
-    width: 500px;
-}
-
-.gift-box-section img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-@media (max-width: 768px) {
-    .gift-box-section .text-content {
-        text-align: center;
-        padding: 15px;
-    }
-
-    .gift-box-section img {
-        margin-bottom: 20px;
-    }
-}
-
-/*Boxes introducing ends*/
-
-
 /*Our partners starts*/
 .partners-title {
     color: var(--our-partners);
