@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardItem = this.closest('.card-item');
             const cardId = cardItem.dataset.id;
             const cardName = this.dataset.name;
-            const cardPrice = this.dataset.price || "No Price";
 
             // Aktiv kartı göstər
             sliderContainer.style.display = 'none';
@@ -107,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Şəkil və məlumatları göstər
             selectedCardImage.src = this.src;
             selectedCardName.textContent = cardName;
-            selectedCardPrice.textContent = cardPrice;
 
             // Aktiv sinifini əlavə et
             cardItems.forEach(img => {

@@ -51,3 +51,10 @@
         </div>
     </div>
 @endsection
+
+<style>
+    .choose-box-steps-container {
+        display: flex;
+        justify-content: center !important;
+    }
+</style>
