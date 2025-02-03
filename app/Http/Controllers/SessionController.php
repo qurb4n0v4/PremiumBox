@@ -46,13 +46,11 @@ class SessionController extends Controller
     public function saveItemSelection(Request $request)
     {
         try {
-//             Önce hacim kontrolü yap
-            $volumeCheck = $this->checkBoxVolume($request);
-            $volumeResponse = json_decode($volumeCheck->getContent(), true);
+            DB::beginTransaction();
 
-            // Kutunun seçilip seçilmediğini kontrol et
+            // Box yoxlaması
             $selectedBox = Session::get('selected_box');
-            if (!$selectedBox && (!$request->has('selected_box') || empty($request->input('selected_box')))) {
+            if (!$selectedBox) {
                 return response()->json([
                     'success' => false,
                     'error_code' => 'NO_BOX_SELECTED',
@@ -60,12 +58,15 @@ class SessionController extends Controller
                 ]);
             }
 
-//             Hacim kontrolü başarısızsa, hata mesajını gönder
+            // Həcm yoxlaması
+            $volumeCheck = $this->checkBoxVolume($request);
+            $volumeResponse = json_decode($volumeCheck->getContent(), true);
+
             if (!$volumeResponse['success']) {
                 return response()->json([
                     'success' => false,
-                    'error_code' => 'TOO_LARGE', // Hacim hatası kodu
-                    'message' => 'Bu məhsul qutuya sığmır. Zəhmət olmasa daha kiçik məhsul seçin və ya başqa qutu seçin.'
+                    'error_code' => 'TOO_LARGE',
+                    'message' => $volumeResponse['message']
                 ]);
             }
 
@@ -75,7 +76,7 @@ class SessionController extends Controller
                 'item_id' => $item->id,
                 'item_name' => $item->name,
                 'item_image' => $item->normal_image,
-                'item_price' => $request->variant_price ?? $item->price,
+                'item_price' => floatval($request->variant_price ?? $item->price),
                 'selected_variant' => $request->selected_variant,
                 'user_text' => $request->user_text,
                 'uploaded_images' => []
@@ -95,15 +96,21 @@ class SessionController extends Controller
 
             $existingItems[] = $itemData;
             Session::put('selected_item', $existingItems);
+            Session::save(); // Session-u dərhal yaddaşa yazaq
 
-            Log::info(Session::get('selected_item'));
-
+            DB::commit();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Məhsul məlumatları saxlanıldı'
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Save Item Error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Xəta: ' . $e->getMessage()
@@ -245,20 +252,27 @@ class SessionController extends Controller
             'card' => Session::get('selected_card')
         ];
 
-        $totalPrice = 0;
+        $totalPrice = 0.00;
 
+        // Handle box price
         if ($selections['box']) {
-            $totalPrice += $selections['box']['box_price'] ?? 0;
+            $selections['box']['box_price'] = floatval($selections['box']['box_price'] ?? 0);
+            $totalPrice += $selections['box']['box_price'];
         }
 
+        // Handle item prices
         if ($selections['item']) {
-            foreach ($selections['item'] as $item) {
-                $totalPrice += $item['item_price'] ?? 0;
+            foreach ($selections['item'] as &$item) {
+                $item['item_price'] = floatval($item['item_price'] ?? 0);
+                $totalPrice += $item['item_price'];
             }
+            unset($item); // Unset reference
         }
 
+        // Handle card price
         if ($selections['card']) {
-            $totalPrice += $selections['card']['card_price'] ?? 0;
+            $selections['card']['card_price'] = floatval($selections['card']['card_price'] ?? 0);
+            $totalPrice += $selections['card']['card_price'];
         }
 
         $selections['total_price'] = $totalPrice;
@@ -345,13 +359,13 @@ class SessionController extends Controller
             // Calculate total price
             $totalPrice = 0;
             if ($box) {
-                $totalPrice += $box['box_price'] ?? 0;
+                $totalPrice += floatval($box['box_price'] ?? 0);
             }
             foreach ($items as $item) {
-                $totalPrice += $item['item_price'] ?? 0;
+                $totalPrice += floatval($item['item_price'] ?? 0);
             }
             if ($card) {
-                $totalPrice += $card['card_price'] ?? 0;
+                $totalPrice += floatval($card['card_price'] ?? 0);
             }
 
             // Remove duplicate items
@@ -376,33 +390,37 @@ class SessionController extends Controller
 
             if (!empty($uniqueItems)) {
                 foreach ($uniqueItems as $item) {
+                    // Only set $selectedVariants if it's not null or empty
                     $selectedVariants = isset($item['selected_variant'])
                         ? (is_array($item['selected_variant'])
-                            ? json_encode($item['selected_variant'])
-                            : json_encode([$item['selected_variant']]))
+                            ? (empty($item['selected_variant']) ? null : json_encode($item['selected_variant']))
+                            : ($item['selected_variant'] === null ? null : json_encode([$item['selected_variant']])))
                         : null;
 
-                    $itemData = [
-                        'user_card_id' => $mainRecordId,
-                        'choose_item_id' => $item['item_id'],
-                        'selected_variants' => $selectedVariants,
-                        'user_text' => $item['user_text'] ?? null,
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ];
+                    // Only insert into the database if $selectedVariants is not null
+                    if ($selectedVariants !== null) {
+                        $itemData = [
+                            'user_card_id' => $mainRecordId,
+                            'choose_item_id' => $item['item_id'],
+                            'selected_variants' => $selectedVariants,
+                            'user_text' => $item['user_text'] ?? null,
+                            'created_at' => now(),
+                            'updated_at' => now()
+                        ];
 
-                    $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
+                        $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
 
-                    if (!empty($item['uploaded_images'])) {
-                        foreach ($item['uploaded_images'] as $index => $imagePath) {
-                            DB::table('build_a_box_item_images')->insert([
-                                'user_build_a_box_card_item_id' => $itemId,
-                                'choose_item_id' => $item['item_id'],
-                                'image' => $imagePath,
-                                'order' => $index,
-                                'created_at' => now(),
-                                'updated_at' => now()
-                            ]);
+                        if (!empty($item['uploaded_images'])) {
+                            foreach ($item['uploaded_images'] as $index => $imagePath) {
+                                DB::table('build_a_box_item_images')->insert([
+                                    'user_build_a_box_card_item_id' => $itemId,
+                                    'choose_item_id' => $item['item_id'],
+                                    'image' => $imagePath,
+                                    'order' => $index,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
+                                ]);
+                            }
                         }
                     }
                 }
@@ -429,5 +447,6 @@ class SessionController extends Controller
             ], 500);
         }
     }
+
 
 }

@@ -163,7 +163,7 @@
                                                                 class="rounded img-fluid w-100 select-card d-block h-100 object-fit-cover"
                                                                 style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                                 data-name="{{ $card->name }}"
-                                                                data-price="{{ '₼ ' . $card->price ?? '' }}"
+{{--                                                                data-price="{{ '₼ ' . $card->price ?? '' }}"--}}
                                                                 data-card-image="{{ asset('storage/' . $card->image) }}"
                                                             >
                                                         </div>
@@ -612,6 +612,13 @@
 
 
 <script src={{ asset('assets/front/js/customize-premade.js') }}></script>
+
+<style>
+    .choose-box-steps-container {
+        display: flex;
+        justify-content: center !important;
+    }
+</style>
 
 
 

@@ -48,7 +48,10 @@
 
             <div id="selectionsSummary" class="selected-items-summary">
                 @if(Session::has('selected_box'))
-                    @php $box = Session::get('selected_box'); @endphp
+                    @php
+                        $box = Session::get('selected_box');
+                        $box['box_price'] = floatval($box['box_price']);
+                    @endphp
                     <div class="selected-box">
                         <h4>Seçilmiş Qutu</h4>
                         <div class="item-details">
@@ -57,7 +60,7 @@
                             <div class="details">
                                 <h5>{{ $box['box_name'] }}</h5>
                                 <p>Fərdiləşdirmə: {{ $box['customization_text'] }}</p>
-                                <p>Qiymət: ₼{{ $box['box_price'] }}</p>
+                                <p>Qiymət: ₼{{ number_format(floatval($box['box_price']), 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -75,7 +78,6 @@
                                     <div class="details">
                                         <h5>{{ $item['item_name'] }}</h5>
 
-                                        {{-- Show selected variant if exists --}}
                                         @if(isset($item['selected_variant']) && $item['selected_variant'])
                                             <p class="variant-info">
                                                 <span class="info-label">Variant:</span>
@@ -83,7 +85,6 @@
                                             </p>
                                         @endif
 
-                                        {{-- Show custom text if exists --}}
                                         @if(isset($item['user_text']) && $item['user_text'])
                                             <p class="text-info">
                                                 <span class="info-label">Mətn:</span>
@@ -91,7 +92,6 @@
                                             </p>
                                         @endif
 
-                                        {{-- Show uploaded images if exist --}}
                                         @if(isset($item['uploaded_images']) && !empty($item['uploaded_images']))
                                             <div class="uploaded-images">
                                                 <p class="info-label">Yüklənmiş şəkillər:</p>
@@ -103,7 +103,7 @@
                                             </div>
                                         @endif
 
-                                        <p class="price">Qiymət: ₼{{ number_format($item['item_price'], 2) }}</p>
+                                        <p class="price">Qiymət: ₼{{ number_format(floatval($item['item_price']), 2) }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -196,7 +196,10 @@
                 @endif
 
                 @if(Session::has('selected_card'))
-                    @php $card = Session::get('selected_card'); @endphp
+                    @php
+                        $card = Session::get('selected_card');
+                        $card['card_price'] = floatval($card['card_price']);
+                    @endphp
                     <div class="selected-card">
                         <h4>Seçilmiş Kart</h4>
                         <div class="item-details">
@@ -207,7 +210,7 @@
                                 <p>Kimə: {{ $card['recipient_name'] }}</p>
                                 <p>Kimdən: {{ $card['sender_name'] }}</p>
                                 <p>Mesaj: {{ $card['card_message'] }}</p>
-                                <p>Qiymət: ₼{{ $card['card_price'] }}</p>
+                                <p>Qiymət: ₼{{ number_format($card['card_price'], 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -217,16 +220,16 @@
                     @php
                         $totalPrice = 0;
                         if(Session::has('selected_box')) {
-                            $totalPrice += Session::get('selected_box')['box_price'];
+                            $totalPrice += floatval(Session::get('selected_box')['box_price']);
                         }
                         if(Session::has('selected_item')) {
                             $items = Session::get('selected_item');
                             foreach($items as $item) {
-                                $totalPrice += $item['item_price'];
+                                $totalPrice += floatval($item['item_price']);
                             }
                         }
                         if(Session::has('selected_card')) {
-                            $totalPrice += Session::get('selected_card')['card_price'];
+                            $totalPrice += floatval(Session::get('selected_card')['card_price']);
                         }
                     @endphp
                     <h4>Ümumi Məbləğ: ₼{{ number_format($totalPrice, 2) }}</h4>
@@ -263,7 +266,7 @@
                     background: #cc0000;
                 }
 
-                .complete-order-button-on-basket{
+                .complete-order-button-on-basket {
                     font-size: 20px;
                     width: 26%;
                     padding: 15px !important;
@@ -320,11 +323,9 @@
                         .then(data => {
                             if (data.success) {
                                 if (type === 'box') {
-                                    // Box silindikdə xəbərdarlıq göstər və choose_a_box səhifəsinə yönləndir
                                     alert('Qutu seçimi məcburidir! Zəhmət olmasa yeni qutu seçin.');
                                     window.location.href = '/choose_a_box';
                                 } else {
-                                    // Digər elementlər silindikdə sadəcə səhifəni yenilə
                                     window.location.reload();
                                 }
                             } else {
@@ -351,77 +352,111 @@
                             if (data.success) {
                                 const selections = data.data;
                                 let html = '';
+                                let totalPrice = 0.0;
 
-                                // Box
+                                // Box handling
                                 if (selections.box) {
+                                    const boxPrice = parseFloat(selections.box.box_price) || 0;
+                                    totalPrice += boxPrice;
                                     html += `
-                    <div class="selected-box">
-                        <h4>Seçilmiş Qutu</h4>
-                        <div class="item-details">
-                            <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
-                            <img src="${selections.box.box_image}" alt="Box Image">
-                            <div class="details">
-                                <h5>${selections.box.box_name}</h5>
-                                <p>Fərdiləşdirmə: ${selections.box.customization_text}</p>
-                                <p>Qiymət: ₼${selections.box.box_price}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                                }
-
-                                // Items
-                                if (selections.item && selections.item.length > 0) {
-                                    html += '<div class="selected-item"><h4>Seçilmiş Əşyalar</h4>';
-                                    selections.item.forEach((item, index) => {
-                                        html += `
-                        <div class="item-details">
-                            <button class="remove-btn" onclick="removeSelection('item', ${index})">&times;</button>
-                            <img src="${item.item_image}" alt="Item Image">
-                            <div class="details">
-                                <h5>${item.item_name}</h5>
-                                ${item.selected_variants ? `<p>Variantlar: ${item.selected_variants}</p>` : ''}
-                                ${item.user_text ? `<p>Mətn: ${item.user_text}</p>` : ''}
-                                <p>Qiymət: ₼${item.item_price}</p>
+                        <div class="selected-box">
+                            <h4>Seçilmiş Qutu</h4>
+                            <div class="item-details">
+                                <button class="remove-btn" onclick="removeSelection('box')">&times;</button>
+                                <img src="${selections.box.box_image}" alt="Box Image">
+                                <div class="details">
+                                    <h5>${selections.box.box_name}</h5>
+                                    <p>Fərdiləşdirmə: ${selections.box.customization_text}</p>
+                                    <p>Qiymət: ₼${boxPrice.toFixed(2)}</p>
+                                </div>
                             </div>
                         </div>
                     `;
+                                }
+
+                                // Items handling
+                                if (selections.item && selections.item.length > 0) {
+                                    html += '<div class="selected-item"><h4>Seçilmiş Əşyalar</h4>';
+                                    selections.item.forEach((item, index) => {
+                                        const itemPrice = parseFloat(item.item_price) || 0;
+                                        totalPrice += itemPrice;
+                                        html += `
+                            <div class="item-details">
+                                <button class="remove-btn" onclick="removeSelection('item', ${index})">&times;</button>
+                                <img src="${item.item_image}" alt="Item Image" class="main-item-image">
+                                <div class="details">
+                                    <h5>${item.item_name}</h5>
+                                    ${item.selected_variant ? `<p class="variant-info"><span class="info-label">Variant:</span> ${item.selected_variant}</p>` : ''}
+                                    ${item.user_text ? `<p class="text-info"><span class="info-label">Mətn:</span> ${item.user_text}</p>` : ''}
+                                    <p>Qiymət: ₼${itemPrice.toFixed(2)}</p>
+                                </div>
+                            </div>
+                        `;
                                     });
                                     html += '</div>';
                                 }
 
-                                // Card
+                                // Card handling
                                 if (selections.card) {
+                                    const cardPrice = parseFloat(selections.card.card_price) || 0;
+                                    totalPrice += cardPrice;
                                     html += `
-                    <div class="selected-card">
-                        <h4>Seçilmiş Kart</h4>
-                        <div class="item-details">
-                            <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
-                            <img src="${selections.card.card_image}" alt="Card Image">
-                            <div class="details">
-                                <h5>${selections.card.card_name}</h5>
-                                <p>Kimə: ${selections.card.recipient_name}</p>
-                                <p>Kimdən: ${selections.card.sender_name}</p>
-                                <p>Qiymət: ₼${selections.card.card_price}</p>
+                        <div class="selected-card">
+                            <h4>Seçilmiş Kart</h4>
+                            <div class="item-details">
+                                <button class="remove-btn" onclick="removeSelection('card')">&times;</button>
+                                <img src="${selections.card.card_image}" alt="Card Image">
+                                <div class="details">
+                                    <h5>${selections.card.card_name}</h5>
+                                    <p>Kimə: ${selections.card.recipient_name}</p>
+                                    <p>Kimdən: ${selections.card.sender_name}</p>
+                                    <p>Mesaj: ${selections.card.card_message || ''}</p>
+                                    <p>Qiymət: ₼${cardPrice.toFixed(2)}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
                                 }
 
                                 // Total Price
                                 html += `
-                <div class="total-price">
-                    <h4>Ümumi Məbləğ: ₼${selections.total_price.toFixed(2)}</h4>
-                </div>
-            `;
+                    <div class="total-price">
+                        <h4>Ümumi Məbləğ: ₼${totalPrice.toFixed(2)}</h4>
+                    </div>
+                `;
 
                                 document.getElementById('selectionsSummary').innerHTML = html;
                             }
                         })
-                        .catch(error => console.error('Error:', error));
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Məlumatları yükləyərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                        });
                 }
 
+                // Add click handler for the save button
+                document.getElementById('save-button').addEventListener('click', function() {
+                    fetch('/add-to-cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Məhsullar səbətə əlavə edildi!');
+                                window.location.href = '/cart'; // Redirect to cart page
+                            } else {
+                                alert(data.message || 'Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+                        });
+                });
                 document.addEventListener('DOMContentLoaded', updateSelectionsSummary);
             </script>
 
@@ -432,28 +467,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        {{--$('#save-button').on('click', function () {--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{ route('save.to.database') }}",--}}
-        {{--        method: "POST",--}}
-        {{--        data: {--}}
-        {{--            _token: "{{ csrf_token() }}",--}}
-        {{--        },--}}
-        {{--        success: function (response) {--}}
-        {{--            if (response.success) {--}}
-        {{--                alert(response.message);--}}
-        {{--            } else {--}}
-        {{--                alert("Xəta baş verdi: " + response.message);--}}
-        {{--            }--}}
-        {{--        },--}}
-        {{--        error: function (xhr) {--}}
-        {{--            alert("Serverdə xəta baş verdi: " + xhr.responseJSON.message);--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--});--}}
-
-
-        $('#save-button').on('click', function () {
+             $('#save-button').on('click', function () {
             // Check if user is logged in
             const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
 

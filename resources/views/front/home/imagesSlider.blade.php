@@ -11,9 +11,9 @@
                     @if($slide->description)
                         <p>{{ $slide->description }}</p>
                     @endif
-                    <button class="new-year-gifts" style="background-color: transparent">
-                        {{ $slide->button_text }}
-                    </button>
+                        <button class="new-year-gifts" style="background-color: transparent" onclick="window.location.href='{{ route('choose_a_box') }}'">
+                            {{ $slide->button_text }}
+                        </button>
                 </div>
             </div>
         @endforeach
