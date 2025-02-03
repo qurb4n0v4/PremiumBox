@@ -97,8 +97,8 @@ body.home .navbar .dropdown-btn {
     justify-content: flex-end;
 }
 .navbar-cart {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 14px;
+    /*font-weight: bold;*/
 }
 .navbar-elements-bottom li a {
     font-size: 18px;

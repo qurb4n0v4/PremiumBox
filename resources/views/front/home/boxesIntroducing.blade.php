@@ -9,7 +9,7 @@
             <p class="mt-3">Hədiyyələrinizi tədbirə uyğun olaraq fərdiləşdirin – qutudan tutmuş içindəki əşyalara və kartlara qədər!</p>
             <p>Ad günləri, ildönümləri, məzuniyyətlər, Sevgililər Günü, Analar Günü, Atalar Günü və daha çoxu üçün.</p>
             <p>Box & Tale sizin üçün hər şeyi hazırlayıb!</p>
-            <a href="#" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">Qutu Yarat</a>
+            <a href="{{ route('choose_a_box') }}" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">Qutu Yarat</a>
         </div>
     </div>
     <div class="row align-items-stretch mx-0">
@@ -18,7 +18,7 @@
             <h1 class="fw-bold">Hazır Qutular</h1>
             <p class="mt-3">Əmin deyilsinizsə, hazır qutularımızdan birini seçin.</p>
             <p>Box & Tale tədbirlərə, maraqlara və rənglərə uyğun müxtəlif hədiyyə dəstləri hazırlayıb!</p>
-            <a href="#" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">HAZIR QUTU</a>
+            <a href="{{ route('choose_premade_box') }}" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">HAZIR QUTU</a>
         </div>
         <div class="col-md-6 p-0">
             <img src="{{ asset('assets/front/img/yellow.webp') }}" alt="Hədiyyə Qutusu" class="img-fluid">
@@ -32,7 +32,7 @@
             <h4 class="text-uppercase fw-bold">Böyük Miqdarda Hədiyyələr Lazımdır?</h4>
             <h1 class="fw-bold">Korporativ Hədiyyələr və Xüsusi Layihələr</h1>
             <p class="mt-3">Box & Tale sizin xüsusi anlarınızı qeyd etməyə kömək edir – istər kiçik, istərsə də BÖYÜK OLSUN!</p>
-            <a href="#" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">KORPORATİV HƏDİYYƏLƏR</a>
+            <a href="{{ route('corporate-gifts') }}" class="btn mt-3 text-white" style="border: 1px solid #ffffff; width: 200px;">KORPORATİV HƏDİYYƏLƏR</a>
         </div>
     </div>
 </div>
