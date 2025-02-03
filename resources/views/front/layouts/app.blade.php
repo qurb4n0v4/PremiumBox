@@ -27,7 +27,7 @@
     <meta name="robots" content="index, follow">
 
     {{--    Favicon    --}}
-    <link rel="icon" href="{{ asset('assets/front/img/giftbox.jpg') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/front/img/premiumbox.jpeg') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 

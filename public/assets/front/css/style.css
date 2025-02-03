@@ -90,15 +90,17 @@ body.home .navbar .dropdown-btn {
 .navbar-elements-bottom {
     display: flex;
     gap: 20px;
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .navbar-elements-top {
     justify-content: flex-end;
+    font-weight: bold;
 }
 .navbar-cart {
-    font-size: 14px;
-    /*font-weight: bold;*/
+    font-size: 18px;
+    font-weight: bold;
 }
 .navbar-elements-bottom li a {
     font-size: 18px;
