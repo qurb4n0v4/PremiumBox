@@ -27,6 +27,9 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label('Tərəfdaş Adı')
+                    ->required(),
                 Forms\Components\FileUpload::make('logo')
                     ->label('Partner Logo')
                     ->image()
@@ -40,6 +43,10 @@ class PartnerResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('name')
+                    ->label('Tərəfdaş Adı')
+                    ->searchable()
+                    ->sortable(),
                 ImageColumn::make('logo')
                     ->label('Logo')
                     ->disk('public'),

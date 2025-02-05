@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Textarea;
+
 
 class UserCardForBuildABoxResource extends Resource
 {
@@ -54,7 +56,7 @@ class UserCardForBuildABoxResource extends Resource
                     ->label('Sender Name')
                     ->nullable()
                     ->disabled(),
-                Forms\Components\TextArea::make('card_message')
+                TextArea::make('card_message')
                     ->label('Card Message')
                     ->nullable()
                     ->disabled(),
@@ -134,7 +136,14 @@ class UserCardForBuildABoxResource extends Resource
                     ->html(),
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.selected_variants')
                     ->label('Seçilən variant')
-                    ->formatStateUsing(fn($state) => is_array($state) ? implode(', ', $state) : $state),
+                    ->formatStateUsing(function ($state) {
+                        if (is_string($state)) {
+                            $decoded = json_decode($state, true); // JSON formatındadırsa, array-ə çevir
+                            return is_array($decoded) ? implode(', ', $decoded) : $state;
+                        }
+                        return is_array($state) ? implode(', ', $state) : $state;
+                    }),
+
                 Tables\Columns\TextColumn::make('userBuildABoxCardItems.user_text')
                     ->label('Əlavə edilən mətn'),
                 Tables\Columns\TextColumn::make('status')

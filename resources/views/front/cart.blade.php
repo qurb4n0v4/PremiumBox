@@ -55,7 +55,7 @@
                                             <p class="cart-item-status">
                                                 <strong style="color: #a3907a;">Status:</strong>
                                                 <span
-                                                        class="badge badge-{{ $userCard->status == 'pending' ? 'warning' : ($userCard->status == 'completed' ? 'success' : 'secondary') }}">
+                                                    class="badge badge-{{ $userCard->status == 'pending' ? 'warning' : ($userCard->status == 'completed' ? 'success' : 'secondary') }}">
                                                     {{ ucfirst($userCard->status) }}
                                                 </span>
                                             </p>
@@ -83,8 +83,8 @@
                                 <div class="cart-card-body">
                                     <div class="row align-items-center">
                                         <div class="col-3">
-                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->image)))
-                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}"
+                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->normal_image)))
+                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->normal_image) }}"
                                                      alt="Hazır Qutu Şəkli" class="order-item-image">
                                             @else
                                                 <p>Şəkil mövcud deyil</p>
@@ -112,13 +112,13 @@
                                             <p class="cart-item-status">
                                                 <strong style="color: #a3907a;">Status:</strong>
                                                 <span
-                                                        class="badge badge-{{ $premadeBoxOrder->status == 'pending' ? 'warning' : ($premadeBoxOrder->status == 'completed' ? 'success' : 'secondary') }}">
+                                                    class="badge badge-{{ $premadeBoxOrder->status == 'pending' ? 'warning' : ($premadeBoxOrder->status == 'completed' ? 'success' : 'secondary') }}">
                                                     {{ ucfirst($premadeBoxOrder->status) }}
                                                 </span>
                                             </p>
                                             <form
-                                                    action="{{ route('cart.destroy', [$premadeBoxOrder->id, 'premade-box']) }}"
-                                                    method="POST" class="d-inline">
+                                                action="{{ route('cart.destroy', [$premadeBoxOrder->id, 'premade-box']) }}"
+                                                method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-cart-delete btn-sm">Sifarişi Sil
@@ -185,7 +185,7 @@
         color: #898989;
     }
 
-    .cart-item-image {
+    .cart-item-image, .order-item-image {
         max-width: 100%;
         height: auto;
         border-radius: 4px;

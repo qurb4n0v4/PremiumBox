@@ -85,8 +85,10 @@
                                     <div class="row align-items-center">
                                         <!-- Hazır Qutu Şəkli -->
                                         <div class="col-4">
-                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->image)))
-                                                <img src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->image) }}" alt="Hazır Qutu Şəkli" class="order-item-image">
+                                            @if (file_exists(storage_path('app/public/' . $premadeBoxOrder->premadeBox->normal_image)))
+                                                <img
+                                                    src="{{ asset('storage/' . $premadeBoxOrder->premadeBox->normal_image) }}"
+                                                    alt="Hazır Qutu Şəkli" class="order-item-image">
                                             @else
                                                 <p>Şəkil mövcud deyil</p>
                                             @endif
@@ -121,14 +123,15 @@
                                     <!-- Sifariş Statusu -->
                                     <div class="d-flex justify-content-end mt-3 order-item-actions">
                                         <span class="text-muted">Sifariş Statusu:
-                                            <strong class="order-status">{{ ucfirst($premadeBoxOrder->status) }}</strong>
+                                            <strong
+                                                class="order-status">{{ ucfirst($premadeBoxOrder->status) }}</strong>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         @endif
                     @empty
-{{--                        <p class="orders-empty-text">Hazır qutu sifarişləriniz yoxdur.</p>--}}
+                        {{--                        <p class="orders-empty-text">Hazır qutu sifarişləriniz yoxdur.</p>--}}
                     @endforelse
                 @endif
             </div>
@@ -216,6 +219,12 @@
         color: #898989;
         text-align: center;
         margin-top: 20px;
+    }
+
+    .order-item-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
     }
 
     @media (max-width: 768px) {

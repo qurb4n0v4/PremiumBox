@@ -41,7 +41,7 @@ class  BlogDetailResource extends Resource
                             ->label('Title')
                             ->maxLength(255),
 
-                        Forms\Components\TextArea::make('description')
+                        Forms\Components\Textarea::make('description')
                             ->label('Description')
                             ->required(),
 

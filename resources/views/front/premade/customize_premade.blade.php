@@ -1,9 +1,9 @@
 @extends('front.layouts.app')
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/customize-premade.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/customize-premade.css') }}?v={{ time() }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -163,7 +163,6 @@
                                                                 class="rounded img-fluid w-100 select-card d-block h-100 object-fit-cover"
                                                                 style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                                 data-name="{{ $card->name }}"
-{{--                                                                data-price="{{ '₼ ' . $card->price ?? '' }}"--}}
                                                                 data-card-image="{{ asset('storage/' . $card->image) }}"
                                                             >
                                                         </div>
@@ -332,8 +331,8 @@
                                                                     <button
                                                                         class="btn btn-outline-secondary m-1 variant-button"
                                                                         data-variant="{{ $variant['name'] ?? 'Unnamed Variant' }}"
-                                                                    onclick="changeVariantActive(this, {{ $insiding->id }})">
-                                                                    {{ $variant['name'] ?? 'Unnamed Variant' }}
+                                                                        onclick="changeVariantActive(this, {{ $insiding->id }})">
+                                                                        {{ $variant['name'] ?? 'Unnamed Variant' }}
                                                                     </button>
                                                                 @endforeach
                                                             </div>
