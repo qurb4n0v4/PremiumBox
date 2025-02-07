@@ -138,19 +138,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
 
                 if (result.success) {
-                    // Close the modal
-                    bootstrap.Modal.getInstance(modal).hide();
-                    await showSuccess("Məhsul uğurla əlavə edildi!");
-                    window.location.reload();
+                    // Modal bağlanmadan öncə kiçik gecikmə əlavə edək
+                    setTimeout(() => {
+                        // Close the modal
+                        bootstrap.Modal.getInstance(modal).hide();
+                        showSuccess("Məhsul uğurla əlavə edildi!").then(() => {
+                            window.location.reload();
 
-                    // Get the next step route from the button's original onclick attribute
-                    const nextStepRoute = button.getAttribute('onclick')
-                        ?.replace("window.location.href='", "")
-                        ?.replace("'", "");
+                            // Get the next step route from the button's original onclick attribute
+                            const nextStepRoute = button.getAttribute('onclick')
+                                ?.replace("window.location.href='", "")
+                                ?.replace("'", "");
 
-                    if (nextStepRoute) {
-                        window.location.href = nextStepRoute;
-                    }
+                            if (nextStepRoute) {
+                                window.location.href = nextStepRoute;
+                            }
+                        });
+                    }, 500);
                 } else if (result.error_code === 'NO_BOX_SELECTED') {
                     await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
                 } else if (result.error_code === 'TOO_LARGE') {
@@ -213,10 +217,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const response = await saveCustomItemSelection(formData);
 
                 if (response.success) {
-                    // Close the modal
-                    bootstrap.Modal.getInstance(modal).hide();
-                    await showSuccess("Məhsul uğurla əlavə edildi!");
-                    window.location.reload();
+                    // Modal bağlanmadan öncə kiçik gecikmə əlavə edək
+                    setTimeout(() => {
+                        // Close the modal
+                        bootstrap.Modal.getInstance(modal).hide();
+                        showSuccess("Məhsul uğurla əlavə edildi!").then(() => {
+                            window.location.reload();
+                        });
+                    }, 500);
                 } else if (response.error_code === 'NO_BOX_SELECTED') {
                     await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
                 } else if (response.error_code === 'TOO_LARGE') {
