@@ -58,8 +58,21 @@ async function showError(message) {
 }
 
 document.querySelectorAll('.choose-box-circle').forEach(circle => {
-    circle.addEventListener('click', function (e) {
+    circle.addEventListener('click', async function (e) {
         const step = this.textContent.trim();
+
+        try {
+            await fetch('/session/clear', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+        } catch (error) {
+            console.error('Error clearing session:', error);
+        }
+
         window.location.href = `/choose-step/${step}`;
     });
 });
