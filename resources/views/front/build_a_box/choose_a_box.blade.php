@@ -1,9 +1,7 @@
 @extends('front.layouts.app')
-@section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
+@section('title', __('Hədiyyə Qutusu Yaradın | | Premium Box'))
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
-
-
 
     @php
         $hideFooter = true;
@@ -38,7 +36,7 @@
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
             <p style="font-size: 14px; color: #898989">Sevdikləriniz üçün unikal və şəxsi hədiyyə qutusu yaratmağın ən
                 rahat yoluna xoş gəldiniz.</p>
-            <p style="color: #a3907a; font-size: 14px; font-weight: 600">İlk öncə istədiyiniz hədiyyə qutusunun rəngini
+            <p style="color: #a3907a; font-size: 14px; font-weight: 600">İlk öncə istədiyiniz hədiyyə qutusunu
                 seçin!</p>
         </div>
 

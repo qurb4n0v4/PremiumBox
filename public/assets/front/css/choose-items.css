@@ -14,6 +14,10 @@
     --spacing-xlarge: 40px;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .choose-box-line {
     height: 4px;
     background-color: var(--text-gray);
@@ -23,8 +27,8 @@
 
 .choose-box-steps-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center !important;
+    align-items: center !important;
     width: 80%;
     margin: 0 auto;
     padding: var(--spacing-large);
@@ -36,6 +40,7 @@
     justify-content: center;
     width: 25%;
     margin-top: -40px;
+    flex-direction: row;
 }
 
 .choose-box-circle {
@@ -49,11 +54,15 @@
     align-items: center;
     font-size: var(--font-size-small);
     border: 2px solid var(--text-gray);
-    margin-top: -20px;
+    margin-top: -10px;
     margin-right: var(--spacing-small);
     transition: background-color 0.3s, border-color 0.3s;
 }
-
+.choose-box-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .choose-box-circle.completed {
     background-color: var(--primary-color);
     color: var(--white);
@@ -62,7 +71,9 @@
 
 .choose-box-text {
     text-align: center;
+    align-items: center;
     color: var(--text-gray);
+    white-space: nowrap;
 }
 
 .choose-box-text h3 {
@@ -79,8 +90,8 @@
 }
 
 .normal-image, .hover-image {
-    width: 100%;
-    transition: opacity 0.3s;
+    /*width: 100%;*/
+    transition: opacity 0.1s;
 }
 
 .hover-image {
@@ -92,6 +103,10 @@
 
 .image-wrapper:hover .hover-image {
     opacity: 1;
+}
+.col-md-4 {
+    gap: 20px;
+    padding: 10px;
 }
 
 .card h5 {
@@ -107,6 +122,7 @@
 }
 
 .choose-items-button {
+    width: 150px;
     border: 1px solid var(--primary-color);
     border-radius: 10px;
     color: var(--primary-color);
@@ -123,20 +139,22 @@
 
 .image-wrapper {
     overflow: hidden;
-    width: 190px;
-    height: 200px !important;
-    margin: 0 auto;
+    /*width: 190px;*/
+    /*height: 200px !important;*/
+    width: 100%;
+    max-width: 300px !important;
+    margin: auto;
+    padding: 10px;
+    /*margin: 0 auto;*/
     position: relative;
     border-radius: 15px;
 }
 
 .normal-image, .hover-image {
     width: 100%;
-    height: 100% !important;
-    object-fit: fill;
-    position: absolute;
-    top: 0;
-    left: 0;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .variant-image-section {
@@ -257,7 +275,7 @@
     color: #898989!important;
 }
 .choose-box-choose-button,
-.choose-variant-button{
+.choose-variant-button {
     font-size: var(--font-size-regular);
     width: 100%;
     padding: 5px;
@@ -364,7 +382,7 @@ body.modal-open {
     overflow: hidden;
     padding-right: 0 !important;
 }
-/* Add these styles to your existing CSS */
+
 .form-control.is-invalid {
     border-color: #dc3545 !important;
     background-image: none !important;
@@ -421,20 +439,6 @@ body.modal-open {
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-}
-
-.custom-upload-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border: 2px solid #9da4aa;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
 }
 
 .hidden-input {
@@ -536,7 +540,7 @@ body.modal-open {
     overflow: hidden;
     padding-right: 0 !important;
 }
-/* Add these styles to your existing CSS */
+
 .form-control.is-invalid {
     border-color: #dc3545 !important;
     background-image: none !important;
@@ -608,7 +612,6 @@ body.modal-open {
     position: relative;
     overflow: hidden;
 }
-
 .hidden-input {
     display: none;
 }
@@ -670,12 +673,6 @@ body.modal-open {
         font-size: 12px;
     }
 
-    /* Product Cards */
-    .image-wrapper {
-        width: 170px;
-        height: 180px !important;
-    }
-
     .card h5 {
         font-size: var(--font-size-small);
     }
@@ -684,8 +681,42 @@ body.modal-open {
         font-size: var(--font-size-medium);
     }
 }
+@media (max-width: 992px) {
+    .choose-boxes-header {
+        padding: 0 15px;
+    }
+
+    .choose-boxes-header p {
+        line-height: 1.4 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .choose-boxes-page {
+        width: 90% !important;
+        padding: 3rem 2rem !important;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: center;
+    }
+
+    .col-md-3 {
+        padding: 0 15px;
+    }
+}
 
 @media (max-width: 768px) {
+    .row {
+        margin: 0 -10px;
+    }
+
+    .col-md-3 {
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+    }
     /* Modal Styles */
     .modal-dialog {
         max-width: 95% !important;
@@ -713,6 +744,10 @@ body.modal-open {
     }
 
     /* Choose Box Steps */
+    .choose-boxes-page {
+        width: 95% !important;
+        padding: 2rem 1.5rem !important;
+    }
     .choose-box-line {
         width: 90%;
         margin: var(--spacing-large) auto;
@@ -720,12 +755,10 @@ body.modal-open {
     }
 
     .choose-box-steps-container {
-        width: 100%;
+        width: 95%;
+        gap: 20px;
         padding: var(--spacing-small);
-    }
-
-    .choose-box-step {
-        margin-top: -25px;
+        flex-wrap: nowrap !important;
     }
 
     .choose-box-circle {
@@ -733,7 +766,15 @@ body.modal-open {
         height: 20px;
         font-size: 9px;
     }
-
+    .choose-boxes-header h3 {
+        font-size: 24px !important;
+        margin-bottom: 20px !important;
+    }
+    .choose-boxes-header p {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 12px !important;
+    }
     /* Filter Section */
     .filter-column {
         margin-bottom: 20px;
@@ -795,8 +836,25 @@ body.modal-open {
         font-size: 30px;
     }
 }
-
+@media (max-width: 768px) and (min-width: 350px) {
+    /*important*/
+    .col-md-4 {
+        flex: 1 1 48%;
+        max-width: 48%;
+    }
+}
 @media (max-width: 576px) {
+    .row {
+        margin: 0 -8px;
+    }
+
+    .col-md-3 {
+        padding: 0 8px;
+    }
+    .choose-boxes-page {
+        width: 95% !important;
+        padding: 1.5rem 1rem !important;
+    }
     /* Modal Styles */
     .variant-image-section {
         height: 250px;
@@ -813,13 +871,22 @@ body.modal-open {
 
     /* Choose Box Steps */
     .choose-box-steps-container {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        gap: 20px;
     }
 
     .choose-box-step {
         width: 50%;
         margin-top: -20px;
         margin-bottom: 15px;
+    }
+    .choose-boxes-header h3 {
+        font-size: 23px !important;
+    }
+
+    .choose-boxes-header p {
+        font-size: 12px !important;
+        padding: 0 10px;
     }
 
     /* Product Cards */
@@ -855,7 +922,6 @@ body.modal-open {
         font-size: 11px;
     }
 }
-
 @media (max-width: 480px) {
     /* Choose Box Steps */
     .choose-box-circle {
@@ -865,7 +931,7 @@ body.modal-open {
     }
 
     .choose-box-text h3 {
-        font-size: 8px;
+        font-size: 14px !important;
     }
 
     .choose-box-text p {
@@ -893,6 +959,36 @@ body.modal-open {
     .upload-icon {
         font-size: 25px;
     }
+    .image-wrapper {
+        max-width: 200px;
+    }
 }
+@media (max-width: 445px) {
+    .choose_items {
+        max-width: 50% !important; /* 2 sütun düzeni */
+    }
+    .choose-items-button {
+        width: 120px;
+    }
+}
+@media(max-width: 432px ) {
+    .choose-box-steps-container {
+        gap: 10px;
+    }
+    .choose-box-text h3 {
+        font-size: 15px;
+    }
+}
+@media(max-width: 350px ) {
+    .choose-box-steps-container {
+        gap: 7px;
+    }
+    .choose-box-circle {
+        width: 19px;
+        height: 19px;
+    }
 
-
+    .choose-box-title {
+        font-size: 13px !important;
+    }
+}

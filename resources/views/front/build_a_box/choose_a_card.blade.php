@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
 @section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-a-cart.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-a-cart.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @section('content')
     @if (session('error'))
@@ -32,15 +32,14 @@
                     {{ $stepNumber }}
                 </span>
                 @endif
-                <div class="choose-box-text">
-                    <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
-                    <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
-                </div>
+                    <div class="choose-box-text d-flex justify-content-center align-items-center">
+                        <h3 class="choose-box-title">{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
+                    </div>
             </div>
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%; margin-bottom: 90px!important;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff;  border: 1px solid #ccc; max-width: 95%; margin-bottom: 90px!important;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Uyğun Kartı Seçin</h3>
             <p style="font-size: 14px; color: #898989">Komandamız bir sıra xüsusi tədbirlər üçün eksklüziv kart dizaynlarını hazırlayıb.</p>
@@ -48,16 +47,16 @@
         </div>
         <div class="row gy-4 mt-4">
             @foreach ($cards as $card)
-                <div class="col-md-3 text-center">
-                    <div class="card"
-                         style="border: none; overflow: hidden; width: 210px; height: 220px; margin: auto; cursor: pointer;"
+                <div class="col-md-3 col-6 card-col">
+                    <div class="card gift-cards d-flex justify-content-center align-items-center w-100 h-100"
+                         style="border: none;"
                          data-bs-toggle="modal"
                          data-bs-target="#modal-{{ $card->id }}">
-                        <div style="width: 100%; height: 200px; overflow: hidden;">
+                        <div class="gift-card-image">
                             <img src="{{ asset('storage/' . $card->image) }}" alt="{{ $card->name }}"
-                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                                 style="object-fit: cover; border-radius: 10px;">
                         </div>
-                        <div class="card-body">
+                        <div class="card-body ">
                             <h5 class="card-title" style="font-size: 16px; color: #a3907a;">{{ $card->name }}</h5>
                         </div>
                     </div>
@@ -128,71 +127,10 @@
         <button class="complete-order-button" onclick="window.location.href='{{ route('order.complete') }}'">Sifarişi tamamla</button>
 
     </div>
-
-<style>
-    .modal-backdrop {
-        background-color: rgba(0, 0, 0, 0.4) !important;
-    }
-
-    input,
-    textarea {
-        border-radius: 20px!important;
-        width: 100% !important;
-        min-width: 100% !important;
-    }
-
-    input:focus, textarea:focus {
-        outline: none!important;
-        box-shadow: none!important;
-        border-color: #a3907a!important;
-    }
-
-    .form-control {
-        width: 100% !important;
-        min-width: 100% !important;
-        margin-bottom: 10px;
-    }
-
-    .form-control,
-    .btn {
-        border-radius: 10px;
-    }
-
-    .btn.save-card {
-        width: 100% !important;
-    }
-
-    .form-control.is-invalid {
-        border-color: #dc3545;
-        background-image: none;
-    }
-
-    .form-control.is-invalid:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-    }
-
-    .modal .card-form {
-        width: 100%;
-    }
-
-    .modal .flex-grow-1 {
-        width: 100%;
-    }
-    .leave-empty {
-        cursor: pointer;
-        width: auto !important;
-        min-width: auto !important;
-    }
-
-    input[type="checkbox"] + label {
-        cursor: pointer;
-        display: inline-block;
-    }
-</style>
-
+@endsection
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+
         const modals = document.querySelectorAll('.modal');
 
         modals.forEach(modal => {
@@ -304,6 +242,30 @@
             // Initialize preview and textarea state
             updateTextareaState();
             updatePreview();
+        });
+        // updateChooseBoxTitles fonksiyonu
+        function updateChooseBoxTitles() {
+            const titles = ["Qutu Seçin", "Əşyaları Seçin", "Kart Seçin", "Tamamlandı"];
+            const shortTitles = ["Qutu", "Əşyalar", "Kart", "Tamamlandı"];
+
+            const chooseBoxTitles = document.querySelectorAll(".choose-box-title");
+
+            chooseBoxTitles.forEach((title, index) => {
+                if (window.innerWidth <= 768) {
+                    title.textContent = shortTitles[index];
+                } else {
+                    title.textContent = titles[index];
+                }
+            });
+        }
+
+// Sayfa yüklendiğinde ve pencere boyutu değiştiğinde fonksiyonu çağır
+        window.addEventListener("resize", updateChooseBoxTitles);
+        window.addEventListener("DOMContentLoaded", updateChooseBoxTitles);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            updateChooseBoxTitles();
+            window.addEventListener("resize", updateChooseBoxTitles);
         });
     });
 
@@ -441,96 +403,3 @@
         }
     });
 </script>
-
-@endsection
-
-<style>
-    @media (max-width: 992px) {
-        .choose-boxes-header {
-            padding: 0 15px;
-        }
-
-        .choose-boxes-header p {
-            line-height: 1.4 !important;
-            margin-bottom: 15px !important;
-        }
-
-        .choose-boxes-page {
-            width: 90% !important;
-            padding: 3rem 2rem !important;
-        }
-
-        .row {
-            margin-left: 0;
-            margin-right: 0;
-            justify-content: center;
-        }
-
-        .col-md-3 {
-            padding: 0 15px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .choose-boxes-header h3 {
-            font-size: 24px;
-            margin-bottom: 20px !important;
-        }
-
-        .choose-boxes-header p {
-            font-size: 13px !important;
-            line-height: 1.5 !important;
-            margin-bottom: 12px !important;
-        }
-
-        .choose-boxes-page {
-            width: 95% !important;
-            padding: 2rem 1.5rem !important;
-        }
-
-        .row {
-            margin: 0 -10px;
-        }
-
-        .col-md-3 {
-            padding: 0 10px;
-            display: flex;
-            justify-content: center;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .choose-boxes-header h3 {
-            font-size: 22px;
-        }
-
-        .choose-boxes-header p {
-            font-size: 12px !important;
-            padding: 0 10px;
-        }
-
-        .choose-boxes-page {
-            width: 100% !important;
-            padding: 1.5rem 1rem !important;
-        }
-
-        .row {
-            margin: 0 -8px;
-        }
-
-        .col-md-3 {
-            padding: 0 8px;
-        }
-
-    }
-
-    @media (max-width: 768px) {
-        .complete-order-button {
-            display: block;
-            width: 100%;
-            text-align: center;
-            margin: 0 auto;
-        }
-    }
-
-</style>
