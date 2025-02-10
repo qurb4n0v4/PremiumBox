@@ -411,7 +411,7 @@ p,
 
     .gift-box-card {
         height: auto;
-        min-height: 400px;
+        /*min-height: 400px;*/
     }
 
     .gift-box-content {
