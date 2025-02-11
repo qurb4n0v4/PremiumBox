@@ -17,7 +17,6 @@
             ];
 
             $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
-            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
 {{--        @foreach ($premadeBoxes as $box)--}}
@@ -32,7 +31,6 @@
                     </div>
                     <div class="choose-box-text">
                         <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                        <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
                     </div>
                 </div>
             @endforeach
