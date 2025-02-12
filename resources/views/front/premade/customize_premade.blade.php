@@ -234,11 +234,11 @@
                                     <div class="container">
                                         <ul class="list-group gap-2">
                                             @foreach($insidings as $insiding)
-                                                <li class="list-group-item rounded" data-insiding-id="{{ $insiding->id }}" style="border-radius: 20px; border: 1px solid #ccc;">
+                                                <li class="list-group-item rounded" data-insiding-id="{{ $insiding->id }}" style="border-radius: 20px !important; border: 1px solid #ccc;">
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
                                                             @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
-                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: cover;">
+                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 15px;">
                                                             @else
                                                                 <p>Şəkil yoxdur.</p>
                                                             @endif
@@ -608,7 +608,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 
 
-<script src={{ asset('assets/front/js/customize-premade.js') }}></script>
+<script src={{ asset('assets/front/js/customize-premade.js') }}?v={{ time() }}></script>
 
 <style>
     .choose-box-steps-container {
