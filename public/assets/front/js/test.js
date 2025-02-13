@@ -395,6 +395,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    function updateChooseBoxTitles() {
+        const titles = ["Qutu Seçin", "Əşyaları Seçin", "Kart Seçin", "Tamamlandı"];
+        const shortTitles = ["Qutu", "Əşyalar", "Kart", "Tamamlandı"];
+
+        const chooseBoxTitles = document.querySelectorAll("#choose-box-title");
+
+        chooseBoxTitles.forEach((title, index) => {
+            if (window.innerWidth <= 768) {
+                title.textContent = shortTitles[index];
+            } else {
+                title.textContent = titles[index];
+            }
+        });
+    }
+
+    updateChooseBoxTitles();
+    window.addEventListener("resize", updateChooseBoxTitles);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

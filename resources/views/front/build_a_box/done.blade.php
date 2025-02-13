@@ -32,10 +32,9 @@
                     {{ $stepNumber }}
                 </span>
                 @endif
-                <div class="choose-box-text">
-                    <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
-                    <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
-                </div>
+                    <div class="choose-box-text d-flex justify-content-center align-items-center">
+                        <h3 class="choose-box-title">{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
+                    </div>
             </div>
         @endforeach
     </div>
@@ -788,4 +787,25 @@
             max-width: 1000px !important;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function updateChooseBoxTitles() {
+                const titles = ["Qutu Seçin", "Əşyaları Seçin", "Kart Seçin", "Tamamlandı"];
+                const shortTitles = ["Qutu", "Əşyalar", "Kart", "Tamamlandı"];
+
+                const chooseBoxTitles = document.querySelectorAll(".choose-box-title");
+
+                chooseBoxTitles.forEach((title, index) => {
+                    if (window.innerWidth <= 768) {
+                        title.textContent = shortTitles[index];
+                    } else {
+                        title.textContent = titles[index];
+                    }
+                });
+            }
+
+            updateChooseBoxTitles();
+            window.addEventListener("resize", updateChooseBoxTitles);
+        });
+    </script>
 @endsection

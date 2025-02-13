@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,7 +17,6 @@
             ];
 
             $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
-            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
         @foreach (range(1, 3) as $stepNumber)
@@ -37,13 +36,12 @@
                 </div>
                 <div class="choose-box-text">
                     <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                    <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
                 </div>
             </div>
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; width: 95%; border: 1px solid #ccc;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
             <p style="font-size: 14px; color: #898989">Hazır paketlərimizdən alış-veriş edin: Sizin üçün sürətli, əngəlsiz, göndərilməyə hazır hədiyyə qutuları.</p>
@@ -127,7 +125,7 @@
                 <!-- Sağ Sidebar (Məhsullar) -->
                 <div class="col-12 col-md-9">
                     <!-- Axtar və Sırala -->
-                    <div class="d-flex gap-2 mb-4">
+                    <div class="search-filter d-flex gap-2 mb-4">
                         <!-- Axtarış -->
                         <div class="search-container w-100">
                             <input type="text" id="search-box" class="form-control" placeholder="Qutuları axtarın...">
@@ -152,15 +150,15 @@
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
-                            <div class="col-12 col-md-4 mb-4 premade-box"
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-4 mb-4 premade-box"
                                  data-recipient="{{ $box->recipient }}"
                                  data-occasion="{{ $box->occasion }}"
                                  data-production_time="{{ $box->production_time }}"
                                  data-price="{{ $box->price }}">
 
-                                <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
+                                <div class="card premade-card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
-                                        <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
+                                        <div class="text-center position-relative image-container" style=" overflow: hidden;">
                                             <!-- Normal Image -->
                                             <img
                                                 src="{{ asset('storage/' . $box->normal_image) }}"
@@ -179,7 +177,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card-block my-2" style="flex-grow: 1;">
+                                    <div class="card-block my-2">
                                         <h6 class="gift-box-title">{{ $box->title }}</h6>
                                         <div class="gift-box-name">
                                             {{ $box->name }}

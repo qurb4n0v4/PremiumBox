@@ -85,7 +85,6 @@
     align-items: center;
     color: var(--text-gray);
     white-space: nowrap;
-
 }
 
 .choose-box-text h3 {
@@ -397,8 +396,6 @@ p,
         padding: var(--spacing-medium);
         gap: 30px;
         flex-wrap: nowrap !important;
-        /*overflow-x: auto;*/
-
     }
 
     .choose-box-step {
@@ -414,7 +411,7 @@ p,
 
     .gift-box-card {
         height: auto;
-        min-height: 400px;
+        /*min-height: 400px;*/
     }
 
     .gift-box-content {
