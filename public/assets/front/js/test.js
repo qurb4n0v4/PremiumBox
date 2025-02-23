@@ -151,23 +151,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
 
                 if (result.success) {
-                    // Modal bağlanmadan öncə kiçik gecikmə əlavə edək
-                    setTimeout(() => {
-                        // Close the modal
-                        bootstrap.Modal.getInstance(modal).hide();
-                        showSuccess("Məhsul uğurla əlavə edildi!").then(() => {
-                            window.location.reload();
+                    // Close the modal
+                    bootstrap.Modal.getInstance(modal).hide();
+                    await showSuccess("Məhsul uğurla əlavə edildi!");
+                    window.location.reload();
 
-                            // Get the next step route from the button's original onclick attribute
-                            const nextStepRoute = button.getAttribute('onclick')
-                                ?.replace("window.location.href='", "")
-                                ?.replace("'", "");
+                    // Get the next step route from the button's original onclick attribute
+                    const nextStepRoute = button.getAttribute('onclick')
+                        ?.replace("window.location.href='", "")
+                        ?.replace("'", "");
 
-                            if (nextStepRoute) {
-                                window.location.href = nextStepRoute;
-                            }
-                        });
-                    }, 500);
+                    if (nextStepRoute) {
+                        window.location.href = nextStepRoute;
+                    }
                 } else if (result.error_code === 'NO_BOX_SELECTED') {
                     await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
                 } else if (result.error_code === 'TOO_LARGE') {
@@ -230,14 +226,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const response = await saveCustomItemSelection(formData);
 
                 if (response.success) {
-                    // Modal bağlanmadan öncə kiçik gecikmə əlavə edək
-                    setTimeout(() => {
-                        // Close the modal
-                        bootstrap.Modal.getInstance(modal).hide();
-                        showSuccess("Məhsul uğurla əlavə edildi!").then(() => {
-                            window.location.reload();
-                        });
-                    }, 500);
+                    // Close the modal
+                    bootstrap.Modal.getInstance(modal).hide();
+                    await showSuccess("Məhsul uğurla əlavə edildi!");
+                    window.location.reload();
                 } else if (response.error_code === 'NO_BOX_SELECTED') {
                     await showError('Zəhmət olmasa əvvəlcə qutu seçin!');
                 } else if (response.error_code === 'TOO_LARGE') {
@@ -395,24 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
-    function updateChooseBoxTitles() {
-        const titles = ["Qutu Seçin", "Əşyaları Seçin", "Kart Seçin", "Tamamlandı"];
-        const shortTitles = ["Qutu", "Əşyalar", "Kart", "Tamamlandı"];
-
-        const chooseBoxTitles = document.querySelectorAll("#choose-box-title");
-
-        chooseBoxTitles.forEach((title, index) => {
-            if (window.innerWidth <= 768) {
-                title.textContent = shortTitles[index];
-            } else {
-                title.textContent = titles[index];
-            }
-        });
-    }
-
-    updateChooseBoxTitles();
-    window.addEventListener("resize", updateChooseBoxTitles);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -760,7 +734,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // Ümumi funksiyalar və event handler'lar(Check Box and item volume)
 async function checkBoxVolume(itemId) {
     try {
-        const response = await fetch('/check-box-volume', {
+        console.log('checkBoxVolume çağırıldı, itemId:', itemId);
+
+        const response = await fetch('/box/check-box-volume', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -770,6 +746,8 @@ async function checkBoxVolume(itemId) {
             body: JSON.stringify({ item_id: itemId })
         });
 
+        const result = await response.json();
+        console.log('Box volume check response:', result); // Debugging
         if (!response.ok) throw new Error('Network response was not ok');
         return await response.json();
     } catch (error) {
@@ -779,6 +757,7 @@ async function checkBoxVolume(itemId) {
 }
 
 async function saveItemSelection(itemId, variantPrice = null, selectedVariant = null, userText = null) {
+    console.log('saveItemSelection çağırıldı:', { itemId, variantPrice, selectedVariant, userText });
     const formData = new FormData();
     formData.append('choose_item_id', itemId);
 
@@ -804,6 +783,8 @@ async function saveItemSelection(itemId, variantPrice = null, selectedVariant = 
 async function handleAddToBox(itemId, variantPrice = null, selectedVariant = null, userText = null) {
     const isBoxSelected = await checkBoxSelected();
     console.log('Is box selected:', isBoxSelected); // Debug için log
+    console.log('handleAddToBox çağırıldı:', { itemId, variantPrice, selectedVariant, userText });
+
     if (!isBoxSelected) {
         await handleError(null, ERROR_MESSAGES.NO_BOX_SELECTED);
         return false;

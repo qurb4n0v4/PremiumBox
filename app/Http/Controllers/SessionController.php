@@ -46,7 +46,7 @@ class SessionController extends Controller
     public function saveItemSelection(Request $request)
     {
         try {
-            DB::beginTransaction();
+            Log::info('Save Item Request:', $request->all()); // Gələn request-i loqlayaq
 
             // Box yoxlaması
             $selectedBox = Session::get('selected_box');
@@ -76,7 +76,8 @@ class SessionController extends Controller
                 'item_id' => $item->id,
                 'item_name' => $item->name,
                 'item_image' => $item->normal_image,
-                'item_price' => floatval($request->variant_price ?? $item->price),
+                'item_price' => floatval($request->variant_price !== null ? $request->variant_price : $item->price),
+
                 'selected_variant' => $request->selected_variant,
                 'user_text' => $request->user_text,
                 'uploaded_images' => []
@@ -89,23 +90,36 @@ class SessionController extends Controller
                 }
             }
 
+            // Session-u əldə edək və yoxlayaq
             $existingItems = Session::get('selected_item', []);
+            Log::info('Existing items before:', $existingItems);
+
+            // Array olduğuna əmin olaq
             if (!is_array($existingItems)) {
                 $existingItems = [];
             }
 
+            // Yeni item-i əlavə edək
             $existingItems[] = $itemData;
-            Session::put('selected_item', $existingItems);
-            Session::save(); // Session-u dərhal yaddaşa yazaq
 
-            DB::commit();
+            // Session-u yeniləyək və dərhal yaddaşa yazaq
+            Session::put('selected_item', $existingItems);
+            Session::save();
+
+            // Yoxlama üçün yenidən session-u oxuyaq
+            $updatedItems = Session::get('selected_item');
+            Log::info('Updated items after:', $updatedItems);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Məhsul məlumatları saxlanıldı'
+                'message' => 'Məhsul məlumatları saxlanıldı',
+                'sessionData' => [
+                    'existingItems' => $existingItems,
+                    'updatedItems' => $updatedItems
+                ]
             ]);
+
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error('Save Item Error:', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
@@ -118,13 +132,15 @@ class SessionController extends Controller
         }
     }
 
-    private function checkBoxVolume(Request $request)
+    public function checkBoxVolume(Request $request)
     {
         try {
             Log::info('Request details:', [
                 'request' => $request->all(),
                 'session' => Session::all()
             ]);
+            Log::info('Session Data:', ['selected_box' => Session::get('selected_box')]);
+            Log::info('Tüm session verisi:', Session::all());
 
             $selectedBox = Session::get('selected_box');
             if (!$selectedBox) {
@@ -134,12 +150,21 @@ class SessionController extends Controller
                 ]);
             }
 
-            $box = BoxCategory::find($selectedBox['box_id']);
-            if (!$box) {
-                Log::error('Box not found', ['box_id' => $selectedBox['box_id']]);
+            $giftBox = GiftBox::find($selectedBox['box_id']); // Əslində bu, GiftBox-dır!
+            if (!$giftBox) {
+                Log::error('GiftBox tapılmadı!', ['box_id' => $selectedBox['box_id']]);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Kutu bulunamadı.'
+                    'message' => 'Seçilmiş qutu bazada tapılmadı.'
+                ]);
+            }
+
+            $box = BoxCategory::find($giftBox->box_category_id);
+            if (!$box) {
+                Log::error('BoxCategory tapılmadı!', ['box_category_id' => $giftBox->box_category_id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bu qutu kateqoriyası bazada tapılmadı.'
                 ]);
             }
 

@@ -57,16 +57,12 @@ Route::prefix('session')->group(function () {
     Route::post('/clear', [SessionController::class, 'clearSelections']);
     Route::get('/current-step', [SessionController::class, 'getCurrentStep']);
     Route::post('/remove-selection', [SessionController::class, 'removeSelection'])->name('remove.selection');
+    Route::get('/check-box', [SessionController::class, 'checkBox'])->name('session.check-box');
 });
 Route::post('/remove-selection', [App\Http\Controllers\SessionController::class, 'removeSelection'])->name('remove.selection');
 Route::post('/save-card-selection', [SessionController::class, 'saveCardSelection']);
 Route::post('/upload-images', [SessionController::class, 'handleFileUpload']);
-Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('save.to.database')->middleware('auth');
-Route::get('/session/check-box', function () {
-    return response()->json([
-        'has_box' => session()->has('selected_box'),
-    ]);
-});
+Route::post('/save-to-database', [SessionController::class, 'saveToDatabase'])->name('save.to.database')->middleware('auth');Route::get('/session/check-box', [SessionController::class, 'checkBox'])->name('session.check-box');
 
 
 Route::get('/chat', function () {
