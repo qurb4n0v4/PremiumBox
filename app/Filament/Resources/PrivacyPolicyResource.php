@@ -14,8 +14,12 @@ class PrivacyPolicyResource extends Resource
     protected static ?string $model = PrivacyPolicy::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-exclamation';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Haqqımızda';
 
+    protected static ?string $navigationLabel = 'Gizlilik siyasəti';
+
+    protected static ?string $pluralModelLabel = 'Gizlilik siyasəti';
+    protected static ?string $modelLabel = 'Gizlilik siyasəti';
 
     public static function form(Form $form): Form
     {
@@ -68,15 +72,15 @@ class PrivacyPolicyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('introduction')
-                    ->label('Introduction')
+                    ->label('Giriş')
                     ->limit(50),
 
                 Tables\Columns\TextColumn::make('effective_date')
-                    ->label('Effective Date')
+                    ->label('Gündəmdə olan tarix')
                     ->date(),
 
                 Tables\Columns\TextColumn::make('sections')
-                    ->label('Sections')
+                    ->label('Bölmələr')
                     ->getStateUsing(function (PrivacyPolicy $record) {
                         // Safely extract section headings
                         if (empty($record->sections)) {
@@ -104,7 +108,7 @@ class PrivacyPolicyResource extends Resource
                     ->limit(300),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Yaradıldı')
                     ->dateTime()
                     ->sortable(),
             ])

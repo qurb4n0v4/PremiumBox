@@ -216,6 +216,11 @@
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
+            if (password.length < 8) {
+                alert('Parola minimum 8 karakter olmalıdır!');
+                return;
+            }
+
             if (password !== confirmPassword) {
                 alert('Şifrələr uyğun gəlmir!');
                 return;

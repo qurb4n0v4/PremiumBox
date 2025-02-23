@@ -27,12 +27,12 @@
     <meta name="robots" content="index, follow">
 
     {{--    Favicon    --}}
-    <link rel="icon" href="{{ asset('assets/front/img/giftbox.jpg') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/front/img/premiumbox.jpeg') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 
     {{--    CSS     --}}
-    <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/style.css') }}?v={{ time() }}">
 
     {{--    Bootstrap   --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -113,7 +113,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 
-<script src="{{ asset('assets/front/js/script.js') }}"></script>
+<script src="{{ asset('assets/front/js/script.js') }}?v={{ time() }}"></script>
 
 
 @vite(['resources/js/app.js'])

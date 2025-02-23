@@ -13,8 +13,12 @@ class BlogResource extends Resource
     protected static ?string $model = Blog::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Blogs';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Bloq';
+
+    protected static ?string $navigationLabel = 'Bloq';
+
+    protected static ?string $pluralModelLabel = 'Bloq';
+    protected static ?string $modelLabel = 'Bloq';
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -36,18 +40,18 @@ class BlogResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextColumn::make('title')->label('Başlıq')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('paragraph')
+                Tables\Columns\TextColumn::make('paragraph')->label('Paraqraf')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('image')
-                    ->label('Image')
+                    ->label('Şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Yaradıldı')
                     ->dateTime('F d, Y'),
             ])
             ->filters([

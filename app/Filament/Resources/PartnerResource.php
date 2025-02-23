@@ -16,15 +16,20 @@ class PartnerResource extends Resource
 {
     protected static ?string $model = Partner::class;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
+    protected static ?string $pluralModelLabel = 'Tərəfdaşlarımız';
 
 
-    protected static ?string $navigationLabel = 'Partners';
+
+    protected static ?string $navigationLabel = 'Tərəfdaşlarımız';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label('Tərəfdaş Adı')
+                    ->required(),
                 Forms\Components\FileUpload::make('logo')
                     ->label('Partner Logo')
                     ->image()
@@ -38,12 +43,16 @@ class PartnerResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('name')
+                    ->label('Tərəfdaş Adı')
+                    ->searchable()
+                    ->sortable(),
                 ImageColumn::make('logo')
                     ->label('Logo')
                     ->disk('public'),
 
                 Tables\Columns\TextColumn::make('logo')
-                    ->label('Partner logo')
+                    ->label('Tərəfdaşımızın logosu')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })

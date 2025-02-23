@@ -17,8 +17,10 @@ class GiftSetResource extends Resource
     protected static ?string $model = GiftSet::class;
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationGroup = 'Content Management';
-    protected static ?string $navigationLabel = 'Gift Sets';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
+    protected static ?string $navigationLabel = 'Hədiyyə setləri';
+    protected static ?string $pluralModelLabel = 'Hədiyyə setləri';
+
 
     public static function form(Form $form): Form
     {
@@ -58,22 +60,22 @@ class GiftSetResource extends Resource
             ->columns([
                 // Corrected: No need to call image() method here
                 Tables\Columns\TextColumn::make('normal_image')
-                    ->label('Image')
+                    ->label('Şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
 
                 TextColumn::make('title')
-                    ->label('Title')
+                    ->label('Başlıq')
                     ->searchable(),
 
                 TextColumn::make('description')
-                    ->label('Description')
+                    ->label('Açıqlama')
                     ->limit(90),
 
                 Tables\Columns\TextColumn::make('hover_image')
-                    ->label('Hover image')
+                    ->label('Digər şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })

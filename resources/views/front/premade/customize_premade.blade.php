@@ -1,12 +1,13 @@
 @extends('front.layouts.app')
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/customize-premade.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-items.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/customize-premade.css') }}?v={{ time() }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" rel="stylesheet">
 
 @section('content')
     <div class="choose-box-line"></div>
@@ -20,7 +21,6 @@
             ];
 
             $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
-            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
         @foreach (range(1, 3) as $stepNumber)
@@ -36,7 +36,6 @@
                 </div>
                 <div class="choose-box-text">
                     <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                    <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
                 </div>
             </div>
         @endforeach
@@ -73,7 +72,9 @@
                                 </button>
                                 <div class="d-flex justify-content-end mr-4 pt-3 pe-2">
                                     <div style="cursor: pointer;">
-                                        <a href="{{ route('choose_premade_box') }}" style="color: red" onclick="return confirm('Əvvəlki səhifəyə qayıdacaq. Əminsiniz?')"><i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i></a>
+                                        <a href="{{ route('choose_premade_box') }}" style="color: red" id="deleteLink">
+                                            <i class="far fa-trash-alt h5 mb-0 text-theme-secondary"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </h2>
@@ -88,25 +89,26 @@
                                     <div class="boxes-slider-container">
                                         @if(count($giftBoxes) > 4)
                                             <button class="boxes-nav-button boxes-prev position-absolute d-flex justify-content-center align-items-center"
-                                                    style="left: 3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
+                                                    style="left: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer; display: none;">
                                                 <i class="fas fa-chevron-left"></i>
                                             </button>
                                         @endif
 
                                         <div class="d-flex flex-column position-relative">
-                                            <div id="boxes-slider-container">
-                                                <div class="row boxes-slider-wrapper px-1">
+                                            <div id="boxes-slider-container w-100">
+                                                <div class="row boxes-slider-wrapper px-3">
                                                     @if(count($giftBoxes) > 0)
                                                         @foreach ($giftBoxes as $index => $giftBox)
                                                             <div class="col-md-3 box-item" style="{{ $index >= 4 ? 'display: none;' : '' }}">
-                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;">
-                                                                    <img src="{{ asset('storage/' . $giftBox['image']) }}"
+                                                                <div class="card text-center gift-box-card" style="border: none; box-shadow: none; cursor: pointer;"
+                                                                     onclick="this.classList.toggle('focused')">
+                                                                    <img src="{{ $giftBox['image'] }}"
                                                                          class="card-img-top mx-auto gift-box-img"
                                                                          alt="{{ $giftBox['title'] }}"
-                                                                         data-box-id="{{ $index }}"
+                                                                         data-box-id="{{ $giftBox['id'] }}"
                                                                          style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px;">
                                                                     <div class="card-body p-0">
-                                                                        <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
+                                                                        <p class="font-avenir-black text-theme-secondary text-center" style="color: #898989; font-size: 14px; font-weight: 600">{{ $giftBox['title'] }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -120,7 +122,7 @@
 
                                         @if(count($giftBoxes) > 4)
                                             <button class="boxes-nav-button boxes-next position-absolute d-flex justify-content-center align-items-center"
-                                                    style="right: 0; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
+                                                    style="right: -3px; top: 45%; transform: translateY(-50%); width: 15px; height: 15px; cursor: pointer;">
                                                 <i class="fas fa-chevron-right"></i>
                                             </button>
                                         @endif
@@ -142,25 +144,29 @@
                                     </div>
 
                                     <!-- Choose Card! -->
-                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin! <span class="text-danger">*</span></p>
+                                    <p data-v-11909900="" class="font-avenir-black text-theme-secondary text-left ps-3 pt-3" style="color: #898989; font-size: 14px; font-weight: 600">Kart Seçin!</p>
                                     <div class="slider-container">
                                         <div class="d-flex row px-3">
                                             <div id="slider-container">
                                                 <div class="row">
                                                     @foreach($cards as $card)
-                                                        <div class="col-6 px-2 col-md-6 card-item m-auto" data-id="{{ $card->id }}" style="width: 220px; height: 90px; margin-bottom: 75px!important;">
+                                                        <div class="col-6 px-2 col-md-6 card-item m-auto"
+                                                             data-id="{{ $card->id }}"
+                                                             data-card-name="{{ $card->name }}"
+                                                             data-card-price="{{ '₼ ' . $card->price ?? '' }}"
+                                                             style="width: 220px; height: 90px; margin-bottom: 75px!important;">
                                                             <img
                                                                 alt="{{ $card->name }}"
                                                                 src="{{ asset('storage/' . $card->image) }}"
                                                                 class="rounded img-fluid w-100 select-card d-block h-100 object-fit-cover"
                                                                 style="min-height: 150px; height: auto; object-fit: contain; cursor: pointer;"
                                                                 data-name="{{ $card->name }}"
-                                                                data-price="{{ '₼ ' . $card->price ?? '' }}"
+                                                                data-card-image="{{ asset('storage/' . $card->image) }}"
                                                             >
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!-- Prev və Next düymələri -->
+
                                                 @if(count($cards) > 4)
                                                     <button class="nav-button prev position-absolute d-flex justify-content-center align-items-center">
                                                         <i class="fas fa-chevron-left"></i>
@@ -171,26 +177,31 @@
                                                 @endif
                                             </div>
 
-                                            <!-- Seçilən kartın göstərilməsi -->
-                                            <div id="selected-card-container" style="display: none; margin-top: 20px">
+                                            <div id="selected-card-container"
+                                                 data-card-id=""
+                                                 data-card-name=""
+                                                 data-card-price=""
+                                                 data-card-image=""
+                                                 style="display: none; margin-top: 20px">
                                                 <div class="text-center">
                                                     <img
                                                         id="selected-card-image"
                                                         src=""
                                                         alt=""
-                                                        class="rounded img-fluid w-100 mb-3 fixed-size-image">
+                                                        class="rounded img-fluid w-100 mb-3 fixed-size-image"
+                                                        data-full-image=""
+                                                    >
                                                     <h4 id="selected-card-name" style="text-align: center !important;"></h4>
                                                     <p id="selected-card-price" style="font-size: 18px; text-align: center !important;"></p>
-{{--                                                    <span id="reset-slider" style="cursor: pointer; font-size:14px; text-decoration: underline;">(Kartı Dəyişdir)</span>--}}
-                                                    <button class="choose-box-choose-button" style="max-width: 250px" id="reset-slider">
+                                                    <button class="choose-box-choose-button"
+                                                            style="max-width: 250px"
+                                                            id="reset-slider">
                                                         Kartı dəyişdir
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="text-danger error-message ps-3" style="display: none;">Kart seçilməlidir</span>
-
                                     <!-- Form -->
                                     <div class="px-3 pb-3 w-100 d-flex flex-column">
                                         <!-- "To" Field -->
@@ -223,10 +234,14 @@
                                     <div class="container">
                                         <ul class="list-group gap-2">
                                             @foreach($insidings as $insiding)
-                                                <li class="list-group-item rounded" style="border-radius: 20px; border: 1px solid #ccc;">
+                                                <li class="list-group-item rounded" data-insiding-id="{{ $insiding->id }}" style="border-radius: 20px !important; border: 1px solid #ccc;">
                                                     <div class="d-flex flex-row justify-content-between align-items-center">
                                                         <div class="d-flex flex-row align-items-center gap-3">
-                                                            <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 20px;">
+                                                            @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
+                                                                <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 15px;">
+                                                            @else
+                                                                <p>Şəkil yoxdur.</p>
+                                                            @endif
                                                             <div>
                                                                 <h6 class="mb-0">{{ $insiding->name }}</h6>
                                                                 <p class="mb-0" style="font-size: 14px; color: #898989;">{{ $insiding->description }}</p>
@@ -264,26 +279,34 @@
                                                                     <p class="text-theme mt-2 mb-1" style="font-size: 0.9rem;">
                                                                         Şəklinizi yükləyin <span class="text-danger">*</span>
                                                                     </p>
-                                                                    <div class="d-flex flex-row justify-content-center align-items-center">
-                                                                        <label for="image-upload-input-{{ $insiding->id }}"
-                                                                               class="d-flex justify-content-center align-items-center image-upload-label"
-                                                                               style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
-                                                                            <span id="image-preview-{{ $insiding->id }}" style="font-size: 24px; font-weight: bold;">+</span>
-                                                                            <img id="image-preview-img-{{ $insiding->id }}" src="" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
-                                                                        </label>
-                                                                        <input id="image-upload-input-{{ $insiding->id }}"
-                                                                               accept="image/*,.heic"
-                                                                               type="file"
-                                                                               class="d-none dynamic-image-upload"
-                                                                               data-insiding-id="{{ $insiding->id }}"
-                                                                               required
-                                                                               onchange="previewImage(event, {{ $insiding->id }})">
+                                                                    <div class="d-flex flex-row flex-wrap gap-3">
+                                                                        @for($i = 0; $i < $insiding->max_image_count; $i++)
+                                                                            <div class="image-upload-container">
+                                                                                <label for="image-upload-input-{{ $insiding->id }}-{{ $i }}"
+                                                                                       class="d-flex justify-content-center align-items-center image-upload-label"
+                                                                                       style="width: 80px; height: 80px; border: 2px solid #ccc; border-radius: 20px; padding: 10px; cursor: pointer; position: relative;">
+                                                                                    <span id="image-preview-{{ $insiding->id }}-{{ $i }}" style="font-size: 24px; font-weight: bold;">+</span>
+                                                                                    <img id="image-preview-img-{{ $insiding->id }}-{{ $i }}"
+                                                                                         src=""
+                                                                                         alt="Uploaded Image"
+                                                                                         style="width: 100%; height: 100%; object-fit: contain; display: none; border-radius: 20px; position: absolute;">
+                                                                                </label>
+                                                                                <input
+                                                                                    id="image-upload-input-{{ $insiding->id }}-{{ $i }}"
+                                                                                    accept="image/*,.heic"
+                                                                                    type="file"
+                                                                                    class="d-none dynamic-image-upload"
+                                                                                    data-insiding-id="{{ $insiding->id }}"
+                                                                                    data-upload-index="{{ $i }}"
+                                                                                    @if($i === 0) required @endif
+                                                                                    onchange="previewImage(event, '{{ $insiding->id }}-{{ $i }}')">
+                                                                            </div>
+                                                                        @endfor
                                                                     </div>
                                                                     <span class="text-danger error-message" style="display: none;">Şəkil yüklənməlidir</span>
                                                                 </div>
                                                             </div>
                                                         @endif
-
                                                     </div>
                                                     {{-- Variants section --}}
                                                     @if($insiding->allow_variant_selection)
@@ -305,8 +328,7 @@
                                                                 @foreach($variantData as $index => $variant)
                                                                     <button
                                                                         class="btn btn-outline-secondary m-1 variant-button"
-                                                                        data-price="{{ $variant['price'] ?? $insiding->price }}"
-                                                                        data-index="{{ $index }}"
+                                                                        data-variant="{{ $variant['name'] ?? 'Unnamed Variant' }}"
                                                                         onclick="changeVariantActive(this, {{ $insiding->id }})">
                                                                         {{ $variant['name'] ?? 'Unnamed Variant' }}
                                                                     </button>
@@ -325,21 +347,275 @@
                     </div>
                 </div>
                 <div class="w-100 mt-4 d-flex flex-row justify-content-end">
-                    <button class="custom-btn"
-                            type="button"
-                            onclick="window.location.href='{{ route('done_premade') }}'"
-                    >
+                    <button class="custom-btn" id="addToCartButton" type="button">
                         <h5 class="mb-0 font-avenir-medium">Səbətə əlavə edin</h5>
                     </button>
+
                 </div>
             </div>
         </div>
     @endif
+
+
+    <style>
+        .is-invalid {
+            border: 2px solid red;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButton = document.getElementById('addToCartButton');
+
+            // URL Parametrini Çəkmək
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawId = window.location.pathname.split('/').pop();
+            console.log('Path ID:', rawId);
+
+            const premadeBoxId = parseInt(rawId, 10);
+            console.log('Parsed ID:', premadeBoxId);
+
+            if (isNaN(premadeBoxId)) {
+                console.error('Invalid Premade Box ID');
+                showValidationError('Premade Box ID is missing or invalid');
+                return;
+            }
+
+            addToCartButton.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Validate Gift Box Selection
+                const selectedGiftBox = document.querySelector('.gift-box-card.focused');
+                if (!selectedGiftBox) {
+                    showValidationError('Zəhmət olmasa bir qutu seçin');
+                    return;
+                }
+                const giftBoxId = selectedGiftBox.querySelector('.gift-box-img').getAttribute('data-box-id');
+
+                // Validate Customization Text
+                const customizationText = document.querySelector('.customizing-text-input-fonts').value.trim();
+                if (!customizationText) {
+                    showValidationError('Qutu üzərinə yazı yazın');
+                    return;
+                }
+
+                // Validate Font Selection
+                const selectedFont = document.querySelector('.font-button-customizing-edit.active');
+                if (!selectedFont) {
+                    showValidationError('Font seçin');
+                    return;
+                }
+                const fontName = selectedFont.getAttribute('data-font');
+
+                // Validate Card Selection
+                const selectedCard = document.getElementById('selected-card-container');
+                if (!selectedCard || selectedCard.style.display === 'none') {
+                    showValidationError('Kart seçin');
+                    return;
+                }
+                const cardId = selectedCard.getAttribute('data-card-id');
+
+                // Validate To Field
+                const toField = document.getElementById('to-field').value.trim();
+                if (!toField) {
+                    showValidationError('Alıcı adını daxil edin');
+                    return;
+                }
+
+                // Validate From Field
+                const fromField = document.getElementById('from-field').value.trim();
+                if (!fromField) {
+                    showValidationError('Adınızı daxil edin');
+                    return;
+                }
+
+                // Validate Message Field
+                const messageField = document.getElementById('message-field').value.trim();
+                if (!messageField) {
+                    showValidationError('Mesaj daxil edin');
+                    return;
+                }
+
+                // Validate Inside Items
+                const insidings = document.querySelectorAll('.list-group-item');
+                for (let insiding of insidings) {
+                    // Text Validation
+                    if (insiding.querySelector('.dynamic-textarea')) {
+                        const dynamicText = insiding.querySelector('.dynamic-textarea').value.trim();
+                        if (!dynamicText) {
+                            showValidationError(`${insiding.querySelector('h6').textContent} üçün mesaj daxil edin`);
+                            return;
+                        }
+                    }
+
+                    // Image Upload Validation
+                    const requiredImageUpload = insiding.querySelector('.dynamic-image-upload[required]');
+                    if (requiredImageUpload) {
+                        if (!requiredImageUpload.files.length) {
+                            Swal.fire({
+                                title: 'Diqqət!',
+                                text: `${insiding.querySelector('h6').textContent} üçün şəkil seçin`,
+                                icon: 'warning',
+                                confirmButtonText: 'Bağla'
+                            });
+                            return;
+                        }
+                    }
+
+                    // Variant Selection Validation
+                    const variantsContainer = insiding.querySelector('.variants-buttons');
+                    if (variantsContainer) {
+                        const selectedVariant = variantsContainer.querySelector('.variant-button.active');
+                        if (!selectedVariant) {
+                            showValidationError(`${insiding.querySelector('.variant-title')?.textContent || 'Variant'} seçin`);
+                            return;
+                        }
+                    }
+                }
+
+                // Prepare FormData for AJAX submission
+                const formData = new FormData();
+
+                formData.append('premade_box_id', premadeBoxId);
+                formData.append('gift_box_id', giftBoxId);
+                formData.append('box_text', customizationText);
+                formData.append('selected_font', fontName);
+                formData.append('card_details[card_id]', cardId);
+                formData.append('card_details[to_name]', toField);
+                formData.append('card_details[from_name]', fromField);
+                formData.append('card_details[message]', messageField);
+
+// Structured items
+                document.querySelectorAll('.list-group-item').forEach((insiding, index) => {
+                    const insidigId = insiding.getAttribute('data-insiding-id');
+
+                    formData.append(`items[${index}][insiding_id]`, insidigId);
+
+                    const selectedVariant = insiding.querySelector('.variant-button.active');
+                    if (selectedVariant) {
+                        formData.append(`items[${index}][selected_variant]`, selectedVariant.getAttribute('data-variant'));
+                    }
+
+                    const dynamicTextarea = insiding.querySelector('.dynamic-textarea');
+                    if (dynamicTextarea && dynamicTextarea.value.trim()) {
+                        formData.append(`items[${index}][custom_text]`, dynamicTextarea.value.trim());
+                    }
+
+                    const imageInputs = insiding.querySelectorAll('.dynamic-image-upload');
+                    imageInputs.forEach((input, imageIndex) => {
+                        if (input.files[0]) {
+                            formData.append(`items[${index}][images][${imageIndex}]`, input.files[0]);
+                        }
+                    });
+                });
+
+                // AJAX submission
+                fetch('/api/v1/premade/store', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        // Parse the response regardless of status
+                        return response.json().then(data => {
+                            if (!response.ok) {
+                                // Throw an error with the backend's error message
+                                throw new Error(data.message || 'Network response was not ok');
+                            }
+                            return data;
+                        });
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            title: 'Uğurlu!',
+                            text: 'Sifarişiniz səbətinizə əlavə edildi. Sifarişinizi tamamlamaq üçün səbətinizi ziyarət edin.',
+                            icon: 'success',
+                            confirmButtonText: 'Bağla'
+                        }).then(() => {
+                            window.location.href = '{{ route("done_premade") }}';
+                        });
+                    })
+                    .catch(error => {
+                        // Check for authentication-related errors
+                        const authenticationErrors = [
+                            'Authentication required',
+                            'User must be logged in',
+                            'Unauthenticated',
+                            'Unauthorized'
+                        ];
+
+                        const isAuthError = authenticationErrors.some(authError =>
+                            error.message.toLowerCase().includes(authError.toLowerCase())
+                        );
+
+                        if (isAuthError) {
+                            Swal.fire({
+                                title: 'Giriş tələb olunur',
+                                text: 'Məhsul əlavə etmək üçün zəhmət olmasa hesabınıza daxil olun',
+                                icon: 'warning',
+                                confirmButtonText: 'Bağla'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Xəta!',
+                                text: error.message || 'Məhsul əlavə edilərkən xəta baş verdi',
+                                icon: 'error',
+                                confirmButtonText: 'Bağla'
+                            });
+                        }
+                        console.error('Error:', error);
+                    });
+            });
+
+            function showValidationError(message) {
+                Swal.fire({
+                    title: 'Diqqət!',
+                    text: message,
+                    icon: 'warning',
+                    confirmButtonText: 'Bağla'
+                });
+            }
+        });
+
+
+        document.getElementById('deleteLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link action
+
+            // SweetAlert for confirmation
+            Swal.fire({
+                title: 'Əminsiniz?',
+                text: 'Əvvəlki səhifəyə qayıdacaq.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Bəli',
+                cancelButtonText: 'İmtina et',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ route("choose_premade_box") }}';
+                }
+            });
+        });
+    </script>
+
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 
-<script src={{ asset('assets/front/js/customize-premade.js') }}></script>
+
+<script src={{ asset('assets/front/js/customize-premade.js') }}?v={{ time() }}></script>
+
+<style>
+    .choose-box-steps-container {
+        display: flex;
+        justify-content: center !important;
+    }
+</style>
+
+
 

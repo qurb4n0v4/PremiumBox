@@ -20,6 +20,12 @@ class AddressResource extends Resource
     protected static ?string $model = Address::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'İstifadəçi məlumatı';
+    protected static ?string $navigationLabel = 'İstifadəçi ünvanları';
+    protected static ?string $pluralModelLabel = 'İstifadəçi adresləri';
+
+
+
 
     public static function form(Form $form): Form
     {
@@ -55,26 +61,20 @@ class AddressResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('User Name') // Kullanıcı adı
-                    ->sortable()
+                    ->label('İstifadəçi adı') // Kullanıcı adı
                     ->searchable(),
                 TextColumn::make('receiver_name')
-                    ->label('Receiver Name')
-                    ->sortable()
+                    ->label('Göndərilən şəxsin adı')
                     ->searchable(),
                 TextColumn::make('phone_number')
-                    ->label('Phone Number')
-                    ->sortable(),
+                    ->label('Telefon nömrəsi'),
                 TextColumn::make('zip_code')
-                    ->label('Zip Code')
-                    ->sortable(),
+                    ->label('Zip Kod'),
                 TextColumn::make('district')
-                    ->label('District')
-                    ->sortable(),
+                    ->label('Məkan'),
                 TextColumn::make('created_at')
-                    ->label('Created At')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('Yaradıldı')
+                    ->dateTime(),
             ])
             ->filters([
                 SelectFilter::make('district')

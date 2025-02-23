@@ -5,8 +5,8 @@
         <div class="text-center corporate-gifts">
             <h2 class="fw-bold" style="color: #a3907a;">Korparativ Hədiyyələr</h2>
             <p class="corporate-text" style="color: #898989;">
-                Box & Tale, xüsusi anlarınızı qeyd etməyə kömək etmək üçün buradadır, istər kiçik, istərsə də BÖYÜK OLSUN! <br>
-                <a href="#" class="text-decoration-none click-corporate" style="color: #a3907a;">Korparativ Komandamızla Əlaqə Qurmaq Üçün Buraya Tıklayın</a>
+                Premium Box, xüsusi anlarınızı qeyd etməyə kömək etmək üçün buradadır, istər kiçik, istərsə də BÖYÜK OLSUN! <br>
+                <a href="{{ route('chat') }}" class="text-decoration-none click-corporate" style="color: #a3907a;">Korparativ Komandamızla Əlaqə Qurmaq Üçün Buraya Tıklayın</a>
             </p>
         </div>
 

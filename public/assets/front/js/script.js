@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const swiper = new Swiper('.swiper-container', {
         slidesPerView: 5,
         slidesPerGroup: 1,
-        spaceBetween: 20,
+        spaceBetween: 10,
         loop: true,
         autoplay: {
             delay: 3000,
@@ -21,6 +21,20 @@ document.addEventListener("DOMContentLoaded", function () {
             el: '.swiper-pagination',
             clickable: true,
         },
+        breakpoints: {
+            1024: {
+                slidesPerView: 4,
+            },
+            768: {
+                slidesPerView: 3,
+            },
+            480: {
+                slidesPerView: 2,
+            },
+            0: {
+                slidesPerView: 2,
+            }
+        }
     });
 });
 

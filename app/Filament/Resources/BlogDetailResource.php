@@ -19,9 +19,12 @@ class  BlogDetailResource extends Resource
     protected static ?string $model = BlogDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup = 'Content Management';
-    protected static ?string $navigationLabel = 'Blog Details';
+    protected static ?string $navigationGroup = 'Bloq';
 
+    protected static ?string $navigationLabel = 'Bloq informasiyası';
+
+    protected static ?string $pluralModelLabel = 'Bloq informasiyası';
+    protected static ?string $modelLabel = 'Bloq informasiyası';
     public static function form(Form $form): Form
     {
         return $form
@@ -38,7 +41,7 @@ class  BlogDetailResource extends Resource
                             ->label('Title')
                             ->maxLength(255),
 
-                        Forms\Components\TextArea::make('description')
+                        Forms\Components\Textarea::make('description')
                             ->label('Description')
                             ->required(),
 
@@ -59,12 +62,12 @@ class  BlogDetailResource extends Resource
             ->columns([
                 // Display related Blog title
                 Tables\Columns\TextColumn::make('blog.title')
-                    ->label('Blog')
+                    ->label('Bloq adı')
                     ->limit(50),
 
                 // Display the created_at and updated_at timestamps
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime(),
+                Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Yaradıldı'),
+                Tables\Columns\TextColumn::make('updated_at')->dateTime()->label('Düzəliş edildi'),
             ])
             ->filters([
                 // Add any necessary filters here

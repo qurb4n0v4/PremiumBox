@@ -17,7 +17,11 @@ class GiftBoxDetailResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
-    protected static ?string $navigationGroup = 'Gift Boxes Management';
+    protected static ?string $navigationGroup = 'Hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Hədiyyə qutuları detaylı informasiya';
+
+    protected static ?string $pluralModelLabel = 'Hədiyyə qutuları detaylı informasiya';
+    protected static ?string $modelLabel = 'Hədiyyə qutuları detaylı informasiya';
 
     public static function form(Form $form): Form
     {
@@ -58,25 +62,25 @@ class GiftBoxDetailResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('giftBox.title')
-                    ->label('Gift Box'),
+                    ->label('Hədiyyə qutusu'),
                 Tables\Columns\TextColumn::make('box_name')
-                    ->label('Box Name'),
+                    ->label('Qutu adı'),
                 Tables\Columns\BooleanColumn::make('available_same_day_delivery')
-                    ->label('Same Day Delivery'),
+                    ->label('Eyni gün çatdırılma'),
                 Tables\Columns\TextColumn::make('customize_image')
-                    ->label('Customize Image')
+                    ->label('Fərdiləşdirmək üçün şəkil')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('images')
-                    ->label('Images')
+                    ->label('Qutu şəkli')
                     ->formatStateUsing(function ($state) {
                         return '<img src="' . asset('storage/' . $state) . '" alt="Media" style="width: 100px; height: auto;" />';
                     })
                     ->html(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Yaradıldı')
                     ->dateTime(),
             ])
             ->filters([

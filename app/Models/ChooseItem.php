@@ -24,6 +24,7 @@ class ChooseItem extends Model
         'length',
     ];
 
+    protected $appends = ['itemVolume'];
 
     public function customProductDetail(): HasOne
     {
@@ -48,5 +49,13 @@ class ChooseItem extends Model
     public function getItemVolumeAttribute()
     {
         return $this->length * $this->width * $this->height;
+    }
+    public function userBuildABoxCardItems()
+    {
+        return $this->hasMany(UserBuildABoxCardItem::class);
+    }
+    public function buildABoxItemImages()
+    {
+        return $this->hasMany(BuildABoxItemImage::class);
     }
 }

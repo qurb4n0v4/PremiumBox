@@ -10,48 +10,33 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPosition = 0;
     let isAnimating = false;
 
-    // Responsive items per view
     function getItemsPerView() {
         return window.innerWidth <= 767 ? 2 : 4;
     }
 
-    // Update on window resize
     window.addEventListener('resize', function() {
         itemsPerView = getItemsPerView();
+        currentPosition = 0; // Reset position on resize
         updateSliderView();
     });
 
-    updateSliderView();
+    function calculateTotalSlides() {
+        return Math.ceil(itemCount / itemsPerView);
+    }
 
-    prevBtn.addEventListener('click', () => {
-        if (!isAnimating && currentPosition > 0) {
-            slideItems('prev');
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (!isAnimating && currentPosition + itemsPerView < itemCount) {
-            slideItems('next');
-        }
-    });
-
-    function slideItems(direction) {
-        isAnimating = true;
-
-        if (direction === 'next') {
-            currentPosition = Math.min(currentPosition + itemsPerView, itemCount - itemsPerView);
-        } else if (direction === 'prev') {
-            currentPosition = Math.max(currentPosition - itemsPerView, 0);
-        }
-
-        updateSliderView(() => {
-            isAnimating = false;
-        });
+    function getCurrentSlideItems() {
+        const currentSlide = Math.floor(currentPosition / itemsPerView);
+        const start = currentSlide * itemsPerView;
+        const end = Math.min(start + itemsPerView, itemCount);
+        return { start, end };
     }
 
     function updateSliderView(callback) {
+        const { start, end } = getCurrentSlideItems();
+
         items.forEach((item, index) => {
-            if (index >= currentPosition && index < currentPosition + itemsPerView) {
+            // Only show items in the current slide range
+            if (index >= start && index < end) {
                 item.style.display = 'block';
                 item.style.opacity = '0';
                 setTimeout(() => {
@@ -64,11 +49,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Update button visibility
-        prevBtn.style.display = currentPosition === 0 ? 'none' : 'block';
-        nextBtn.style.display = currentPosition + itemsPerView >= itemCount ? 'none' : 'block';
+        const isFirstSlide = currentPosition === 0;
+        const isLastSlide = end >= itemCount;
+
+        prevBtn.style.display = isFirstSlide ? 'none' : 'block';
+        nextBtn.style.display = isLastSlide ? 'none' : 'block';
 
         if (callback) callback();
     }
+
+    prevBtn.addEventListener('click', () => {
+        if (!isAnimating && currentPosition > 0) {
+            isAnimating = true;
+            currentPosition = Math.max(currentPosition - itemsPerView, 0);
+            updateSliderView(() => {
+                isAnimating = false;
+            });
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (!isAnimating && currentPosition + itemsPerView < itemCount) {
+            isAnimating = true;
+            currentPosition += itemsPerView;
+            updateSliderView(() => {
+                isAnimating = false;
+            });
+        }
+    });
+
+    // Initial update
+    updateSliderView();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,22 +94,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Kart seçmə və aktivləşdirmə
     cardItems.forEach(card => {
         card.addEventListener('click', function () {
-            const cardId = this.closest('.card-item').dataset.id;
+            const cardItem = this.closest('.card-item');
+            const cardId = cardItem.dataset.id;
             const cardName = this.dataset.name;
-            const cardPrice = this.dataset.price || "No Price";
 
             // Aktiv kartı göstər
             sliderContainer.style.display = 'none';
             selectedCardContainer.style.display = 'block';
+            selectedCardContainer.setAttribute('data-card-id', cardId);
 
             // Şəkil və məlumatları göstər
             selectedCardImage.src = this.src;
             selectedCardName.textContent = cardName;
-            selectedCardPrice.textContent = cardPrice;
 
             // Aktiv sinifini əlavə et
-            cardItems.forEach(img => img.classList.remove('active-card'));
+            cardItems.forEach(img => {
+                img.classList.remove('active-card');
+                img.closest('.card-item').classList.remove('focused');
+            });
             this.classList.add('active-card');
+            cardItem.classList.add('focused');
         });
     });
 
@@ -106,51 +121,104 @@ document.addEventListener('DOMContentLoaded', () => {
     resetSlider.addEventListener('click', function () {
         sliderContainer.style.display = 'block';
         selectedCardContainer.style.display = 'none';
+        selectedCardContainer.removeAttribute('data-card-id');
 
         // Aktiv sinifi təmizlə
-        cardItems.forEach(img => img.classList.remove('active-card'));
+        cardItems.forEach(img => {
+            img.classList.remove('active-card');
+            img.closest('.card-item').classList.remove('focused');
+        });
     });
 });
-
 // JavaScript function to handle the variant change
-function changeVariantActive(selectedIndex) {
-    // Get all variant buttons
-    let variantButtons = document.querySelectorAll('.variant-button');
+function changeVariantActive(button, insidingId) {
+    const variantsContainer = document.querySelector(`[data-insiding-id="${insidingId}"]`);
+    const variantButtons = variantsContainer.querySelectorAll('.variant-button');
 
-    // Remove 'active' class from all buttons
-    variantButtons.forEach(function (button) {
-        button.classList.remove('active');
+    // Remove 'active' class from all buttons and reset 'data-selected'
+    variantButtons.forEach((btn) => {
+        btn.classList.remove('active');
+        btn.removeAttribute('data-selected');
     });
 
-    // Add 'active' class to the selected button
-    variantButtons[selectedIndex].classList.add('active');
+    // Add 'active' class to the clicked button and mark it as selected
+    button.classList.add('active');
+    button.setAttribute('data-selected', 'true');
 }
-
-// Automatically activate the first variant when the page loads
-document.addEventListener("DOMContentLoaded", function () {
-    // Find the first button with the 'active' class and add it
-    let firstButton = document.querySelector('.variant-button');
-    if (firstButton) {
-        firstButton.classList.add('active');
-    }
-});
 
 function previewImage(event, id) {
     const input = event.target;
     const label = document.querySelector(`#image-preview-${id}`);
     const img = document.querySelector(`#image-preview-img-${id}`);
+    const errorMessage = input.closest('.flex-column').querySelector('.error-message');
 
+    // Dosya seçilmiş mi kontrol ediyoruz
     if (input.files && input.files[0]) {
+        const file = input.files[0];
+
+        // Dosya boyutu kontrolü (örneğin 5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            errorMessage.textContent = 'Şəkil həcmi 5MB-dan çox olmamalıdır';
+            errorMessage.style.display = 'block';
+            input.value = ''; // Input'u temizle
+            return;
+        }
+
+        // Dosya tipi kontrolü
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/heic'];
+        if (!allowedTypes.includes(file.type.toLowerCase()) &&
+            !file.name.toLowerCase().endsWith('.heic')) {
+            errorMessage.textContent = 'Yalnız şəkil faylları yükləyə bilərsiniz';
+            errorMessage.style.display = 'block';
+            input.value = ''; // Input'u temizle
+            return;
+        }
+
         const reader = new FileReader();
 
         reader.onload = function (e) {
+            // Önizleme resmini göster
             img.src = e.target.result;
-            img.style.display = 'block'; // Şəkili göstəririk
-            label.style.display = 'none'; // `+` işarəsini gizlədirik
+            img.style.display = 'block';
+            label.style.display = 'none';
+
+            // Hata mesajını gizle
+            errorMessage.style.display = 'none';
         };
 
-        reader.readAsDataURL(input.files[0]);
+        reader.onerror = function() {
+            errorMessage.textContent = 'Şəkil oxunarkən xəta baş verdi';
+            errorMessage.style.display = 'block';
+            input.value = ''; // Input'u temizle
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        // Resim seçimi iptal edildiğinde
+        img.src = '';
+        img.style.display = 'none';
+        label.style.display = 'block';
+        errorMessage.style.display = 'none';
     }
+}
+
+// Tüm yüklenen resimleri toplamak için yardımcı fonksiyon
+function getAllUploadedImages() {
+    const uploadedImages = [];
+    const inputs = document.querySelectorAll('.dynamic-image-upload');
+
+    inputs.forEach(input => {
+        if (input.files && input.files[0]) {
+            uploadedImages.push({
+                file: input.files[0],
+                insidingId: input.dataset.insidingId,
+                uploadIndex: input.dataset.uploadIndex
+            });
+        }
+    });
+
+    return uploadedImages;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -425,22 +493,22 @@ function validateForm() {
 });
 
     // Kart seçimi için event listener
-    document.querySelectorAll('.select-card').forEach(card => {
-    card.addEventListener('click', function() {
-    // Hata mesajını gizle
-    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
-    if (errorMsg && errorMsg.classList.contains('error-message')) {
-    errorMsg.style.display = 'none';
-}
-});
-});
+//     document.querySelectorAll('.select-card').forEach(card => {
+//     card.addEventListener('click', function() {
+//     // Hata mesajını gizle
+//     const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+//     if (errorMsg && errorMsg.classList.contains('error-message')) {
+//     errorMsg.style.display = 'none';
+// }
+// });
+// });
 
     // Reset slider için event listener
-    document.getElementById('reset-slider')?.addEventListener('click', function() {
-    // Kart seçimi sıfırlandığında hata mesajını göster
-    const errorMsg = document.querySelector('.slider-container').nextElementSibling;
-    if (errorMsg && errorMsg.classList.contains('error-message')) {
-    errorMsg.style.display = 'block';
-}
-});
+//     document.getElementById('reset-slider')?.addEventListener('click', function() {
+//     // Kart seçimi sıfırlandığında hata mesajını göster
+//     const errorMsg = document.querySelector('.slider-container').nextElementSibling;
+//     if (errorMsg && errorMsg.classList.contains('error-message')) {
+//     errorMsg.style.display = 'block';
+// }
+// });
 });

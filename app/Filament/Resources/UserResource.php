@@ -22,6 +22,12 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'İstifadəçi məlumatı';
+    protected static ?string $navigationLabel = 'İstifadəçilər';
+    protected static ?string $pluralModelLabel = 'İstifadəçilər';
+
+
+
 
     public static function getEloquentQuery(): Builder
     {
@@ -66,14 +72,13 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('email')->searchable()->sortable(),
-                TextColumn::make('phone')->sortable(),
-                TextColumn::make('gender')->sortable(),
-                TextColumn::make('dob')->label('Date of Birth')->date(),
-                TextColumn::make('role')->sortable(),
-                TextColumn::make('created_at')->label('Registered At')->dateTime()->sortable(),
+                TextColumn::make('name')->searchable()->label('İstifadəçi adı'),
+                TextColumn::make('email')->searchable()->label('Email'),
+                TextColumn::make('phone')->label('Telefon nömrəsi'),
+                TextColumn::make('gender')->label('Cinsi'),
+                TextColumn::make('dob')->label('Doğum tarixi')->date(),
+                TextColumn::make('role')->label('Rol'),
+                TextColumn::make('created_at')->label('Yaradıldı')->dateTime(),
             ])
             ->filters([])
             ->actions([

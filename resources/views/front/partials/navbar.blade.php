@@ -1,7 +1,7 @@
 <div class="navbar">
     <div class="container-navbar">
         <div class="logo-side-navbar">
-            <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/giftbox.jpg') }}" alt="Logo Şəkli"></a>
+            <a href="{{ route('home') }}"><img src="{{ asset('assets/front/img/premiumbox.jpeg') }}" alt="Logo Şəkli"></a>
         </div>
         <div class="menu-button">
             <span></span>
@@ -16,8 +16,7 @@
                             <a href="#" class="dropdown-btn user-name-navbar">{{ Auth::user()->name }}</a>
                             <div class="user-dropdown-content">
                                 <a href="{{ route('profile-details') }}">Profilim</a>
-                                <a href="{{ route('orders') }}">Sifarişlərim</a>
-                                <a href="{{ route('coupons') }}">Kuponlarım</a>
+                                <a href="{{ route('orders.index') }}">Sifarişlərim</a>
                                 <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                                     @csrf
                                     @method('POST')
@@ -31,8 +30,9 @@
                     @else
                         <li><a href="#" class="login-navbar">Daxil ol</a></li>
                         <li><a href="#" class="register-navbar">Qeydiyyat</a></li>
-                        <li><a href="{{ route('cart.index') }}">Səbət</a></li>
+                        <li><a href="{{ route('cart.index') }}" class="navbar-cart" onclick="return checkLoginAndRedirectToCart(event)">Səbət</a></li>
                     @endauth
+
                 </ul>
 
             </div>
@@ -127,5 +127,13 @@
                 console.error('Logout error:', error);
             });
     });
-
+    var isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};
+    function checkLoginAndRedirectToCart(event) {
+        if (!isAuthenticated) {
+            alert('Lütfen önce giriş yapın!');
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
 </script>

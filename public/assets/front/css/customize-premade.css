@@ -13,7 +13,7 @@
 
 .slider-container {
     position: relative;
-    padding: 0 15px; /* Reduced padding to bring buttons closer */
+    padding: 0 15px;
 }
 
 input {
@@ -34,11 +34,11 @@ input {
 }
 
 .nav-button.prev {
-    left: 5px; /* Moved closer to content */
+    left: 5px;
 }
 
 .nav-button.next {
-    right: 5px; /* Moved closer to content */
+    right: 5px;
 }
 
 /* Add transition styles for smooth animation */
@@ -91,12 +91,14 @@ p, h4 {
 .boxes-slider-wrapper {
     display: flex;
     transition: transform 0.3s ease-in-out;
+    justify-content: flex-start;
 }
 
 .box-item {
     transition: all 0.3s ease-in-out;
     flex: 0 0 25%;
-    padding: 0 10px;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .boxes-nav-button {
@@ -108,7 +110,7 @@ p, h4 {
 }
 
 .boxes-nav-button i {
-    color: #898989;
+    color: #000;
     font-size: 14px;
 }
 
@@ -128,6 +130,11 @@ p, h4 {
 
 .gift-box-img.active {
     border: 2px solid red;
+}
+
+.gift-box-card {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .custom-btn {
@@ -224,14 +231,14 @@ p, h4 {
     #slider-container .row {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(2, 1fr) !important; /* 2x2 grid yapısını koru */
+        grid-template-columns: repeat(2, 1fr) !important;
         justify-content: center;
     }
 
     .card-item {
-        width: 140px !important; /* Daha küçük genişlik */
-        height: 70px !important; /* Daha küçük yükseklik */
-        margin: 0 auto 30px !important; /* Margin düzenlendi */
+        width: 140px !important;
+        height: 70px !important;
+        margin: 0 auto 30px !important;
     }
 
     .card-item img {
@@ -240,7 +247,7 @@ p, h4 {
     }
 
     .nav-button {
-        top: 120px !important; /* Kartların ortasına hizala */
+        top: 120px !important;
         transform: translateY(0);
         width: 20px;
         height: 20px;
@@ -288,11 +295,11 @@ p, h4 {
 /* Mobile screens */
 @media (max-width: 767px) {
     .boxes-slider-container {
-        min-height: 120px !important; /* Box'ların yüksekliğine göre ayarlayın */
+        min-height: 120px !important;
     }
 
     .boxes-nav-button {
-        top: 60px !important; /* Box'ların ortasına gelecek şekilde ayarlayın */
+        top: 60px !important;
         transform: translateY(-50%);
     }
 
@@ -315,7 +322,7 @@ p, h4 {
     }
 
     .gift-box-card .card-body {
-        max-height: 35px !important; /* Mobilde biraz daha küçük */
+        max-height: 35px !important;
     }
 
     /* Card and form elements */
@@ -362,11 +369,11 @@ p, h4 {
 /* Small mobile screens */
 @media (max-width: 575px) {
     .boxes-slider-container {
-        min-height: 200px !important; /* 2x2 grid için daha fazla yükseklik */
+        min-height: 200px !important;
     }
 
     .boxes-nav-button {
-        top: 100px !important; /* 2x2 grid'in ortasına gelecek şekilde */
+        top: 100px !important;
     }
 
     .boxes-slider-wrapper {
@@ -394,7 +401,7 @@ p, h4 {
     }
 
     .gift-box-card .card-body {
-        max-height: 50px !important; /* En küçük ekranda daha da küçük */
+        max-height: 50px !important;
     }
 
     .card.mb-4 {
@@ -436,7 +443,6 @@ p, h4 {
     }
 }
 
-/* Extra small screens */
 @media (max-width: 540px) {
     .customizing-text-input-fonts {
         width: 100% !important;
@@ -465,3 +471,8 @@ p, h4 {
         flex-direction: column !important;
     }
 }
+
+
+
+
+

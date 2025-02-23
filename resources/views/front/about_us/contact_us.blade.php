@@ -9,10 +9,10 @@
                 <div class="col-lg-6 col-md-6 contact-left">
                     <h1>Əlaqə</h1>
                     <h5></h5>
-                    <p>Əgər daha çox sualınız və ya təklifləriniz varsa, GiftBox komandasına aşağıdakı əlaqə vasitələri ilə müraciət edə bilərsiniz:</p>
+                    <p>Əgər daha çox sualınız və ya təklifləriniz varsa, PremiumBox komandasına aşağıdakı əlaqə vasitələri ilə müraciət edə bilərsiniz:</p>
                     <div class="contact-details">
                         <p>
-                            <i class="bi bi-telephone-fill"> : </i>+1234567890
+                            <i class="bi bi-telephone-fill"> : </i>+994 51 503 23 03
                         </p>
                         <p>
                             <i class="bi bi-envelope-fill"> : </i><a href="mailto:info@giftbox.com" class="text-decoration-none" style="color: #a3907a;">info@giftbox.com</a>

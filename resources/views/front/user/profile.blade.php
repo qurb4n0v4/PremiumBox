@@ -22,7 +22,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('front/user/orders') ? 'active' : '' }}"
-                               href="{{ route('orders') }}">Sifarişlərim</a>
+                               href="{{ route('orders.index') }}">Sifarişlərim</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('front/user/addresses') ? 'active' : '' }}"

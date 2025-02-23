@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
-@section('title', __('Hədiyyə Qutusu Yaradın | BOX & TALE'))
+@section('title', __('Hədiyyə Qutusu Yaradın | | Premium Box'))
 @section('content')
-    <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
 
     @php
         $hideFooter = true;
@@ -12,15 +12,16 @@
     <!-- Steps Progress Bar -->
     <div class="choose-box-steps-container">
         @foreach (range(1, 4) as $stepNumber)
-            <div class="choose-box-step">
+            <div class="choose-box-step d-flex justify-content-center align-items-center">
                 <a href="{{ route('choose.step', $stepNumber) }}"
                    style="text-decoration: none"
                    class="choose-box-circle {{ $stepNumber <= $currentStep ? 'completed' : '' }}">
                     {{ $stepNumber }}
                 </a>
-                <div class="choose-box-text">
-                    <h3>{{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}</h3>
-                    <p>{{ ['Seçdiyiniz qutunu seçin', 'Əşyaları əlavə edin', 'Təbrik kartını seçin', 'Sifarişi tamamlayın'][$stepNumber - 1] }}</p>
+                <div class="choose-box-text d-flex justify-content-center align-items-center">
+                    <h3 id="choose-box-title">
+                        {{ ['Qutu Seçin', 'Əşyaları Seçin', 'Kart Seçin', 'Tamamlandı'][$stepNumber - 1] }}
+                    </h3>
                 </div>
             </div>
         @endforeach
@@ -33,8 +34,10 @@
         <!-- Header Section -->
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
-            <p style="font-size: 14px; color: #898989">Sevdikləriniz üçün unikal və şəxsi hədiyyə qutusu yaratmağın ən rahat yoluna xoş gəldiniz.</p>
-            <p style="color: #a3907a; font-size: 14px; font-weight: 600">İlk öncə istədiyiniz hədiyyə qutusunun rəngini seçin!</p>
+            <p style="font-size: 14px; color: #898989">Sevdikləriniz üçün unikal və şəxsi hədiyyə qutusu yaratmağın ən
+                rahat yoluna xoş gəldiniz.</p>
+            <p style="color: #a3907a; font-size: 14px; font-weight: 600">İlk öncə istədiyiniz hədiyyə qutusunu
+                seçin!</p>
         </div>
 
         <!-- Boxes Grid -->
@@ -46,10 +49,11 @@
             @foreach($nonEmptyCategories as $category)
                 <div class="category-name-boxsize">
                     <h4>{{ $category->name }}</h4>
-                    <p>{{ $category->width }}x{{ $category->height }}x{{ $category->length }}</p>
+                    <p style="margin-bottom: 20px">{{ $category->width }}x{{ $category->height }}
+                        x{{ $category->length }}</p>
                 </div>
 
-                <div class="row gy-4">
+                <div class="row">
                     @foreach($category->boxes as $box)
                         @php
                             $boxDetail = $box->details->first();
@@ -59,8 +63,8 @@
                         @endphp
 
                             <!-- Box Card -->
-                        <div class="col-md-6 col-lg-3">
-                            <div class="card gift-box-card h-100">
+                        <div class="col-md-3"> <!-- 4 columns on medium and larger screens -->
+                            <div class="gift-box-card">
                                 <img src="{{ asset('storage/' . $box->image) }}"
                                      alt="{{ $box->title }}"
                                      loading="lazy">
@@ -70,11 +74,12 @@
                                     <p class="gift-box-price">₼ {{ $box->price }}</p>
                                     <button class="choose-box-choose-button"
                                             data-modal-target="{{ $uniqueModalId1 }}">
-                                        Qutunu Seç
+                                        Qutu Seç
                                     </button>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- First Modal - Box Details -->
                         <div class="modal" id="{{ $uniqueModalId1 }}">
@@ -84,12 +89,15 @@
                                         <div class="d-flex align-items-start gap-4">
                                             <!-- Image Carousel -->
                                             <div class="position-relative" style="width: 360px; flex-shrink: 0;">
-                                                <div id="{{ $uniqueCarouselId }}" class="carousel slide" data-bs-ride="carousel">
+                                                <div id="{{ $uniqueCarouselId }}" class="carousel slide"
+                                                     data-bs-ride="carousel">
                                                     <div class="carousel-inner">
                                                         @if($boxDetail && $boxDetail->images)
                                                             @foreach((is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images) as $key => $imageUrl)
-                                                                <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                                                    <div style="height: 340px; width: 360px; overflow: hidden;">
+                                                                <div
+                                                                    class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                                                    <div
+                                                                        style="height: 340px; width: 360px; overflow: hidden;">
                                                                         <img src="{{ asset('storage/' . $imageUrl) }}"
                                                                              class="d-block w-100 h-100 object-fit-cover"
                                                                              alt="Box Image">
@@ -98,12 +106,18 @@
                                                             @endforeach
                                                         @endif
                                                     </div>
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                    <button class="carousel-control-prev" type="button"
+                                                            data-bs-target="#{{ $uniqueCarouselId }}"
+                                                            data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"
+                                                              style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Əvvəlki</span>
                                                     </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#{{ $uniqueCarouselId }}" data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true" style="padding: 12px;"></span>
+                                                    <button class="carousel-control-next" type="button"
+                                                            data-bs-target="#{{ $uniqueCarouselId }}"
+                                                            data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"
+                                                              style="padding: 12px;"></span>
                                                         <span class="visually-hidden">Sonrakı</span>
                                                     </button>
                                                 </div>
@@ -112,18 +126,23 @@
                                             <!-- Box Details -->
                                             <div class="flex-grow-1">
                                                 <div class="text-start">
-                                                    <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
-                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">
+                                                    <h6 class="mb-2"
+                                                        style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
+                                                    <h5 class="mb-1"
+                                                        style="color: #a3907a; font-size: 21px; font-weight: 600">
                                                         {{ $boxDetail ? $boxDetail->box_name : $box->title }}
                                                     </h5>
                                                     @if($boxDetail && $boxDetail->available_same_day_delivery)
                                                         <div class="mb-3 bg-opacity-10 rounded">
-                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
+                                                            <p class="m-0 text-success"
+                                                               style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
                                                                 Eyni Gün Çatdırılma Mövcuddur
                                                             </p>
                                                         </div>
                                                     @endif
-                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
+                                                    <p class="mb-3"
+                                                       style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                        ₼ {{ $box->price }}</p>
 
                                                     <div class="mb-4" style="height: 90px; overflow-y: auto;">
                                                         @if($boxDetail && $boxDetail->paragraph)
@@ -158,8 +177,11 @@
                                     <div class="modal-body p-4 h-100">
                                         <div class="d-flex align-items-start gap-4 h-100">
                                             <!-- Customization Preview -->
-                                            <div class="position-relative d-flex align-items-center justify-content-center" style="width: 360px; flex-shrink: 0;">
-                                                <div class="d-flex align-items-center justify-content-center" style="height: 260px; width: 260px; overflow: hidden;">
+                                            <div
+                                                class="position-relative d-flex align-items-center justify-content-center"
+                                                style="width: 360px; flex-shrink: 0;">
+                                                <div class="d-flex align-items-center justify-content-center"
+                                                     style="height: 260px; width: 260px; overflow: hidden;">
                                                     @if($boxDetail && $boxDetail->customize_image)
                                                         <img src="{{ asset('storage/' . $boxDetail->customize_image) }}"
                                                              class="d-block w-100 h-100 object-fit-cover"
@@ -178,29 +200,49 @@
                                             <!-- Customization Options -->
                                             <div class="flex-grow-1">
                                                 <div class="text-start">
-                                                    <h6 class="mb-2" style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
-                                                    <h5 class="mb-1" style="color: #a3907a; font-size: 21px; font-weight: 600">
+                                                    <h6 class="mb-2"
+                                                        style="color: #898989; font-size: 14px;">{{ $box->company_name }}</h6>
+                                                    <h5 class="mb-1"
+                                                        style="color: #a3907a; font-size: 21px; font-weight: 600">
                                                         {{ $boxDetail ? $boxDetail->box_name : $box->title }}
                                                     </h5>
                                                     @if($boxDetail && $boxDetail->available_same_day_delivery)
                                                         <div class="mb-3 bg-opacity-10 rounded">
-                                                            <p class="m-0 text-success" style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
+                                                            <p class="m-0 text-success"
+                                                               style="color: #898989!important; font-style: italic; font-weight: 500; font-size: 12px">
                                                                 Eyni Gün Çatdırılma Mövcuddur
                                                             </p>
                                                         </div>
                                                     @endif
-                                                    <p class="mb-3" style="color: #212529; font-size: 20px !important; font-weight: 500">₼ {{ $box->price }}</p>
+                                                    <p class="mb-3"
+                                                       style="color: #212529; font-size: 20px !important; font-weight: 500">
+                                                        ₼ {{ $box->price }}</p>
 
                                                     <div>
-                                                        <p class="customizing-text-style-font" style="margin-top: 20px; color: #a3907a">Customize with Their Name or Writing</p>
-                                                        <textarea class="customizing-text-input-fonts box-customize-text"
-                                                                  data-box-id="{{ $box->id }}"
-                                                                  required></textarea>
-                                                        <p class="customizing-text-style-font" style="margin-top: 10px; color: #a3907a">Choose The Font</p>
-                                                        <div class="button-group-customizing-fonts" data-box-id="{{ $box->id }}">
-                                                            <button class="font-button-customizing-edit" data-font="Playwrite AU SA" style="font-family: Playwrite AU SA">Font A</button>
-                                                            <button class="font-button-customizing-edit" data-font="Josefin Sans" style="font-family: Josefin Sans;">Font B</button>
-                                                            <button class="font-button-customizing-edit" data-font="Indie Flower" style="font-family: Indie Flower;">Font C</button>
+                                                        <p class="customizing-text-style-font"
+                                                           style="margin-top: 20px; color: #a3907a">Ad və ya Yazı ilə
+                                                            Şəxsi Fərdiləşdirmə</p>
+                                                        <textarea
+                                                            class="customizing-text-input-fonts box-customize-text"
+                                                            data-box-id="{{ $box->id }}"
+                                                            required></textarea>
+                                                        <p class="customizing-text-style-font"
+                                                           style="margin-top: 10px; color: #a3907a">Yazı stilini
+                                                            seçin</p>
+                                                        <div class="button-group-customizing-fonts"
+                                                             data-box-id="{{ $box->id }}">
+                                                            <button class="font-button-customizing-edit"
+                                                                    data-font="Playwrite AU SA"
+                                                                    style="font-family: Playwrite AU SA">Font A
+                                                            </button>
+                                                            <button class="font-button-customizing-edit"
+                                                                    data-font="Josefin Sans"
+                                                                    style="font-family: Josefin Sans;">Font B
+                                                            </button>
+                                                            <button class="font-button-customizing-edit"
+                                                                    data-font="Indie Flower"
+                                                                    style="font-family: Indie Flower;">Font C
+                                                            </button>
                                                         </div>
                                                     </div>
 
@@ -229,33 +271,16 @@
 
         @include('front.build_a_box.selected-items-summary')
     </div>
-
-    <style>
-        .customizing-text-input-fonts.is-invalid {
-            border-color: #dc3545 !important;
-            background-image: none !important;
-        }
-
-        .customizing-text-input-fonts.is-invalid:focus {
-            border-color: #dc3545 !important;
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
-        }
-
-        .modal-opened {
-            overflow: hidden;
-        }
-    </style>
 @endsection
 
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Carousel initialization
         const carousels = document.querySelectorAll('[data-bs-ride="carousel"]');
         carousels.forEach(carousel => new bootstrap.Carousel(carousel));
 
         // Modal handling
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             // Open modal
             if (event.target.hasAttribute('data-modal-target')) {
                 const modalId = event.target.getAttribute('data-modal-target');
@@ -291,7 +316,7 @@
 
             if (textarea && textOverlay) {
                 // Update text overlay when typing
-                textarea.addEventListener('input', function() {
+                textarea.addEventListener('input', function () {
                     textOverlay.textContent = this.value;
                     // Remove invalid state if text is entered
                     if (this.value.trim()) {
@@ -305,7 +330,7 @@
                     const fontButtons = buttonGroup.querySelectorAll('.font-button-customizing-edit');
 
                     fontButtons.forEach(button => {
-                        button.addEventListener('click', function() {
+                        button.addEventListener('click', function () {
                             // Remove active class from all buttons in this group
                             fontButtons.forEach(btn => {
                                 btn.classList.remove('active', 'selected');
@@ -323,7 +348,7 @@
 
         // Step navigation
         document.querySelectorAll('.choose-box-circle').forEach(circle => {
-            circle.addEventListener('click', function(e) {
+            circle.addEventListener('click', function (e) {
                 const step = this.textContent.trim();
                 window.location.href = `/choose-step/${step}`;
             });
@@ -331,7 +356,7 @@
 
         // Updated submit customization handling
         document.querySelectorAll('.submit-customize').forEach(submitButton => {
-            submitButton.addEventListener('click', async function(e) {
+            submitButton.addEventListener('click', async function (e) {
                 e.preventDefault();
 
                 // Get elements
@@ -465,17 +490,25 @@
         }
     `;
         document.head.appendChild(style);
+
+        //h3 choose-box-title
+        function updateChooseBoxTitles() {
+            const titles = ["Qutu Seçin", "Əşyaları Seçin", "Kart Seçin", "Tamamlandı"];
+            const shortTitles = ["Qutu", "Əşyalar", "Kart", "Tamamlandı"];
+
+            const chooseBoxTitles = document.querySelectorAll("#choose-box-title");
+
+            chooseBoxTitles.forEach((title, index) => {
+                if (window.innerWidth <= 768) {
+                    title.textContent = shortTitles[index];
+                } else {
+                    title.textContent = titles[index];
+                }
+            });
+        }
+
+        updateChooseBoxTitles();
+        window.addEventListener("resize", updateChooseBoxTitles);
     });
 </script>
 
-<style>
-    .customizing-text-input-fonts.is-invalid {
-        border-color: #dc3545 !important;
-        background-image: none !important;
-    }
-
-    .customizing-text-input-fonts.is-invalid:focus {
-        border-color: #dc3545 !important;
-        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
-    }
-</style>

@@ -18,8 +18,11 @@ class PremadeBoxCustomizeResource extends Resource
     protected static ?string $model = PremadeBoxCustomize::class;
     protected static ?string $slug = 'premade-box-customizes';
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationLabel = 'Premade Box Customize';
-    protected static ?string $navigationGroup = 'Premade Gift Boxes';
+    protected static ?string $navigationGroup = 'Hazır hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Qutu fərdiləşdirmə';
+
+    protected static ?string $pluralModelLabel = 'Qutu fərdiləşdirmə';
+    protected static ?string $modelLabel = 'Qutu fərdiləşdirmə';
 
     public static function form(Form $form): Form
     {
@@ -73,12 +76,11 @@ class PremadeBoxCustomizeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('premadeBox.name')
-                    ->label('Premade Box')
-                    ->sortable()
+                    ->label('Hazır qutu adı')
                     ->searchable(),
 
                     Tables\Columns\TextColumn::make('boxes')
-                        ->label('Gift Boxes')
+                        ->label('Hədiyyə qutuları')
                         ->getStateUsing(function ($record) {
                             if (!$record->boxes) {
                                 return '-';
@@ -103,8 +105,8 @@ class PremadeBoxCustomizeResource extends Resource
                     ->alignLeft(),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                    ->label('Hazır qutu adı')
+                    ->searchable(),
             ])
             ->filters([
                 //

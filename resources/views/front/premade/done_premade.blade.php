@@ -17,7 +17,6 @@
             ];
 
             $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
-            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
 {{--        @foreach ($premadeBoxes as $box)--}}
@@ -32,7 +31,6 @@
                     </div>
                     <div class="choose-box-text">
                         <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                        <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
                     </div>
                 </div>
             @endforeach
@@ -41,13 +39,20 @@
 
     <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc; width: 70%;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
-            <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
-            <p style="font-size: 14px; color: #898989">Hazır paketlərimizdən alış-veriş edin: Sizin üçün sürətli, əngəlsiz, göndərilməyə hazır hədiyyə qutuları.</p>
-            <p style="color: #a3907a; font-size: 14px; font-weight: 600">Sifarişə davam etmək üçün aşağıdakı qutulardan seçiminizi edin!</p>
+            <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Sifarişinizi səbətinizə əlavə edildi!</h3>
+            <p style="font-size: 14px; color: #898989">Seçdiyiniz bütün məhsullar və məhsullar haqqında detaylı informasiya səbətinizdə qeyd olunmuşdur.</p>
         </div>
 
         <hr class="mt-5 mb-5">
-
-        Done!
+        <div style="background-color: #f0f9e8; color: #2e7d32; padding: 15px; border-radius: 10px; font-size: 16px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            Sifarişiniz səbətinizə əlavə edildi! Sifarişinizi təsdiqləmək üçün səbətinizə baxa bilərsiniz.
+        </div>
     </div>
 @endsection
+
+<style>
+    .choose-box-steps-container {
+        display: flex;
+        justify-content: center !important;
+    }
+</style>

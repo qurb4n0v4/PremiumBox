@@ -1,7 +1,7 @@
 @extends('front.layouts.app')
 @section('title', __('Hazır Hədiyyə Qutusu Seçin | BOX & TALE'))
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-premade.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/choose-box.css') }}?v={{ time() }}">
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,7 +17,6 @@
             ];
 
             $stepTitles = ['Qutu Seçin', 'Fərdiləşdirin', 'Tamamlandı'];
-            $stepDescriptions = ['Seçdiyiniz qutunu seçin', 'Qutunuzu fərdiləşdirin', 'Sifarişi tamamlayın'];
         @endphp
 
         @foreach (range(1, 3) as $stepNumber)
@@ -37,13 +36,12 @@
                 </div>
                 <div class="choose-box-text">
                     <h3>{{ $stepTitles[$stepNumber - 1] }}</h3>
-                    <p>{{ $stepDescriptions[$stepNumber - 1] }}</p>
                 </div>
             </div>
         @endforeach
     </div>
 
-    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; max-width: 1150px!important; border: 1px solid #ccc;">
+    <div class="container my-5 p-5 choose-boxes-page" style="border-radius: 20px; background-color: #ffffff; width: 95%; border: 1px solid #ccc;">
         <div class="choose-boxes-header text-center" style="line-height: 0.3">
             <h3 class="fw-bold" style="color: #a3907a; margin-bottom: 15px">Qutu Seçin</h3>
             <p style="font-size: 14px; color: #898989">Hazır paketlərimizdən alış-veriş edin: Sizin üçün sürətli, əngəlsiz, göndərilməyə hazır hədiyyə qutuları.</p>
@@ -127,7 +125,7 @@
                 <!-- Sağ Sidebar (Məhsullar) -->
                 <div class="col-12 col-md-9">
                     <!-- Axtar və Sırala -->
-                    <div class="d-flex gap-2 mb-4">
+                    <div class="search-filter d-flex gap-2 mb-4">
                         <!-- Axtarış -->
                         <div class="search-container w-100">
                             <input type="text" id="search-box" class="form-control" placeholder="Qutuları axtarın...">
@@ -148,19 +146,19 @@
                     <div class="row">
                         @foreach ($premadeBoxes as $box)
                             @php
-                                $boxDetail = $box->details;
+                                $boxDetail = $box->details->first();
                                 $uniqueCarouselId = "boxCarousel_{$box->id}";
                                 $uniqueModalId = "modal_{$box->id}";
                             @endphp
-                            <div class="col-12 col-md-4 mb-4 premade-box"
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-4 mb-4 premade-box"
                                  data-recipient="{{ $box->recipient }}"
                                  data-occasion="{{ $box->occasion }}"
                                  data-production_time="{{ $box->production_time }}"
                                  data-price="{{ $box->price }}">
 
-                                <div class="card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
+                                <div class="card premade-card w-100 h-100 d-flex flex-column align-items-center" style="border-color: transparent; cursor: pointer;">
                                     <div class="rounded">
-                                        <div class="text-center position-relative image-container" style="height: 200px; width: 200px; overflow: hidden;">
+                                        <div class="text-center position-relative image-container" style=" overflow: hidden;">
                                             <!-- Normal Image -->
                                             <img
                                                 src="{{ asset('storage/' . $box->normal_image) }}"
@@ -179,7 +177,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card-block my-2" style="flex-grow: 1;">
+                                    <div class="card-block my-2">
                                         <h6 class="gift-box-title">{{ $box->title }}</h6>
                                         <div class="gift-box-name">
                                             {{ $box->name }}
@@ -205,8 +203,11 @@
 
                                                     <div class="carousel slider" id="{{ $uniqueCarouselId }}" data-bs-ride="carousel">
                                                         <div class="carousel-inner">
-                                                            @if($premadeBoxDetail && !empty($premadeBoxDetail->images))
-                                                                @foreach($premadeBoxDetail->images as $key => $image)
+                                                            @if($boxDetail && !empty($boxDetail->images))
+                                                                @php
+                                                                    $images = is_string($boxDetail->images) ? json_decode($boxDetail->images) : $boxDetail->images;
+                                                                @endphp
+                                                                @foreach($images as $key => $image)
                                                                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                                                                         <div style="height: 340px; width: 360px; overflow: hidden;">
                                                                             <img src="{{ asset('storage/' . $image) }}"
@@ -216,7 +217,7 @@
                                                                     </div>
                                                                 @endforeach
                                                             @else
-                                                                <div class="carousel-item active">
+                                                                <div class="carousel-item">
                                                                     <div style="height: 340px; width: 360px; overflow: hidden;">
                                                                         <img src="{{ asset('storage/' . $box->normal_image) }}"
                                                                              class="slider-item d-block w-100 h-100 object-fit-cover"
@@ -283,9 +284,11 @@
                                                                     <div style="max-width: 80vw !important;">
                                                                         @foreach($box->insidings as $insiding)
                                                                             <div class="d-flex align-items-center pb-3 gap-3">
-                                                                                <img src="{{ $insiding->image }}"
-                                                                                     alt="{{ $insiding->name }}"
-                                                                                     style="width: 35px; height: 35px; object-fit: contain;">
+                                                                                @if(!empty($insiding->image) && file_exists(public_path('storage/' . $insiding->image)))
+                                                                                    <img src="{{ asset('storage/' . $insiding->image) }}" alt="{{ $insiding->name }}" style="width: 35px; height: 35px; object-fit: cover;">
+                                                                                @else
+                                                                                    <p>Şəkil yoxdur.</p>
+                                                                                @endif
                                                                                 <div class="d-flex flex-column justify-content-start pl-3">
                                                                                     <p class="font-butler text-theme-secondary text-capitalize mb-0">
                                                                                         {{ $insiding->name }}
@@ -304,10 +307,11 @@
                                                         <button
                                                             type="button"
                                                             class="choose-box-customize-button"
-                                                            onclick="window.location.href='{{ route('customize_premade_box', $box->id) }}'"
+                                                            onclick="window.location.href='{{ route('customize_premade_box', ['id' => $box->id]) }}'"
                                                         >
                                                             Tənzimləmək
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -556,4 +560,12 @@
         // Add reset button to filters container
         document.querySelector('.filters').appendChild(resetButton);
     });
+
 </script>
+
+<style>
+    .choose-box-steps-container {
+        display: flex;
+        justify-content: center !important;
+    }
+</style>

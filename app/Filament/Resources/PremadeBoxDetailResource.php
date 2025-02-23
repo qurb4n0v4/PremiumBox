@@ -16,10 +16,12 @@ class PremadeBoxDetailResource extends Resource
     protected static ?string $model = PremadeBoxDetail::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-    protected static ?string $navigationLabel = 'Premade Box Details';
-    protected static ?string $pluralLabel = 'Premade Box Details';
-    protected static ?string $singularLabel = 'Premade Box Detail';
-    protected static ?string $navigationGroup = 'Premade Gift Boxes';
+
+    protected static ?string $navigationGroup = 'Hazır hədiyyə qutuları və məhsulları';
+    protected static ?string $navigationLabel = 'Hazır qutu haqqında detaylı informasiya';
+
+    protected static ?string $pluralModelLabel = 'Hazır qutu haqqında detaylı informasiya';
+    protected static ?string $modelLabel = 'Hazır qutu haqqında detaylı informasiya';
 
     public static function form(Form $form): Form
     {
@@ -36,7 +38,7 @@ class PremadeBoxDetailResource extends Resource
                     ->image()
                     ->multiple()
                     ->disk('public')
-                    ->directory('premade-box-details/images')
+                    ->directory('premade-box-details')
                     ->nullable(),
 
                 Forms\Components\Textarea::make('paragraph')
@@ -51,20 +53,20 @@ class PremadeBoxDetailResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('premadeBox.name')
-                    ->label('Premade Box')
+                    ->label('Hazır qutu')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('images')
-                    ->label('Images')
+                    ->label('Şəkil')
                     ->getStateUsing(fn (PremadeBoxDetail $record) => $record->images ?? [])
                     ->limit(1),
 
                 Tables\Columns\TextColumn::make('paragraph')
-                    ->label('Paragraph'),
+                    ->label('Paraqraf'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label('Yaradıldı')
                     ->dateTime(),
             ])
             ->filters([])

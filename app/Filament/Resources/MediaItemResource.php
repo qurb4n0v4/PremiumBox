@@ -13,9 +13,11 @@ class MediaItemResource extends Resource
 {
     protected static ?string $model = MediaItem::class;
 
-    protected static ?string $navigationLabel = 'Media Items';
+    protected static ?string $navigationLabel = 'Sosial Media video/şəkil';
     protected static ?string $navigationIcon = 'heroicon-o-share';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Ana Səhifə';
+    protected static ?string $pluralModelLabel = 'Sosial Media video/şəkil';
+
 
     public static function form(Forms\Form $form): Forms\Form
     {
@@ -44,7 +46,7 @@ class MediaItemResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('media_type')
-                ->label('Media Type')
+                ->label('Media növü')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('media_path')

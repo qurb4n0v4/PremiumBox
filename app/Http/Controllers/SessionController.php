@@ -6,6 +6,7 @@ use App\Models\GiftBox;
 use App\Models\ChooseItem;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use App\Models\BoxCategory;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -45,46 +46,85 @@ class SessionController extends Controller
     public function saveItemSelection(Request $request)
     {
         try {
+            Log::info('Save Item Request:', $request->all()); // Gələn request-i loqlayaq
+
+            // Box yoxlaması
+            $selectedBox = Session::get('selected_box');
+            if (!$selectedBox) {
+                return response()->json([
+                    'success' => false,
+                    'error_code' => 'NO_BOX_SELECTED',
+                    'message' => 'Zəhmət olmasa əvvəlcə qutu seçin!'
+                ]);
+            }
+
+            // Həcm yoxlaması
+            $volumeCheck = $this->checkBoxVolume($request);
+            $volumeResponse = json_decode($volumeCheck->getContent(), true);
+
+            if (!$volumeResponse['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error_code' => 'TOO_LARGE',
+                    'message' => $volumeResponse['message']
+                ]);
+            }
+
             $item = ChooseItem::findOrFail($request->choose_item_id);
 
             $itemData = [
                 'item_id' => $item->id,
                 'item_name' => $item->name,
                 'item_image' => $item->normal_image,
-                'item_price' => $request->variant_price ?? $item->price,
+                'item_price' => floatval($request->variant_price !== null ? $request->variant_price : $item->price),
+
                 'selected_variant' => $request->selected_variant,
                 'user_text' => $request->user_text,
                 'uploaded_images' => []
             ];
 
-            // Handle file uploads if they exist
             if ($request->hasFile('uploaded_images')) {
                 foreach ($request->file('uploaded_images') as $image) {
-                    // Store the image and get the path
                     $path = $image->store('custom-uploads', 'public');
                     $itemData['uploaded_images'][] = $path;
                 }
             }
 
-            // Get existing items from session
+            // Session-u əldə edək və yoxlayaq
             $existingItems = Session::get('selected_item', []);
+            Log::info('Existing items before:', $existingItems);
 
-            // Ensure it's an array
+            // Array olduğuna əmin olaq
             if (!is_array($existingItems)) {
                 $existingItems = [];
             }
 
-            // Add new item data
+            // Yeni item-i əlavə edək
             $existingItems[] = $itemData;
 
-            // Update session
+            // Session-u yeniləyək və dərhal yaddaşa yazaq
             Session::put('selected_item', $existingItems);
+            Session::save();
+
+            // Yoxlama üçün yenidən session-u oxuyaq
+            $updatedItems = Session::get('selected_item');
+            Log::info('Updated items after:', $updatedItems);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Məhsul məlumatları saxlanıldı'
+                'message' => 'Məhsul məlumatları saxlanıldı',
+                'sessionData' => [
+                    'existingItems' => $existingItems,
+                    'updatedItems' => $updatedItems
+                ]
             ]);
+
         } catch (\Exception $e) {
+            Log::error('Save Item Error:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Xəta: ' . $e->getMessage()
@@ -92,8 +132,104 @@ class SessionController extends Controller
         }
     }
 
+    public function checkBoxVolume(Request $request)
+    {
+        try {
+            Log::info('Request details:', [
+                'request' => $request->all(),
+                'session' => Session::all()
+            ]);
+            Log::info('Session Data:', ['selected_box' => Session::get('selected_box')]);
+            Log::info('Tüm session verisi:', Session::all());
 
+            $selectedBox = Session::get('selected_box');
+            if (!$selectedBox) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lütfen önce bir kutu seçin.'
+                ]);
+            }
 
+            $giftBox = GiftBox::find($selectedBox['box_id']); // Əslində bu, GiftBox-dır!
+            if (!$giftBox) {
+                Log::error('GiftBox tapılmadı!', ['box_id' => $selectedBox['box_id']]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Seçilmiş qutu bazada tapılmadı.'
+                ]);
+            }
+
+            $box = BoxCategory::find($giftBox->box_category_id);
+            if (!$box) {
+                Log::error('BoxCategory tapılmadı!', ['box_category_id' => $giftBox->box_category_id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bu qutu kateqoriyası bazada tapılmadı.'
+                ]);
+            }
+
+            $boxVolume = $box->boxVolume;
+            $selectedItems = Session::get('selected_item', []);
+
+            $currentTotalVolume = 0;
+            foreach ($selectedItems as $item) {
+                $chooseItem = ChooseItem::find($item['item_id']);
+                if ($chooseItem) {
+                    $currentTotalVolume += $chooseItem->itemVolume;
+                }
+            }
+
+            $newItem = ChooseItem::find($request->choose_item_id);
+            if (!$newItem) {
+                Log::error('Item not found', ['item_id' => $request->choose_item_id]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ürün bulunamadı.'
+                ]);
+            }
+
+            $newItemVolume = $newItem->itemVolume;
+            $totalVolumeAfterAdd = $currentTotalVolume + $newItemVolume;
+
+            Log::info('Volume calculations', [
+                'box_volume' => $boxVolume,
+                'current_total_volume' => $currentTotalVolume,
+                'new_item_volume' => $newItemVolume,
+                'total_after_add' => $totalVolumeAfterAdd
+            ]);
+
+            if ($totalVolumeAfterAdd > $boxVolume) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bu ürün kutuya sığmayacak kadar büyük. Lütfen daha küçük bir ürün seçin veya başka bir kutu seçin.',
+                    'current_volume' => $currentTotalVolume,
+                    'box_volume' => $boxVolume,
+                    'new_item_volume' => $newItemVolume
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ürün kutuya eklenebilir.',
+                'current_volume' => $currentTotalVolume,
+                'box_volume' => $boxVolume,
+                'new_item_volume' => $newItemVolume,
+                'remaining_volume' => $boxVolume - $totalVolumeAfterAdd
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Detailed error in checkBoxVolume', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Hata oluştu: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function saveCardSelection(Request $request)
     {
@@ -141,17 +277,26 @@ class SessionController extends Controller
             'card' => Session::get('selected_card')
         ];
 
-        $totalPrice = 0;
+        $totalPrice = 0.00;
 
+        // Handle box price
         if ($selections['box']) {
+            $selections['box']['box_price'] = floatval($selections['box']['box_price'] ?? 0);
             $totalPrice += $selections['box']['box_price'];
         }
 
+        // Handle item prices
         if ($selections['item']) {
-            $totalPrice += $selections['item']['item_price'];
+            foreach ($selections['item'] as &$item) {
+                $item['item_price'] = floatval($item['item_price'] ?? 0);
+                $totalPrice += $item['item_price'];
+            }
+            unset($item); // Unset reference
         }
 
+        // Handle card price
         if ($selections['card']) {
+            $selections['card']['card_price'] = floatval($selections['card']['card_price'] ?? 0);
             $totalPrice += $selections['card']['card_price'];
         }
 
@@ -232,21 +377,25 @@ class SessionController extends Controller
             DB::beginTransaction();
 
             $userId = auth()->id();
-
-            // Session məlumatlarını al
             $box = Session::get('selected_box');
             $items = Session::get('selected_item', []);
             $card = Session::get('selected_card');
 
-            // Debug üçün session məlumatlarını log et
-            Log::info('Session data:', [
-                'box' => $box,
-                'items' => $items,
-                'card' => $card,
-                'files' => $request->hasFile('uploaded_images') ? 'Has files' : 'No files'
-            ]);
+            // Calculate total price
+            $totalPrice = 0;
+            if ($box) {
+                $totalPrice += floatval($box['box_price'] ?? 0);
+            }
+            foreach ($items as $item) {
+                $totalPrice += floatval($item['item_price'] ?? 0);
+            }
+            if ($card) {
+                $totalPrice += floatval($card['card_price'] ?? 0);
+            }
 
-            // Əsas yazını əlavə et
+            // Remove duplicate items
+            $uniqueItems = array_map('unserialize', array_unique(array_map('serialize', $items)));
+
             $mainData = [
                 'user_id' => $userId,
                 'gift_box_id' => $box['box_id'] ?? null,
@@ -256,6 +405,7 @@ class SessionController extends Controller
                 'recipient_name' => $card['recipient_name'] ?? null,
                 'sender_name' => $card['sender_name'] ?? null,
                 'card_message' => $card['card_message'] ?? null,
+                'total_price' => $totalPrice, // Add total price to main data
                 'status' => 'pending',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -263,71 +413,40 @@ class SessionController extends Controller
 
             $mainRecordId = DB::table('user_card_for_build_a_box')->insertGetId($mainData);
 
-            // Items və şəkilləri saxla
-            if (!empty($items)) {
-                foreach ($items as $item) {
-                    // Selected variants'ı JSON formatına çevir
-                    $selectedVariants = null;
-                    if (isset($item['selected_variant'])) {
-                        $selectedVariants = is_array($item['selected_variant'])
-                            ? json_encode($item['selected_variant'])
-                            : json_encode([$item['selected_variant']]);
-                    }
+            if (!empty($uniqueItems)) {
+                foreach ($uniqueItems as $item) {
+                    // Only set $selectedVariants if it's not null or empty
+                    $selectedVariants = isset($item['selected_variant'])
+                        ? (is_array($item['selected_variant'])
+                            ? (empty($item['selected_variant']) ? null : json_encode($item['selected_variant']))
+                            : ($item['selected_variant'] === null ? null : json_encode([$item['selected_variant']])))
+                        : null;
 
-                    // Item məlumatlarını əlavə et
-                    $itemData = [
-                        'user_card_id' => $mainRecordId,
-                        'choose_item_id' => $item['item_id'],
-                        'selected_variants' => $selectedVariants,
-                        'user_text' => $item['user_text'] ?? null,
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ];
+                    // Only insert into the database if $selectedVariants is not null
+                    if ($selectedVariants !== null) {
+                        $itemData = [
+                            'user_card_id' => $mainRecordId,
+                            'choose_item_id' => $item['item_id'],
+                            'selected_variants' => $selectedVariants,
+                            'user_text' => $item['user_text'] ?? null,
+                            'created_at' => now(),
+                            'updated_at' => now()
+                        ];
 
-                    $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
+                        $itemId = DB::table('user_build_a_box_card_items')->insertGetId($itemData);
 
-                    // Şəkilləri emal et
-                    if ($request->hasFile('uploaded_images')) {
-                        $files = $request->file('uploaded_images');
-                        foreach ($files as $index => $file) {
-                            try {
-                                // Faylı oxu və kontenti al
-                                $imageContent = file_get_contents($file->getRealPath());
-
-                                Log::info('Processing image file:', [
-                                    'original_name' => $file->getClientOriginalName(),
-                                    'size' => $file->getSize(),
-                                    'mime' => $file->getMimeType()
-                                ]);
-
-                                if ($imageContent) {
-                                    $inserted = DB::table('build_a_box_item_images')->insert([
-                                        'user_build_a_box_card_item_id' => $itemId,
-                                        'choose_item_id' => $item['item_id'],
-                                        'image' => $imageContent,
-                                        'order' => $index,
-                                        'created_at' => now(),
-                                        'updated_at' => now()
-                                    ]);
-
-                                    Log::info('Image insert result:', [
-                                        'success' => $inserted,
-                                        'item_id' => $item['item_id'],
-                                        'image_index' => $index
-                                    ]);
-                                }
-                            } catch (\Exception $e) {
-                                Log::error('Item image processing error:', [
-                                    'error' => $e->getMessage(),
-                                    'item_id' => $item['item_id'],
-                                    'file_name' => $file->getClientOriginalName()
+                        if (!empty($item['uploaded_images'])) {
+                            foreach ($item['uploaded_images'] as $index => $imagePath) {
+                                DB::table('build_a_box_item_images')->insert([
+                                    'user_build_a_box_card_item_id' => $itemId,
+                                    'choose_item_id' => $item['item_id'],
+                                    'image' => $imagePath,
+                                    'order' => $index,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
                                 ]);
                             }
                         }
-                    } else {
-                        Log::info('No uploaded images found for item:', [
-                            'item_id' => $item['item_id']
-                        ]);
                     }
                 }
             }
@@ -337,7 +456,7 @@ class SessionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Məlumatlar uğurla saxlanıldı'
+                'message' => 'Sifarişiniz səbətinizə əlavə edildi. Sifarişinizi tamamlamaq üçün səbətinizi ziyarət edin.'
             ]);
 
         } catch (\Exception $e) {
@@ -353,7 +472,6 @@ class SessionController extends Controller
             ], 500);
         }
     }
-
 
 
 }

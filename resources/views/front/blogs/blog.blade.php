@@ -21,3 +21,32 @@
 @endsection
 
 
+<style>
+    @media (max-width: 1200px) {
+        .blogs-page .row {
+            flex-wrap: wrap;
+        }
+    }
+
+    @media (max-width: 992px) { /* Tablet ölçüləri üçün */
+        .col-lg-3 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (max-width: 768px) { /* Mobil ölçüləri üçün */
+        .col-lg-3,
+        .col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .blog-card {
+            width: 100%; /* Tam genişlikdə olsun */
+            margin: 0 auto; /* Ortaya gətir */
+        }
+    }
+
+
+</style>
